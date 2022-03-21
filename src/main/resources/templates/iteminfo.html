@@ -109,7 +109,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="ui attached segment">
+        <div align="center">
             <table class="m-mobile-wide" width="425px">
                 <tbody>
                 <tr align="center">
@@ -118,9 +118,8 @@
                            th:unless="${page.isFirstPage}">前へ</a>
                     </td>
                     <td>
-                        第
                         <h8 th:text="${page.pageNum}">2</h8>
-                        ページ/全部
+                        ページ目/全部
                         <h8 th:text="${page.pages}">4</h8>
                         ページ&emsp;
                         商品数
