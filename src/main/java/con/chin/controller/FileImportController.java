@@ -1,6 +1,7 @@
 package con.chin.controller;
 
 import con.chin.pojo.OrderInfo;
+import con.chin.pojo.OrderItemInfo;
 import con.chin.service.impl.FileImportServiceImpl;
 import con.chin.util.CsvImportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.util.List;
@@ -19,21 +21,49 @@ public class FileImportController {
     FileImportServiceImpl fileImportService;
 
 
-    @PostMapping( "/csvImport")
-    public String csvImport(@RequestParam("import-csv") MultipartFile file) {
+    @PostMapping("/csvImport")
+    public String csvImport(@RequestParam("import-ordercsv") MultipartFile file, RedirectAttributes redirectAttributes) {
 
-        // 使用CSV工具类，生成file文件
+        //上传文件的路径
         File csvFile = CsvImportUtil.uploadFile(file);
-        // 将文件内容解析，存入List容器，List<String>为每一行内容的集合，6为CSV文件每行的总列数
-        List<OrderInfo> orderInfoList = CsvImportUtil.readCSV(csvFile.getPath());
+        //上传成功次数
+        int saveSuccessCount = 0;
+        //更新成功次数
+        int updateSuccessCount = 0;
+        //上传文件是orderdate.csv
+        if ("orderdate.csv".equals(file.getOriginalFilename())) {
+            //传入path
+            List<OrderInfo> orderInfoList = CsvImportUtil.readOrderInfoCSV(csvFile.getPath());
 
-        for (OrderInfo orderInfo : orderInfoList) {
-            fileImportService.savaOrderInfo(orderInfo);
+            int count = 0;
+            for (OrderInfo orderInfo : orderInfoList) {
+                count = fileImportService.savaOrderInfo(orderInfo);
+                if (count > 0) {
+                    saveSuccessCount += count;
+                } else {
+                    updateSuccessCount += count;
+                }
+            }
         }
+        //上传文件是itemdate.csv
+        if ("itemdate.csv".equals(file.getOriginalFilename())) {
+            //传入path
+            List<OrderItemInfo> orderItemInfoList = CsvImportUtil.readOrderItemInfoCSV(csvFile.getPath());
 
-
-        return "index";
-
+            int count = 0;
+            for (OrderItemInfo orderItemInfo : orderItemInfoList) {
+                count = fileImportService.savaOrderItemInfo(orderItemInfo);
+                if (count > 0) {
+                    saveSuccessCount += count;
+                } else {
+                    updateSuccessCount += count;
+                }
+            }
+        }
+        //前端传消息
+        redirectAttributes.addFlashAttribute("message", saveSuccessCount + "件データアップロード," + Math.abs(updateSuccessCount) + "件アップデート成功しました。");
+        //刷新order数据界面
+        return "redirect:/orderinfo";
     }
 
 

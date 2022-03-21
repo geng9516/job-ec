@@ -1,6 +1,7 @@
 package con.chin.util;
 
 import con.chin.pojo.OrderInfo;
+import con.chin.pojo.OrderItemInfo;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,7 +54,7 @@ public class CsvImportUtil {
      * @Description 读取CSV文件的内容（不含表头）
      * @Param filePath 文件存储路径，colNum 列数
      **/
-    public static List<OrderInfo> readCSV(String filePath) {
+    public static List<OrderInfo> readOrderInfoCSV(String filePath) {
         BufferedReader bufferedReader = null;
         InputStreamReader inputStreamReader = null;
         FileInputStream fileInputStream = null;
@@ -61,104 +62,72 @@ public class CsvImportUtil {
         try {
 
             bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "Shift-JIS"));
-
-            //  表内容集合，外层 List为行的集合，内层 List为字段集合
             List<OrderInfo> orderInfoList = new ArrayList<>();
-
             String line = null;
             bufferedReader.readLine();
             while ((line = bufferedReader.readLine()) != null) {
                 //订单对象
                 OrderInfo orderInfo = new OrderInfo();
                 String[] orderdata = line.replaceAll("\"", "").split(",");
-                for (int i = 0; i < orderdata.length; i++) {
-                    switch (i) {
-                        case 0:
-                            orderInfo.setOrderId(orderdata[i]);
-                            break;
-                        case 1:
-                            orderInfo.setShopNameAndOrderId(orderdata[i]);
-                            break;
-                        case 2:
-                            orderInfo.setOrderTime(orderdata[i]);
-                            break;
-                        case 3:
-                            orderInfo.setShipNameKana(orderdata[i]);
-                            break;
-                        case 4:
-                            orderInfo.setShipName(orderdata[i]);
-                            break;
-                        case 5:
-                            orderInfo.setShipZipCode(orderdata[i]);
-                            break;
-                        case 6:
-                            orderInfo.setShipAddressFull(orderdata[i]);
-                            break;
-                        case 7:
-                            orderInfo.setShipPrefecture(orderdata[i]);
-                            break;
-                        case 8:
-                            orderInfo.setShipCity(orderdata[i]);
-                            break;
-                        case 9:
-                            orderInfo.setShipAddress1(orderdata[i]);
-                            break;
-                        case 10:
-                            orderInfo.setShipAddress2(orderdata[i]);
-                            break;
-                        case 11:
-                            orderInfo.setShipPhoneNumber(orderdata[i]);
-                            break;
-                        case 12:
-                            orderInfo.setShipMethodName(orderdata[i]);
-                            break;
-                        case 13:
-                            orderInfo.setShipCompanyCode(orderdata[i]);
-                            break;
-                        case 14:
-                            orderInfo.setShipInvoiceNumber1(orderdata[i]);
-                            break;
-                        case 15:
-                            orderInfo.setShipInvoiceNumber2(orderdata[i]);
-                            break;
-                        case 16:
-                            orderInfo.setShipDate(orderdata[i]);
-                            break;
-                        case 17:
-                            orderInfo.setBillMailAddress(orderdata[i]);
-                            break;
-                        case 18:
-                            orderInfo.setShipCharge(Integer.parseInt(orderdata[i]));
-                            break;
-                        case 19:
-                            orderInfo.setTotal(Integer.parseInt(orderdata[i]));
-                            break;
-                        case 20:
-                            orderInfo.setReferer(orderdata[i]);
-                            break;
-                        case 21:
-                            orderInfo.setPayMethodName(orderdata[i]);
-                            break;
-                        case 22:
-                            orderInfo.setCombinedPayMethodName(orderdata[i]);
-                            break;
-                        case 23:
-                            orderInfo.setShipStatus(orderdata[i]);
-                            break;
-                        case 24:
-                            orderInfo.setPayStatus(orderdata[i]);
-                            break;
-                        case 25:
-                            orderInfo.setDeviceType(orderdata[i]);
-                            break;
-                    }
-                }
+
+                //オーダーID
+                orderInfo.setOrderId(orderdata[0]);
+                //ショップ名付きオーダーID
+                orderInfo.setShopNameAndOrderId(orderdata[1]);
+                //注文日時
+                orderInfo.setOrderTime(orderdata[2]);
+                //お届け先氏名カナ
+                orderInfo.setShipNameKana(orderdata[3]);
+                //お届け先氏名
+                orderInfo.setShipName(orderdata[4]);
+                //お届け先郵便番号
+                orderInfo.setShipZipCode(orderdata[5]);
+                //お届け先フル住所
+                orderInfo.setShipAddressFull(orderdata[6]);
+                //都道府県
+                orderInfo.setShipPrefecture(orderdata[7]);
+                //市区町村
+                orderInfo.setShipCity(orderdata[8]);
+                //お届け先住所１行目
+                orderInfo.setShipAddress1(orderdata[9]);
+                //お届け先住所２行目
+                orderInfo.setShipAddress2(orderdata[10]);
+                //お届け先電話番号
+                orderInfo.setShipPhoneNumber(orderdata[11]);
+                //お届け方法名称
+                orderInfo.setShipMethodName(orderdata[12]);
+                //配送会社code
+                orderInfo.setShipCompanyCode(orderdata[13]);
+                //問い合わせ番号１
+                orderInfo.setShipInvoiceNumber1(orderdata[14]);
+                //問い合わせ番号２
+                orderInfo.setShipInvoiceNumber2(orderdata[15]);
+                //出荷日
+                orderInfo.setShipDate(orderdata[16]);
+                //請求先メールアドレス
+                orderInfo.setBillMailAddress(orderdata[17]);
+                //送料
+                orderInfo.setShipCharge(Integer.parseInt(orderdata[18]));
+                //請求金額合計（ポイント分を除いた）
+                orderInfo.setTotal(Integer.parseInt(orderdata[19]));
+                //参照元URL
+                orderInfo.setReferer(orderdata[20]);
+                //お支払い方法名称
+                orderInfo.setPayMethodName(orderdata[21]);
+                //併用お支払い方法名称
+                orderInfo.setCombinedPayMethodName(orderdata[22]);
+                //出荷ステータス
+                orderInfo.setShipStatus(orderdata[23]);
+                //入金ステータス
+                orderInfo.setPayStatus(orderdata[24]);
+                //注文媒体
+                orderInfo.setDeviceType(orderdata[25]);
+                //List追加
                 orderInfoList.add(orderInfo);
-
             }
-
-
+            //返回list
             return orderInfoList;
+
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -187,8 +156,120 @@ public class CsvImportUtil {
             }
         }
         return null;
-
     }
 
+
+    //orderiteminfocsv
+    public static List<OrderItemInfo> readOrderItemInfoCSV(String filePath) {
+        BufferedReader bufferedReader = null;
+        InputStreamReader inputStreamReader = null;
+        FileInputStream fileInputStream = null;
+
+        try {
+
+            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "Shift-JIS"));
+            List<OrderItemInfo> orderItemInfoList = new ArrayList<>();
+
+            String line = null;
+            bufferedReader.readLine();
+            while ((line = bufferedReader.readLine()) != null) {
+                //订单对象
+                OrderItemInfo orderItemInfo = new OrderItemInfo();
+                String[] orderItemData = line.replaceAll("\"", "").split(",");
+                System.out.println( "//////////"+orderItemData.length);
+                for (String orderItemDatum : orderItemData) {
+                    System.out.println(orderItemDatum);
+
+                }
+                //注文ID
+                orderItemInfo.setOrderId(orderItemData[0]);
+                //注文商品別
+                orderItemInfo.setLineId(orderItemData[1]);
+                //注文数量
+                orderItemInfo.setQuantity(Integer.parseInt(orderItemData[2]));
+                //商品コード
+                orderItemInfo.setItemId(orderItemData[3]);
+                //商品サブコード
+                orderItemInfo.setSubCode(orderItemData[4]);
+                //商品タイトル
+                orderItemInfo.setTitle(orderItemData[5]);
+                //商品オプション名、複数の場合は：で区切り
+                orderItemInfo.setItemOptionName(orderItemData[6]);
+                //商品オプション内容、複数の場合は：で区切り
+                orderItemInfo.setItemOptionValue(orderItemData[7]);
+                //商品オプション価格、複数の場合は：で区切り
+                orderItemInfo.setItemOptionPrice(orderItemData[8]);
+                //商品サブコードオプション内容文字列
+                orderItemInfo.setSubCodeOption(orderItemData[9]);
+                //インスクリプション番号、複数の場合は：で区切り
+                orderItemInfo.setInscriptionName(orderItemData[10]);
+                //インスクリプション内容、複数の場合は：で区切り
+                orderItemInfo.setInscriptionValue(orderItemData[11]);
+                //商品の通常販売価格または、特別販売価格または、会員価格
+                orderItemInfo.setUnitPrice(orderItemData[12].isEmpty() ? 0 : Integer.parseInt(orderItemData[12]));
+                //商品の販売価格種別
+                orderItemInfo.setPriceType(orderItemData[13]);
+                //価格対する注文によるポイント
+                orderItemInfo.setUnitGetPoint(orderItemData[14].isEmpty() ? 0 :Integer.parseInt(orderItemData[14]));
+                //Lineごと小計
+                orderItemInfo.setLineSubTotal(orderItemData[15].isEmpty() ? 0 : Integer.parseInt(orderItemData[15]));
+                //Lineごとの付与ポイント小計
+                orderItemInfo.setLineGetPoint(orderItemData[16].isEmpty() ? 0 : Integer.parseInt(orderItemData[16]));
+                //商品に付与したポイントコード
+                orderItemInfo.setPointFspCode(orderItemData[17]);
+                //クーポンID
+                orderItemInfo.setCouponId(orderItemData[18]);
+                //クーポン利用値引額
+                orderItemInfo.setCouponDiscount(orderItemData[19].isEmpty() ? 0 : Integer.parseInt(orderItemData[19]));
+                //値引き前の単価
+                orderItemInfo.setOriginalPrice(orderItemData[20].isEmpty() ? 0 : Integer.parseInt(orderItemData[20]));
+                //ポイント確定状態
+                orderItemInfo.setIsGetPointFix(orderItemData[21]);
+                //付与ポイント種別
+                orderItemInfo.setGetPointType(orderItemData[22]);
+                //商品ごとのストア負担ポイント
+                orderItemInfo.setLineGetPointChargedToStore(Integer.parseInt(orderItemData[23]));
+                //発送日スタート
+                orderItemInfo.setLeadTimeStart(orderItemData[24].isEmpty() ? "" : orderItemData[24]);
+                //発送日エンド
+                orderItemInfo.setLeadTimeEnd(orderItemData[25].isEmpty() ? "" : orderItemData[25]);
+                //発送日テキスト
+                orderItemInfo.setLeadTimeText(orderItemData[26].isEmpty() ? "" : orderItemData[26]);
+                //ポイント確定予定日
+                orderItemInfo.setGetPointFixDate(orderItemData[27]);
+                //List追加
+                orderItemInfoList.add(orderItemInfo);
+            }
+            //返回list
+            return orderItemInfoList;
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        } finally {
+            //关闭流
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (inputStreamReader != null) {
+                try {
+                    inputStreamReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
 }

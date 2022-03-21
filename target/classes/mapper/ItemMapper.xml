@@ -9,7 +9,8 @@
     <!--    新产品登录-->
     <insert id="saveItem">
 
-        insert into t_item (shopname,
+        insert into t_item (sitename,
+                            shopname,
                             itemcode,
                             olditemcode,
                             itempath,
@@ -34,7 +35,8 @@
                             folg,
                             created,
                             updated)
-        values (#{shopName},
+        values (#{siteName},
+                #{shopName},
                 #{itemCode},
                 #{oldItemCode},
                 #{itemPath},
@@ -66,7 +68,8 @@
     <update id="updateItem">
 
         update t_item
-        set shopname=#{shopName},
+        set sitename=#{siteName},
+            shopname=#{shopName},
             itempath=#{itemPath},
             itemcategorycode=#{itemCategoryCode},
             itemname=#{itemName},
@@ -95,8 +98,7 @@
     <!--    检索所以产品-->
     <select id="findAllItem" resultType="con.chin.pojo.Item">
 
-        select *
-        from t_item
+        select * from t_item
 
     </select>
 

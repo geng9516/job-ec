@@ -12,12 +12,12 @@
             $("#meru").load("meru");
         });
 
-        jQuery(function ($){
-            $("#bt-import-csv").click(function (){
+        jQuery(function ($) {
+            $("#bt-import-csv").click(function () {
                 $("#dataimpott").removeAttr("action");
-                $("#dataimpott").attr("method","post");
-                $("#dataimpott").attr("enctype","multipart/form-data");
-                $("#dataimpott").attr('action',"/csvImport");
+                $("#dataimpott").attr("method", "post");
+                $("#dataimpott").attr("enctype", "multipart/form-data");
+                $("#dataimpott").attr('action', "/csvImport");
                 $("#dataimpott").submit();
             })
         })
@@ -37,9 +37,13 @@
                         <i class="search icon"></i>
                     </span>
                     <span>
-                        <input class="field" type="file" name="import-csv" id="import-csv" required><br>
+                        <input class="field" type="file" name="import-ordercsv" id="import-ordercsv" required><br>
                         <button id="bt-import-csv">アップロード</button>
                     </span>
+                </div>
+                <div class='ui container' align="center">
+                    <!--/*@thymesVar id="message" type=""*/-->
+                    <p style="color: brown" id="message" th:text="${message}"></p>
                 </div>
                 <div class="results"></div>
             </div>

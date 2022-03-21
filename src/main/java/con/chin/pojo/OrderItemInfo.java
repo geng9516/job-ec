@@ -30,7 +30,7 @@ public class OrderItemInfo {
     private Integer lineGetPoint;//Lineごとの付与ポイント小計
     private String pointFspCode;//商品に付与したポイントコード
     private String couponId;//クーポンID
-    private String couponDiscount;//クーポン利用値引額
+    private Integer couponDiscount;//クーポン利用値引額
     private Integer originalPrice;//値引き前の単価
     private String isGetPointFix;//ポイント確定状態
     private String getPointFixDate;//ポイント確定予定日
