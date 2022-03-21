@@ -34,7 +34,6 @@ public class ItemPipeline implements Pipeline {
         Item item = resultItems.get("item");
         if(item != null){
             res = itemService.saveItem(item);
-            System.out.println("插入一条itemcode为:  " + item.getItemCode());
         }
 
         List<ItemKeyword> itemKeywordList = resultItems.get("itemKeywordList");

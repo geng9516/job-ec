@@ -24,17 +24,18 @@ public class PhotoDownloadUtil {
     //照片下载
     public static void download(List<String> urlList, String itemCode, String path) {
 
+        //产品表示照片下载
         imageInput(urlList.get(0),itemCode);
-
+        //照片保存文件等
         path = path.replace(":", "/");
-
-        //照片下载地址取得
+        //properties文件的名字取得
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
+        //照片下载地址取得
         String itemphoto = bundle.getString("ITEMPHOTO");
-
+        //创建流
         InputStream inputStream = null;
         OutputStream outputStream = null;
-
+        //遍历照片集合
         for (int i = 0; i < urlList.size(); i++) {
             try {
                 URL url = new URL(urlList.get(i));
@@ -88,9 +89,10 @@ public class PhotoDownloadUtil {
     //Itemimage
     public static void imageInput(String photoUrl, String imgName) {
 
-        //照片下载地址取得
+        //properties文件的名字取得
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
-        String itemphoto = bundle.getString("FILENAME");
+        //照片下载地址取得
+        String itemphoto = bundle.getString("ITEM-IMG");
 
         InputStream inputStream = null;
         OutputStream outputStream = null;

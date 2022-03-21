@@ -58,25 +58,5 @@ public class ItemProcessor implements PageProcessor {
         return site;
     }
 
-    //
-    @Autowired
-    private ItemPipeline itemPipeline;
 
-
-//    private String url = "https://store.shopping.yahoo.co.jp/miniministore/info.html?sc_i=shp_pc_store-item_strh";
-
-    //initialDelay任务启动后,等多久执行方法
-    //fixedDelay每隔多久执行方法
-//    @Scheduled(initialDelay = 1000,fixedDelay = 100*10000)
-//    @Scheduled(cron = "0/15 * * * * *")
-//    public void process(){
-//        Spider.create(new ItemProcessor())
-//                .addUrl(url)
-//                .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(100000)))
-//                //数据输出设定(可添加多个)
-//                .addPipeline(this.itemPipeline)
-//                .thread(5)
-//                .run();
-//        int end = (int) System.currentTimeMillis();
-//    }
 }

@@ -30,6 +30,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public int saveItem(Item item) {
+        //当前时间
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         //设置产品种类番号(条件はpathとサイト名)
         Map<String,String> map = new HashMap<>();
         map.put("itempath",item.getItemPath());
@@ -45,7 +47,7 @@ public class ItemServiceImpl implements ItemService {
         //保存产品数据
         if(oldItem == null){
             int res = itemMapper.saveItem(item);
-
+            System.out.println("登录一件产品:  " + item.getItemCode() + "   时间为" + now);
             return res;
         }
         //更新产品数据
@@ -54,9 +56,10 @@ public class ItemServiceImpl implements ItemService {
             item.setImage("/images/itemphoto/" + oldItem.getItemCode() + ".jpg");
         }
         item.setCreated(null);
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
         item.setUpdated(now);
         itemMapper.updateItem(item);
+        System.out.println("更新一件产品:  " + oldItem.getItemCode() + "   时间为" + now);
         //为了更新的话不需要更新照片
         return -1;
     }
