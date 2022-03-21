@@ -16,6 +16,8 @@ public class ItemProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
 
+        int count = 0;
+
         //获取页面数据
         List<Selectable> list = page.getHtml().css("div.mdSideCategoryMenu").nodes();
 
@@ -41,6 +43,8 @@ public class ItemProcessor implements PageProcessor {
                 //商品详情页
             } else {
                 YahooItemInfoUtil.saveItemInfo(page);
+                count++;
+                System.out.println(count);
             }
         }
     }

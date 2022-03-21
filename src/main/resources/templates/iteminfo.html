@@ -19,13 +19,17 @@
 <div>
     <div style="width:100%;height:60px" id="meru"></div>
     <div style="width:90%" class='ui container'>
-        <div class="ui right aligned category search">
-            <div class="ui icon input">
-                <input class="prompt" type="text" placeholder="orderを検索">
-                <i class="search icon"></i>
+        <form th:action="@{/iteminfo}" method="post">
+            <div class="ui right aligned category search">
+                <div class="ui icon input">
+                    <input class="prompt" type="text" name="itemCode" placeholder="itemを検索">&emsp;
+                    <button class="ui icon button" type="submit">
+                        <i class="search icon"></i>
+                    </button>
+                </div>
+                <div class="results"></div>
             </div>
-            <div class="results"></div>
-        </div>
+        </form>
         <br>
         <div>
             <colgroup>
@@ -109,8 +113,9 @@
                 </tbody>
             </table>
         </div>
+        <br>
         <div align="center">
-            <table class="m-mobile-wide" width="425px">
+            <table width="590px">
                 <tbody>
                 <tr>
                     <td>
@@ -119,7 +124,7 @@
                     </td>
                     <td>
                         <h8 th:text="${page.pageNum}">2</h8>
-                        ページ目/全部
+                        ページ目/全
                         <h8 th:text="${page.pages}">4</h8>
                         ページ&emsp;
                         商品数
@@ -149,6 +154,10 @@
                 </tbody>
             </table>
         </div>
+        <br>
+        <br>
+        <br>
+
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>

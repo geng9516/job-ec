@@ -119,18 +119,18 @@
         from t_item
         <where>
             <if test="itemCode != null and itemCode != ''">
-                or `itemcode` like concat('%',${itemCode},'%')
+                or itemcode like concat('%',#{itemCode},'%')
             </if>
             <if test="itemCode != null and itemCode != ''">
-                or `itempath` like concat('%',${itemCode},'%')
+                or itempath like '%' #{itemCode} '%'
             </if>
             <if test="itemCode != null and itemCode != ''">
-                or `itemname` like concat('%',${itemCode},'%')
+                or `itemname` like concat('%',#{itemCode},'%')
             </if>
 
         </where>
 
-        order by createed,updated
+        order by created,updated
 
     </select>
 
