@@ -28,10 +28,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public int saveItem(Item item) {
-        //设置产品种类番号
+        //设置产品种类番号(条件はpathとサイト名)
         Map<String,String> map = new HashMap<>();
         map.put("itempath",item.getItemPath());
-        map.put("shopName",item.getShopName().substring(0,item.getShopName().indexOf("-")));
+        map.put("shopName",item.getSiteName());
         Integer itemCategorCode = itemCategoryMapper.findItemCategoryByPath(map);
         item.setItemCategoryCode(itemCategorCode);
 
