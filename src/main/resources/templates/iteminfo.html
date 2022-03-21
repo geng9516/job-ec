@@ -115,7 +115,7 @@
             <tbody>
             <tr align="center">
                 <td>
-                    <a th:href="@{/iteminfo(pageNum=S{page.pageNum-1))}" class="ui button basic mini"
+                    <a th:href="@{/iteminfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"
                        th:unless="${page.isFirstPage}">前へ</a>
                 </td>
                 <td>
