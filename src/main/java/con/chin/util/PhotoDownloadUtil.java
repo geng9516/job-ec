@@ -89,7 +89,7 @@ public class PhotoDownloadUtil {
     public static void imageInput(String photoUrl, String fileName) {
 
 
-        String staticPath = "/Users/geng9516/Documents/ideaworkspace/job-ec/src/main/resources/static/images/itemphoto";
+        String staticPath = "/Users/geng9516/Documents/ideaworkspace/job-ec-pro/src/main/resources/static/images/itemphoto";
 
         InputStream inputStream = null;
         OutputStream outputStream = null;
