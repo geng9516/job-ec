@@ -108,7 +108,7 @@ public class PhotoDownloadUtil {
 
             int len;
 
-            File file = new File(staticPath);
+            File file = new File(itemphoto);
 
             if (!file.exists()) {
                 file.mkdirs();
