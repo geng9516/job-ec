@@ -58,6 +58,7 @@ public class YahooItemInfoUtil {
         if (optionNodes.size() > 0){
             //选择项不同
             String option = html.css("div.elHeaderMain p.elHeaderCaption","text").toString();
+            String text = html.css("div.elHeaderMain p.elHeaderNote","text").toString();
             //value模块
             String elTableInne =  html.css("div.elTableInner").toString();
             //value1
@@ -74,7 +75,7 @@ public class YahooItemInfoUtil {
                 item.setValue1(value1);
                 //value2
                 item.setValue2(value2);
-            }else {
+            }else if(!option.contains("×") && "以下の一覧からご希望の商品を選択してください".equals(text)){
                 //option1
                 item.setOption1("オプション");
                 //value1

@@ -35,7 +35,7 @@ public class PhotoDownloadUtil {
 
                 int len;
 
-                File file = new File("/Users/geng9516/Documents/EC関連/99_クローラー/写真保存" + path + File.separator + itemCode);
+                File file = new File("/Users/geng9516/Documents/EC関連/99_クローラー/写真保存/" + path + File.separator + itemCode);
 
                 if (!file.exists()) {
                     file.mkdirs();
