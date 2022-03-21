@@ -115,7 +115,7 @@
             <tbody>
             <tr align="center">
                 <td>
-                    <a th:href="@{/(pageNum=S{page.pageNum-1))}" class="ui button basic mini"
+                    <a th:href="@{/iteminfo(pageNum=S{page.pageNum-1))}" class="ui button basic mini"
                        th:unless="${page.isFirstPage}">前へ</a>
                 </td>
                 <td>
@@ -144,7 +144,7 @@
                 </td>
                 <td>&nbsp;</td>
                 <td style="float:right">
-                    <a th:href="@{/(pageNum=${page.pageNum+1})}" class="ui button basic mini" style="float:right;"th:unless="${page.isLastPage}">次へ</a>
+                    <a th:href="@{/iteminfo(pageNum=${page.pageNum+1})}" class="ui button basic mini" style="float:right;"th:unless="${page.isLastPage}">次へ</a>
                 </td>
             </tr>
             </tbody>
