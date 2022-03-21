@@ -57,7 +57,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item : ${itemList}">
+                <tr th:each="item : ${page.list}">
                     <td>
                         <input type="checkbox" value="">
                     </td>
@@ -109,6 +109,46 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="ui attached segment">
+        <table class="m-mobile-wide" width="425px">
+            <tbody>
+            <tr align="center">
+                <td>
+                    <a th:href="@{/(pageNum=S{page.pageNum-1))}" class="ui button basic mini"
+                       th:unless="${page.isFirstPage}">前へ</a>
+                </td>
+                <td>
+                    第
+                    <h8 th:text="${page.pageNum}">2</h8>
+                    ページ/全部
+                    <h8 th:text="${page.pages}">4</h8>
+                    ページ&emsp;
+                    商品数
+                    <h8 th:text="${page.total}">29</h8>
+
+                </td>
+                <td>
+                    <form name="pageForm" th:action="@{/iteminfo}" method="get">
+                        <div class="ui mini input ">
+                            <input type="text" class="m-bg" name="itemCodo" placeholder="何ページ"
+                                   style="width:50px!important;height:27.76px!important;" required>
+                            <button type="submit"
+                                    style="font-size:11px!important;width:30px!important;height:Opx!important;border:none;margin: 5px;padding:0;"
+                                    class="button mini">
+                                跳转
+                            </button>
+
+                        </div>
+                    </form>
+                </td>
+                <td>&nbsp;</td>
+                <td style="float:right">
+                    <a th:href="@{/(pageNum=${page.pageNum+1})}" class="ui button basic mini" style="float:right;"th:unless="${page.isLastPage}">次へ</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>

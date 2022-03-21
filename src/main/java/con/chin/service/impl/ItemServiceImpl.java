@@ -1,7 +1,10 @@
 package con.chin.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import con.chin.mapper.ItemCategoryMapper;
 import con.chin.mapper.ItemMapper;
+import con.chin.pojo.query.ItemQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import con.chin.pojo.Item;
@@ -10,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +78,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item findItem(Item item) {
         return itemMapper.findItem(item);
+    }
+
+    //分页
+    @Override
+    public PageInfo<Item> findItemByItemCode(ItemQuery itemQuery) {
+        //启动PageInfo
+        PageHelper.startPage(itemQuery.getPageNum(),itemQuery.getPageSize());
+        return new PageInfo<Item>(itemMapper.findItemByItemCode(itemQuery));
     }
 
     //获取产品code

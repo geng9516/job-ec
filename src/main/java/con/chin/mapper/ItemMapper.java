@@ -1,5 +1,6 @@
 package con.chin.mapper;
 
+import con.chin.pojo.query.ItemQuery;
 import org.apache.ibatis.annotations.Mapper;
 import con.chin.pojo.Item;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,8 @@ public interface ItemMapper {
     List<Item> findAllItem();
 
     Item findItem(Item item);
+
+    List<Item> findItemByItemCode(ItemQuery itemQuery);
 
     //获取产品code
     List<String> findItemCodeByPath(String path);

@@ -1,6 +1,8 @@
 package con.chin.controller;
 
+import com.github.pagehelper.PageInfo;
 import con.chin.pojo.Item;
+import con.chin.pojo.query.ItemQuery;
 import con.chin.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +19,9 @@ public class ItemInfoController {
 
     //产品一览
     @GetMapping("/iteminfo")
-    public String iteminfo(Model model) {
-        List<Item> itemList = itemService.findAllItem();
-        model.addAttribute("itemList", itemList);
+    public String iteminfo(Model model, ItemQuery itemQuery) {
+        PageInfo<Item> itemList = itemService.findItemByItemCode(itemQuery);
+        model.addAttribute("page", itemList);
         return "iteminfo";
     }
 

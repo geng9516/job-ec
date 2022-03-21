@@ -111,6 +111,19 @@
 
     </select>
 
+    <!--    旧产品code检索-->
+    <select id="findItemByItemCode" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+        <where>
+            <if test="itemCode != null and itemCode != ''">
+                and `itemCode` like concat('%',${itemCode},'%')
+            </if>
+        </where>
+
+    </select>
+
     <!--    获取产品code-->
     <select id="findItemCodeByPath" resultType="string">
 

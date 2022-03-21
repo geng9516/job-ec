@@ -1,6 +1,8 @@
 package con.chin.service;
 
+import com.github.pagehelper.PageInfo;
 import con.chin.pojo.Item;
+import con.chin.pojo.query.ItemQuery;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ public interface ItemService {
 
     //アイテム検索
     Item findItem(Item item);
+
+    PageInfo<Item> findItemByItemCode(ItemQuery itemQuery);
 
     //获取产品code
     List<String> findItemCodeByPath(String path);
