@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="con.chin.mapper.ItemMapper">
+
+    <!--    新产品登录-->
+    <insert id="saveItem">
+
+        insert into t_item (shopname,
+                            itemcode,
+                            olditemcode,
+                            itempath,
+                            itemcategorycode,
+                            itemname,
+                            price,
+                            option1,
+                            value1,
+                            option2,
+                            value2,
+                            option3,
+                            value3,
+                            option4,
+                            value4,
+                            option5,
+                            value5,
+                            url5,
+                            headline,
+                            caption,
+                            explanation,
+                            image,
+                            folg,
+                            created,
+                            updated)
+        values (#{shopName},
+                #{itemCode},
+                #{oldItemCode},
+                #{itemPath},
+                #{itemCategoryCode},
+                #{itemName},
+                #{price},
+                #{option1},
+                #{value1},
+                #{option2},
+                #{value2},
+                #{option3},
+                #{value3},
+                #{option4},
+                #{value4},
+                #{option5},
+                #{value5},
+                #{url5},
+                #{headline},
+                #{caption},
+                #{explanation},
+                #{image},
+                #{folg},
+                #{created},
+                #{updated})
+
+    </insert>
+
+    <!--    产品更新-->
+    <update id="updateItem">
+
+        update t_item
+        set shopname=#{shopName},
+            itempath=#{itemPath},
+            itemcategorycode=#{itemCategoryCode},
+            itemname=#{itemName},
+            price=#{price},
+            option1=#{option1},
+            option1=#{option1},
+            value1=#{value1},
+            option2=#{option2},
+            value2=#{value2},
+            option3=#{option3},
+            value3=#{value3},
+            option4=#{option4},
+            value4=#{value4},
+            option5=#{option5},
+            value5=#{value5},
+            headline=#{headline},
+            url5=#{url5},
+            explanation=#{explanation},
+            image=#{image},
+            folg=#{folg},
+            updated=#{updated}
+        where oldItemCode = #{oldItemCode}
+
+    </update>
+
+    <!--    检索所以产品-->
+    <select id="findAllItem" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+
+    </select>
+
+    <!--    旧产品code检索-->
+    <select id="findItem" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+        where olditemcode = #{oldItemCode}
+
+    </select>
+
+    <!--    获取产品code-->
+    <select id="findItemCodeByPath" resultType="string">
+
+        select itemcode
+        from t_item
+        where itempath = #{path}
+
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,3 @@
+OrderId,Id,OrderTime,ShipNameKana,ShipName,ShipZipCode,ShipAddressFull,ShipPrefecture,ShipCity,ShipAddress1,ShipAddress2,ShipPhoneNumber,ShipMethodName,ShipCompanyCode,ShipInvoiceNumber1,ShipInvoiceNumber2,ShipDate,BillMailAddress,ShipCharge,Total,Referer,PayMethodName,CombinedPayMethodName,ShipStatus,PayStatus,DeviceType
+10000160,yunohonbo-10000160,2022/2/28 20:00,ヒロセ コノミ,廣瀬 好美,4910121,愛知県一宮市島村字上深田16-1,愛知県,一宮市,島村字上深田16-1,,9060378805,佐川急便,1002,564656000000 ,,2022/3/14,skic-m21snflw@softbank.ne.jp,0,4189,,コンビニ（セブン-イレブン）,,3,1,3
+10000128,yunohonbo-10000128,2022/2/20 13:21,ツネスミ カヨ,常住 佳代,2993234,千葉県大網白里市みずほ台1-17-4-1F,千葉県,大網白里市,みずほ台1-17-4-1F,,9093401688,佐川急便,1002,,,,gqgbx592@yahoo.co.jp,0,0,,コンビニ（セブン-イレブン）,,0,0,4

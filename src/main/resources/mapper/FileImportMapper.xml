@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="con.chin.mapper.FileImportMapper">
+
+    <!--    订单信息登录-->
+    <insert id="savaOrderInfo">
+
+        insert into t_orderinfo (orderid,
+                                 shopNameAndOrderId,
+                                 ordertime,
+                                 shipnamekana,
+                                 shipname,
+                                 shipzipcode,
+                                 shipaddressfull,
+                                 shipprefecture,
+                                 shipcity,
+                                 shipaddress1,
+                                 shipaddress2,
+                                 shipphonenumber,
+                                 shipmethodname,
+                                 shipcompanycode,
+                                 shipinvoicenumber1,
+                                 shipinvoicenumber2,
+                                 shipdate,
+                                 billmailaddress,
+                                 shipcharge,
+                                 total,
+                                 referer,
+                                 paymethodname,
+                                 combinedpaymethodname,
+                                 shipstatus,
+                                 paystatus,
+                                 devicetype)
+        values (#{orderId},
+                #{shopNameAndOrderId},
+                #{orderTime},
+                #{shipNameKana},
+                #{shipName},
+                #{shipZipCode},
+                #{shipAddressFull},
+                #{shipPrefecture},
+                #{shipCity},
+                #{shipAddress1},
+                #{shipAddress2},
+                #{shipPhoneNumber},
+                #{shipMethodName},
+                #{shipCompanyCode},
+                #{shipInvoiceNumber1},
+                #{shipInvoiceNumber2},
+                #{shipDate},
+                #{billMailAddress},
+                #{shipCharge},
+                #{total},
+                #{referer},
+                #{payMethodName},
+                #{combinedPayMethodName},
+                #{shipStatus},
+                #{payStatus},
+            #{deviceType} )
+
+    </insert>
+
+    <!--    产品更新-->
+    <update id="updataOderInfo">
+
+        update t_orderinfo
+        set ordertime=#{orderTime},
+            shipnamekana=#{shipNameKana},
+            shipname=#{shipName},
+            shipzipcode=#{shipZipCode},
+            shipaddressfull=#{shipAddressFull},
+            shipprefecture=#{shipPrefecture},
+            shipcity=#{shipCity},
+            shipaddress1=#{shipAddress1},
+            shipaddress2=#{shipAddress2},
+            shipphonenumber=#{shipPhoneNumber},
+            shipmethodname=#{shipMethodName},
+            shipcompanycode=#{shipCompanyCode},
+            shipinvoicenumber1=#{shipInvoiceNumber1},
+            shipinvoicenumber2=#{shipInvoiceNumber2},
+            shipdate=#{shipDate},
+            billmailaddress=#{billMailAddress},
+            shipcharge=#{shipCharge},
+            total=#{total},
+            referer=#{referer},
+            paymethodname=#{payMethodName},
+            paymethodname=#{payMethodName},
+            combinedpaymethodname=#{combinedPayMethodName},
+            shipstatus=#{shipStatus},
+            paystatus=#{payStatus},
+            devicetype=#{deviceType}
+        where orderid = #{orderId}
+
+    </update>
+
+    <!--    检索所以产品-->
+    <select id="findAllItem" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+
+    </select>
+
+    <!--    旧产品code检索-->
+    <select id="findItem" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+        where olditemcode = #{oldItemCode}
+
+    </select>
+
+    <!--    查找订单-->
+    <select id="findOrderInfoByOrderId" resultType="con.chin.pojo.OrderInfo">
+
+        select * from t_orderinfo where orderid = #{orderId}
+
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

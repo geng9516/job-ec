@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="job-ec:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>job-ec</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="job-ec-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="job-ec:war exploded" />
+    </root>
+  </artifact>
+</component>
