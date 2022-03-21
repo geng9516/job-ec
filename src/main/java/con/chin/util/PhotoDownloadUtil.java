@@ -88,8 +88,9 @@ public class PhotoDownloadUtil {
     //Itemimage
     public static void imageInput(String photoUrl, String fileName) {
 
-
-        String staticPath = "/Users/geng9516/Documents/ideaworkspace/job-ec-pro/src/main/resources/static/images/itemphoto";
+        //照片下载地址取得
+        ResourceBundle bundle = ResourceBundle.getBundle(fileName);
+        String itemphoto = bundle.getString("FILENAME");
 
         InputStream inputStream = null;
         OutputStream outputStream = null;
