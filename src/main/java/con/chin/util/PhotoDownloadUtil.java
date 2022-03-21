@@ -86,7 +86,7 @@ public class PhotoDownloadUtil {
     }
 
     //Itemimage
-    public static void imageInput(String photoUrl, String fileName) {
+    public static void imageInput(String photoUrl, String imgName) {
 
         //照片下载地址取得
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
@@ -114,7 +114,7 @@ public class PhotoDownloadUtil {
                 file.mkdirs();
             }
 
-            outputStream = new FileOutputStream(file.getPath() + File.separator + fileName + ".jpg", true);
+            outputStream = new FileOutputStream(file.getPath() + File.separator + imgName + ".jpg", true);
 
             while ((len = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, len);

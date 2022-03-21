@@ -23,101 +23,139 @@ public class YahooItemInfoUtil {
         //解析页面
         Html html = page.getHtml();
         //店铺名
-        String storeName = html.css("div.mdBreadCrumb a").nodes().get(0).css("span","text").toString();
+        String storeName = html.css("div.mdBreadCrumb a").nodes().get(0).css("span", "text").toString();
         //サイト名
         item.setSiteName("yahoo");
         //ショップ名
         item.setShopName(storeName);
         //新商品code
         String itemCode = UUID.randomUUID().toString();
-        String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-")+1,itemCode.length()-1);
+        String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
         System.out.println(itemCode1);
         item.setItemCode(itemCode1);
         //旧商品code
         List<Selectable> nodes = html.css("div#itm_cat li").nodes();
         Selectable selectable1 = nodes.get(nodes.size() - 1);
-        String oldItemCode = selectable1.css("div.elRowData p","text").toString();
+        String oldItemCode = selectable1.css("div.elRowData p", "text").toString();
         item.setOldItemCode(oldItemCode);
         //path取得
         String path = Jsoup.parse(html.css("div.mdItemSubInformation div.elRowData li.elListItem").nodes().get(1).css("ul").toString()).text();
-        item.setItemPath(path.replace(" ",":"));
+        item.setItemPath(path.replace(" ", ":"));
         //产品名称
-        String productName = html.css("div.mdItemName p.elName","text").toString();
+        String productName = html.css("div.mdItemName p.elName", "text").toString();
         item.setItemName(productName);
         //标题
-        String headlin = html.css("div.mdItemName p.elCatchCopy","text").toString();
+        String headlin = html.css("div.mdItemName p.elCatchCopy", "text").toString();
         item.setHeadline(headlin);
         //产品价格
-        item.setPrice(Integer.parseInt(html.css("span.elPriceNumber","text").nodes().get(0).toString().replace(",","").replace("円","").trim()));
+        item.setPrice(Integer.parseInt(html.css("span.elPriceNumber", "text").nodes().get(0).toString().replace(",", "").replace("円", "").trim()));
         //产品详情说明文
-        String mdItemDescription = html.css("div.mdItemDescription p").toString().replaceAll("<br>","\n");
-        item.setExplanation(mdItemDescription.replace("<p>","").replace("</p>",""));
+        String mdItemDescription = html.css("div.mdItemDescription p").toString().replaceAll("<br>", "\n");
+        item.setExplanation(mdItemDescription.replace("<p>", "").replace("</p>", ""));
         //option选项有没有判断
         List<Selectable> optionNodes = html.css("div.elTableInner thead.elTableHeader th").nodes();
         List<Selectable> options = html.css("div.mdOrderOptions li").nodes();
-        if (optionNodes.size() > 0){
+        if (optionNodes.size() > 0) {
             //选择项不同
-            String option = html.css("div.elHeaderMain p.elHeaderCaption","text").toString();
-            String text = html.css("div.elHeaderMain p.elHeaderNote","text").toString();
+            String option = html.css("div.elHeaderMain p.elHeaderCaption", "text").toString();
+            String text = html.css("div.elHeaderMain p.elHeaderNote", "text").toString();
             //value模块
-            String elTableInne =  html.css("div.elTableInner").toString();
+            String elTableInne = html.css("div.elTableInner").toString();
             //value1
             String value1 = Jsoup.parse(elTableInne).select("thead.elTableHeader").text();
             //value2
             String value2 = Jsoup.parse(elTableInne).select("tbody.elTableBody span.elTableWord").text();
             //是否包含"×"
-            if(option.contains("×")){
+            if (option.contains("×")) {
                 //option1
-                item.setOption1(option.substring(option.lastIndexOf("×")+1,option.length()));
+                item.setOption1(option.substring(option.lastIndexOf("×") + 1, option.length()));
                 //option2
-                item.setOption2(option.substring(0,option.lastIndexOf("×")));
+                item.setOption2(option.substring(0, option.lastIndexOf("×")));
                 //value1
                 item.setValue1(value1);
                 //value2
                 item.setValue2(value2);
-            }else if(!option.contains("×") && "以下の一覧からご希望の商品を選択してください".equals(text)){
+            } else if (!option.contains("×") && "以下の一覧からご希望の商品を選択してください".equals(text)) {
                 //option1
                 item.setOption1("オプション");
                 //value1
                 item.setValue1(value2);
             }
             //其他的选项
-            for(int i = 0;i <=options.size()-1;i++){
-                switch (i){
+            for (int i = 0; i <= options.size() - 1; i++) {
+                switch (i) {
                     case 0:
-                        //option3
-                        String option3 = options.get(i).css("p.elOptionHeading","text").toString();
-                        item.setOption3(option3);
-                        //value3
-                        String value3 = Jsoup.parse(options.get(i).toString()).select("select option").text();
-                        item.setValue3(value3);
+                        //option2
+                        if (item.getOption2() == null) {
+                            String option2 = options.get(i).css("p.elOptionHeading", "text").toString();
+                            item.setOption2(option2);
+                            //value2
+                            String value22 = Jsoup.parse(options.get(i).toString()).select("select option").text();
+                            item.setValue2(value22);
+                        } else {
+                            //option3
+                            String option3 = options.get(i).css("p.elOptionHeading", "text").toString();
+                            item.setOption3(option3);
+                            //value3
+                            String value3 = Jsoup.parse(options.get(i).toString()).select("select option").text();
+                            item.setValue3(value3);
+                        }
+
                         break;
                     case 1:
-                        //option4
-                        String option4 = options.get(i).css("p.elOptionHeading","text").toString();
-                        item.setOption4(option4);
-                        //value4
-                        String value4 = Jsoup.parse(options.get(i).toString()).select("select option").text();
-                        item.setValue4(value4);
+                        if (item.getOption3() == null) {
+                            //option3
+                            String option3 = options.get(i).css("p.elOptionHeading", "text").toString();
+                            item.setOption3(option3);
+                            //value3
+                            String value3 = Jsoup.parse(options.get(i).toString()).select("select option").text();
+                            item.setValue3(value3);
+                        } else {
+                            //option4
+                            String option4 = options.get(i).css("p.elOptionHeading", "text").toString();
+                            item.setOption4(option4);
+                            //value4
+                            String value4 = Jsoup.parse(options.get(i).toString()).select("select option").text();
+                            item.setValue4(value4);
+                        }
                         break;
                     case 2:
-                        //option5
-                        String option5 = options.get(i).css("p.elOptionHeading","text").toString();
-                        item.setOption5(option5);
-                        //value5
-                        String value5 = Jsoup.parse(options.get(i).toString()).select("select option").text();
-                        item.setValue5(value5);
+                        if(item.getOption4() == null){
+                            //option4
+                            String option4 = options.get(i).css("p.elOptionHeading", "text").toString();
+                            item.setOption4(option4);
+                            //value4
+                            String value4 = Jsoup.parse(options.get(i).toString()).select("select option").text();
+                            item.setValue4(value4);
+                        }else{
+                            //option5
+                            String option5 = options.get(i).css("p.elOptionHeading", "text").toString();
+                            item.setOption5(option5);
+                            //value5
+                            String value5 = Jsoup.parse(options.get(i).toString()).select("select option").text();
+                            item.setValue5(value5);
+                        }
+                        break;
+                    case 3:
+                        if(item.getOption5() == null){
+                            //option5
+                            String option5 = options.get(i).css("p.elOptionHeading", "text").toString();
+                            item.setOption5(option5);
+                            //value5
+                            String value5 = Jsoup.parse(options.get(i).toString()).select("select option").text();
+                            item.setValue5(value5);
+                        }
                         break;
                 }
             }
             //只有其他选项的话走这边
-        }else {
+        } else {
 
-            for(int i = 0;i <=options.size()-1;i++){
-                switch (i){
+            for (int i = 0; i <= options.size() - 1; i++) {
+                switch (i) {
                     case 0:
                         //option1
-                        String option1 = options.get(i).css("p.elOptionHeading","text").toString();
+                        String option1 = options.get(i).css("p.elOptionHeading", "text").toString();
                         item.setOption1(option1);
                         //value1
                         String value1 = Jsoup.parse(options.get(i).toString()).select("select option").text();
@@ -125,7 +163,7 @@ public class YahooItemInfoUtil {
                         break;
                     case 1:
                         //option2
-                        String option2 = options.get(i).css("p.elOptionHeading","text").toString();
+                        String option2 = options.get(i).css("p.elOptionHeading", "text").toString();
                         item.setOption2(option2);
                         //value2
                         String value2 = Jsoup.parse(options.get(i).toString()).select("select option").text();
@@ -133,7 +171,7 @@ public class YahooItemInfoUtil {
                         break;
                     case 2:
                         //option3
-                        String option3 = options.get(i).css("p.elOptionHeading","text").toString();
+                        String option3 = options.get(i).css("p.elOptionHeading", "text").toString();
                         item.setOption3(option3);
                         //value3
                         String value3 = Jsoup.parse(options.get(i).toString()).select("select option").text();
@@ -141,7 +179,7 @@ public class YahooItemInfoUtil {
                         break;
                     case 3:
                         //option4
-                        String option4 = options.get(i).css("p.elOptionHeading","text").toString();
+                        String option4 = options.get(i).css("p.elOptionHeading", "text").toString();
                         item.setOption4(option4);
                         //value4
                         String value4 = Jsoup.parse(options.get(i).toString()).select("select option").text();
@@ -149,7 +187,7 @@ public class YahooItemInfoUtil {
                         break;
                     case 4:
                         //option5
-                        String option5 = options.get(i).css("p.elOptionHeading","text").toString();
+                        String option5 = options.get(i).css("p.elOptionHeading", "text").toString();
                         item.setOption5(option5);
                         //value5
                         String value5 = Jsoup.parse(options.get(i).toString()).select("select option").text();
@@ -169,23 +207,23 @@ public class YahooItemInfoUtil {
         //更新时间
         item.setUpdated(now);
         //主照片
-        List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img","src").all();
+        List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
         //产品情报照片/SP
         //https://item-shopping.c.yimg.jp/i/l/takahashihonpo_21-030-t00247_18
         String caption = "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + ".jpg' width='100%'/><br>";
-        for (int i = 1; i <= photoAll.size()-1; i++) {
+        for (int i = 1; i <= photoAll.size() - 1; i++) {
             caption += "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "_" + i + ".jpg' width='100%'/><br>";
         }
         item.setCaption(caption);
         //产品数据保存
-        page.putField("item",item);
+        page.putField("item", item);
         //照片下载
 //        PhotoDownload.download(photoAll,item.getItemCode(),item.getItemPath());
-        Map<String,Object> map = new HashMap<>();
-        map.put("photoAll",photoAll);
-        map.put("itemCode",item.getItemCode());
-        map.put("itemPath",item.getItemPath());
-        page.putField("photoDownload",map);
+        Map<String, Object> map = new HashMap<>();
+        map.put("photoAll", photoAll);
+        map.put("itemCode", item.getItemCode());
+        map.put("itemPath", item.getItemPath());
+        page.putField("photoDownload", map);
         //商品检索关键字对象
         List<ItemKeyword> itemKeywordList = new ArrayList<>();
         String keywords = productName + headlin;
@@ -193,13 +231,13 @@ public class YahooItemInfoUtil {
         for (String s1 : s) {
             //关键字对象填充
             ItemKeyword itemKeyword = new ItemKeyword();
-            itemKeyword.setProductCategory(path.replace(" ",":"));
+            itemKeyword.setProductCategory(path.replace(" ", ":"));
             itemKeyword.setKeyword(s1);
             itemKeyword.setCountKeyword(1);
             itemKeywordList.add(itemKeyword);
         }
         //关键字数据库永久化
-        page.putField("itemKeywordList",itemKeywordList);
+        page.putField("itemKeywordList", itemKeywordList);
 
 //        System.out.println(new Date() + " ---> " + "执行一次" + "+++++" + storeName + "--->" + itemCode);
 
