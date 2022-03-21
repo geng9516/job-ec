@@ -176,67 +176,62 @@ public class CsvImportUtil {
                 //订单对象
                 OrderItemInfo orderItemInfo = new OrderItemInfo();
                 String[] orderItemData = line.replaceAll("\"", "").split(",");
-                System.out.println( "//////////"+orderItemData.length);
-                for (String orderItemDatum : orderItemData) {
-                    System.out.println(orderItemDatum);
-
-                }
                 //注文ID
                 orderItemInfo.setOrderId(orderItemData[0]);
-                //注文商品別
-                orderItemInfo.setLineId(orderItemData[1]);
                 //注文数量
-                orderItemInfo.setQuantity(Integer.parseInt(orderItemData[2]));
+                orderItemInfo.setQuantity(Integer.parseInt(orderItemData[1]));
                 //商品コード
-                orderItemInfo.setItemId(orderItemData[3]);
+                orderItemInfo.setItemId(orderItemData[2]);
                 //商品サブコード
-                orderItemInfo.setSubCode(orderItemData[4]);
+                orderItemInfo.setSubCode(orderItemData[3]);
                 //商品タイトル
-                orderItemInfo.setTitle(orderItemData[5]);
+                orderItemInfo.setTitle(orderItemData[4]);
                 //商品オプション名、複数の場合は：で区切り
-                orderItemInfo.setItemOptionName(orderItemData[6]);
+                orderItemInfo.setItemOptionName(orderItemData[5]);
                 //商品オプション内容、複数の場合は：で区切り
-                orderItemInfo.setItemOptionValue(orderItemData[7]);
+                orderItemInfo.setItemOptionValue(orderItemData[6]);
                 //商品オプション価格、複数の場合は：で区切り
-                orderItemInfo.setItemOptionPrice(orderItemData[8]);
+                orderItemInfo.setItemOptionPrice(orderItemData[7]);
                 //商品サブコードオプション内容文字列
-                orderItemInfo.setSubCodeOption(orderItemData[9]);
+                orderItemInfo.setSubCodeOption(orderItemData[8]);
                 //インスクリプション番号、複数の場合は：で区切り
-                orderItemInfo.setInscriptionName(orderItemData[10]);
+                orderItemInfo.setInscriptionName(orderItemData[9]);
                 //インスクリプション内容、複数の場合は：で区切り
-                orderItemInfo.setInscriptionValue(orderItemData[11]);
+                orderItemInfo.setInscriptionValue(orderItemData[10]);
                 //商品の通常販売価格または、特別販売価格または、会員価格
-                orderItemInfo.setUnitPrice(orderItemData[12].isEmpty() ? 0 : Integer.parseInt(orderItemData[12]));
+                orderItemInfo.setUnitPrice(orderItemData[11].isEmpty() ? 0 : Integer.parseInt(orderItemData[11]));
                 //商品の販売価格種別
-                orderItemInfo.setPriceType(orderItemData[13]);
+                orderItemInfo.setPriceType(orderItemData[12]);
                 //価格対する注文によるポイント
-                orderItemInfo.setUnitGetPoint(orderItemData[14].isEmpty() ? 0 :Integer.parseInt(orderItemData[14]));
+                orderItemInfo.setUnitGetPoint(orderItemData[13].isEmpty() ? 0 :Integer.parseInt(orderItemData[13]));
                 //Lineごと小計
-                orderItemInfo.setLineSubTotal(orderItemData[15].isEmpty() ? 0 : Integer.parseInt(orderItemData[15]));
+                orderItemInfo.setLineSubTotal(orderItemData[14].isEmpty() ? 0 : Integer.parseInt(orderItemData[14]));
                 //Lineごとの付与ポイント小計
-                orderItemInfo.setLineGetPoint(orderItemData[16].isEmpty() ? 0 : Integer.parseInt(orderItemData[16]));
+                orderItemInfo.setLineGetPoint(orderItemData[15].isEmpty() ? 0 : Integer.parseInt(orderItemData[15]));
                 //商品に付与したポイントコード
-                orderItemInfo.setPointFspCode(orderItemData[17]);
+                orderItemInfo.setPointFspCode(orderItemData[16]);
                 //クーポンID
-                orderItemInfo.setCouponId(orderItemData[18]);
+                orderItemInfo.setCouponId(orderItemData[17]);
                 //クーポン利用値引額
-                orderItemInfo.setCouponDiscount(orderItemData[19].isEmpty() ? 0 : Integer.parseInt(orderItemData[19]));
+                orderItemInfo.setCouponDiscount(orderItemData[18].isEmpty() ? 0 : Integer.parseInt(orderItemData[18]));
                 //値引き前の単価
-                orderItemInfo.setOriginalPrice(orderItemData[20].isEmpty() ? 0 : Integer.parseInt(orderItemData[20]));
+                orderItemInfo.setOriginalPrice(orderItemData[19].isEmpty() ? 0 : Integer.parseInt(orderItemData[19]));
                 //ポイント確定状態
-                orderItemInfo.setIsGetPointFix(orderItemData[21]);
+                orderItemInfo.setIsGetPointFix(orderItemData[20]);
                 //付与ポイント種別
-                orderItemInfo.setGetPointType(orderItemData[22]);
+                orderItemInfo.setGetPointType(orderItemData[21]);
                 //商品ごとのストア負担ポイント
-                orderItemInfo.setLineGetPointChargedToStore(Integer.parseInt(orderItemData[23]));
+                orderItemInfo.setLineGetPointChargedToStore(Integer.parseInt(orderItemData[22]));
                 //発送日スタート
-                orderItemInfo.setLeadTimeStart(orderItemData[24].isEmpty() ? "" : orderItemData[24]);
+                orderItemInfo.setLeadTimeStart(orderItemData[23].isEmpty() ? "" : orderItemData[23]);
                 //発送日エンド
-                orderItemInfo.setLeadTimeEnd(orderItemData[25].isEmpty() ? "" : orderItemData[25]);
+                orderItemInfo.setLeadTimeEnd(orderItemData[24].isEmpty() ? "" : orderItemData[24]);
                 //発送日テキスト
-                orderItemInfo.setLeadTimeText(orderItemData[26].isEmpty() ? "" : orderItemData[26]);
+                orderItemInfo.setLeadTimeText(orderItemData[25].isEmpty() ? "" : orderItemData[25]);
                 //ポイント確定予定日
-                orderItemInfo.setGetPointFixDate(orderItemData[27]);
+                orderItemInfo.setGetPointFixDate(orderItemData[26]);
+                //注文商品別
+                orderItemInfo.setLineId(orderItemData[27]);
                 //List追加
                 orderItemInfoList.add(orderItemInfo);
             }
