@@ -1,6 +1,7 @@
 package con.chin.util;
 
 import con.chin.pojo.Item;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PutItemInfoUtil {
+
+    private static String FILENAME;
+
+    @Value("${FILENAME}")
+    public void setItemphoto(String FILENAME){
+        this.FILENAME = FILENAME;
+    }
 
     public static void putItemInfoToCsv(List<Item> itemList, String filePath) {
 

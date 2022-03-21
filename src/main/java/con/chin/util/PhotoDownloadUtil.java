@@ -1,14 +1,25 @@
 package con.chin.util;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.ResourceBundle;
 
+@Component
 public class PhotoDownloadUtil {
+
+
+    private static String fileName;
+
+    @Value("${FILENAME}")
+    public void setFileName(String FILENAME){
+        this.fileName = FILENAME;
+    }
 
     //照片下载
     public static void download(List<String> urlList, String itemCode, String path) {
@@ -17,6 +28,9 @@ public class PhotoDownloadUtil {
 
         path = path.replace(":", "/");
 
+        //照片下载地址取得
+        ResourceBundle bundle = ResourceBundle.getBundle(fileName);
+        String itemphoto = bundle.getString("ITEMPHOTO");
 
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -35,7 +49,7 @@ public class PhotoDownloadUtil {
 
                 int len;
 
-                File file = new File("/Users/geng9516/Documents/EC関連/99_クローラー/写真保存/" + path + File.separator + itemCode);
+                File file = new File(itemphoto + path + File.separator + itemCode);
 
                 if (!file.exists()) {
                     file.mkdirs();
