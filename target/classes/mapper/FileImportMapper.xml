@@ -209,6 +209,7 @@
             leadTimeText=#{leadTimeText}
         where orderId = #{orderId}
           and itemId = #{itemId}
+          and lineId = #{lineId}
 
     </update>
 
