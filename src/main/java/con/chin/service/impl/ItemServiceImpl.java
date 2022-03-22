@@ -96,14 +96,6 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findItemCodeByPath(path);
     }
 
-    @Override
-    public void setdata() {
-        List<Item> allItem = itemMapper.findAllItem();
-        for (Item item1: allItem) {
-            item1.setFlog(0);
-            item1.setEndData("2099-12-31 23:59:59");
-            itemMapper.setdata(item1);
-        }
-    }
+
 
 }

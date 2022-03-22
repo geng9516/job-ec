@@ -56,10 +56,9 @@
                 <!--                ショップ一覧をドロップダウンに入れる-->
                 <select class="ui dropdown" onchange="select()">
                     <option value="">ショップを選択</option>
-                    <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}" th:name="${shop.getId()}"
-                            th:text="${shop.getShopName()}">Male
+                    <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}" name="searchConditions"
+                            th:text="${shop.getShopName()}">
                     </option>
-                    <option value="0">Female</option>
                 </select>
             </div>
         </form>
@@ -142,8 +141,8 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody id="itemList">
-                <tr th:each="item : ${page.list}" th:unless="${page.list}">
+                <tbody>
+                <tr th:each="item : ${page.list}">
                     <td>
                         <input type="checkbox" value="">
                     </td>

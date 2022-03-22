@@ -25,8 +25,6 @@ public interface ItemMapper {
     //获取产品code
     List<String> findItemCodeByPath(String path);
 
-    void setdata(Item item);
-
     //判读产品是否已采集
 
 

@@ -34,7 +34,7 @@ public class ItemInfoController {
         return "iteminfo";
     }
 
-
+    //查询
     @PostMapping("/iteminfo")
     public String findIteminfo(Model model, ItemQuery itemQuery) {
         PageInfo<Item> itemList = itemService.findItemByItemCode(itemQuery);
@@ -42,18 +42,17 @@ public class ItemInfoController {
         return "iteminfo";
     }
 
-    //ajaxshop名检索item一览
-    @PostMapping("/iteminfoByShop")
-    public String iteminfoByShop(Model model , ItemQuery itemQuery){
-
+    //店铺区分查询
+    @PostMapping("/iteminfo")
+    public String findIteminfoBySiteShop(Model model, ItemQuery itemQuery) {
+        PageInfo<Item> itemList = itemService.findItemByItemCode(itemQuery);
+        model.addAttribute("page", itemList);
         return "iteminfo";
     }
 
-    @GetMapping("/setdata")
-    public String setdata(){
-        itemService.setdata();
-        return "";
-    }
+
+
+
 
 
 }
