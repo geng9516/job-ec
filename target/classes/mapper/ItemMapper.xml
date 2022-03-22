@@ -130,7 +130,7 @@
 
         </where>
 
-        order by created,updated
+        order by updated
 
     </select>
 

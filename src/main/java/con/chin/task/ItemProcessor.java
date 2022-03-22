@@ -1,5 +1,6 @@
 package con.chin.task;
 
+import con.chin.mapper.ItemMapper;
 import con.chin.util.YahooItemInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,11 @@ import java.util.List;
 @Component
 public class ItemProcessor implements PageProcessor {
 
+    @Autowired
+    private ItemMapper itemMapper;
+
     @Override
     public void process(Page page) {
-
-        int count = 0;
 
         //获取页面数据
         List<Selectable> list = page.getHtml().css("div.mdSideCategoryMenu").nodes();
@@ -43,8 +45,7 @@ public class ItemProcessor implements PageProcessor {
                 //商品详情页
             } else {
                 YahooItemInfoUtil.saveItemInfo(page);
-                count++;
-                System.out.println(count);
+
             }
         }
     }
