@@ -12,6 +12,31 @@
         $(document).ready(function () {
             $("#meru").load("meru");
         });
+
+
+        function select() {
+            var shopName = $('select option:selected').val();
+            $.ajax({
+                url: "{{url('/user/goods_select')}}",
+                type: "GET",
+                dataType: "json",
+                //把获取到的value值传给服务器
+                data: {searchConditions: shopName},
+                success: function (res) {
+                    $("#itemList").empty();
+                    $.each(res, function (i, n) {
+                        $("#itemList").append(
+                            ""
+                        );
+                    })
+                },
+                error: function (xht, status, error) {
+                    alert("请求失败:" + error)
+                }
+            });
+        }
+
+
     </script>
 </head>
 <body>
@@ -22,12 +47,20 @@
         <form th:action="@{/iteminfo}" method="post">
             <div class="ui right aligned category search">
                 <div class="ui icon input">
-                    <input class="prompt" type="text" name="itemCode" placeholder="itemを検索">&emsp;
+                    <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
                     <button class="ui icon button" type="submit">
                         <i class="search icon"></i>
                     </button>
                 </div>
-                <div class="results"></div>
+                <div class="results"></div>&emsp;&emsp;
+                <!--                ショップ一覧をドロップダウンに入れる-->
+                <select class="ui dropdown" onchange="select()">
+                    <option value="">ショップを選択</option>
+                    <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}" th:name="${shop.getId()}"
+                            th:text="${shop.getShopName()}">Male
+                    </option>
+                    <option value="0">Female</option>
+                </select>
             </div>
         </form>
         <br>
@@ -78,10 +111,11 @@
         </div>
         <div>
             <colgroup>
-                <col style="width: 10%;">
-                <col style="width: 20%;">
+                <col style="width: 5%;">
+                <col style="width: 5%;">
                 <col style="width: 20%;">
                 <col style="width: 30%;">
+                <col style="width: 20%;">
                 <col style="width: 20%;">
             </colgroup>
             <table class="ui celled table">
@@ -98,6 +132,9 @@
                         <div class="title">商品写真</div>
                     </th>
                     <th>
+                        <div class="title">商品情報</div>
+                    </th>
+                    <th>
                         <div class="title">商品規格</div>
                     </th>
                     <th>
@@ -105,8 +142,8 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr th:each="item : ${page.list}">
+                <tbody id="itemList">
+                <tr th:each="item : ${page.list}" th:unless="${page.list}">
                     <td>
                         <input type="checkbox" value="">
                     </td>
@@ -149,10 +186,35 @@
                         </div>
                     </td>
                     <td>
+                        <table>
+                            <tr>
+                                <p th:text="${item.getOption1()} + ' : '"></p>
+                                <span th:text="${item.getValue1().replaceAll(' ', '、')}"></span>
+                            </tr>
+                            <tr>
+                                <p th:text="${item.getOption2()== null ? '' : item.getOption2()} + ' : '"></p>
+                                <span th:text="${item.getValue2() == null ? '' : item.getValue2().replaceAll(' ', '、')}"></span>
+                            </tr>
+                            <tr>
+                                <p th:text="${item.getOption3()== null ? '' : item.getOption3()} + ' : '"></p>
+                                <span th:text="${item.getValue3() == null ? '' : item.getValue3().replaceAll(' ', '、')}"></span>
+                            </tr>
+                            <tr>
+                                <p th:text="${item.getOption4()== null ? '' : item.getOption4()} + ' : '"></p>
+                                <p th:text="${item.getValue4() == null ? '' : item.getValue4().replaceAll(' ', '、')}"></p>
+                            </tr>
+                            <tr>
+                                <p th:text="${item.getOption5()== null ? '' : item.getOption5()}"></p>
+                                <p th:text="${item.getValue5() == null ? '' : item.getValue5().replaceAll(' ', '、')}"></p>
+                            </tr>
+                        </table>
+
+                    </td>
+                    <td>
                         <div><p>・作成日</p></div>
                         <div><span th:text="${item.getCreated()}"></span></div>
                         <div><p>・更新日</p></div>
-                        <div><span th:text="${item.getUpdated()}"></span></div>
+                        <div><span th:text="${item.getEndData()}"></span></div>
                     </td>
                 </tr>
                 </tbody>

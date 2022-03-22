@@ -14,5 +14,5 @@ public class ItemQuery {
 
     private  Integer pageSize = 30;//每一页所显示的数量
 
-    private String itemCode;
+    private String searchConditions;
 }

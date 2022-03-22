@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="con.chin.mapper.SiteShopMapper">
+
+    <!--    siteshop登录-->
+    <insert id="saveSiteShopInfo">
+
+        insert into t_siteshop (shopName)
+        values (#{shopName})
+
+    </insert>
+
+
+    <!--    旧产品code检索-->
+    <select id="findSiteShop" resultType="con.chin.pojo.SiteShop">
+
+        select *
+        from t_siteshop
+
+        <where>
+            <if test="shopName != null and shopName != ''">
+                and shopName = #{shopName}
+            </if>
+        </where>
+
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -69,13 +69,13 @@ public class Item implements Serializable {
 
     private String relevantLinks;//オススメ商品
 
-    private Integer folg;//有効か失効
+    private Integer flog;//有効か失効
 
     private String image;//照片
 
     private String created;//作成時間
 
-    private String updated;//更新時間
+    private String endData;//更新時間
 
     public void setId(Long id) {
         this.id = id;

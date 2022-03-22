@@ -2,6 +2,7 @@ package con.chin.util;
 
 import con.chin.pojo.Item;
 import con.chin.pojo.ItemKeyword;
+import con.chin.pojo.SiteShop;
 import con.chin.service.ItemService;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -199,13 +200,13 @@ public class YahooItemInfoUtil {
         //获取带前页的URL
         item.setUrl5(page.getUrl().nodes().get(0).toString());
         item.setImage("/images/itemphoto/" + item.getItemCode() + ".jpg");
-        //有效的1/无效0
-        item.setFolg(1);
+        //是否编辑(0:否,1:是)
+        item.setFlog(0);
         //创建时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         item.setCreated(now);
         //更新时间
-        item.setUpdated(now);
+        item.setEndData("2099-12-12 23:59:59");
         //主照片
         List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
         //产品情报照片/SP
@@ -239,9 +240,10 @@ public class YahooItemInfoUtil {
         //关键字数据库永久化
         page.putField("itemKeywordList", itemKeywordList);
 
-//        System.out.println(new Date() + " ---> " + "执行一次" + "+++++" + storeName + "--->" + itemCode);
-
-        //产品数据下载------待更新
+        //siteshopinfo保存
+        SiteShop siteShop = new SiteShop();
+        siteShop.setShopName(storeName);
+        page.putField("siteShop",siteShop);
 
     }
 }

@@ -11,8 +11,10 @@ import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
         //保存产品数据
         if(oldItem == null){
             int res = itemMapper.saveItem(item);
-            System.out.println("登录一件产品:  " + item.getItemCode() + "   时间为" + now);
+            System.out.println("登录一件产品:  " + item.getItemCode() + "   时间为 :" + now);
             return res;
         }
         //更新产品数据
@@ -55,11 +57,8 @@ public class ItemServiceImpl implements ItemService {
         if(oldItem.getImage() == null){
             item.setImage("/images/itemphoto/" + oldItem.getItemCode() + ".jpg");
         }
-        item.setCreated(null);
-
-        item.setUpdated(now);
         itemMapper.updateItem(item);
-        System.out.println("更新一件产品:  " + oldItem.getItemCode() + "   时间为" + now);
+        System.out.println("更新一件产品:  " + oldItem.getItemCode() + "   时间为: " + now);
         //为了更新的话不需要更新照片
         return -1;
     }
@@ -95,6 +94,16 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<String> findItemCodeByPath(String path) {
         return itemMapper.findItemCodeByPath(path);
+    }
+
+    @Override
+    public void setdata() {
+        List<Item> allItem = itemMapper.findAllItem();
+        for (Item item1: allItem) {
+            item1.setFlog(0);
+            item1.setEndData("2099-12-31 23:59:59");
+            itemMapper.setdata(item1);
+        }
     }
 
 }

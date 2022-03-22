@@ -34,7 +34,7 @@
                             image,
                             folg,
                             created,
-                            updated)
+                            enddata)
         values (#{siteName},
                 #{shopName},
                 #{itemCode},
@@ -60,7 +60,7 @@
                 #{image},
                 #{folg},
                 #{created},
-                #{updated})
+                #{endData})
 
     </insert>
 
@@ -89,8 +89,7 @@
             url5=#{url5},
             explanation=#{explanation},
             image=#{image},
-            folg=#{folg},
-            updated=#{updated}
+            flog=#{flog}
         where oldItemCode = #{oldItemCode}
 
     </update>
@@ -102,6 +101,10 @@
         from t_item
 
     </select>
+
+    <update id="setdata">
+        update t_item set flog=#{flog},enddata=#{endData} where id = #{id}
+    </update>
 
     <!--    旧产品code检索-->
     <select id="findItem" resultType="con.chin.pojo.Item">
@@ -125,12 +128,18 @@
                 or itempath like '%' #{itemCode} '%'
             </if>
             <if test="itemCode != null and itemCode != ''">
-                or `itemname` like concat('%',#{itemCode},'%')
+                or itemname like concat('%',#{itemCode},'%')
+            </if>
+            <if test="itemCode != null and itemCode != ''">
+                or shopname like concat('%',#{itemCode},'%')
+            </if>
+            <if test="itemCode != null and itemCode != ''">
+                or olditemcode like concat('%',#{itemCode},'%')
             </if>
 
         </where>
 
-        order by updated
+        order by creaed desc
 
     </select>
 
