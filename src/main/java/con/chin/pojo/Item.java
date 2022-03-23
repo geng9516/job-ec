@@ -77,7 +77,7 @@ public class Item implements Serializable {
 
     private String updatetime;//更新時間
 
-    private String endData;//終わり時間
+    private String endDate;//終わり時間
 
     public void setId(Long id) {
         this.id = id;

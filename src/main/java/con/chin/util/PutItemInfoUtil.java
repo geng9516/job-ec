@@ -1,8 +1,12 @@
 package con.chin.util;
 
 import con.chin.pojo.Item;
+import con.chin.service.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +14,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class PutItemInfoUtil {
+
+    private static PutItemInfoUtil putItemInfoUtil;
+    //??
+    @PostConstruct
+    public void init() {
+        putItemInfoUtil = this;
+    }
+
+    @Autowired
+    private ItemService itemService;
 
     private static String FILENAME;
 
@@ -45,10 +60,17 @@ public class PutItemInfoUtil {
             int i = 11;
             //设置個別商品コード初始变量
             String subCode = "";
-
+            //遍历item集合下载每一件产品信息
             for (Item item : itemList) {
+                //option1时空值是不下载给itemdeflog赋值0(代表还需编辑)
+                if(item.getOption1() == null){
+                    //数据库中的flog字段赋值0
+                    item.setFlog(0);
+                    putItemInfoUtil.itemService.updateItem(item);
+                    continue;
+                }
                 //おすすめ商品 relevant-links
-                item.setRelevantLinks(RandomGetUtil.getRelevantLinks(item.getItemPath()));
+                item.setRelevantLinks(RandomGetRelevantLinksUtil.getRelevantLinks(item.getItemPath()));
                 //個別商品コード(sub-code)
                 //value1以" "分割成各个选项参数(颜色/尺码)
                 String[] values1 = item.getValue1().split(" ");

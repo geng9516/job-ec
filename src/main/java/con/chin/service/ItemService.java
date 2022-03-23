@@ -15,7 +15,7 @@ public interface ItemService {
     void updateItem(Item item);
 
     //アイテム検索ALL
-    List<Item> findAllItem();
+    List<Item> findAllValidItem();
 
     //アイテム検索
     Item findItem(Item item);

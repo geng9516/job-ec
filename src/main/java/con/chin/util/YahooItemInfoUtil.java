@@ -208,7 +208,7 @@ public class YahooItemInfoUtil {
         //アップデート時間
         item.setUpdatetime(now);
         //終了時間
-        item.setEndData("2099-12-12 23:59:59");
+        item.setEndDate("2099-12-31 23:59:59");
         //主照片
         List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
         //产品情报照片/SP

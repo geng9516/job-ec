@@ -35,7 +35,7 @@
                             flog,
                             created,
                             updatetime,
-                            enddata)
+                            enddate)
         values (#{siteName},
                 #{shopName},
                 #{itemCode},
@@ -62,7 +62,7 @@
                 #{flog},
                 #{created},
                 #{updatetime},
-                #{endData})
+                #{endDate})
 
     </insert>
 
@@ -97,11 +97,12 @@
 
     </update>
 
-    <!--    检索所以产品-->
+    <!--    已编辑并且没有失效的产品-->
     <select id="findAllItem" resultType="con.chin.pojo.Item">
 
         select *
         from t_item
+        where flog = 1 and enddate = '2099-12-31 23:59:59'
 
     </select>
 
@@ -139,7 +140,7 @@
 
         </where>
 
-        order by created desc
+        order by updatetime desc
 
     </select>
 
@@ -156,7 +157,7 @@
 
         </where>
 
-        order by created desc
+        order by updatetime desc
 
     </select>
 

@@ -16,7 +16,8 @@ public interface ItemMapper {
 
     void updateItem(Item item);
 
-    List<Item> findAllItem();
+    //已编辑并且没有失效的产品
+    List<Item> findAllValidItem();
 
     Item findItem(Item item);
 

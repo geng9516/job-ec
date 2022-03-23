@@ -21,16 +21,20 @@ public class ItemProcessor implements PageProcessor {
     public void process(Page page) {
 
         //获取页面数据
-        List<Selectable> list = page.getHtml().css("div.mdSideCategoryMenu").nodes();
+        List<Selectable> list = page.getHtml().css("div.mdSideCategoryMenu ul.elListItems").nodes();
 
-        if (list.size() > 0){
+        //会社名
+        String company = page.getHtml().css("div.mdInformationTable p.elHeaderTitle","text").toString();
+
+
+        if (list.size() > 0 && "会社概要".equals(company)){
             //商品一览URL
             String itemInfoUrl = page.getHtml().css("div.mdSideCategoryMenu div#sdnv a").nodes().get(0).links().toString();
             //添加到任务
             page.addTargetRequest(itemInfoUrl);
         }else {
             //获取商品一览URL
-            List<String> listUrl = page.getHtml().css("div#itmlst").links().all();
+            List<String> listUrl = page.getHtml().css("div#itmlst div.elImage a").links().all();
             //如果是大于0的话就是商品一览
             if (listUrl.size() > 0) {
                 for (String url : listUrl) {
@@ -49,7 +53,6 @@ public class ItemProcessor implements PageProcessor {
             }
         }
     }
-
 
     //设定参数
     private Site site = Site.me()

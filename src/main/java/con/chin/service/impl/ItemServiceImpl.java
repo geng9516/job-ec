@@ -70,17 +70,16 @@ public class ItemServiceImpl implements ItemService {
         return -1;
     }
 
+    //item更新
     @Override
     public void updateItem(Item item) {
-
-
-
+        itemMapper.updateItem(item);
     }
 
-    //查取所以结果
+    //已编辑并且没有失效的产品
     @Override
-    public List<Item> findAllItem() {
-        return itemMapper.findAllItem();
+    public List<Item> findAllValidItem() {
+        return itemMapper.findAllValidItem();
     }
 
     //

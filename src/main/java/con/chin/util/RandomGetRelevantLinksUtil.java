@@ -8,9 +8,9 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Component
-public class RandomGetUtil {
+public class RandomGetRelevantLinksUtil {
 
-    private static RandomGetUtil randomGet;
+    private static RandomGetRelevantLinksUtil randomGet;
 
     //??
     @PostConstruct

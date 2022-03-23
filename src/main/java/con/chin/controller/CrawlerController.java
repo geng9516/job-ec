@@ -72,8 +72,8 @@ public class CrawlerController {
     //所以产品资料下载csv
     @GetMapping("/putItemInfo")
     public String putItemInfo(RedirectAttributes redirectAttributes) {
-        //取得所以的item信息
-        List<Item> itemList = itemService.findAllItem();
+        //取得所有已编辑并且没有失效的产品
+        List<Item> itemList = itemService.findAllValidItem();
         //item信息不为空时
         if (itemList != null) {
             //调用下载方法
