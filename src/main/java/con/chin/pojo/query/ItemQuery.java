@@ -1,6 +1,5 @@
 package con.chin.pojo.query;
 
-import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

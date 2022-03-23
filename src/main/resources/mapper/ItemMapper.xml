@@ -32,7 +32,7 @@
                             caption,
                             explanation,
                             image,
-                            folg,
+                            flog,
                             created,
                             updatetime,
                             enddata)
@@ -59,7 +59,7 @@
                 #{caption},
                 #{explanation},
                 #{image},
-                #{folg},
+                #{flog},
                 #{created},
                 #{updatetime},
                 #{endData})
