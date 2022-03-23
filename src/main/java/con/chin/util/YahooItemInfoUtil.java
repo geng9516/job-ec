@@ -205,7 +205,9 @@ public class YahooItemInfoUtil {
         //创建时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         item.setCreated(now);
-        //更新时间
+        //アップデート時間
+        item.setUpdatetime(now);
+        //終了時間
         item.setEndData("2099-12-12 23:59:59");
         //主照片
         List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();

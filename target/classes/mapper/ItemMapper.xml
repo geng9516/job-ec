@@ -34,6 +34,7 @@
                             image,
                             folg,
                             created,
+                            updatetime,
                             enddata)
         values (#{siteName},
                 #{shopName},
@@ -60,6 +61,7 @@
                 #{image},
                 #{folg},
                 #{created},
+                #{updatetime},
                 #{endData})
 
     </insert>
@@ -89,6 +91,7 @@
             url5=#{url5},
             explanation=#{explanation},
             image=#{image},
+            updatetime=#{updatetime},
             flog=#{flog}
         where oldItemCode = #{oldItemCode}
 

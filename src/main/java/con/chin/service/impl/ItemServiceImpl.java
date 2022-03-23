@@ -57,6 +57,13 @@ public class ItemServiceImpl implements ItemService {
         if(oldItem.getImage() == null){
             item.setImage("/images/itemphoto/" + oldItem.getItemCode() + ".jpg");
         }
+        //作成時間更新しないように
+        item.setCreated(null);
+        //更新時間
+        if(oldItem.getUpdatetime() == null){
+            item.setUpdatetime(now);
+        }
+        //商品情報更新
         itemMapper.updateItem(item);
         System.out.println("更新一件产品:  " + oldItem.getItemCode() + "   时间为: " + now);
         //为了更新的话不需要更新照片
