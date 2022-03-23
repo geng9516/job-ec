@@ -20,7 +20,11 @@ public interface ItemService {
     //アイテム検索
     Item findItem(Item item);
 
-    PageInfo<Item> findItemByItemCode(ItemQuery itemQuery);
+    //产品id,产品path,产品名,店铺名模糊查询
+    PageInfo<Item> findItemBySearchConditions(ItemQuery itemQuery);
+
+    //SiteShop查询
+    PageInfo<Item> findItemBySiteShop(ItemQuery itemQuery);
 
     //获取产品code
     List<String> findItemCodeByPath(String path);

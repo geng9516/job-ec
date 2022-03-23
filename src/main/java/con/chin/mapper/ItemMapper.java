@@ -20,7 +20,11 @@ public interface ItemMapper {
 
     Item findItem(Item item);
 
-    List<Item> findItemByItemCode(ItemQuery itemQuery);
+    //产品id,产品path,产品名,店铺名模糊查询
+    List<Item> findItemBySearchConditions(ItemQuery itemQuery);
+
+    //SiteShop查询
+    List<Item> findItemBySiteShop(ItemQuery itemQuery);
 
     //获取产品code
     List<String> findItemCodeByPath(String path);

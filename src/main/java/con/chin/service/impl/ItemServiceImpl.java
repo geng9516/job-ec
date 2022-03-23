@@ -84,10 +84,18 @@ public class ItemServiceImpl implements ItemService {
 
     //分页
     @Override
-    public PageInfo<Item> findItemByItemCode(ItemQuery itemQuery) {
+    public PageInfo<Item> findItemBySearchConditions(ItemQuery itemQuery) {
         //启动PageInfo
         PageHelper.startPage(itemQuery.getPageNum(),itemQuery.getPageSize());
-        return new PageInfo<Item>(itemMapper.findItemByItemCode(itemQuery));
+        return new PageInfo<Item>(itemMapper.findItemBySearchConditions(itemQuery));
+    }
+
+    //SiteShop查询
+    @Override
+    public PageInfo<Item> findItemBySiteShop(ItemQuery itemQuery) {
+        //启动PageInfo
+        PageHelper.startPage(itemQuery.getPageNum(),itemQuery.getPageSize());
+        return new PageInfo<Item>(itemMapper.findItemBySiteShop(itemQuery));
     }
 
     //获取产品code

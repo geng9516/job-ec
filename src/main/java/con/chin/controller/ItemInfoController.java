@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ItemInfoController {
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
-        PageInfo<Item> itemList = itemService.findItemByItemCode(itemQuery);
+        PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemQuery);
         model.addAttribute("page", itemList);
         return "iteminfo";
     }
@@ -37,15 +38,21 @@ public class ItemInfoController {
     //查询
     @PostMapping("/iteminfo")
     public String findIteminfo(Model model, ItemQuery itemQuery) {
-        PageInfo<Item> itemList = itemService.findItemByItemCode(itemQuery);
+        //siteshop一覧
+        List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
+        model.addAttribute("siteShopList", siteShopList);
+        PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemQuery);
         model.addAttribute("page", itemList);
         return "iteminfo";
     }
 
     //店铺区分查询
-    @PostMapping("/iteminfo")
-    public String findIteminfoBySiteShop(Model model, ItemQuery itemQuery) {
-        PageInfo<Item> itemList = itemService.findItemByItemCode(itemQuery);
+    @GetMapping("/findIteminfoBySiteShop")
+    public String findIteminfoBySiteShop(Model model,ItemQuery itemQuery) {
+        //siteshop一覧
+        List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
+        model.addAttribute("siteShopList", siteShopList);
+        PageInfo<Item> itemList = itemService.findItemBySiteShop(itemQuery);
         model.addAttribute("page", itemList);
         return "iteminfo";
     }

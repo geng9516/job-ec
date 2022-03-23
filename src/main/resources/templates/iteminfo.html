@@ -36,6 +36,14 @@
             });
         }
 
+        //shop名でアイテムを検索
+        function findIteminfoBySiteShop() {
+            $("#findIteminfoBySiteShop").removeAttr("action");
+            $("#findIteminfoBySiteShop").attr("method", "get");
+            $("#findIteminfoBySiteShop").attr('action', "/findIteminfoBySiteShop");
+            $("#findIteminfoBySiteShop").submit();
+        }
+
 
     </script>
 </head>
@@ -44,24 +52,40 @@
 <div>
     <div style="width:100%;height:60px" id="meru"></div>
     <div style="width:90%" class='ui container'>
-        <form th:action="@{/iteminfo}" method="post">
-            <div class="ui right aligned category search">
-                <div class="ui icon input">
-                    <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
-                    <button class="ui icon button" type="submit">
-                        <i class="search icon"></i>
-                    </button>
-                </div>
-                <div class="results"></div>&emsp;&emsp;
-                <!--                ショップ一覧をドロップダウンに入れる-->
-                <select class="ui dropdown" onchange="select()">
-                    <option value="">ショップを選択</option>
-                    <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}" name="searchConditions"
-                            th:text="${shop.getShopName()}">
-                    </option>
-                </select>
-            </div>
-        </form>
+        <div class="ui right aligned category search">
+            <table>
+                <tr>
+                    <td>
+                        <form th:action="@{/iteminfo}" method="post">
+                            <div class="ui icon input">
+                                <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
+                                <button class="ui icon button" type="submit">
+                                    <i class="search icon"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="" method="" id="findIteminfoBySiteShop" onchange="findIteminfoBySiteShop()">
+                            <select class="ui dropdown" id='searchConditions'
+                                    name="searchConditions">
+                                <option value="">ショップを選択</option>
+                                <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
+                                        th:text="${shop.getShopName()}">
+                                </option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <!--模糊查询-->
+
+            <div class="results"></div>&emsp;
+            <!--ショップ一覧をドロップダウンに入れる-->
+            <!--店铺名查询产品一览-->
+
+        </div>
+
         <br>
         <!--        分页页面顶部-->
         <div align="center">
