@@ -32,5 +32,9 @@ public interface ItemMapper {
 
     //判读产品是否已采集
 
+    List<Item> findAll();
+
+    void setdate(Item item);
+
 
 }

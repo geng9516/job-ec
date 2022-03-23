@@ -35,7 +35,7 @@
                             flog,
                             created,
                             updatetime,
-                            enddata)
+                            enddate)
         values (#{siteName},
                 #{shopName},
                 #{itemCode},
@@ -62,7 +62,7 @@
                 #{flog},
                 #{created},
                 #{updatetime},
-                #{endData})
+                #{endDate})
 
     </insert>
 
@@ -97,11 +97,13 @@
 
     </update>
 
-    <!--    检索所以产品-->
+    <!--    已编辑并且没有失效的产品-->
     <select id="findAllItem" resultType="con.chin.pojo.Item">
 
         select *
         from t_item
+        where flog = 1
+          and enddate = '2099-12-31 23:59:59'
 
     </select>
 
@@ -143,7 +145,7 @@
 
     </select>
 
-<!--    SiteShop查询-->
+    <!--    SiteShop查询-->
     <select id="findItemBySiteShop" resultType="con.chin.pojo.Item">
 
         select *
@@ -169,6 +171,21 @@
 
     </select>
 
+
+    <!--    ###########################################-->
+
+    <select id="findAll" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+
+    </select>
+
+    <update id="setdate">
+        update t_item
+        set updatetime = #{updatetime},
+            enddate = #{endDate}
+    </update>
 
 </mapper>
 

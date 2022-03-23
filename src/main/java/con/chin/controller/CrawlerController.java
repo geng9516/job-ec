@@ -88,5 +88,12 @@ public class CrawlerController {
         return "redirect:/";
     }
 
+    @GetMapping("/setDate")
+    public String setDate(){
+
+        itemService.setdate();
+        return "index";
+    }
+
 
 }

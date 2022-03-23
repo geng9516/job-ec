@@ -29,5 +29,8 @@ public interface ItemService {
     //获取产品code
     List<String> findItemCodeByPath(String path);
 
+    List<Item> findAll();
+
+    void setdate();
 
 }

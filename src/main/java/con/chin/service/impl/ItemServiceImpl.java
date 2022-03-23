@@ -35,9 +35,9 @@ public class ItemServiceImpl implements ItemService {
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         //设置产品种类番号(条件はpathとサイト名)
-        Map<String,String> map = new HashMap<>();
-        map.put("itempath",item.getItemPath());
-        map.put("shopName",item.getSiteName());
+        Map<String, String> map = new HashMap<>();
+        map.put("itempath", item.getItemPath());
+        map.put("shopName", item.getSiteName());
         Integer itemCategorCode = itemCategoryMapper.findItemCategoryByPath(map);
         item.setItemCategoryCode(itemCategorCode);
 
@@ -47,20 +47,20 @@ public class ItemServiceImpl implements ItemService {
         Item oldItem = itemMapper.findItem(item1);
 
         //保存产品数据
-        if(oldItem == null){
+        if (oldItem == null) {
             int res = itemMapper.saveItem(item);
             System.out.println("登录一件产品:  " + item.getItemCode() + "   时间为 :" + now);
             return res;
         }
         //更新产品数据
         //如果是更新并且itemimage是空的就赋值进去
-        if(oldItem.getImage() == null){
+        if (oldItem.getImage() == null) {
             item.setImage("/images/itemphoto/" + oldItem.getItemCode() + ".jpg");
         }
         //作成時間更新しないように
         item.setCreated(null);
         //更新時間
-        if(oldItem.getUpdatetime() == null){
+        if (oldItem.getUpdatetime() == null) {
             item.setUpdatetime(now);
         }
         //商品情報更新
@@ -92,7 +92,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public PageInfo<Item> findItemBySearchConditions(ItemQuery itemQuery) {
         //启动PageInfo
-        PageHelper.startPage(itemQuery.getPageNum(),itemQuery.getPageSize());
+        PageHelper.startPage(itemQuery.getPageNum(), itemQuery.getPageSize());
         return new PageInfo<Item>(itemMapper.findItemBySearchConditions(itemQuery));
     }
 
@@ -100,7 +100,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public PageInfo<Item> findItemBySiteShop(ItemQuery itemQuery) {
         //启动PageInfo
-        PageHelper.startPage(itemQuery.getPageNum(),itemQuery.getPageSize());
+        PageHelper.startPage(itemQuery.getPageNum(), itemQuery.getPageSize());
         return new PageInfo<Item>(itemMapper.findItemBySiteShop(itemQuery));
     }
 
@@ -110,6 +110,23 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findItemCodeByPath(path);
     }
 
+    @Override
+    public List<Item> findAll() {
+        return itemMapper.findAll();
+    }
+
+    @Override
+    public void setdate() {
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        List<Item> itemList = this.findAll();
+        for (Item item : itemList) {
+            if (item.getUpdatetime() == null) {
+                item.setUpdatetime(now);
+            }
+            item.setEndDate("2099-12-31 23:59:59");
+            itemMapper.setdate(item);
+        }
+    }
 
 
 }
