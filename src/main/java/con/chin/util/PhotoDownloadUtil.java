@@ -81,7 +81,6 @@ public class PhotoDownloadUtil {
                         e.printStackTrace();
                     }
                 }
-
             }
         }
     }

@@ -42,21 +42,17 @@ public class ItemPipeline implements Pipeline {
         if(item != null){
             res = itemService.saveItem(item);
         }
-
         //关键词保存数据库
         List<ItemKeyword> itemKeywordList = resultItems.get("itemKeywordList");
         if (item != null){
             itemKeywordService.save(itemKeywordList);
         }
-
         //照片下载本地
         Map<String,Object> map  = resultItems.get("photoDownload");
         if(map != null && res !=-1){
-
             PhotoDownloadUtil.download((List)map.get("photoAll"),(String)map.get("itemCode"),(String)map.get("itemPath"));
             System.out.println("itemcode为:  " + item.getItemCode() + " 的产品照片下载完成");
         }
-
         //siteshopinfo保存数据库
         SiteShop siteShop = resultItems.get("siteShop");
         if(siteShop != null) {

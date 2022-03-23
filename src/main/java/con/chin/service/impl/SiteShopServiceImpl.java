@@ -21,16 +21,13 @@ public class SiteShopServiceImpl implements SiteShopService {
 
         //查找数据是否存在
         List<SiteShop> siteShopList = siteShopMapper.findSiteShop(siteShop);
-        System.out.println(siteShopList.size());
         //不存在数据
         Integer res = -1;
         if(siteShopList.size() == 0){
             res = siteShopMapper.saveSiteShopInfo(siteShop);
         }
-
         return res;
     }
-
     //siteshop一覧を
     @Override
     public List<SiteShop> findSiteShop(SiteShop siteShop) {

@@ -32,7 +32,6 @@ public class YahooItemInfoUtil {
         //新商品code
         String itemCode = UUID.randomUUID().toString();
         String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-        System.out.println(itemCode1);
         item.setItemCode(itemCode1);
         //旧商品code
         List<Selectable> nodes = html.css("div#itm_cat li").nodes();
@@ -221,7 +220,6 @@ public class YahooItemInfoUtil {
         //产品数据保存
         page.putField("item", item);
         //照片下载
-//        PhotoDownload.download(photoAll,item.getItemCode(),item.getItemPath());
         Map<String, Object> map = new HashMap<>();
         map.put("photoAll", photoAll);
         map.put("itemCode", item.getItemCode());
@@ -241,12 +239,10 @@ public class YahooItemInfoUtil {
         }
         //关键字数据库永久化
         page.putField("itemKeywordList", itemKeywordList);
-
         //siteshopinfo保存
         SiteShop siteShop = new SiteShop();
         siteShop.setShopName(storeName);
         page.putField("siteShop",siteShop);
-
     }
 }
 

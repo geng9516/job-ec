@@ -60,7 +60,7 @@ public class CrawlerController {
             }
         }
         //成功信息
-        redirectAttributes.addFlashAttribute("message", "成功");
+        redirectAttributes.addFlashAttribute("message", "全部抓取完成");
         System.out.println("全部抓取完成");
         //刷新主页
         return "redirect:/";

@@ -22,11 +22,9 @@ public class ItemProcessor implements PageProcessor {
 
         //获取页面数据
         List<Selectable> list = page.getHtml().css("div.mdSideCategoryMenu ul.elListItems").nodes();
-
         //会社名
         String company = page.getHtml().css("div.mdInformationTable p.elHeaderTitle","text").toString();
-
-
+        //商品一览
         if (list.size() > 0 && "会社概要".equals(company)){
             //商品一览URL
             String itemInfoUrl = page.getHtml().css("div.mdSideCategoryMenu div#sdnv a").nodes().get(0).links().toString();
@@ -49,7 +47,6 @@ public class ItemProcessor implements PageProcessor {
                 //商品详情页
             } else {
                 YahooItemInfoUtil.saveItemInfo(page);
-
             }
         }
     }
