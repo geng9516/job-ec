@@ -29,9 +29,8 @@ public class ItemInfoController {
 
     //产品一览
     @GetMapping("/iteminfo")
-    public String iteminfo(Model model, ItemQuery itemQuery,HttpSession httpSession) {
-        String siteShop = (String) httpSession.getAttribute("siteShop");
-        itemQuery.setShopName(siteShop);
+    public String iteminfo(Model model, ItemQuery itemQuery, HttpSession httpSession) {
+        httpSession.removeAttribute("siteShop");
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
@@ -42,7 +41,11 @@ public class ItemInfoController {
 
     //查询
     @PostMapping("/iteminfo")
-    public String findIteminfo(Model model, ItemQuery itemQuery ,HttpSession httpSession) {
+    public String findIteminfo(Model model, ItemQuery itemQuery, HttpSession httpSession) {
+        System.out.println(itemQuery.getSearchConditions());
+        if(itemQuery.getSearchConditions() == null || itemQuery.getSearchConditions() == ""){
+            httpSession.removeAttribute("siteShop");
+        }
         String siteShop = (String) httpSession.getAttribute("siteShop");
         itemQuery.setShopName(siteShop);
         //siteshop一覧
@@ -56,7 +59,7 @@ public class ItemInfoController {
     //店铺区分查询
     @GetMapping("/findIteminfoBySiteShop")
     public String findIteminfoBySiteShop(Model model, ItemQuery itemQuery, HttpSession httpSession) {
-        httpSession.setAttribute("siteShop",itemQuery.getSearchConditions());
+        httpSession.setAttribute("siteShop", itemQuery.getSearchConditions());
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
@@ -67,35 +70,31 @@ public class ItemInfoController {
 
     //一括操作
     @PostMapping("/bulkOperation")
-    public String bulkOperation(@RequestParam("listString[]") List<String> strings ,RedirectAttributes redirectAttributes){
+    public String bulkOperation(@RequestParam("listString[]") List<String> strings, RedirectAttributes redirectAttributes) {
 
         for (String string : strings) {
             System.out.println(string);
 
         }
-            System.out.println("@@@@@111111");
+        System.out.println("@@@@@111111");
 
-        redirectAttributes.addAttribute("aaa","123456" );
+        redirectAttributes.addAttribute("aaa", "123456");
         return "redirect:/iteminfo";
     }
 
     //削除
     @GetMapping("/deleteItem")
-    public String deleteItem(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes){
+    public String deleteItem(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes) {
         Item item = new Item();
         item.setItemCode(itemCode);
         int res = itemService.deleteItem(item);
-        if(res == 1){
-            redirectAttributes.addFlashAttribute("message","削除しました。");
-        }else {
-            redirectAttributes.addFlashAttribute("message","削除できなかった。");
+        if (res == 1) {
+            redirectAttributes.addFlashAttribute("message", "削除しました。");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "削除できなかった。");
         }
         return "redirect:/iteminfo";
     }
-
-
-
-
 
 
 }

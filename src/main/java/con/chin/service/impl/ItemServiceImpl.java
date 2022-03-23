@@ -49,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
         //保存产品数据
         if (oldItem == null) {
             int res = itemMapper.saveItem(item);
-            System.out.println("登录一件产品:  " + item.getItemCode() + "   时间为 :" + now);
+            System.out.println("登录一件产品:  " + item.getItemCode() + "   时间为 : " + now);
             return res;
         }
         //更新产品数据
@@ -65,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
         }
         //商品情報更新
         itemMapper.updateItem(item);
-        System.out.println("更新一件产品:  " + oldItem.getItemCode() + "   时间为: " + now);
+        System.out.println("更新一件产品:  " + oldItem.getItemCode() + "   时间为 : " + now);
         //为了更新的话不需要更新照片
         return -1;
     }

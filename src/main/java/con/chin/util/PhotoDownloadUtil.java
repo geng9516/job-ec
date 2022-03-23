@@ -7,6 +7,8 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -120,6 +122,9 @@ public class PhotoDownloadUtil {
             while ((len = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, len);
             }
+            //当前时间
+            String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            System.out.println("产品主图番号为:  " + imgName + "   的下载完成 :  " + now);
 
         } catch (MalformedURLException e){
             e.printStackTrace();
