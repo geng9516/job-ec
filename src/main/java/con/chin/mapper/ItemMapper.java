@@ -36,5 +36,8 @@ public interface ItemMapper {
 
     void setdate(Item item);
 
+    //删除产品
+    int deleteItem(Item item);
+
 
 }

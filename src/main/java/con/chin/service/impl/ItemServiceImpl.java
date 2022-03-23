@@ -128,5 +128,11 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
+    //删除产品
+    @Override
+    public int deleteItem(Item item) {
+        return itemMapper.deleteItem(item);
+    }
+
 
 }

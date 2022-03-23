@@ -123,8 +123,10 @@
         select *
         from t_item
         <where>
+
+
             <if test="searchConditions != null and searchConditions != ''">
-                or itemcode like concat('%',#{searchConditions},'%')
+                and ( itemcode like concat('%',#{searchConditions},'%')
             </if>
             <if test="searchConditions != null and searchConditions != ''">
                 or itempath like '%' #{searchConditions} '%'
@@ -136,9 +138,14 @@
                 or shopname like concat('%',#{searchConditions},'%')
             </if>
             <if test="searchConditions != null and searchConditions != ''">
-                or olditemcode like concat('%',#{searchConditions},'%')
+                or olditemcode like concat('%',#{searchConditions},'%') )
             </if>
-
+            <if test="shopName != null and shopName != ''">
+                and shopname = #{shopName}
+            </if>
+            <if test="flog != null and flog != ''">
+                and flog = #{flog}
+            </if>
         </where>
 
         order by updatetime desc
@@ -184,8 +191,12 @@
     <update id="setdate">
         update t_item
         set updatetime = #{updatetime},
-            enddate = #{endDate}
+            enddate    = #{endDate}
     </update>
+
+    <delete id="deleteItem">
+        delete from t_item where itemcode = #{itemCode}
+    </delete>
 
 </mapper>
 

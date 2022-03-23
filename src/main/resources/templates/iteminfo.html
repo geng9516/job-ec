@@ -44,6 +44,46 @@
             $("#findIteminfoBySiteShop").submit();
         }
 
+        //全选和反选
+        function selectAll() {
+            //id=all是全选/反选的checkbox，判断是选中还是没选中
+            var isChecked = $("#allchecked").is(':checked');
+            //获取所有checkbox组成的数组
+            var checkedArrs = $("input[type='checkbox']:checked");
+            //判断是全选还是反选
+            if (isChecked) {
+                $("input[type='checkbox']").each(function () {
+                    $(this).prop('checked', true);
+                });
+            } else {
+                $("input[type='checkbox']").each(function () {
+                    $(this).prop('checked', false);
+                });
+            }
+        }
+
+        // $(function () {
+        //     $('#bulk-operation').click(function () {
+        //         var checkedValue = $('tbody input:checked');
+        //         var Values = []
+        //         checkedValue.each(function (){
+        //             Values.push($(this).val());
+        //         })
+        //         $.ajax({
+        //             url: '/bulkOperation',
+        //             type: 'post',
+        //             data: {"listString": Values},
+        //             dataType: 'json',
+        //             success: function (data) {
+        //                 $("#message").val(data);
+        //             },
+        //             error: function (data) {
+        //                 $(#message).val(data);
+        //             }
+        //         })
+        //     })
+        // })
+
 
     </script>
 </head>
@@ -56,6 +96,7 @@
             <table>
                 <tr>
                     <td>
+                        <!--模糊查询-->
                         <form th:action="@{/iteminfo}" method="post">
                             <div class="ui icon input">
                                 <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
@@ -65,6 +106,7 @@
                             </div>
                         </form>
                     </td>
+                    <!--ショップ一覧をドロップダウンに入れる-->
                     <td>
                         <form action="" method="" id="findIteminfoBySiteShop" onchange="findIteminfoBySiteShop()">
                             <select class="ui dropdown" id='searchConditions'
@@ -78,10 +120,13 @@
                     </td>
                 </tr>
             </table>
-            <!--模糊查询-->
+            <div class='ui container' align="center">
+                <!--/*@thymesVar id="message" type=""*/-->
+                <p style="color: brown" id="message" th:text="${message}"></p>
+            </div>
 
             <div class="results"></div>&emsp;
-            <!--ショップ一覧をドロップダウンに入れる-->
+
             <!--店铺名查询产品一览-->
 
         </div>
@@ -135,17 +180,26 @@
         <div>
             <colgroup>
                 <col style="width: 5%;">
-                <col style="width: 5%;">
-                <col style="width: 20%;">
                 <col style="width: 30%;">
+                <col style="width: 20%;">
+                <col style="width: 20%;">
                 <col style="width: 20%;">
                 <col style="width: 20%;">
             </colgroup>
             <table class="ui celled table">
                 <thead>
                 <tr>
+                    <!--                    一括操作-->
+                    <select class="ui dropdown" id="bulk-operation">
+                        <option value="">一括操作</option>
+                        <option value="0">編集</option>
+                        <option value="1">削除</option>
+                        <option value="2">ダウンロード</option>
+                    </select>
+                </tr>
+                <tr>
                     <th>
-                        <input type="checkbox" value="">&emsp;
+                        <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
                         <a style="color: dimgrey"><i class="download icon"></i></a>
                     </th>
                     <th>
@@ -168,12 +222,12 @@
                 <tbody>
                 <tr th:each="item : ${page.list}">
                     <td>
-                        <input type="checkbox" value="">
+                        <input type="checkbox" th:value="${item.getItemCode()}">
                     </td>
                     <td>
-                        <a><i class="edit outline icon"></i></a>
+                        <a th:href="@{/}" class="ui button mini pink">編集</a>
                         <br><br>
-                        <a><i class="trash alternate outline icon"></i></a>
+                        <a th:href="@{deleteItem(itemCode=${item.getItemCode()})}" class="ui button mini teal">削除</a>
                     </td>
                     <td>
                         <div>
@@ -186,34 +240,48 @@
                         <div>
                             <table>
                                 <tr>
-                                    <td colspan="2" style="border-right: none;border-bottom: none"><p th:text="${item.getItemName()}"></td>
-                                    <td  style="border-left: none;border-bottom: none"></td>
+                                    <td colspan="2" style="border-right: none;border-bottom: none"><p
+                                            th:text="${item.getItemName()}"></td>
+                                    <td style="border-left: none;border-bottom: none"></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 250px;border-top: none">
                                         <table>
-                                            <tr><div>商品コード：<span th:text="${item.getItemCode()}"></span></div></tr>
-                                            <tr><div>価格：<span th:text="${item.getPrice()}"></span></div></tr>
-                                            <tr><div>元URL：<a th:href="${item.getUrl5()}" th:target="_blank"><i class="eye icon"></i>確認</a></div></tr>
+                                            <tr>
+                                                <div><h5 th:text="${item.getShopName()}"></h5></div>
+                                            </tr>
+                                            <tr>
+                                                <div>商品コード：<span th:text="${item.getItemCode()}"></span></div>
+                                            </tr>
+                                            <tr>
+                                                <div>価格：<span th:text="${item.getPrice()}"></span></div>
+                                            </tr>
+                                            <tr>
+                                                <div>元URL：<a th:href="${item.getUrl5()}" th:target="_blank"><i
+                                                        class="eye icon"></i>確認</a></div>
+                                            </tr>
                                             <tr>
                                                 <div th:switch="${item.getUrl1()}">
                                                     仕入れ先１：
                                                     <span th:case="null"><i class="eye slash icon"></i>確認不可</span>
-                                                    <span th:case="*"><a th:href="${item.getUrl1()}" th:target="_blank"><i class="eye icon"></i></a></span>
+                                                    <span th:case="*"><a th:href="${item.getUrl1()}" th:target="_blank"><i
+                                                            class="eye icon"></i></a></span>
                                                 </div>
                                             </tr>
                                             <tr>
                                                 <div th:switch="${item.getUrl2()}">
                                                     仕入れ先１：
                                                     <span th:case="null"><i class="eye slash icon"></i>確認不可</span>
-                                                    <span th:case="*"><a th:href="${item.getUrl2()}" th:target="_blank"><i class="eye icon"></i></a></span>
+                                                    <span th:case="*"><a th:href="${item.getUrl2()}" th:target="_blank"><i
+                                                            class="eye icon"></i></a></span>
                                                 </div>
                                             </tr>
                                             <tr>
                                                 <div th:switch="${item.getUrl3()}">
                                                     仕入れ先１：
                                                     <span th:case="null"><i class="eye slash icon"></i>確認不可</span>
-                                                    <span th:case="*"><a th:href="${item.getUrl3()}" th:target="_blank"><i class="eye icon"></i></a></span>
+                                                    <span th:case="*"><a th:href="${item.getUrl3()}" th:target="_blank"><i
+                                                            class="eye icon"></i></a></span>
                                                 </div>
                                             </tr>
                                         </table>
@@ -232,23 +300,28 @@
                         <table>
                             <tr th:if="${item.getOption1() != null}">
                                 <td style="width: 120px"><p th:text="${item.getOption1()} + ' : '"></p></td>
-                                <td style="width: 300px"><span th:text="${item.getValue1().replaceAll(' ','、')}"></span></td>
+                                <td style="width: 300px"><span th:text="${item.getValue1().replaceAll(' ','、')}"></span>
+                                </td>
                             </tr>
                             <tr th:if="${item.getOption2() != null}">
                                 <td style="width: 120px"><p th:text="${item.getOption2()} + ' : '"></p></td>
-                                <td style="width: 300px"><span th:text="${item.getValue2().replaceAll(' ', '、')}"></span></td>
+                                <td style="width: 300px"><span
+                                        th:text="${item.getValue2().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption3() != null}">
                                 <td style="width: 120px"><p th:text="${item.getOption3() + ' : '}"></p></td>
-                                <td style="width: 300px"><span th:text="${item.getValue3().replaceAll(' ', '、')}"></span></td>
+                                <td style="width: 300px"><span
+                                        th:text="${item.getValue3().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption4() != null}">
                                 <td style="width: 120px"><p th:text="${item.getOption4()} + ' : '"></p></td>
-                                <td style="width: 300px"><span th:text="${item.getValue4().replaceAll(' ', '、')}"></span></td>
+                                <td style="width: 300px"><span
+                                        th:text="${item.getValue4().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption5() != null}">
                                 <td style="width: 120px"><p th:text="${item.getOption5()}"></p></td>
-                                <td style="width: 300px"><span th:text="${item.getValue5().replaceAll(' ', '、')}"></span></td>
+                                <td style="width: 300px"><span
+                                        th:text="${item.getValue5().replaceAll(' ', '、')}"></span></td>
                             </tr>
                         </table>
 

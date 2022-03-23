@@ -14,4 +14,8 @@ public class ItemQuery {
     private  Integer pageSize = 20;//每一页所显示的数量
 
     private String searchConditions;
+
+    private String shopName;
+
+    private Integer flog;
 }

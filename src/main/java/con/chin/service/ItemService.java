@@ -33,4 +33,7 @@ public interface ItemService {
 
     void setdate();
 
+    //删除产品
+    int deleteItem(Item item);
+
 }
