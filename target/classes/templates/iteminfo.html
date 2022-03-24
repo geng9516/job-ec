@@ -82,10 +82,10 @@
         //         })
         //     })
         // })
-        $.fn.smartFloat = function() {
-            var position = function(element) {
+        $.fn.smartFloat = function () {
+            var position = function (element) {
                 var top = element.position().top, pos = element.css("position");
-                $(window).scroll(function() {
+                $(window).scroll(function () {
                     var scrolls = $(this).scrollTop();
                     if (scrolls > top) {
                         if (window.XMLHttpRequest) {
@@ -98,7 +98,7 @@
                                 top: scrolls
                             });
                         }
-                    }else {
+                    } else {
                         element.css({
                             position: pos,
                             top: top
@@ -106,18 +106,35 @@
                     }
                 });
             };
-            return $(this).each(function() {
+            return $(this).each(function () {
                 position($(this));
             });
         };
         $("#meru").smartFloat();
 
     </script>
+    <!--    表头固定-->
+    <style>
+
+        div#meru{
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        /*===========
+.scroll-box
+===========*/
+
+    </style>
 </head>
 <body>
-<!--表头-->
 <div>
-    <div style="width:100%;height:60px" id="meru"></div>
+    <!--表头-->
+    <div style="width:100%;height:60px" id="meru" ></div>
+    <br>
+    <br>
+    <br>
     <div style="width:90%" class='ui container'>
         <div class="ui right aligned category search">
             <table>
@@ -213,9 +230,9 @@
                 <col style="width: 20%;">
                 <col style="width: 20%;">
             </colgroup>
-            <table class="ui celled table">
+            <table class="ui celled table scroll-box" >
                 <thead>
-                <tr>
+                <tr  class="_sticky">
                     <!--                    一括操作-->
                     <select class="ui dropdown" id="bulk-operation">
                         <option value="">一括操作</option>
@@ -224,7 +241,7 @@
                         <option value="2">ダウンロード</option>
                     </select>
                 </tr>
-                <tr>
+                <tr  class="_sticky">
                     <th>
                         <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
                         <a style="color: dimgrey"><i class="download icon"></i></a>
@@ -247,7 +264,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item : ${page.list}">
+                <tr th:each="item : ${page.list}"  class="_sticky">
                     <td>
                         <input type="checkbox" th:value="${item.getItemCode()}">
                     </td>

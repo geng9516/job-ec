@@ -16,7 +16,10 @@ import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class CrawlerController {
@@ -35,22 +38,27 @@ public class CrawlerController {
     @GetMapping("/getUrl")
     public String index(@RequestParam(name = "url") String url, RedirectAttributes redirectAttributes) {
 
-        String[] urls = url.split("/[\n]/");
+        String[] urls = url.split(System.lineSeparator());
+        List<String> stringList = new ArrayList<>();
+        Matcher m = Pattern.compile("(?m)^.*$").matcher(url);
+        while (m.find()) {
+            stringList.add(m.group());
+        }
         //没有输入url时返回提示
-        if (urls == null) {
+        if (urls.length == 1 || urls[0] == "" ) {
             redirectAttributes.addFlashAttribute("message", "****请输入爬取页url****");
             return "redirect:/";
             //输入url1条时
-        } else if (urls.length > 1) {
+        } else if (urls.length == 1) {
             Spider.create(new ItemProcessor())
-                    .addUrl(urls[0])
+                    .addUrl(url)
                     .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(100000)))
                     //数据输出设定(可添加多个)
                     .addPipeline(this.itemPipeline)
                     .run();
             //输入多条url时
         } else {
-            for (String s : urls) {
+            for (String s : stringList) {
                 Spider.create(new ItemProcessor())
                         .addUrl(s)
                         .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(100000)))
