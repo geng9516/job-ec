@@ -45,7 +45,7 @@ public class CrawlerController {
             stringList.add(m.group());
         }
         //没有输入url时返回提示
-        if (urls.length == 1 || urls[0] == "" ) {
+        if (urls.length == 1 && urls[0] == "" ) {
             redirectAttributes.addFlashAttribute("message", "****请输入爬取页url****");
             return "redirect:/";
             //输入url1条时
