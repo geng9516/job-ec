@@ -31,12 +31,14 @@ public interface ItemService {
 
     List<Item> findAll();
 
-    void setdate();
-
     //删除产品
     int deleteItem(Item item);
 
     //価格変更
     int setItemSalePrice(Item item);
 
+    //---------------------------------------------------------------------------------------------------------
+
+    //数据错误时做更新使用
+    void setdate();
 }

@@ -45,7 +45,7 @@ public class CrawlerController {
             stringList.add(m.group());
         }
         //没有输入url时返回提示
-        if (urls.length == 1 && urls[0] == "" ) {
+        if (urls.length == 1 && urls[0] == "") {
             redirectAttributes.addFlashAttribute("message", "****请输入爬取页url****");
             return "redirect:/";
             //输入url1条时
@@ -96,8 +96,12 @@ public class CrawlerController {
         return "redirect:/";
     }
 
+
+    //---------------------------------------------------------------------------------------------------------
+
+    //数据错误时做更新使用
     @GetMapping("/setDate")
-    public String setDate(){
+    public String setDate() {
 
         itemService.setdate();
         return "index";

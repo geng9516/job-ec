@@ -57,10 +57,6 @@ public class ItemServiceImpl implements ItemService {
         if (oldItem.getImage() == null) {
             item.setImage("/images/itemphoto/" + oldItem.getItemCode() + ".jpg");
         }
-        //imgpath更新しないように
-        item.setImage(null);
-        //作成時間更新しないように
-        item.setCreated(null);
         //更新時間
         if (oldItem.getUpdatetime() == null) {
             item.setUpdatetime(now);
@@ -117,6 +113,19 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findAll();
     }
 
+    //删除产品
+    @Override
+    public int deleteItem(Item item) {
+        return itemMapper.deleteItem(item);
+    }
+
+    //価格変更
+    @Override
+    public int setItemSalePrice(Item item) {
+        return itemMapper.setItemSalePrice(item);
+    }
+
+//---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用
     @Override
@@ -128,18 +137,6 @@ public class ItemServiceImpl implements ItemService {
             itemMapper.setdate(item);
             System.out.println(item.getItemCode());
         }
-    }
-
-    //删除产品
-    @Override
-    public int deleteItem(Item item) {
-        return itemMapper.deleteItem(item);
-    }
-
-    //価格変更
-    @Override
-    public int setItemSalePrice(Item item) {
-        return itemMapper.setItemSalePrice(item);
     }
 
 

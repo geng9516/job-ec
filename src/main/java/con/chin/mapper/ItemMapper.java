@@ -34,7 +34,7 @@ public interface ItemMapper {
 
     List<Item> findAll();
 
-    void setdate(Item item);
+
 
     //删除产品
     int deleteItem(Item item);
@@ -43,5 +43,8 @@ public interface ItemMapper {
     int setItemSalePrice(Item item);
 
 
+//---------------------------------------------------------------------------------------------------------
 
+    //数据错误时做更新使用
+    void setdate(Item item);
 }
