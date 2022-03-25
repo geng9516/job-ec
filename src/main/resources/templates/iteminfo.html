@@ -116,22 +116,46 @@
     <!--    表头固定-->
     <style>
 
-        div#meru{
+        div#meru {
             position: fixed;
             top: 0;
             left: 0;
         }
 
-        /*===========
-.scroll-box
-===========*/
+        #wTable tr td:nth-child(1) {
+            width: 30px;
+        }
+
+        #wTable tr td:nth-child(2) {
+            width: 50px;
+        }
+
+        #wTable tr td:nth-child(3) {
+            width: 110px;
+        }
+
+        #wTable tr td:nth-child(4) {
+            width: 320px;
+        }
+
+        #wTable tr td:nth-child(5) {
+            width: 320px;
+        }
+
+        #wTable tr td:nth-child(6) {
+            width: 100px;
+        }
+
+        /*table.top tr td{*/
+        /*    vertical-align: top;*/
+        /*}*/
 
     </style>
 </head>
 <body>
 <div>
     <!--表头-->
-    <div style="width:100%;height:60px" id="meru" ></div>
+    <div style="width:100%;height:60px" id="meru"></div>
     <br>
     <br>
     <br>
@@ -230,9 +254,9 @@
                 <col style="width: 20%;">
                 <col style="width: 20%;">
             </colgroup>
-            <table class="ui celled table scroll-box" >
+            <table class="ui celled table scroll-box" id="wTable">
                 <thead>
-                <tr  class="_sticky">
+                <tr class="_sticky">
                     <!--                    一括操作-->
                     <select class="ui dropdown" id="bulk-operation">
                         <option value="">一括操作</option>
@@ -241,7 +265,7 @@
                         <option value="2">ダウンロード</option>
                     </select>
                 </tr>
-                <tr  class="_sticky">
+                <tr class="_sticky">
                     <th>
                         <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
                         <a style="color: dimgrey"><i class="download icon"></i></a>
@@ -264,31 +288,31 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item : ${page.list}"  class="_sticky">
-                    <td>
+                <tr th:each="item : ${page.list}" class="_sticky">
+                    <td valign="top">
                         <input type="checkbox" th:value="${item.getItemCode()}">
                     </td>
-                    <td>
+                    <td valign="top">
                         <a th:href="@{/}" class="ui button mini pink">編集</a>
                         <br><br>
                         <a th:href="@{deleteItem(itemCode=${item.getItemCode()})}" class="ui button mini teal">削除</a>
                     </td>
-                    <td>
+                    <td valign="top">
                         <div>
                             <a th:href="${item.getImage()}" th:target="_blank">
                                 <img th:src="${item.getImage()}" width="100">
                             </a>
                         </div>
                     </td>
-                    <td>
-                        <div>
+                    <td valign="top">
+                        <form action="/setPrice" method="post">
                             <table>
                                 <tr>
                                     <td colspan="2" style="border-right: none;border-bottom: none"><p
                                             th:text="${item.getItemName()}"></td>
                                     <td style="border-left: none;border-bottom: none"></td>
                                 </tr>
-                                <tr>
+                                <tr >
                                     <td style="width: 250px;border-top: none">
                                         <table>
                                             <tr>
@@ -296,6 +320,9 @@
                                             </tr>
                                             <tr>
                                                 <div>商品コード：<span th:text="${item.getItemCode()}"></span></div>
+                                            </tr>
+                                            <tr>
+                                                <div>販売価格：<span th:text="${item.getSalePrice()}"></span></div>
                                             </tr>
                                             <tr>
                                                 <div>価格：<span th:text="${item.getPrice()}"></span></div>
@@ -307,23 +334,23 @@
                                             <tr>
                                                 <div th:switch="${item.getUrl1()}">
                                                     仕入れ先１：
-                                                    <span th:case="null"><i class="eye slash icon"></i>確認不可</span>
+                                                    <span th:case="null" class="ui input mini"><i class="eye slash icon"></i><input type="text" name="url1" size="10"></span>
                                                     <span th:case="*"><a th:href="${item.getUrl1()}" th:target="_blank"><i
                                                             class="eye icon"></i></a></span>
                                                 </div>
                                             </tr>
                                             <tr>
-                                                <div th:switch="${item.getUrl2()}">
+                                                <div th:switch="${item.getUrl2()}" class="ui input">
                                                     仕入れ先１：
-                                                    <span th:case="null"><i class="eye slash icon"></i>確認不可</span>
+                                                    <span th:case="null" class="ui input mini"><i class="eye slash icon"></i><input type="text" name="url2" size="10"></span>
                                                     <span th:case="*"><a th:href="${item.getUrl2()}" th:target="_blank"><i
                                                             class="eye icon"></i></a></span>
                                                 </div>
                                             </tr>
                                             <tr>
-                                                <div th:switch="${item.getUrl3()}">
+                                                <div th:switch="${item.getUrl3()}" class="ui input">
                                                     仕入れ先１：
-                                                    <span th:case="null"><i class="eye slash icon"></i>確認不可</span>
+                                                    <span th:case="null" class="ui input mini"><i class="eye slash icon"></i><input type="text" name="url3" size="10"></span>
                                                     <span th:case="*"><a th:href="${item.getUrl3()}" th:target="_blank"><i
                                                             class="eye icon"></i></a></span>
                                                 </div>
@@ -333,36 +360,63 @@
                                     <td style="border-top: none">
                                         <table>
 
+                                            <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
+                                            <tr>
+                                                <div class="ui input mini">
+                                                    <input type="text" name="delivery" size="18" placeholder="送料">
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="ui input mini">
+                                                    <input type="text" name="purchase-price" size="18"
+                                                           placeholder="仕入れ価格">
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="ui input mini">
+                                                    <input type="text" name="salePrice" size="18" placeholder="販売価格">
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="ui input mini blanl">
+                                                    <input type="submit" size="18">
+                                                </div>
+                                            </tr>
                                         </table>
                                     </td>
                                 </tr>
                             </table>
-
-                        </div>
+                        </form>
                     </td>
-                    <td>
-                        <table>
+                    <td valign="top">
+                        <table id="top">
                             <tr th:if="${item.getOption1() != null}">
-                                <td style="width: 120px"><p th:text="${item.getOption1()} + ' : '"></p></td>
-                                <td style="width: 300px"><span th:text="${item.getValue1().replaceAll(' ','、')}"></span>
+                                <td><input type="checkbox"></td>
+                                <td style="width: 120px"><p th:text="${item.getOption1()}"></p></td>
+                                <td style="width: 300px"><span
+                                        th:text="${item.getValue1().replaceAll(' ','、')}"></span>
                                 </td>
                             </tr>
                             <tr th:if="${item.getOption2() != null}">
-                                <td style="width: 120px"><p th:text="${item.getOption2()} + ' : '"></p></td>
+                                <td><input type="checkbox"></td>
+                                <td style="width: 120px"><p th:text="${item.getOption2()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue2().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption3() != null}">
-                                <td style="width: 120px"><p th:text="${item.getOption3() + ' : '}"></p></td>
+                                <td><input type="checkbox"></td>
+                                <td style="width: 120px"><p th:text="${item.getOption3()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue3().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption4() != null}">
-                                <td style="width: 120px"><p th:text="${item.getOption4()} + ' : '"></p></td>
+                                <td><input type="checkbox"></td>
+                                <td style="width: 120px"><p th:text="${item.getOption4()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue4().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption5() != null}">
+                                <td><input type="checkbox"></td>
                                 <td style="width: 120px"><p th:text="${item.getOption5()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue5().replaceAll(' ', '、')}"></span></td>
@@ -370,7 +424,7 @@
                         </table>
 
                     </td>
-                    <td>
+                    <td valign="top">
                         <div><p>・作成日</p></div>
                         <div><span th:text="${item.getCreated()}"></span></div>
                         <div><p>・更新日</p></div>
