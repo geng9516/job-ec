@@ -195,8 +195,21 @@
     </update>
 
     <delete id="deleteItem">
-        delete from t_item where itemcode = #{itemCode}
+        delete
+        from t_item
+        where itemcode = #{itemCode}
     </delete>
+
+    <update id="setItemSalePrice">
+        update t_item
+        set purchaseprice=#{purchasePrice},
+            delivery=#{delivery},
+            saleprice=#{salePrice},
+            url1=#{url1},
+            url2=#{url2},
+            url3=#{url3}
+        where itemcode = #{itemCode}
+    </update>
 
 </mapper>
 

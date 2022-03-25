@@ -39,5 +39,9 @@ public interface ItemMapper {
     //删除产品
     int deleteItem(Item item);
 
+    //価格変更
+    int setItemSalePrice(Item item);
+
+
 
 }

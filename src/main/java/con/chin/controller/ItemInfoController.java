@@ -43,7 +43,7 @@ public class ItemInfoController {
     @PostMapping("/iteminfo")
     public String findIteminfo(Model model, ItemQuery itemQuery, HttpSession httpSession) {
         System.out.println(itemQuery.getSearchConditions());
-        if(itemQuery.getSearchConditions() == null || itemQuery.getSearchConditions() == ""){
+        if (itemQuery.getSearchConditions() == null || itemQuery.getSearchConditions() == "") {
             httpSession.removeAttribute("siteShop");
         }
         String siteShop = (String) httpSession.getAttribute("siteShop");
@@ -96,5 +96,46 @@ public class ItemInfoController {
         return "redirect:/iteminfo";
     }
 
+    @PostMapping("/setPrice")
+    public String setPrice(Model model,
+                           @RequestParam("salePrice") String salePrice,
+                           @RequestParam("delivery") String delivery,
+                           @RequestParam("purchase-price") String purchasePrice,
+                           @RequestParam("itemCode") String intemCode,
+                           @RequestParam("url1") String url1,
+                           @RequestParam("url2") String url2,
+                           @RequestParam("url3") String url3) {
+
+        Item item = new Item();
+        item.setItemCode(intemCode);
+        item.setPurchasePrice(purchasePrice == "" ? null : Integer.parseInt(purchasePrice));
+        item.setDelivery(delivery == "" ? null : Integer.parseInt(delivery));
+        item.setSalePrice(salePrice == "" ? null : Integer.parseInt(salePrice));
+        item.setUrl1(url1 == "" ? "" : url1);
+        item.setUrl1(url2 == "" ? "" : url2);
+        item.setUrl1(url3 == "" ? "" : url3);
+
+        itemService.setItemSalePrice(item);
+
+        return "redirect:/iteminfo";
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

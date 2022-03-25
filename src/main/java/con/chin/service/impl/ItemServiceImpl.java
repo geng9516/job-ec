@@ -134,5 +134,11 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.deleteItem(item);
     }
 
+    //価格変更
+    @Override
+    public int setItemSalePrice(Item item) {
+        return itemMapper.setItemSalePrice(item);
+    }
+
 
 }
