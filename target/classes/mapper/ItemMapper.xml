@@ -178,22 +178,6 @@
 
     </select>
 
-
-    <!--    ###########################################-->
-
-    <select id="findAll" resultType="con.chin.pojo.Item">
-
-        select *
-        from t_item
-
-    </select>
-
-    <update id="setdate">
-        update t_item
-        set updatetime = #{updatetime},
-            enddate    = #{endDate}
-    </update>
-
     <delete id="deleteItem">
         delete
         from t_item
@@ -210,6 +194,22 @@
             url3=#{url3}
         where itemcode = #{itemCode}
     </update>
+
+    <!--    ###################数据错误时修改用########################-->
+
+    <select id="findAll" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+
+    </select>
+
+    <update id="setdate">
+        update t_item
+        set image = #{image}
+        where itemcode = #{itemCode}
+    </update>
+
 
 </mapper>
 

@@ -57,6 +57,8 @@ public class ItemServiceImpl implements ItemService {
         if (oldItem.getImage() == null) {
             item.setImage("/images/itemphoto/" + oldItem.getItemCode() + ".jpg");
         }
+        //imgpath更新しないように
+        item.setImage(null);
         //作成時間更新しないように
         item.setCreated(null);
         //更新時間
@@ -115,16 +117,16 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findAll();
     }
 
+
+    //数据错误时做更新使用
     @Override
     public void setdate() {
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         List<Item> itemList = this.findAll();
         for (Item item : itemList) {
-            if (item.getUpdatetime() == null) {
-                item.setUpdatetime(now);
-            }
-            item.setEndDate("2099-12-31 23:59:59");
+            item.setImage("/images/itemphoto/" + item.getItemCode() + ".jpg");
             itemMapper.setdate(item);
+            System.out.println(item.getItemCode());
         }
     }
 
