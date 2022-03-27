@@ -29,6 +29,7 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemCategoryMapper itemCategoryMapper;
 
+    //保存产品和更新
     @Override
     @Transactional
     public int saveItem(Item item) {
@@ -80,7 +81,7 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findAllValidItem();
     }
 
-    //
+    //查询旧itemCode的产品
     @Override
     public Item findItem(Item item) {
         return itemMapper.findItem(item);
@@ -119,10 +120,53 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.deleteItem(item);
     }
 
-    //価格変更
+    //删除多个产品
     @Override
+    public int deleteItems(List<String> itemCodeList) {
+        //结果值
+        int res = 0;
+        //封装查询条件
+        Item item = new Item();
+        for (String itemCode : itemCodeList) {
+            item.setItemCode(itemCode);
+            //调用删除一个item方法
+            res = itemMapper.deleteItem(item);
+        }
+        //返回结果
+        return res;
+    }
+
+    //item情報変更
+    @Override
+    @Transactional
     public int setItemSalePrice(Item item) {
-        return itemMapper.setItemSalePrice(item);
+        Item oldItem = new Item();
+        oldItem = this.findItemByItemCode(item);
+        if(item.getPurchasePrice() != null){
+            oldItem.setPurchasePrice(item.getPurchasePrice());
+        }
+        if(item.getDelivery() != null){
+            oldItem.setDelivery(item.getDelivery());
+        }
+        if(item.getSalePrice() != null){
+            oldItem.setSalePrice(item.getSalePrice());
+        }
+        if(item.getUrl1() != null){
+            oldItem.setUrl1(item.getUrl1());
+        }
+        if(item.getUrl2() != null){
+            oldItem.setUrl2(item.getUrl2());
+        }
+        if(item.getUrl3() != null){
+            oldItem.setUrl3(item.getUrl3());
+        }
+        return itemMapper.setItemSalePrice(oldItem);
+    }
+
+    //新itemcode查询
+    @Override
+    public Item findItemByItemCode(Item item) {
+        return itemMapper.findItemByItemCode(item);
     }
 
 //---------------------------------------------------------------------------------------------------------

@@ -11,7 +11,7 @@ public class ItemQuery {
 
     private Integer pageNum = 1;//当前页码
 
-    private  Integer pageSize = 20;//每一页所显示的数量
+    private Integer pageSize = 20;//每一页所显示的数量
 
     private String searchConditions;
 

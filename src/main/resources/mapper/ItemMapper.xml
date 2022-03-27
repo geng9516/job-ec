@@ -191,6 +191,13 @@
         where itemcode = #{itemCode}
     </update>
 
+<!--    新itemcode查询-->
+    <select id="findItemByItemCode" resultType="con.chin.pojo.Item">
+        select * from t_item
+        where itemcode = #{itemCode}
+    </select>
+
+
     <!--    ###################数据错误时修改用########################-->
 
     <select id="findAll" resultType="con.chin.pojo.Item">

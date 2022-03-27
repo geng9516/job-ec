@@ -34,8 +34,14 @@ public interface ItemService {
     //删除产品
     int deleteItem(Item item);
 
+    //删除多个产品
+    int deleteItems(List<String> itemCodeList);
+
     //価格変更
     int setItemSalePrice(Item item);
+
+    //新itemcode查询
+    Item findItemByItemCode(Item item);
 
     //---------------------------------------------------------------------------------------------------------
 

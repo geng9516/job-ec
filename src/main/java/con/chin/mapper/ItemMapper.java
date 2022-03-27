@@ -12,13 +12,16 @@ import java.util.List;
 @Repository
 public interface ItemMapper {
 
+    //保存产品
     int saveItem (Item item);
 
+    //更新产品
     void updateItem(Item item);
 
     //已编辑并且没有失效的产品
     List<Item> findAllValidItem();
 
+    //查询旧itemCode的产品
     Item findItem(Item item);
 
     //产品id,产品path,产品名,店铺名模糊查询
@@ -30,21 +33,19 @@ public interface ItemMapper {
     //获取产品code
     List<String> findItemCodeByPath(String path);
 
-    //判读产品是否已采集
-
-    List<Item> findAll();
-
-
-
     //删除产品
     int deleteItem(Item item);
 
     //価格変更
     int setItemSalePrice(Item item);
 
+    //新itemcode查询
+    Item findItemByItemCode(Item item);
 
 //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用
     void setdate(Item item);
+
+    List<Item> findAll();
 }

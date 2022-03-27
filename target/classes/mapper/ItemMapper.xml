@@ -70,10 +70,7 @@
     <update id="updateItem">
 
         update t_item
-        set sitename=#{siteName},
-            shopname=#{shopName},
-            itempath=#{itemPath},
-            itemcategorycode=#{itemCategoryCode},
+        set shopname=#{shopName},
             itemname=#{itemName},
             price=#{price},
             option1=#{option1},
@@ -90,7 +87,6 @@
             headline=#{headline},
             url5=#{url5},
             explanation=#{explanation},
-            image=#{image},
             updatetime=#{updatetime},
             flog=#{flog}
         where oldItemCode = #{oldItemCode}
@@ -194,6 +190,13 @@
             url3=#{url3}
         where itemcode = #{itemCode}
     </update>
+
+<!--    新itemcode查询-->
+    <select id="findItemByItemCode" resultType="con.chin.pojo.Item">
+        select * from t_item
+        where itemcode = #{itemCode}
+    </select>
+
 
     <!--    ###################数据错误时修改用########################-->
 
