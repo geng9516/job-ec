@@ -142,25 +142,95 @@ public class ItemServiceImpl implements ItemService {
     public int setItemSalePrice(Item item) {
         Item oldItem = new Item();
         oldItem = this.findItemByItemCode(item);
-        if(item.getPurchasePrice() != null){
+        //item不为空的时候做更新
+        //进货价
+        if (item.getPurchasePrice() != null) {
             oldItem.setPurchasePrice(item.getPurchasePrice());
         }
-        if(item.getDelivery() != null){
+
+        //送料
+        if (item.getDelivery() != null) {
             oldItem.setDelivery(item.getDelivery());
         }
-        if(item.getSalePrice() != null){
+
+        //卖价
+        if (item.getSalePrice() != null) {
             oldItem.setSalePrice(item.getSalePrice());
         }
-        if(item.getUrl1() != null){
+
+        //进货url1
+        if (item.getUrl1() != null && item.getUrl1() != "") {
             oldItem.setUrl1(item.getUrl1());
         }
-        if(item.getUrl2() != null){
+
+        //进货url2
+        if (item.getUrl2() != null && item.getUrl2() != "") {
             oldItem.setUrl2(item.getUrl2());
         }
-        if(item.getUrl3() != null){
+
+        //进货url3
+        if (item.getUrl3() != null && item.getUrl3() != "") {
             oldItem.setUrl3(item.getUrl3());
         }
-        return itemMapper.setItemSalePrice(oldItem);
+
+        //产品是否属于编辑
+        //判断编辑层次
+        int flog = 0;
+        //进货价
+        if (oldItem.getPurchasePrice() != null) {
+            flog++;
+        }
+        //送料
+        if (oldItem.getDelivery() != null) {
+            flog++;
+        }
+        //卖价
+        if (oldItem.getSalePrice() != null) {
+            flog++;
+        }
+        //进货url1
+        if (oldItem.getUrl1() != null && oldItem.getUrl1() != "") {
+            flog++;
+        }
+        //进货url2
+        if (oldItem.getUrl2() != null && oldItem.getUrl2() != "") {
+            flog++;
+        }
+        //进货url3
+        if (oldItem.getUrl3() != null && oldItem.getUrl3() != "") {
+            flog++;
+        }
+        //产品名称
+        if (oldItem.getItemName() != null && oldItem.getItemName() != "") {
+            flog++;
+        }
+        //option1
+        if (oldItem.getOption1() != null && oldItem.getOption1() != "") {
+            flog++;
+        }
+        //value1
+        if (oldItem.getValue1() != null && oldItem.getValue1() != "") {
+            flog++;
+        }
+        //标题
+        if (oldItem.getHeadline() != null & oldItem.getHeadline() != "") {
+            flog++;
+        }
+        //产品详情信息
+        if (oldItem.getCaption() != null && oldItem.getCaption() != "") {
+            flog++;
+        }
+        //产品说明
+        if (oldItem.getExplanation() != null && oldItem.getExplanation() != "") {
+            flog++;
+        }
+        //如果是flog>=10并且产品还未失效的话就属于编辑完成
+        if (flog >= 10 && oldItem.getEndDate() == "2099-12-31 23:59:59") {
+            oldItem.setFlog(1);
+            return itemMapper.setItemSalePrice(oldItem);
+        } else {
+            return itemMapper.setItemSalePrice(oldItem);
+        }
     }
 
     //新itemcode查询

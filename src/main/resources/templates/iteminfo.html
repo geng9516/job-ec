@@ -121,10 +121,16 @@
         // }
 
         //计算价格
-        function calculation() {
-            var delivery = $("#delivery-config").find("option:selected").text();
+        function calculation(e) {
+            //获取当前节点的父节点下的第一个子节点
+            var value1 = e.parentNode.children[0];
+            //$(value1) 转为jQuery对象 操作dom
+            var delivery = $(value1).find("option:selected").text();
+
             delivery = delivery.substring(delivery.indexOf(">") + 1, delivery.length);
-            var price = $("#purchase-price").val()
+            var value2 = e.parentNode.children[1];
+            var price = $(value2).val();
+            console.log(price)
 
             if (delivery == null || delivery == "") {
                 alert("送料を入力してください！")
@@ -146,10 +152,11 @@
             var riekiritu = 0.6;
             var tax = 0.9;
             var taxJapaTtotolPurchasePrice = (japaTtotolPurchasePrice / riekiritu) / tax;
+            var value3 = e.parentNode.children[2];
             if (taxJapaTtotolPurchasePrice == NaN) {
-                $("#totolPrice").val(0);
+                $(value3).val(0);
             } else {
-                $("#totolPrice").val(taxJapaTtotolPurchasePrice.toFixed(0));
+                $(value3).text(taxJapaTtotolPurchasePrice.toFixed(0));
             }
         }
 
@@ -342,7 +349,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item : ${page.list}" class="_sticky">
+                <tr th:each="item : ${page.list}" class="sticky">
                     <td valign="top">
                         <input type="checkbox" th:value="${item.getItemCode()}">
                     </td>
@@ -361,8 +368,15 @@
                     <td valign="top">
                         <table>
                             <tr>
-                                <td colspan="2" style="border-right: none;border-bottom: none"><p
-                                        th:text="${item.getItemName()}"></td>
+                                <td colspan="2" style="border-right: none;border-bottom: none">
+                                    <!--                                    <p th:text="${item.getItemName()}">-->
+                                    <div class="ui form">
+                                        <div class="field">
+                                            <textarea rows="5" cols=50 onpropertychange= "this.style.posHeight=this.scrollHeight " th:text="${item.getItemName()}"></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- <textarea th:text="${item.getItemName()}"></textarea>-->
+                                </td>
                                 <td style="border-left: none;border-bottom: none"></td>
                             </tr>
                             <tr>
@@ -375,7 +389,8 @@
                                             <div>商品コード：<span th:text="${item.getItemCode()}"></span></div>
                                         </tr>
                                         <tr>
-                                            <div>販売価格：<span style="color: #ea193a" th:text="${item.getSalePrice()}"></span></div>
+                                            <div>販売価格：<span style="color: #ea193a"
+                                                            th:text="${item.getSalePrice()}"></span></div>
                                         </tr>
                                         <tr>
                                             <div>価格：<span th:text="${item.getPrice()}"></span></div>
@@ -431,7 +446,7 @@
                                         <table>
                                             <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
                                             <tr>
-                                                <div class="ui input mini">
+                                                <div class="ui input">
                                                     <input type="text" name="url1" size="6" placeholder="url1">
                                                     <input type="text" name="url2" size="6" placeholder="url2">
                                                     <input type="text" name="url3" size="6" placeholder="url3">
@@ -439,7 +454,7 @@
                                             </tr>
                                             <tr>
                                                 <div class="ui input mini">
-                                                    <select class="ui dropdown" id='delivery-config'
+                                                    <select class="ui dropdown delivery"
                                                             name="delivery">
                                                         <option value="" th:checked>送料值</option>
                                                         <option th:each="config:${configList}"
@@ -447,21 +462,17 @@
                                                                 th:text="${config.getValue1() + '-->' + config.getValue2()}">
                                                         </option>
                                                     </select>
-                                                    <input type="text" name="purchase-price" size="9"
-                                                           id="purchase-price"
-                                                           placeholder="仕入れ価格" onblur="calculation()">
-                                                </div>
-                                            </tr>
-                                            <tr>
-                                                <div class="ui input mini">
-                                                    <input type="text" id="totolPrice" size="9"
-                                                           placeholder="仮販売価格" readonly="readonly">
-                                                    <input type="text" name="salePrice" size="9" placeholder="販売価格">
-                                                </div>
-                                            </tr>
-                                            <tr>
-                                                <div class="ui input mini">
+                                                    <input type="text" name="purchase-price" size="16"
+                                                           class="purchase-price"
+                                                           placeholder="仕入価格" onblur="calculation(this);">
+                                                    <span style="text-align:center;color: #ea193a">
+                                                    </span>
 
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div class="ui input mini">
+                                                    <input type="text" name="salePrice" size="9" placeholder="販売価格">
                                                 </div>
                                             </tr>
                                             <tr>
