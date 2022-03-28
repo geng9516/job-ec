@@ -1,6 +1,7 @@
 package con.chin.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import con.chin.pojo.Config;
 import con.chin.pojo.Item;
 import con.chin.pojo.SiteShop;
@@ -8,13 +9,11 @@ import con.chin.pojo.query.ItemQuery;
 import con.chin.service.ConfigService;
 import con.chin.service.ItemService;
 import con.chin.service.SiteShopService;
+import con.chin.util.PutItemInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -37,6 +36,7 @@ public class ItemInfoController {
     public String iteminfo(Model model, ItemQuery itemQuery, HttpSession httpSession) {
         //把session中的siteshop值删除
         httpSession.removeAttribute("siteShop");
+        itemQuery.setFlog(0);
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -90,28 +90,34 @@ public class ItemInfoController {
     }
 
     //一括操作
+    @ResponseBody
     @PostMapping("/bulkOperation")
-    public String bulkOperation(@RequestParam("checkFlog") Integer checkFlog, RedirectAttributes redirectAttributes) {
+    public String bulkOperation(@RequestParam("listString[]") List<String> stringList) {
+
+        List<Item> itemList = itemService.findItemByItemCodes(stringList);
+        PutItemInfoUtil.putItemInfoToCsv(itemList,null);
+
+
 
         //操作方式判断
-        switch (checkFlog) {
-            //编辑
-            case 0:
-                System.out.println("待完成");
-                break;
-            //删除
-            case 1:
-                //调用删除方法
-//                itemService.deleteItems(itemCodes);
-                break;
-            //csv下载
-            case 3:
-
-                break;
-        }
+//        switch (checkFlog) {
+//            //编辑
+//            case 0:
+//                System.out.println("待完成");
+//                break;
+//            //删除
+//            case 1:
+//                //调用删除方法
+////                itemService.deleteItems(itemCodes);
+//                break;
+//            //csv下载
+//            case 3:
+//
+//                break;
+//        }
         //
-        redirectAttributes.addAttribute("aaa", "123456");
-        return "iteminfo";
+        Gson gson = new Gson();
+        return gson.toJson("11111");
     }
 
     //削除

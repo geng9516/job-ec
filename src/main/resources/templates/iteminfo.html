@@ -69,34 +69,35 @@
         }
 
         //一括操作
-        // function bulkOperation() {
-        //     var checkedValue = $('tbody input:checked');
-        //     //判断是否项目被选择
-        //     if(typeof checkedValue.val() === "undefined"){
-        //         alert("操作項目を選択してください！")
-        //         return;
-        //     }
-        //     //保存选中的item的code
-        //     var Values = []
-        //     //遍历
-        //     checkedValue.each(function () {
-        //         Values.push($(this).val());
-        //     })
-        //     //被选中的是哪个操作
-        //     var checkFlog = $("#bulk-operation").val();
-        //     $.ajax({
-        //         url: '/bulkOperation',
-        //         type: 'post',
-        //         data: {"listString": Values,"checkFlog":checkFlog},
-        //         dataType: 'json',
-        //         success: function (data) {
-        //             $("#message").val(data);
-        //         },
-        //         error: function (data) {
-        //             $("#message").val(data);
-        //         }
-        //     })
-        // }
+        function bulkOperation() {
+            var checkedValue = $('tbody input:checked');
+            //判断是否项目被选择
+            if(typeof checkedValue.val() === "undefined"){
+                alert("操作項目を選択してください！")
+                return;
+            }
+            //保存选中的item的code
+            var Values = new Array();
+            //遍历
+            checkedValue.each(function () {
+                Values.push($(this).val());
+            })
+            //被选中的是哪个操作
+            var checkFlog = $("#bulk-operation").val();
+            $.ajax({
+                url: '/bulkOperation',
+                type: 'post',
+                data: {"listString": Values},
+                dataType: 'json',
+                success: function (data) {
+                    $("#message").text(data);
+                    // alert(data)
+                },
+                error: function (data) {
+                    $("#message").val(data);
+                }
+            })
+        }
 
         // // 一括操作
         // function bulkOperation() {
@@ -407,33 +408,33 @@
                                                     </span>
                                                 <span th:case="*">
                                                         <a th:href="${item.getUrl1()}" target="_blank">
-                                                            <i class="eye icon"></i>確認
+                                                            <i class="eye icon"></i>
                                                         </a>
                                                     </span>
                                             </div>
                                         </tr>
                                         <tr>
                                             <div th:switch="${item.getUrl2()}" class="ui input">
-                                                仕入れ先2：
+                                                仕入れ先２：
                                                 <span th:case="null" class="ui input mini">
                                                         <i class="eye slash icon"></i>
                                                     </span>
                                                 <span th:case="*">
                                                         <a th:href="${item.getUrl2()}" target="_blank">
-                                                            <i class="eye icon"></i>確認
+                                                            <i class="eye icon"></i>
                                                         </a>
                                                     </span>
                                             </div>
                                         </tr>
                                         <tr>
                                             <div th:switch="${item.getUrl3()}" class="ui input">
-                                                仕入れ先3：
+                                                仕入れ先３：
                                                 <span th:case="null" class="ui input mini">
                                                         <i class="eye slash icon"></i>
                                                     </span>
                                                 <span th:case="*">
                                                         <a th:href="${item.getUrl3()}" target="_blank">
-                                                            <i class="eye icon"></i>確認
+                                                            <i class="eye icon"></i>
                                                         </a>
                                                     </span>
                                             </div>

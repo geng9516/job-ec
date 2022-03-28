@@ -43,6 +43,9 @@ public interface ItemService {
     //新itemcode查询
     Item findItemByItemCode(Item item);
 
+    //多个itemid查询
+    List<Item> findItemByItemCodes(List<String> stringList);
+
     //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用

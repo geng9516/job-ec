@@ -139,7 +139,7 @@
             <if test="shopName != null and shopName != ''">
                 and shopname = #{shopName}
             </if>
-            <if test="flog != null and flog != ''">
+            <if test="flog != null">
                 and flog = #{flog}
             </if>
 
@@ -188,16 +188,28 @@
             saleprice=#{salePrice},
             url1=#{url1},
             url2=#{url2},
-            url3=#{url3}
+            url3=#{url3},
+            flog=#{flog},
+            updatetime=#{updatetime}
         where itemcode = #{itemCode}
     </update>
 
-<!--    新itemcode查询-->
+    <!--    新itemcode查询-->
     <select id="findItemByItemCode" resultType="con.chin.pojo.Item">
-        select * from t_item
+        select *
+        from t_item
         where itemcode = #{itemCode}
     </select>
 
+    <!--    多个itemid查询-->
+    <select id="findItemByItemCodes" resultType="con.chin.pojo.Item">
+
+        select * from t_item
+        where itemcode in
+        <foreach collection="list" item="itemCode" open="(" close=")" separator=",">
+            #{itemCode}
+        </foreach>
+    </select>
 
     <!--    ###################数据错误时修改用########################-->
 
@@ -210,7 +222,7 @@
 
     <update id="setdate">
         update t_item
-        set image = #{image}
+        set caption = #{caption}
         where itemcode = #{itemCode}
     </update>
 

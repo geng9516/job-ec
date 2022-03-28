@@ -212,7 +212,7 @@ public class YahooItemInfoUtil {
         List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
         //产品情报照片/SP
         //https://item-shopping.c.yimg.jp/i/l/takahashihonpo_21-030-t00247_18
-        String caption = "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + ".jpg' width='100%'/><br>";
+        String caption = "<img src='https://item-shopping.c.yimg.jp/i/n/seiunstore_" + itemCode1 + "' width='100%'/><br>";
         for (int i = 1; i <= photoAll.size() - 1; i++) {
             caption += "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "_" + i + ".jpg' width='100%'/><br>";
         }

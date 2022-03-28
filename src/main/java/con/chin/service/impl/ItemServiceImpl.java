@@ -142,93 +142,86 @@ public class ItemServiceImpl implements ItemService {
     public int setItemSalePrice(Item item) {
         Item oldItem = new Item();
         oldItem = this.findItemByItemCode(item);
+        //判断编辑层次
+        int flog = 0;
         //item不为空的时候做更新
         //进货价
         if (item.getPurchasePrice() != null) {
             oldItem.setPurchasePrice(item.getPurchasePrice());
+            flog++;
+        } else if (oldItem.getPurchasePrice() != null) {
+            flog++;
         }
-
         //送料
         if (item.getDelivery() != null) {
             oldItem.setDelivery(item.getDelivery());
+            flog++;
+        } else if (oldItem.getDelivery() != null) {
+            flog++;
         }
-
         //卖价
         if (item.getSalePrice() != null) {
             oldItem.setSalePrice(item.getSalePrice());
+            flog++;
+        } else if (oldItem.getSalePrice() != null) {
+            flog++;
         }
-
         //进货url1
         if (item.getUrl1() != null && item.getUrl1() != "") {
             oldItem.setUrl1(item.getUrl1());
+            flog++;
+        } else if (oldItem.getUrl1() != null && oldItem.getUrl1() != "") {
+            flog++;
         }
-
         //进货url2
         if (item.getUrl2() != null && item.getUrl2() != "") {
             oldItem.setUrl2(item.getUrl2());
+            flog++;
+        } else if (oldItem.getUrl2() != null && oldItem.getUrl2() != "") {
+            flog++;
         }
-
         //进货url3
         if (item.getUrl3() != null && item.getUrl3() != "") {
             oldItem.setUrl3(item.getUrl3());
+            flog++;
+        } else if (oldItem.getUrl3() != null && oldItem.getUrl3() != "") {
+            flog++;
         }
 
-        //产品是否属于编辑
-        //判断编辑层次
-        int flog = 0;
-        //进货价
-        if (oldItem.getPurchasePrice() != null) {
-            flog++;
-        }
-        //送料
-        if (oldItem.getDelivery() != null) {
-            flog++;
-        }
-        //卖价
-        if (oldItem.getSalePrice() != null) {
-            flog++;
-        }
-        //进货url1
-        if (oldItem.getUrl1() != null && oldItem.getUrl1() != "") {
-            flog++;
-        }
-        //进货url2
-        if (oldItem.getUrl2() != null && oldItem.getUrl2() != "") {
-            flog++;
-        }
-        //进货url3
-        if (oldItem.getUrl3() != null && oldItem.getUrl3() != "") {
-            flog++;
-        }
-        //产品名称
-        if (oldItem.getItemName() != null && oldItem.getItemName() != "") {
-            flog++;
-        }
-        //option1
-        if (oldItem.getOption1() != null && oldItem.getOption1() != "") {
-            flog++;
-        }
-        //value1
-        if (oldItem.getValue1() != null && oldItem.getValue1() != "") {
-            flog++;
-        }
-        //标题
-        if (oldItem.getHeadline() != null & oldItem.getHeadline() != "") {
-            flog++;
-        }
-        //产品详情信息
-        if (oldItem.getCaption() != null && oldItem.getCaption() != "") {
-            flog++;
-        }
-        //产品说明
-        if (oldItem.getExplanation() != null && oldItem.getExplanation() != "") {
-            flog++;
-        }
-        //如果是flog>=10并且产品还未失效的话就属于编辑完成
-        if (flog >= 10 && oldItem.getEndDate() == "2099-12-31 23:59:59") {
+//        //产品名称
+//        if (oldItem.getItemName() != null && oldItem.getItemName() != "") {
+//            flog++;
+//        }
+//        //option1
+//        if (oldItem.getOption1() != null && oldItem.getOption1() != "") {
+//            flog++;
+//        }
+//        //value1
+//        if (oldItem.getValue1() != null && oldItem.getValue1() != "") {
+//            flog++;
+//        }
+//        //标题
+//        if (oldItem.getHeadline() != null & oldItem.getHeadline() != "") {
+//            flog++;
+//        }
+//        //产品详情信息
+//        if (oldItem.getCaption() != null && oldItem.getCaption() != "") {
+//            flog++;
+//        }
+//        //产品说明
+//        if (oldItem.getExplanation() != null && oldItem.getExplanation() != "") {
+//            flog++;
+//        }
+        //当前时间
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        //如果是flog>=10并且产品还未失效的话就属于编辑完成  产品是否属于编辑
+        System.out.println("2099-12-31 23:59:59".equals(oldItem.getEndDate()));
+        if (flog >= 4 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
             oldItem.setFlog(1);
+            oldItem.setUpdatetime(now);
             return itemMapper.setItemSalePrice(oldItem);
         } else {
+            oldItem.setUpdatetime(now);
             return itemMapper.setItemSalePrice(oldItem);
         }
     }
@@ -239,17 +232,26 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findItemByItemCode(item);
     }
 
+    //多个itemid查询
+    @Override
+    public List<Item> findItemByItemCodes(List<String> stringList) {
+        return itemMapper.findItemByItemCodes(stringList);
+    }
+
 //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用
     @Override
     public void setdate() {
 //        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        int i = 0;
         List<Item> itemList = this.findAll();
         for (Item item : itemList) {
-            item.setImage("/images/itemphoto/" + item.getItemCode() + ".jpg");
+            String caption =  item.getCaption();
+            caption = caption.replaceAll("i/l/","i/n/").replaceAll(".jpg","");
+            item.setCaption(caption);
             itemMapper.setdate(item);
-            System.out.println(item.getItemCode());
+            System.out.println("完成 "+ i++ + " 件了");
         }
     }
 
