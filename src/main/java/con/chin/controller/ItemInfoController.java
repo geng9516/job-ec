@@ -9,6 +9,7 @@ import con.chin.pojo.query.ItemQuery;
 import con.chin.service.ConfigService;
 import con.chin.service.ItemService;
 import con.chin.service.SiteShopService;
+import con.chin.util.CopyItemPhoto;
 import con.chin.util.PutItemInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,32 +93,18 @@ public class ItemInfoController {
     //一括操作
     @ResponseBody
     @PostMapping("/bulkOperation")
-    public String bulkOperation(@RequestParam("listString[]") List<String> stringList) {
-
-        List<Item> itemList = itemService.findItemByItemCodes(stringList);
+    public String bulkOperation(@RequestParam("listString[]") List<String> itemCodeList) {
+        //检索下载iteminfo
+        List<Item> itemList = itemService.findItemByItemCodes(itemCodeList);
+        //导出CSV文件
         PutItemInfoUtil.putItemInfoToCsv(itemList,null);
-
-
-
-        //操作方式判断
-//        switch (checkFlog) {
-//            //编辑
-//            case 0:
-//                System.out.println("待完成");
-//                break;
-//            //删除
-//            case 1:
-//                //调用删除方法
-////                itemService.deleteItems(itemCodes);
-//                break;
-//            //csv下载
-//            case 3:
-//
-//                break;
-//        }
-        //
+        //产品照片拷贝
+        System.out.println(itemCodeList);
+        System.out.println("照片拷贝执行开始");
+        CopyItemPhoto.read(itemCodeList);
+        System.out.println("照片拷贝执行结束");
         Gson gson = new Gson();
-        return gson.toJson("11111");
+        return gson.toJson("アイテムCSV情報出力完了しました。");
     }
 
     //削除

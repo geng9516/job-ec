@@ -83,7 +83,7 @@
                 Values.push($(this).val());
             })
             //被选中的是哪个操作
-            var checkFlog = $("#bulk-operation").val();
+            // var checkFlog = $("#bulk-operation").val();
             $.ajax({
                 url: '/bulkOperation',
                 type: 'post',
@@ -98,28 +98,6 @@
                 }
             })
         }
-
-        // // 一括操作
-        // function bulkOperation() {
-        //     var checkedValue = $('tbody input:checked');
-        //     //判断是否项目被选择
-        //     if(typeof checkedValue.val() === "undefined"){
-        //         alert("操作項目を選択してください！")
-        //         return;
-        //     }
-        //     //保存选中的item的code
-        //     var Values = []
-        //     //遍历
-        //     checkedValue.each(function () {
-        //         Values.push($(this).val());
-        //     })
-        //     var checkFlog = $("#bulk-operation").val();
-        //     $("#operation").removeAttr("action");
-        //     $("#operation").attr("method", "post");
-        //     $("#operation").attr('action', "/bulkOperation?=listString" + Values + "?checkFlog" + checkFlog);
-        //     $("#operation").submit();
-        //
-        // }
 
         //计算价格
         function calculation(e) {
@@ -304,12 +282,12 @@
                 <tr class="_sticky">
                     <!--一括操作-->
                     <td>
-                        <select class="ui dropdown" id="bulk-operation" onchange="bulkOperation()">
-                            <option value="">一括操作</option>
-                            <option value="0">編集</option>
-                            <option value="1">削除</option>
-                            <option value="2">ダウンロード</option>
-                        </select>
+<!--                        <select class="ui dropdown" id="bulk-operation" onchange="bulkOperation()">-->
+<!--                            <option value="">一括操作</option>-->
+<!--                            <option value="0">編集</option>-->
+<!--                            <option value="1">削除</option>-->
+<!--                            <option value="2">ダウンロード</option>-->
+<!--                        </select>-->
                     </td>
                     <td></td>
                     <td></td>
@@ -330,7 +308,7 @@
                 <tr class="_sticky">
                     <th>
                         <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
-                        <a style="color: dimgrey"><i class="download icon"></i></a>
+                        <button onclick="bulkOperation()" style="color: dimgrey"><i class="download icon"></i></button>
                     </th>
                     <th>
                         <div class="title">操作</div>

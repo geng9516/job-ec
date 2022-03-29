@@ -122,6 +122,7 @@ public class PhotoDownloadUtil {
             while ((len = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, len);
             }
+            outputStream.flush();
             //当前时间
             String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             System.out.println("产品主图番号为:  " + imgName + "   的下载完成 :  " + now);
