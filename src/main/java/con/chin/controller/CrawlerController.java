@@ -16,6 +16,7 @@ import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,7 +31,10 @@ public class CrawlerController {
     ItemService itemService;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, HttpSession httpSession) {
+        //把查询条件清空
+        httpSession.removeAttribute("siteShop");
+        httpSession.removeAttribute("searchConditions");
         return "index";
     }
 

@@ -6,7 +6,7 @@
 
 <mapper namespace="con.chin.mapper.SiteShopMapper">
 
-    <!--    siteshop登录-->
+    <!--siteshop登录-->
     <insert id="saveSiteShopInfo">
 
         insert into t_siteshop (shopName)
@@ -14,9 +14,15 @@
 
     </insert>
 
-
-    <!--    旧产品code检索-->
+    <!--条件查找数据源店铺-->
     <select id="findSiteShop" resultType="con.chin.pojo.SiteShop">
+
+        select *
+        from t_siteshop
+    </select>
+
+    <!--全部/条件查找数据源店铺-->
+    <select id="findAllSiteShop" resultType="con.chin.pojo.SiteShop">
 
         select *
         from t_siteshop

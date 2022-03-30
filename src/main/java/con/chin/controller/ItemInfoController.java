@@ -11,6 +11,7 @@ import con.chin.service.ItemService;
 import con.chin.service.SiteShopService;
 import con.chin.util.CopyItemPhoto;
 import con.chin.util.PutItemInfoUtil;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,15 +35,31 @@ public class ItemInfoController {
 
     //产品一览
     @GetMapping("/iteminfo")
-    public String iteminfo(Model model, ItemQuery itemQuery, HttpSession httpSession) {
-        //把session中的siteshop值删除
-        httpSession.removeAttribute("siteShop");
+    public String iteminfo(Model model, @Param("id") String id, ItemQuery itemQuery, HttpSession httpSession) {
+
+        //全商品表示
+        if(id != null && id != ""){
+            httpSession.removeAttribute("siteShop");
+            httpSession.removeAttribute("searchConditions");
+            httpSession.removeAttribute("pageSize");
+        }
+        //在店铺查询下在点击下一页时
+        String siteShop = (String) httpSession.getAttribute("siteShop");
+        itemQuery.setShopName(siteShop);
+        //如果是店铺查询后的模糊查询,并且分页
+        String searchConditions =  (String) httpSession.getAttribute("searchConditions");
+        itemQuery.setSearchConditions(searchConditions);
+        //如果表示页数有修改的话,进行设定
+        String pageSize = (String) httpSession.getAttribute("pageSize");
+        if(pageSize != null && !"".equals(pageSize)){
+            itemQuery.setPageSize(Integer.parseInt(pageSize));
+        }
         itemQuery.setFlog(0);
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
         //siteshop一覧
-        List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
+        List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
         PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemQuery);
         model.addAttribute("page", itemList);
@@ -52,24 +69,27 @@ public class ItemInfoController {
     //模糊查询
     @PostMapping("/iteminfo")
     public String findIteminfo(Model model, ItemQuery itemQuery, HttpSession httpSession) {
+
         //没有输入查询条件时把session中的siteshop值删掉
         if (itemQuery.getSearchConditions() == null || itemQuery.getSearchConditions() == "") {
             httpSession.removeAttribute("siteShop");
+            httpSession.removeAttribute("pageSize");
         }
-
+        //为了条件查询后的分页
+        httpSession.setAttribute("searchConditions",itemQuery.getSearchConditions());
+        //如果是店铺查询后的模糊查询,并且分页
         String siteShop = (String) httpSession.getAttribute("siteShop");
         itemQuery.setShopName(siteShop);
-        //一页显示数设定 判断是否有pageSize
-//        if(httpSession.getAttribute("pageSize") != "" || httpSession.getAttribute("pageSize") != null){
-//            Integer pageSize = Integer.parseInt(httpSession.getAttribute("pageSize").toString());
-//            //20:初始值必须设定,没有的话报错
-//            itemQuery.setPageSize(pageSize);
-//        }
+        //如果表示页数有修改的话,进行设定
+        String pageSize = (String) httpSession.getAttribute("pageSize");
+        if(pageSize != null && !"".equals(pageSize)){
+            itemQuery.setPageSize(Integer.parseInt(pageSize));
+        }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
         //siteshop一覧
-        List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
+        List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
         PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemQuery);
         model.addAttribute("page", itemList);
@@ -79,11 +99,16 @@ public class ItemInfoController {
     //店铺区分查询
     @GetMapping("/findIteminfoBySiteShop")
     public String findIteminfoBySiteShop(Model model, ItemQuery itemQuery, HttpSession httpSession) {
+
+        //把siteShop值放到全局变量中
         httpSession.setAttribute("siteShop", itemQuery.getSearchConditions());
-//        Integer pageSize = (Integer) httpSession.getAttribute("pageSize");
-//        itemQuery.setPageSize(pageSize);
+        //如果表示页数有修改的话,进行设定
+        String pageSize = (String) httpSession.getAttribute("pageSize");
+        if(pageSize != null && !"".equals(pageSize)){
+            itemQuery.setPageSize(Integer.parseInt(pageSize));
+        }
         //siteshop一覧
-        List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
+        List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
         PageInfo<Item> itemList = itemService.findItemBySiteShop(itemQuery);
         model.addAttribute("page", itemList);
@@ -94,10 +119,11 @@ public class ItemInfoController {
     @ResponseBody
     @PostMapping("/bulkOperation")
     public String bulkOperation(@RequestParam("listString[]") List<String> itemCodeList) {
+
         //检索下载iteminfo
         List<Item> itemList = itemService.findItemByItemCodes(itemCodeList);
         //导出CSV文件
-        PutItemInfoUtil.putItemInfoToCsv(itemList,null);
+        PutItemInfoUtil.putItemInfoToCsv(itemList, null);
         //产品照片拷贝
         System.out.println(itemCodeList);
         System.out.println("照片拷贝执行开始");
@@ -110,6 +136,7 @@ public class ItemInfoController {
     //削除
     @GetMapping("/deleteItem")
     public String deleteItem(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes) {
+
         Item item = new Item();
         item.setItemCode(itemCode);
         int res = itemService.deleteItem(item);
@@ -169,7 +196,7 @@ public class ItemInfoController {
             flog++;
         }
         int res = 0;
-        if(flog > 0){
+        if (flog > 0) {
             res = itemService.setItemSalePrice(item);
         }
 
@@ -181,19 +208,28 @@ public class ItemInfoController {
 
     //一页显示数设定
     @PostMapping("/setPageSize")
-    public String setPageNum(Model model, HttpSession httpSession, @RequestParam("pageSize") String pageSize) {
-        httpSession.setAttribute("pageSize", pageSize);
+    public String setPageNum(Model model, HttpSession httpSession,  ItemQuery itemQuery) {
+
+        //如果siteShop不为空的话的设定查询条件
+        String siteShop = (String) httpSession.getAttribute("siteShop");
+        if(siteShop != null && !"".equals(siteShop)){
+            itemQuery.setShopName(siteShop);
+        }
+        //如果searchConditions不为空的话的设定查询条件
+        String searchConditions = (String) httpSession.getAttribute("searchConditions");
+        if(searchConditions != null && !"".equals(searchConditions)){
+            itemQuery.setSearchConditions(searchConditions);
+        }
+        //一页表示数发到全局变量中
+        httpSession.setAttribute("pageSize", String.valueOf(itemQuery.getPageSize()));
         //siteshop一覧
-        List<SiteShop> siteShopList = siteShopService.findSiteShop(new SiteShop());
+        List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
         //一页显示数设定
-        ItemQuery itemQuery = new ItemQuery();
-        itemQuery.setPageSize(Integer.parseInt(pageSize));
         PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemQuery);
         model.addAttribute("page", itemList);
         return "iteminfo";
     }
-
 }
 
 

@@ -28,10 +28,17 @@ public class SiteShopServiceImpl implements SiteShopService {
         }
         return res;
     }
-    //siteshop一覧を
+
+    //条件查找数据源店铺
     @Override
     public List<SiteShop> findSiteShop(SiteShop siteShop) {
         return siteShopMapper.findSiteShop(siteShop);
+    }
+
+    //siteshop一覧を
+    @Override
+    public List<SiteShop> findAllSiteShop(SiteShop siteShop) {
+        return siteShopMapper.findAllSiteShop(siteShop);
     }
 
 }
