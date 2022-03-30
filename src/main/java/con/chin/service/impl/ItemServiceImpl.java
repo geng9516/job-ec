@@ -100,7 +100,7 @@ public class ItemServiceImpl implements ItemService {
     public PageInfo<Item> findItemBySiteShop(ItemQuery itemQuery) {
         //启动PageInfo
         PageHelper.startPage(itemQuery.getPageNum(), itemQuery.getPageSize());
-        return new PageInfo<Item>(itemMapper.findItemBySiteShop(itemQuery));
+        return new PageInfo<Item>(itemMapper.findItemBySearchConditions(itemQuery));
     }
 
     //获取产品code
@@ -187,35 +187,9 @@ public class ItemServiceImpl implements ItemService {
         } else if (oldItem.getUrl3() != null && oldItem.getUrl3() != "") {
             flog++;
         }
-
-//        //产品名称
-//        if (oldItem.getItemName() != null && oldItem.getItemName() != "") {
-//            flog++;
-//        }
-//        //option1
-//        if (oldItem.getOption1() != null && oldItem.getOption1() != "") {
-//            flog++;
-//        }
-//        //value1
-//        if (oldItem.getValue1() != null && oldItem.getValue1() != "") {
-//            flog++;
-//        }
-//        //标题
-//        if (oldItem.getHeadline() != null & oldItem.getHeadline() != "") {
-//            flog++;
-//        }
-//        //产品详情信息
-//        if (oldItem.getCaption() != null && oldItem.getCaption() != "") {
-//            flog++;
-//        }
-//        //产品说明
-//        if (oldItem.getExplanation() != null && oldItem.getExplanation() != "") {
-//            flog++;
-//        }
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         //如果是flog>=10并且产品还未失效的话就属于编辑完成  产品是否属于编辑
-        System.out.println("2099-12-31 23:59:59".equals(oldItem.getEndDate()));
         if (flog >= 4 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
             oldItem.setFlog(1);
             oldItem.setUpdatetime(now);

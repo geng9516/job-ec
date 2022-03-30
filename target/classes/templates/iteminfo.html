@@ -43,6 +43,14 @@
             $("#findIteminfoBySiteShop").submit();
         }
 
+        //是否编辑
+        function findEditedIteminfo() {
+            $("#findEditedIteminfo").removeAttr("action");
+            $("#findEditedIteminfo").attr("method", "post");
+            $("#findEditedIteminfo").attr('action', "/findEditedIteminfo");
+            $("#findEditedIteminfo").submit();
+        }
+
         //修改一页表示件数
         function setPageSize() {
             $("#setPageSize").removeAttr("action");
@@ -212,6 +220,17 @@
                                 <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
                                         th:text="${shop.getShopName()}">
                                 </option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="" method="" id="findEditedIteminfo" onchange="findEditedIteminfo()">
+                            <select class="ui dropdown"
+                                    name="flog">
+                                <option value="">編集ステータス</option>
+                                <option value="0">未編集</option>
+                                <option value="1">編集済</option>
+
                             </select>
                         </form>
                     </td>

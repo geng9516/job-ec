@@ -42,6 +42,7 @@ public class ItemInfoController {
             httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("searchConditions");
             httpSession.removeAttribute("pageSize");
+            httpSession.removeAttribute("flog");
         }
         //在店铺查询下在点击下一页时
         String siteShop = (String) httpSession.getAttribute("siteShop");
@@ -54,6 +55,12 @@ public class ItemInfoController {
         if(pageSize != null && !"".equals(pageSize)){
             itemQuery.setPageSize(Integer.parseInt(pageSize));
         }
+        //编辑状态
+        String flog = (String) httpSession.getAttribute("flog");
+        if(flog != null && !"".equals(flog)){
+            itemQuery.setFlog(Integer.parseInt(flog));
+        }
+        httpSession.setAttribute("flog",String.valueOf(0));
         itemQuery.setFlog(0);
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
@@ -70,7 +77,7 @@ public class ItemInfoController {
     @PostMapping("/iteminfo")
     public String findIteminfo(Model model, ItemQuery itemQuery, HttpSession httpSession) {
 
-        //没有输入查询条件时把session中的siteshop值删掉
+        //没有输入查询条件时把session中的值删掉
         if (itemQuery.getSearchConditions() == null || itemQuery.getSearchConditions() == "") {
             httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("pageSize");
@@ -84,6 +91,11 @@ public class ItemInfoController {
         String pageSize = (String) httpSession.getAttribute("pageSize");
         if(pageSize != null && !"".equals(pageSize)){
             itemQuery.setPageSize(Integer.parseInt(pageSize));
+        }
+        //编辑状态
+        String flog = (String) httpSession.getAttribute("flog");
+        if(flog != null && !"".equals(flog)){
+            itemQuery.setFlog(Integer.parseInt(flog));
         }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
@@ -107,6 +119,11 @@ public class ItemInfoController {
         if(pageSize != null && !"".equals(pageSize)){
             itemQuery.setPageSize(Integer.parseInt(pageSize));
         }
+        //编辑状态
+        String flog = (String) httpSession.getAttribute("flog");
+        if(flog != null && !"".equals(flog)){
+            itemQuery.setFlog(Integer.parseInt(flog));
+        }
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
@@ -125,7 +142,6 @@ public class ItemInfoController {
         //导出CSV文件
         PutItemInfoUtil.putItemInfoToCsv(itemList, null);
         //产品照片拷贝
-        System.out.println(itemCodeList);
         System.out.println("照片拷贝执行开始");
         CopyItemPhoto.read(itemCodeList);
         System.out.println("照片拷贝执行结束");
@@ -220,8 +236,44 @@ public class ItemInfoController {
         if(searchConditions != null && !"".equals(searchConditions)){
             itemQuery.setSearchConditions(searchConditions);
         }
+        //编辑状态
+        String flog = (String) httpSession.getAttribute("flog");
+        if(flog != null && !"".equals(flog)){
+            itemQuery.setFlog(Integer.parseInt(flog));
+        }
         //一页表示数发到全局变量中
+//        if(itemQuery.getPageSize())
         httpSession.setAttribute("pageSize", String.valueOf(itemQuery.getPageSize()));
+        //siteshop一覧
+        List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
+        model.addAttribute("siteShopList", siteShopList);
+        //一页显示数设定
+        PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemQuery);
+        model.addAttribute("page", itemList);
+        return "iteminfo";
+    }
+
+    //编辑与否设定
+    @PostMapping("/findEditedIteminfo")
+    public String findEditedIteminfo(Model model, HttpSession httpSession,  ItemQuery itemQuery) {
+
+        //如果siteShop不为空的话的设定查询条件
+        String siteShop = (String) httpSession.getAttribute("siteShop");
+        if(siteShop != null && !"".equals(siteShop)){
+            itemQuery.setShopName(siteShop);
+        }
+        //如果searchConditions不为空的话的设定查询条件
+        String searchConditions = (String) httpSession.getAttribute("searchConditions");
+        if(searchConditions != null && !"".equals(searchConditions)){
+            itemQuery.setSearchConditions(searchConditions);
+        }
+        //如果表示页数有修改的话,进行设定
+        String pageSize = (String) httpSession.getAttribute("pageSize");
+        if(pageSize != null && !"".equals(pageSize)){
+            itemQuery.setPageSize(Integer.parseInt(pageSize));
+        }
+        //编辑状态放到全局变量中
+        httpSession.setAttribute("flog", String.valueOf(itemQuery.getFlog()));
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);

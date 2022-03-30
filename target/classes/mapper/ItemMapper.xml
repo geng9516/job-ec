@@ -159,6 +159,9 @@
             <if test="searchConditions != null and searchConditions != ''">
                 and shopname like concat('%',#{searchConditions},'%')
             </if>
+            <if test="flog != null">
+                and flog = #{flog}
+            </if>
 
         </where>
 
