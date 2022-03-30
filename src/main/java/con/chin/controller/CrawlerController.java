@@ -68,6 +68,7 @@ public class CrawlerController {
                         .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(100000)))
                         //数据输出设定(可添加多个)
                         .addPipeline(this.itemPipeline)
+//                        .thread(2)
                         .run();
             }
         }
