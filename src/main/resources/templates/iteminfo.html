@@ -148,7 +148,7 @@
             //販売価格（円/税込）
             var riekiritu = 0.6;
             var tax = 0.9;
-            var taxJapaTtotolPurchasePrice = (japaTtotolPurchasePrice / riekiritu) / tax;
+            var taxJapaTtotolPurchasePrice = ((japaTtotolPurchasePrice / riekiritu) / tax) + 300;
             var value3 = e.parentNode.children[2];
             if (taxJapaTtotolPurchasePrice == NaN) {
                 $(value3).val(0);

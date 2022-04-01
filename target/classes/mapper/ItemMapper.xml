@@ -204,6 +204,13 @@
         where itemcode = #{itemCode}
     </select>
 
+    <!--    新itemcode查询-->
+    <select id="findItemsByItemCode" resultType="con.chin.pojo.Item">
+        select *
+        from t_item
+        where itemcode = #{itemCode}
+    </select>
+
     <!--    多个itemid查询-->
     <select id="findItemByItemCodes" resultType="con.chin.pojo.Item">
 
