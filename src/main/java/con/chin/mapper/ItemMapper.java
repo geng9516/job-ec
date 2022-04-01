@@ -1,6 +1,6 @@
 package con.chin.mapper;
 
-import con.chin.pojo.query.ItemQuery;
+import con.chin.pojo.query.ItemInfoQuery;
 import org.apache.ibatis.annotations.Mapper;
 import con.chin.pojo.Item;
 import org.springframework.stereotype.Repository;
@@ -25,10 +25,10 @@ public interface ItemMapper {
     Item findItem(Item item);
 
     //产品id,产品path,产品名,店铺名模糊查询
-    List<Item> findItemBySearchConditions(ItemQuery itemQuery);
+    List<Item> findItemBySearchConditions(ItemInfoQuery itemInfoQuery);
 
     //SiteShop查询
-    List<Item> findItemBySiteShop(ItemQuery itemQuery);
+    List<Item> findItemBySiteShop(ItemInfoQuery itemInfoQuery);
 
     //获取产品code
     List<String> findItemCodeByPath(String path);
@@ -41,6 +41,9 @@ public interface ItemMapper {
 
     //新itemcode查询
     Item findItemByItemCode(Item item);
+
+    //新itemcode查询
+    Item findItemsByItemCode(Item item);
 
     //多个itemid查询
     List<Item> findItemByItemCodes(List<String> stringList);

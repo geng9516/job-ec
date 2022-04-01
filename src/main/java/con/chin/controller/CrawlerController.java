@@ -4,6 +4,7 @@ import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
 import con.chin.task.ItemProcessor;
+import con.chin.util.ItemPhotoToZipUtil;
 import con.chin.util.PutItemInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,6 +100,14 @@ public class CrawlerController {
         }
         //刷新主页
         return "redirect:/";
+    }
+
+    //数据错误时做更新使用
+    @GetMapping("/photoToZip")
+    public String photoToZip() {
+
+        ItemPhotoToZipUtil.fileZipSave();
+        return "index";
     }
 
 

@@ -4,17 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import con.chin.mapper.ItemCategoryMapper;
 import con.chin.mapper.ItemMapper;
-import con.chin.pojo.query.ItemQuery;
+import con.chin.pojo.query.ItemInfoQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,18 +87,18 @@ public class ItemServiceImpl implements ItemService {
 
     //分页
     @Override
-    public PageInfo<Item> findItemBySearchConditions(ItemQuery itemQuery) {
+    public PageInfo<Item> findItemBySearchConditions(ItemInfoQuery itemInfoQuery) {
         //启动PageInfo
-        PageHelper.startPage(itemQuery.getPageNum(), itemQuery.getPageSize());
-        return new PageInfo<Item>(itemMapper.findItemBySearchConditions(itemQuery));
+        PageHelper.startPage(itemInfoQuery.getPageNum(), itemInfoQuery.getPageSize());
+        return new PageInfo<Item>(itemMapper.findItemBySearchConditions(itemInfoQuery));
     }
 
     //SiteShop查询
     @Override
-    public PageInfo<Item> findItemBySiteShop(ItemQuery itemQuery) {
+    public PageInfo<Item> findItemBySiteShop(ItemInfoQuery itemInfoQuery) {
         //启动PageInfo
-        PageHelper.startPage(itemQuery.getPageNum(), itemQuery.getPageSize());
-        return new PageInfo<Item>(itemMapper.findItemBySearchConditions(itemQuery));
+        PageHelper.startPage(itemInfoQuery.getPageNum(), itemInfoQuery.getPageSize());
+        return new PageInfo<Item>(itemMapper.findItemBySearchConditions(itemInfoQuery));
     }
 
     //获取产品code

@@ -12,20 +12,19 @@
             $("#meru").load("meru");
         });
 
-        jQuery(function ($) {
-            $("#bt-import-csv").click(function () {
-                $("#dataimpott").removeAttr("action");
-                $("#dataimpott").attr("method", "post");
-                $("#dataimpott").attr("enctype", "multipart/form-data");
-                $("#dataimpott").attr('action', "/csvImport");
-                $("#dataimpott").submit();
-            })
-        })
+        function csvImport() {
+            $("#dataimpott").removeAttr("action");
+            $("#dataimpott").attr("method", "post");
+            $("#dataimpott").attr("enctype", "multipart/form-data");
+            $("#dataimpott").attr('action', "/csvImport");
+            $("#dataimpott").submit();
+        }
+
     </script>
     <!--    表头固定-->
     <style>
 
-        div#meru{
+        div#meru {
             position: fixed;
             top: 0;
             left: 0;
@@ -37,74 +36,142 @@
 <!--表头-->
 <div>
     <div style="width:100%;height:60px" id="meru"></div>
-    <form action="" id="dataimpott">
-        <div style="width:90%" class='ui container'>
-            <div class="ui right aligned category search">
-                <div class="ui icon input">
-                    <span>
-                        <input class="prompt" type="text" placeholder="orderを検索">
-                        <i class="search icon"></i>
-                    </span>
-                    <span>
-                        <input class="field" type="file" name="import-ordercsv" id="import-ordercsv" required><br>
-                        <button id="bt-import-csv">アップロード</button>
-                    </span>
-                </div>
-                <div class='ui container' align="center">
-                    <!--/*@thymesVar id="message" type=""*/-->
-                    <p style="color: brown" id="message" th:text="${message}"></p>
-                </div>
-                <div class="results"></div>
-            </div>
-            <br>
-            <div>
-                <table class="ui celled table">
-                    <thead>
-                    <tr>
-                        <th>
-                            <input type="checkbox" value="">&emsp;&emsp;
-                            <a style="color: dimgrey"><i class="download icon"></i></a>
-                        </th>
-                        <th>
-                            <div class="title">操作</div>
-                        </th>
-                        <th>
-                            <div class="title">基本情報</div>
-                        </th>
-                        <th>
-                            <div class="title">明細</div>
-                        </th>
-                        <th>
-                            <div class="title">注文時間/支払い時間/更新時間</div>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="disabled">
-                        <td>
-                            <input type="checkbox" value="">
-                        </td>
-                        <td>
-                            <a><i class="file alternate outline icon"></i></a>
-                            <br><br>
-                            <a><i class="trash alternate outline icon"></i></a>
-                        </td>
-                        <td>
-                            <div>（注文番号）</div>
-                            <div>（住所）</div>
-                            <div>（電話番号）</div>
-                            <div>（注文者名）</div>
-                            <div>（メールアドレス）</div>
-                            <div>（仕入れ先1）</div>
-                            <div>（仕入れ先2）</div>
-                            <div>（仕入れ先3）</div>
-                        </td>
-                        <td>
+    <br>
+    <br>
+    <br>
+
+    <div style="width:90%" class='ui container'>
+        <div class="ui right aligned category search">
+            <table>
+                <tr>
+                    <td>
+                        <form action="">
+                            <div class="ui icon input">
+                                <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
+                                <button class="ui icon button" type="submit">
+                                    <i class="search icon"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <!--csv文件上传-->
+                        <form action="" method="" id="dataimpott">
                             <div>
-                                <div>
-                                    <img src="">
-                                </div>
-                                <div>
+                                <input class="field" type="file" name="import-ordercsv" id="import-ordercsv"
+                                       required accept=".csv"><br>
+                                <button id="bt-import-csv" onclick="csvImport()">アップロード</button>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class='ui container' align="center">
+            <!--/*@thymesVar id="message" type=""*/-->
+            <p style="color: brown" id="message" th:text="${message}"></p>
+        </div>
+        <div class="results"></div>
+        <br>
+        <br>
+        <!--分页页面顶部-->
+        <div align="center">
+            <table width="800px">
+                <tbody>
+                <tr>
+                    <td>
+                        <a th:href="@{/orderinfo(pageNum=${1})}" class="ui button basic mini"
+                           th:unless="${page.isFirstPage}">最初ページへ</a>
+                        <a th:href="@{/orderinfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"
+                           th:unless="${page.isFirstPage}">前へ</a>
+                    </td>
+                    <td>
+                        <h8 th:text="${page.pageNum}">2</h8>
+                        ページ目/全
+                        <h8 th:text="${page.pages}">4</h8>
+                        ページ&emsp;
+                        商品数
+                        <h8 th:text="${page.total}">29</h8>
+
+                    </td>
+                    <td>
+                        <form name="pageForm" th:action="@{/orderinfo}" method="get">
+                            <div class="ui mini input ">
+                                <input type="text" class="m-bg" name="pageNum" placeholder="何ページ"
+                                       style="width:100px!important;height:30px!important;" required>
+                                <button type="submit"
+                                        style="font-size:11px!important;width:60px!important;height:23px!important;border:none;margin: 5px;padding:0;"
+                                        class="button mini">
+                                    へジャンプ
+                                </button>
+
+                            </div>
+                        </form>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td style="float:right">
+                        <a th:href="@{/orderinfo(pageNum=${page.pageNum+1})}" class="ui button basic mini"
+                           style="float:right;" th:unless="${page.isLastPage}">次へ</a>
+                        <a th:href="@{/orderinfo(pageNum=${page.getPages()})}" class="ui button basic mini"
+                           style="float:right;" th:unless="${page.isLastPage}">最終ページへ</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>
+            <table class="ui celled table">
+                <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" value="">&emsp;&emsp;
+                        <a style="color: dimgrey"><i class="download icon"></i></a>
+                    </th>
+                    <th>
+                        <div class="title">操作</div>
+                    </th>
+                    <th>
+                        <div class="title">基本情報</div>
+                    </th>
+                    <th>
+                        <div class="title">明細</div>
+                    </th>
+                    <th>
+                        <div class="title">注文時間/支払い時間/更新時間</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${page.list}">
+                    <td>
+                        <input type="checkbox" value="">
+                    </td>
+                    <td>
+                        <a><i class="file alternate outline icon"></i></a>
+                        <br><br>
+                        <a><i class="trash alternate outline icon"></i></a>
+                    </td>
+                    <td>
+                        <div><span th:text=""></span></div>
+                        <div>（住所）</div>
+                        <div>（電話番号）</div>
+                        <div>（注文者名）</div>
+                        <div>（メールアドレス）</div>
+                        <div>（仕入れ先1）</div>
+                        <div>（仕入れ先2）</div>
+                        <div>（仕入れ先3）</div>
+                    </td>
+                    <td>
+                        <table>
+                            <tr th:each="">
+                                <td>
+<!--                                    <img th:src="${order.getItem().getImage()}">-->
+                                </td>
+                                <td>
                                     <ul>
                                         <il>（商品タイトル）</il>
                                         <il>（商品ID）</il>
@@ -113,78 +180,62 @@
                                         <il>（状態）</il>
                                         <il>（発送予定日）</il>
                                     </ul>
-                                </div>
-                            </div>
-                        </td>
-                        <td>Requires call</td>
-                    </tr>
-                    <tr class="disabled">
-                        <td>
-                            <input type="checkbox" value="">
-                        </td>
-                        <td>
-                            <a><i class="file alternate outline icon"></i></a>
-                            <br><br>
-                            <a><i class="trash alternate outline icon"></i></a>
-                        </td>
-                        <td>
-                            <div>（注文番号）</div>
-                            <div>（住所）</div>
-                            <div>（電話番号）</div>
-                            <div>（注文者名）</div>
-                            <div>（メールアドレス）</div>
-                            <div>（仕入れ先1）</div>
-                            <div>（仕入れ先2）</div>
-                            <div>（仕入れ先3）</div>
-                        </td>
-                        <td>
-                            <div>
-                            <span>
-                                <div>
-                                    商品写真<img src="">
-                                </div>
-                            </span>
-                                <span>
-                                <div>
-                                <ul>
-                                    <il>（商品タイトル）</il>
-                                    <il>（商品ID）</il>
-                                    <il>（売価）</il>
-                                    <il>（注文数）</il>
-                                    <il>（状態）</il>
-                                    <il>（発送予定日）</il>
-                                </ul>
-                            </div>
-                            </span>
-                            </div>
-                            <div>
-                            <span>
-                                <div>
-                                    商品写真<img src="">
-                                </div>
-                            </span>
-                                <span>
-                                <div>
-                                <ul>
-                                    <il>（商品タイトル）</il>
-                                    <il>（商品ID）</il>
-                                    <il>（売価）</il>
-                                    <il>（注文数）</il>
-                                    <il>（状態）</il>
-                                    <il>（発送予定日）</il>
-                                </ul>
-                            </div>
-                            </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>Requires call</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <!--分页页面顶部-->
+        <div align="center">
+            <table width="800px">
+                <tbody>
+                <tr>
+                    <td>
+                        <a th:href="@{/orderinfo(pageNum=${1})}" class="ui button basic mini"
+                           th:unless="${page.isFirstPage}">最初ページへ</a>
+                        <a th:href="@{/orderinfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"
+                           th:unless="${page.isFirstPage}">前へ</a>
+                    </td>
+                    <td>
+                        <h8 th:text="${page.pageNum}">2</h8>
+                        ページ目/全
+                        <h8 th:text="${page.pages}">4</h8>
+                        ページ&emsp;
+                        商品数
+                        <h8 th:text="${page.total}">29</h8>
+
+                    </td>
+                    <td>
+                        <form name="pageForm" th:action="@{/orderinfo}" method="get">
+                            <div class="ui mini input ">
+                                <input type="text" class="m-bg" name="pageNum" placeholder="何ページ"
+                                       style="width:100px!important;height:30px!important;" required>
+                                <button type="submit"
+                                        style="font-size:11px!important;width:60px!important;height:23px!important;border:none;margin: 5px;padding:0;"
+                                        class="button mini">
+                                    へジャンプ
+                                </button>
 
                             </div>
-                        </td>
-                        <td>Requires call</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                        </form>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td style="float:right">
+                        <a th:href="@{/orderinfo(pageNum=${page.pageNum+1})}" class="ui button basic mini"
+                           style="float:right;" th:unless="${page.isLastPage}">次へ</a>
+                        <a th:href="@{/orderinfo(pageNum=${page.getPages()})}" class="ui button basic mini"
+                           style="float:right;" th:unless="${page.isLastPage}">最終ページへ</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </form>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </body>

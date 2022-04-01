@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class CopyItemPhoto {
+public class CopyItemPhotoUtil {
 
     private static String fileName;
 

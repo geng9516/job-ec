@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.List;
 
 @Controller
-public class FileImportController {
+public class CsvFileImportController {
 
     @Autowired
     FileImportServiceImpl fileImportService;
@@ -24,6 +24,7 @@ public class FileImportController {
     @PostMapping("/csvImport")
     public String csvImport(@RequestParam("import-ordercsv") MultipartFile file, RedirectAttributes redirectAttributes) {
 
+        System.out.println(file.getResource());
         //上传文件的路径
         File csvFile = CsvImportUtil.uploadFile(file);
         //上传成功次数

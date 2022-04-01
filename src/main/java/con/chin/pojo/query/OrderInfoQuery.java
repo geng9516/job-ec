@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemQuery {
+public class OrderInfoQuery {
 
     private Integer pageNum = 1;//当前页码
 

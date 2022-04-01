@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="con.chin.mapper.OrderInfoMapper">
+
+    <select id="findAllOrderInfo" resultType="con.chin.pojo.OrderInfo">
+
+        select *
+        from t_orderinfo
+        <where>
+            <if test="searchConditions != null and searchConditions != ''">
+                orderid = #{searchConditions}
+            </if>
+        </where>
+
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

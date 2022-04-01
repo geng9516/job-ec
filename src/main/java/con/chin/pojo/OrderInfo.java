@@ -3,6 +3,7 @@ package con.chin.pojo;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 @Data
@@ -37,11 +38,12 @@ public class OrderInfo {
     private String payStatus;//入金ステータス
     private String deviceType;//注文媒体
 
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    @javax.persistence.Id
+    @Id
     public Long getId() {
         return id;
     }

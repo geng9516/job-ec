@@ -2,7 +2,7 @@ package con.chin.service;
 
 import com.github.pagehelper.PageInfo;
 import con.chin.pojo.Item;
-import con.chin.pojo.query.ItemQuery;
+import con.chin.pojo.query.ItemInfoQuery;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ public interface ItemService {
     Item findItem(Item item);
 
     //产品id,产品path,产品名,店铺名模糊查询
-    PageInfo<Item> findItemBySearchConditions(ItemQuery itemQuery);
+    PageInfo<Item> findItemBySearchConditions(ItemInfoQuery itemInfoQuery);
 
     //SiteShop查询
-    PageInfo<Item> findItemBySiteShop(ItemQuery itemQuery);
+    PageInfo<Item> findItemBySiteShop(ItemInfoQuery itemInfoQuery);
 
     //获取产品code
     List<String> findItemCodeByPath(String path);

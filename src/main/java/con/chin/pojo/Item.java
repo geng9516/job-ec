@@ -6,8 +6,6 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Data

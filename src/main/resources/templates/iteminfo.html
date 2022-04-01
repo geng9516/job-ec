@@ -13,32 +13,10 @@
             $("#meru").load("meru");
         });
 
-        function select() {
-            var shopName = $('select option:selected').val();
-            $.ajax({
-                url: "{{url('/user/goods_select')}}",
-                type: "GET",
-                dataType: "json",
-                //把获取到的value值传给服务器
-                data: {searchConditions: shopName},
-                success: function (res) {
-                    $("#itemList").empty();
-                    $.each(res, function (i, n) {
-                        $("#itemList").append(
-                            ""
-                        );
-                    })
-                },
-                error: function (xht, status, error) {
-                    alert("请求失败:" + error)
-                }
-            });
-        }
-
         //shop名でアイテムを検索
         function findIteminfoBySiteShop() {
             $("#findIteminfoBySiteShop").removeAttr("action");
-            $("#findIteminfoBySiteShop").attr("method", "get");
+            $("#findIteminfoBySiteShop").attr("method", "post");
             $("#findIteminfoBySiteShop").attr('action', "/findIteminfoBySiteShop");
             $("#findIteminfoBySiteShop").submit();
         }
@@ -77,11 +55,42 @@
             }
         }
 
-        //一括操作
+        // //选中的产品下载iteminfo.csv 和照片拷贝
+        // function bulkOperation() {
+        //     var checkedValue = $('tbody input:checked');
+        //     //判断是否项目被选择
+        //     if (typeof checkedValue.val() === "undefined") {
+        //         alert("操作項目を選択してください！")
+        //         return;
+        //     }
+        //     //保存选中的item的code
+        //     var Values = new Array();
+        //     //遍历
+        //     checkedValue.each(function () {
+        //         Values.push($(this).val());
+        //     })
+        //     //被选中的是哪个操作
+        //     // var checkFlog = $("#bulk-operation").val();
+        //     $.ajax({
+        //         url: '/bulkOperation',
+        //         type: 'post',
+        //         data: {"listString": Values},
+        //         dataType: 'json',
+        //         success: function (data) {
+        //             $("#message").text(data);
+        //             // alert(data)
+        //         },
+        //         error: function (data) {
+        //             $("#message").val(data);
+        //         }
+        //     })
+        // }
+
+        //选中的产品下载iteminfo.csv 和照片拷贝
         function bulkOperation() {
             var checkedValue = $('tbody input:checked');
             //判断是否项目被选择
-            if(typeof checkedValue.val() === "undefined"){
+            if (typeof checkedValue.val() === "undefined") {
                 alert("操作項目を選択してください！")
                 return;
             }
@@ -230,7 +239,6 @@
                                 <option value="">編集ステータス</option>
                                 <option value="0">未編集</option>
                                 <option value="1">編集済</option>
-
                             </select>
                         </form>
                     </td>
@@ -288,6 +296,7 @@
                 </tbody>
             </table>
         </div>
+       <br>
         <div>
             <colgroup>
                 <col style="width: 5%;">
@@ -302,12 +311,15 @@
                 <tr class="_sticky">
                     <!--一括操作-->
                     <td>
-<!--                        <select class="ui dropdown" id="bulk-operation" onchange="bulkOperation()">-->
-<!--                            <option value="">一括操作</option>-->
-<!--                            <option value="0">編集</option>-->
-<!--                            <option value="1">削除</option>-->
-<!--                            <option value="2">ダウンロード</option>-->
-<!--                        </select>-->
+                        <div><button onclick="bulkOperation()"><i class="download icon"></i></button></div>
+<!--                        <div>-->
+<!--                            <select class="ui dropdown"-->
+<!--                                    name="flog" onchange="bulkOperation()">-->
+<!--                                <option value=""><i class="download icon"></i></option>-->
+<!--                                <option value="0">未編集</option>-->
+<!--                                <option value="1">編集済</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
                     </td>
                     <td></td>
                     <td></td>
@@ -328,7 +340,6 @@
                 <tr class="_sticky">
                     <th>
                         <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
-                        <button onclick="bulkOperation()" style="color: dimgrey"><i class="download icon"></i></button>
                     </th>
                     <th>
                         <div class="title">操作</div>
@@ -368,10 +379,12 @@
                         <table>
                             <tr>
                                 <td colspan="2" style="border-right: none;border-bottom: none">
-                                    <!--                                    <p th:text="${item.getItemName()}">-->
+                                    <!--<p th:text="${item.getItemName()}">-->
                                     <div class="ui form">
                                         <div class="field">
-                                            <textarea rows="5" cols=50 onpropertychange= "this.style.posHeight=this.scrollHeight " th:text="${item.getItemName()}"></textarea>
+                                            <textarea rows="5" cols=50
+                                                      onpropertychange="this.style.posHeight=this.scrollHeight "
+                                                      th:text="${item.getItemName()}"></textarea>
                                         </div>
                                     </div>
                                     <!-- <textarea th:text="${item.getItemName()}"></textarea>-->
