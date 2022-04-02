@@ -13,7 +13,15 @@ public interface OrderItemInfoMapper {
     //获取所以的orderiteminfo
     List<OrderItemInfo> findOrderItemInfo();
 
-
     //获取相同的orderid的orderiteminfo
     List<OrderItemInfo> findOrderItemInfoByOrderId(String orderId);
+
+
+    //-----------------------------------------------------------------------------------------------
+
+    //更新
+    int updateOrderItemInfoById(OrderItemInfo orderItemInfo);
+
+
+
 }

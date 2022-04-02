@@ -28,8 +28,10 @@ public class OrderInfoController {
     @GetMapping("/orderinfo")
     public String meru(Model model, OrderInfoQuery orderInfoQuery) {
 
-        PageInfo<OrderInfo> orderInfoList = orderInfoService.findAllOrderInfo(orderInfoQuery);
+        PageInfo<Order> orderInfoList = orderInfoService.findAllOrderInfo(orderInfoQuery);
         model.addAttribute("page", orderInfoList);
+
+//        List<Order> list = orderInfoList.getList();
 
         return "orderinfo";
     }

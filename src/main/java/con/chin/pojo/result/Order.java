@@ -5,10 +5,7 @@ import con.chin.pojo.OrderInfo;
 import con.chin.pojo.OrderItemInfo;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.List;
-
 
 @Data
 public class Order {
@@ -19,7 +16,7 @@ public class Order {
 
     private List<OrderItemInfo> orderItemInfoList;
 
-    private Item item;
+    private List<Item> itemList;
 
 }
 

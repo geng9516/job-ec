@@ -239,6 +239,7 @@
                                 <option value="">編集ステータス</option>
                                 <option value="0">未編集</option>
                                 <option value="1">編集済</option>
+                                <option value="2">ダウンロード済</option>
                             </select>
                         </form>
                     </td>
@@ -296,7 +297,7 @@
                 </tbody>
             </table>
         </div>
-       <br>
+        <br>
         <div>
             <colgroup>
                 <col style="width: 5%;">
@@ -311,15 +312,9 @@
                 <tr class="_sticky">
                     <!--一括操作-->
                     <td>
-                        <div><button onclick="bulkOperation()"><i class="download icon"></i></button></div>
-<!--                        <div>-->
-<!--                            <select class="ui dropdown"-->
-<!--                                    name="flog" onchange="bulkOperation()">-->
-<!--                                <option value=""><i class="download icon"></i></option>-->
-<!--                                <option value="0">未編集</option>-->
-<!--                                <option value="1">編集済</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
+                        <div>
+                            <button onclick="bulkOperation()"><i class="download icon"></i></button>
+                        </div>
                     </td>
                     <td></td>
                     <td></td>
@@ -371,90 +366,92 @@
                     <td valign="top">
                         <div>
                             <a th:href="${item.getImage()}" th:target="_blank">
-                                <img th:src="${item.getImage()}" width="100">
+                                <img th:src="${item.getImage()}" width="150px">
                             </a>
                         </div>
                     </td>
                     <td valign="top">
-                        <table>
-                            <tr>
-                                <td colspan="2" style="border-right: none;border-bottom: none">
-                                    <!--<p th:text="${item.getItemName()}">-->
-                                    <div class="ui form">
-                                        <div class="field">
+                        <form action="/setItemInfo" method="post" id="operation">
+                            <table>
+                                <tr>
+                                    <td colspan="2" style="border-right: none;border-bottom: none">
+                                        <!--<p th:text="${item.getItemName()}">-->
+                                        <div class="ui form">
+                                            <div class="field">
                                             <textarea rows="5" cols=50
                                                       onpropertychange="this.style.posHeight=this.scrollHeight "
-                                                      th:text="${item.getItemName()}"></textarea>
+                                                      th:text="${item.getItemName()}" name="itemName"></textarea>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- <textarea th:text="${item.getItemName()}"></textarea>-->
-                                </td>
-                                <td style="border-left: none;border-bottom: none"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 250px;border-top: none">
-                                    <table>
-                                        <tr>
-                                            <div><h5 th:text="${item.getShopName()}"></h5></div>
-                                        </tr>
-                                        <tr>
-                                            <div>商品コード：<span th:text="${item.getItemCode()}"></span></div>
-                                        </tr>
-                                        <tr>
-                                            <div>販売価格：<span style="color: #ea193a"
-                                                            th:text="${item.getSalePrice()}"></span></div>
-                                        </tr>
-                                        <tr>
-                                            <div>価格：<span th:text="${item.getPrice()}"></span></div>
-                                        </tr>
-                                        <tr>
-                                            <div>元URL：<a th:href="${item.getUrl5()}" th:target="_blank"><i
-                                                    class="eye icon"></i>確認</a></div>
-                                        </tr>
-                                        <tr>
-                                            <div th:switch="${item.getUrl1()}">
-                                                仕入れ先１：
-                                                <span th:case="null" class="ui input mini">
+                                        <!-- <textarea th:text="${item.getItemName()}"></textarea>-->
+                                    </td>
+                                    <td style="border-left: none;border-bottom: none"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 250px;border-top: none">
+
+                                        <table>
+                                            <tr>
+                                                <div><h5 th:text="${item.getShopName()}"></h5></div>
+                                            </tr>
+                                            <tr>
+                                                <div>商品コード：<span th:text="${item.getItemCode()}"></span></div>
+                                            </tr>
+                                            <tr>
+                                                <div>販売価格：<span style="color: #ea193a"
+                                                                th:text="${item.getSalePrice()}"></span></div>
+                                            </tr>
+                                            <tr>
+                                                <div>価格：<span th:text="${item.getPrice()}"></span></div>
+                                            </tr>
+                                            <tr>
+                                                <div>元URL：<a th:href="${item.getUrl5()}" th:target="_blank"><i
+                                                        class="eye icon"></i>確認</a></div>
+                                            </tr>
+                                            <tr>
+                                                <div th:switch="${item.getUrl1()}">
+                                                    仕入れ先１：
+                                                    <span th:case="null" class="ui input mini">
                                                         <i class="eye slash icon"></i>
                                                     </span>
-                                                <span th:case="*">
+                                                    <span th:case="*">
                                                         <a th:href="${item.getUrl1()}" target="_blank">
                                                             <i class="eye icon"></i>
                                                         </a>
                                                     </span>
-                                            </div>
-                                        </tr>
-                                        <tr>
-                                            <div th:switch="${item.getUrl2()}" class="ui input">
-                                                仕入れ先２：
-                                                <span th:case="null" class="ui input mini">
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div th:switch="${item.getUrl2()}" class="ui input">
+                                                    仕入れ先２：
+                                                    <span th:case="null" class="ui input mini">
                                                         <i class="eye slash icon"></i>
                                                     </span>
-                                                <span th:case="*">
+                                                    <span th:case="*">
                                                         <a th:href="${item.getUrl2()}" target="_blank">
                                                             <i class="eye icon"></i>
                                                         </a>
                                                     </span>
-                                            </div>
-                                        </tr>
-                                        <tr>
-                                            <div th:switch="${item.getUrl3()}" class="ui input">
-                                                仕入れ先３：
-                                                <span th:case="null" class="ui input mini">
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div th:switch="${item.getUrl3()}" class="ui input">
+                                                    仕入れ先３：
+                                                    <span th:case="null" class="ui input mini">
                                                         <i class="eye slash icon"></i>
                                                     </span>
-                                                <span th:case="*">
+                                                    <span th:case="*">
                                                         <a th:href="${item.getUrl3()}" target="_blank">
                                                             <i class="eye icon"></i>
                                                         </a>
                                                     </span>
-                                            </div>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td style="border-top: none">
-                                    <!--id一括操作時に使う-->
-                                    <form action="/setItemInfo" method="post" id="operation">
+                                                </div>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="border-top: none">
+                                        <!--id一括操作時に使う-->
+
                                         <table>
                                             <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
                                             <tr>
@@ -493,10 +490,11 @@
                                                 </div>
                                             </tr>
                                         </table>
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
                     </td>
                     <td valign="top">
                         <table id="top">
@@ -538,6 +536,7 @@
                 </tr>
                 </tbody>
             </table>
+
         </div>
         <br>
         <!--        分页页面底部-->

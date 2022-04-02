@@ -10,5 +10,5 @@ import java.util.List;
 public interface OrderInfoService {
 
     //把所有的Orderinfo取得
-    PageInfo<OrderInfo> findAllOrderInfo(OrderInfoQuery orderInfoQuery);
+    PageInfo<Order> findAllOrderInfo(OrderInfoQuery orderInfoQuery);
 }

@@ -186,7 +186,8 @@
 
     <update id="setItemSalePrice">
         update t_item
-        set purchaseprice=#{purchasePrice},
+        set itemname=#{itemName},
+            purchaseprice=#{purchasePrice},
             delivery=#{delivery},
             saleprice=#{salePrice},
             url1=#{url1},

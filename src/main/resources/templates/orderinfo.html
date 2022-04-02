@@ -151,12 +151,12 @@
                         <input type="checkbox" value="">
                     </td>
                     <td>
-                        <a><i class="file alternate outline icon"></i></a>
+                        <a th:href="@{/}" class="ui button mini pink">編集</a>
                         <br><br>
-                        <a><i class="trash alternate outline icon"></i></a>
+                        <a th:href="@{/}" class="ui button mini teal">削除</a>
                     </td>
                     <td>
-                        <div><span th:text=""></span></div>
+                        <div><span th:text="${order.orderInfo.getOrderId()}"></span></div>
                         <div>（住所）</div>
                         <div>（電話番号）</div>
                         <div>（注文者名）</div>
@@ -167,9 +167,9 @@
                     </td>
                     <td>
                         <table>
-                            <tr th:each="">
+                            <tr th:each="item : ${order.getItemList()}">
                                 <td>
-<!--                                    <img th:src="${order.getItem().getImage()}">-->
+                                    <img th:src="${item.getImage()}" width="130px">
                                 </td>
                                 <td>
                                     <ul>

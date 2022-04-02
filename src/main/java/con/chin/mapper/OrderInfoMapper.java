@@ -2,6 +2,7 @@ package con.chin.mapper;
 
 import con.chin.pojo.OrderInfo;
 import con.chin.pojo.query.OrderInfoQuery;
+import con.chin.pojo.result.Order;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

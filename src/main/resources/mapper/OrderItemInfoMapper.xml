@@ -6,6 +6,11 @@
 
 <mapper namespace="con.chin.mapper.OrderItemInfoMapper">
 
+    <select id="findOrderItemInfo" resultType="con.chin.pojo.OrderItemInfo">
+        select *
+        from t_orderiteminfo
+    </select>
+
     <select id="findOrderItemInfoByOrderId" resultType="con.chin.pojo.OrderItemInfo">
 
         select *
@@ -13,6 +18,12 @@
         where orderId = #{orderId}
 
     </select>
+
+    <update id="updateOrderItemInfoById">
+        update t_orderiteminfo
+        set itemid = #{itemId}
+        where id = ${id}
+    </update>
 
 </mapper>
 
