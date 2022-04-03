@@ -86,6 +86,7 @@ public class ItemInfoController {
         if (itemInfoQuery.getSearchConditions() == null || itemInfoQuery.getSearchConditions() == "") {
             httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("pageSize");
+            httpSession.removeAttribute("flog");
         }
         //为了条件查询后的分页 (有这条会出现编辑状态切换时数据错误)
 //        httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
@@ -101,6 +102,9 @@ public class ItemInfoController {
         String flog = (String) httpSession.getAttribute("flog");
         if (flog != null && !"".equals(flog)) {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
+        } else {
+            httpSession.setAttribute("flog", String.valueOf(0));
+            itemInfoQuery.setFlog(0);
         }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
@@ -202,7 +206,7 @@ public class ItemInfoController {
         //如果itemname有值的话
         if (itemName != "") {
             //把大写的空格改为小写的
-            itemName = itemName.replaceAll("　"," ");
+            itemName = itemName.replaceAll("　", " ");
             item.setItemName(itemName);
             flog++;
         }
@@ -241,7 +245,7 @@ public class ItemInfoController {
         if (flog > 0) {
             res = itemService.setItemSalePrice(item);
             //如果没有修改值的话
-        }else {
+        } else {
             redirectAttributes.addFlashAttribute("message", "修正内容を入力してください。");
         }
         //给前端返回信息
