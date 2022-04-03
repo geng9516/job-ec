@@ -4,8 +4,9 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
-@Entity
+//@Entity
 @Data
 public class OrderItemInfo {
 
@@ -39,6 +40,8 @@ public class OrderItemInfo {
     private String leadTimeStart;//発送日スタート
     private String leadTimeEnd;//発送日エンド
     private String leadTimeText;//発送日テキスト
+
+    private List<Item> itemList;
 
     public void setId(Long id) {
         this.id = id;

@@ -146,45 +146,77 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="order : ${page.list}">
-                    <td>
-                        <input type="checkbox" value="">
-                    </td>
-                    <td>
-                        <a th:href="@{/}" class="ui button mini pink">編集</a>
-                        <br><br>
-                        <a th:href="@{/}" class="ui button mini teal">削除</a>
-                    </td>
-                    <td>
-                        <div><span th:text="${order.orderInfo.getOrderId()}"></span></div>
-                        <div>（住所）</div>
-                        <div>（電話番号）</div>
-                        <div>（注文者名）</div>
-                        <div>（メールアドレス）</div>
-                        <div>（仕入れ先1）</div>
-                        <div>（仕入れ先2）</div>
-                        <div>（仕入れ先3）</div>
-                    </td>
-                    <td>
-                        <table>
-                            <tr th:each="item : ${order.getItemList()}">
-                                <td>
-                                    <img th:src="${item.getImage()}" width="130px">
-                                </td>
-                                <td>
-                                    <ul>
-                                        <il>（商品タイトル）</il>
-                                        <il>（商品ID）</il>
-                                        <il>（売価）</il>
-                                        <il>（注文数）</il>
-                                        <il>（状態）</il>
-                                        <il>（発送予定日）</il>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td>Requires call</td>
+                <tr th:each="order,orderStat : ${page.list}">
+                    <span th:if="${orderStat.index} == 0">
+                        <td>
+                            <input type="checkbox" value="">
+                        </td>
+                        <td>
+                            <a th:href="@{/}" class="ui button mini pink">編集</a>
+                            <br><br>
+                            <a th:href="@{/}" class="ui button mini teal">削除</a>
+                        </td>
+                        <td th:rowspan="${orderStat.size}" >
+                            <div><span th:text="${order.getOrderId()}"></span></div>
+                            <div>（住所）</div>
+                            <div>（電話番号）</div>
+                            <div>（注文者名）</div>
+                            <div>（メールアドレス）</div>
+                            <div>（仕入れ先1）</div>
+                            <div>（仕入れ先2）</div>
+                            <div>（仕入れ先3）</div>
+                        </td>
+                        <td>
+                            <table>
+                                <tr th:each="item : ${order.getOrderItemInfoList().getItemList()}">
+                                    <td>
+                                        <img th:src="${item.getImage()}" width="130px">
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <il>（商品タイトル）</il>
+                                            <il>（商品ID）</il>
+                                            <il>（売価）</il>
+                                            <il>（注文数）</il>
+                                            <il>（状態）</il>
+                                            <il>（発送予定日）</il>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>Requires call</td>
+                    </span>
+                    <span th:if="${orderStat.index} != 0">
+                        <td>
+                            <input type="checkbox" value="">
+                        </td>
+                        <td>
+                            <a th:href="@{/}" class="ui button mini pink">編集</a>
+                            <br><br>
+                            <a th:href="@{/}" class="ui button mini teal">削除</a>
+                        </td>
+                        <td>
+                            <table>
+                                <tr th:each="item : ${order.getItemList()}">
+                                    <td>
+                                        <img th:src="${item.getImage()}" width="130px">
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <il>（商品タイトル）</il>
+                                            <il>（商品ID）</il>
+                                            <il>（売価）</il>
+                                            <il>（注文数）</il>
+                                            <il>（状態）</il>
+                                            <il>（発送予定日）</il>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>Requires call</td>
+                    </span>
                 </tr>
                 </tbody>
             </table>
@@ -235,6 +267,9 @@
                 </tbody>
             </table>
         </div>
+        <br>
+        <br>
+        <br>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>

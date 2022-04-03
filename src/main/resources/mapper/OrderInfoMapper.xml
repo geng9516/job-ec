@@ -6,18 +6,129 @@
 
 <mapper namespace="con.chin.mapper.OrderInfoMapper">
 
-    <select id="findAllOrderInfo" resultType="con.chin.pojo.OrderInfo">
+    <!--    <select id="findAllOrderInfo" resultType="con.chin.pojo.OrderInfo">-->
+
+    <!--        select *-->
+    <!--        from t_orderinfo-->
+    <!--        <where>-->
+    <!--            <if test="searchConditions != null and searchConditions != ''">-->
+    <!--                orderid = #{searchConditions}-->
+    <!--            </if>-->
+    <!--        </where>-->
+
+    <!--    </select>-->
+
+
+    <select id="findAllOrderInfo" resultMap="order">
 
         select *
-        from t_orderinfo
-        <where>
-            <if test="searchConditions != null and searchConditions != ''">
-                orderid = #{searchConditions}
-            </if>
-        </where>
+
+        from t_orderinfo a1
+                 LEFT JOIN t_orderiteminfo a2 on a1.orderid = a2.orderId
+                 LEFT JOIN t_item a3 on a2.itemid = a3.itemcode
 
     </select>
 
+
+    <resultMap id="order" type="con.chin.pojo.OrderInfo">
+        <id column="id" property="id"/>
+        <result column="orderId" property="orderId"/>
+        <result column="shopNameAndOrderId" property="shopNameAndOrderId"/>
+        <result column="orderTime" property="orderTime"/>
+        <result column="shipNameKana" property="shipNameKana"/>
+        <result column="shipName" property="shipName"/>
+        <result column="shipZipCode" property="shipZipCode"/>
+        <result column="shipAddressFull" property="shipAddressFull"/>
+        <result column="shipPrefecture" property="shipPrefecture"/>
+        <result column="shipCity" property="shipCity"/>
+        <result column="shipAddress1" property="shipAddress1"/>
+        <result column="shipAddress2" property="shipAddress2"/>
+        <result column="shipPhoneNumber" property="shipPhoneNumber"/>
+        <result column="shipMethodName" property="shipMethodName"/>
+        <result column="shipCompanyCode" property="shipCompanyCode"/>
+        <result column="shipInvoiceNumber1" property="shipInvoiceNumber1"/>
+        <result column="shipInvoiceNumber2" property="shipInvoiceNumber2"/>
+        <result column="shipDate" property="shipDate"/>
+        <result column="billMailAddress" property="billMailAddress"/>
+        <result column="shipCharge" property="shipCharge"/>
+        <result column="total" property="total"/>
+        <result column="referer" property="referer"/>
+        <result column="payMethodName" property="payMethodName"/>
+        <result column="combinedPayMethodName" property="combinedPayMethodName"/>
+        <result column="shipStatus" property="shipStatus"/>
+        <result column="payStatus" property="payStatus"/>
+        <result column="deviceType" property="deviceType"/>
+        <collection property="orderItemInfoList" ofType="con.chin.pojo.OrderItemInfo">
+            <id column="id" property="id"></id>
+            <result column="rderId" property="rderId"/>
+            <result column="ineId" property="ineId"/>
+            <result column="uantity" property="uantity"/>
+            <result column="temId" property="temId"/>
+            <result column="ubCode" property="ubCode"/>
+            <result column="itle" property="itle"/>
+            <result column="temOptionName" property="temOptionName"/>
+            <result column="temOptionValue" property="temOptionValue"/>
+            <result column="temOptionPrice" property="temOptionPrice"/>
+            <result column="ubCodeOption" property="ubCodeOption"/>
+            <result column="nscriptionName" property="nscriptionName"/>
+            <result column="nscriptionValue" property="nscriptionValue"/>
+            <result column="nitPrice" property="nitPrice"/>
+            <result column="riceType" property="riceType"/>
+            <result column="nitGetPoint" property="nitGetPoint"/>
+            <result column="ineSubTotal" property="ineSubTotal"/>
+            <result column="ineGetPoint" property="ineGetPoint"/>
+            <result column="ointFspCode" property="ointFspCode"/>
+            <result column="ouponId" property="ouponId"/>
+            <result column="ouponDiscount" property="ouponDiscount"/>
+            <result column="riginalPrice" property="riginalPrice"/>
+            <result column="sGetPointFix" property="sGetPointFix"/>
+            <result column="etPointFixDate" property="etPointFixDate"/>
+            <result column="etPointType" property="etPointType"/>
+            <result column="ineGetPointChargedToStore" property="ineGetPointChargedToStore"/>
+            <result column="eadTimeStart" property="eadTimeStart"/>
+            <result column="eadTimeEnd" property="eadTimeEnd"/>
+            <result column="eadTimeText" property="eadTimeText"/>
+            <collection property="itemList" ofType="con.chin.pojo.Item">
+                <id column="id" property="id"></id>
+                <result column="siteName" property="siteName"/>
+                <result column="shopName" property="shopName"/>
+                <result column="itemCode" property="itemCode"/>
+                <result column="oldItemCode" property="oldItemCode"/>
+                <result column="itemPath" property="itemPath"/>
+                <result column="itemCategoryCode" property="itemCategoryCode"/>
+                <result column="itemName" property="itemName"/>
+                <result column="price" property="price"/>
+                <result column="purchasePrice" property="purchasePrice"/>
+                <result column="salePrice" property="salePrice"/>
+                <result column="delivery" property="delivery"/>
+                <result column="option1" property="option1"/>
+                <result column="value1" property="value1"/>
+                <result column="option2" property="option2"/>
+                <result column="value2" property="value2"/>
+                <result column="option3" property="option3"/>
+                <result column="value3" property="value3"/>
+                <result column="option4" property="option4"/>
+                <result column="value4" property="value4"/>
+                <result column="option5" property="option5"/>
+                <result column="value5" property="value5"/>
+                <result column="url1" property="url1"/>
+                <result column="url2" property="url2"/>
+                <result column="url3" property="url3"/>
+                <result column="url4" property="url4"/>
+                <result column="url5" property="url5"/>
+                <result column="headline" property="headline"/>
+                <result column="caption" property="caption"/>
+                <result column="explanation" property="explanation"/>
+                <result column="relevantLinks" property="relevantLinks"/>
+                <result column="flog" property="flog"/>
+                <result column="image" property="image"/>
+                <result column="created" property="created"/>
+                <result column="updatetime" property="updatetime"/>
+                <result column="endDate" property="endDate"/>
+            </collection>
+        </collection>
+
+    </resultMap>
 </mapper>
 
 

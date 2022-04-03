@@ -87,7 +87,7 @@ public class ItemInfoController {
             httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("pageSize");
         }
-        //为了条件查询后的分页
+        //为了条件查询后的分页 (有这条会出现编辑状态切换时数据错误)
 //        httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
         //如果是店铺查询后的模糊查询,并且分页
         String siteShop = (String) httpSession.getAttribute("siteShop");

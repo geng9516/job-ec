@@ -4,8 +4,9 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
-@Entity
+//@Entity
 @Data
 public class OrderInfo {
 
@@ -37,6 +38,8 @@ public class OrderInfo {
     private String shipStatus;//出荷ステータス
     private String payStatus;//入金ステータス
     private String deviceType;//注文媒体
+
+    private List<OrderItemInfo> orderItemInfoList;
 
 
     public void setId(Long id) {
