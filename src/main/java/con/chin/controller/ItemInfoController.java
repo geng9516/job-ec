@@ -196,10 +196,7 @@ public class ItemInfoController {
         item.setItemCode(intemCode);
 
         int flog = 0;
-        if (purchasePrice != "") {
-            item.setPurchasePrice(Integer.parseInt(purchasePrice));
-            flog++;
-        }
+
         //条件设置
         Config config = new Config();
         //调用查询送料方法
@@ -210,8 +207,13 @@ public class ItemInfoController {
             item.setItemName(itemName);
             flog++;
         }
+        //进货价
+        if (purchasePrice != ""  && salePrice != "") {
+            item.setPurchasePrice(Integer.parseInt(purchasePrice));
+            flog++;
+        }
         //如果送料有修改的话
-        if (deliveryId != null) {
+        if (deliveryId != null && salePrice != "") {
             //保存结果
             Config resConfig = new Config();
             config.setId(deliveryId);

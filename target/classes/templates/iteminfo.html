@@ -11,12 +11,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#meru").load("meru");
-
-            if (!$("#salePrice").text().empty()) {
-                var salePrice = $("#salePrice").text();
-                alert(salePrice);
-            }
-
         });
 
         //shop名でアイテムを検索
@@ -125,24 +119,23 @@
 
         //计算价格
         function calculation(e) {
-            //获取当前节点的父节点下的第一个子节点
-            var value1 = e.parentNode.children[0];
+            //获取当前节点的父节点的父节点下的第一个子节点下的第一个子节点(送料)
+            var value1 = e.parentNode.parentNode.children[1].children[0];
             //$(value1) 转为jQuery对象 操作dom
             var delivery = $(value1).find("option:selected").text();
-
             delivery = delivery.substring(delivery.indexOf(">") + 1, delivery.length);
-            var value2 = e.parentNode.children[1];
+            //进货价节点
+            var value2 = e.parentNode.parentNode.children[1].children[1];
             var price = $(value2).val();
-            console.log(price)
 
-            if (delivery == null || delivery == "") {
-                alert("送料を入力してください！")
-                return;
-            }
-            if (price == null || price == "") {
-                alert("仕入れ価格を入力してください！");
-                return;
-            }
+            // if (delivery == null || delivery == "") {
+            //     alert("送料を入力してください！")
+            //     return;
+            // }
+            // if (price == null || price == "") {
+            //     alert("仕入れ価格を入力してください！");
+            //     return;
+            // }
             //総仕入れ価格（元）
             var chinaDelivery = 6;
             var optionPrice = 10;
@@ -155,30 +148,69 @@
             var riekiritu = 0.6;
             var tax = 0.9;
             var taxJapaTtotolPurchasePrice = ((japaTtotolPurchasePrice / riekiritu) / tax) + 300;
-            var value3 = e.parentNode.children[2];
-            if (taxJapaTtotolPurchasePrice == NaN) {
-                $(value3).val(0);
+            //计算结果节点
+            var value3 = e.parentNode.parentNode.children[1].children[2];
+            if (taxJapaTtotolPurchasePrice === NaN) {
+                $(value3).text(0);
             } else {
                 $(value3).text(taxJapaTtotolPurchasePrice.toFixed(0));
             }
-        }
 
-        function getProfitability() {
-
-        }
-
-        function aaa() {
-            if ($("#message").text() != null) {
-                $('#message').delay(2000).hide(0);
+            //获取利益率节点
+            var value3 = e.parentNode.parentNode.parentNode.parentNode.children[1].children[0].children[3].children[0];
+            //获取販売価格节点
+            var value4 = e.parentNode.parentNode.parentNode.parentNode.children[1].children[0].children[2].children[0];
+            var salsePrice = parseInt($(value4).text());
+            //计算结果节点
+            var value5 = e.parentNode.parentNode.children[1].children[2];
+            var salsePrice1 = parseInt($(value5).text());
+            //販売価格不为空时
+            if ($(value4).text() == null || $(value4).text() != "") {
+                //消费税
+                // var tax = (salsePrice + 850) * 0.1;
+                var tax= 0;
+                //站点费用
+                var site = ((salsePrice + 850) * 0.35).toFixed(0);
+                //利润
+                var profit = (salsePrice + 850) - tax - site - japaTtotolPurchasePrice;
+                //利益率
+                var profitability = Number(profit / (salsePrice + 850) * 100).toFixed(1);
+                profitability += "%";
+                $(value3).text(profitability);
+                //販売価格为空时
+            } else {
+                //消费税
+                var tax = (salsePrice1 + 850) * 0.1;
+                //站点费用
+                var site = ((salsePrice1 + 850) * 0.35).toFixed(0);
+                //利润
+                var profit = (salsePrice1 + 850) - tax - site - japaTtotolPurchasePrice;
+                //利益率
+                var profitability = Number(profit / (salsePrice1 + 850) * 100).toFixed(1);
+                profitability += "%";
+                $(value3).text(profitability);
             }
         }
 
-        //
-        // $("#message").bind('DOMNodeInserted', function(e) {
-        //
-        //     $('#message').delay(2000).hide(0);
-        //
-        // });
+        function deliveryAndPriceNotNull(e) {
+            //获取当前节点的父节点的父节点下的第一个子节点下的第一个子节点(送料)
+            var value1 = e.parentNode.parentNode.children[1].children[0];
+            //$(value1) 转为jQuery对象 操作dom
+            var delivery = $(value1).find("option:selected").text();
+            delivery = delivery.substring(delivery.indexOf(">") + 1, delivery.length);
+            //进货价节点
+            var value2 = e.parentNode.parentNode.children[1].children[1];
+            var price = $(value2).val();
+
+            if (delivery == null || delivery == "") {
+                alert("送料を入力してください！")
+                return;
+            }
+            if (price == null || price == "") {
+                alert("仕入れ価格を入力してください！");
+                return;
+            }
+        }
 
     </script>
     <!--    表头固定-->
@@ -424,12 +456,12 @@
                                             <tr>
                                                 <div>
                                                     販売価格：<span style="color: #ea193a" id="salePrice"
-                                                                th:text="${item.getSalePrice()}"></span>
+                                                               th:text="${item.getSalePrice()}"></span>
                                                 </div>
                                             </tr>
                                             <tr>
                                                 <div>
-                                                    利益率：<span id="profitability"></span>
+                                                    利益率：<span style="color: #ea193a" id="profitability"></span>
                                                 </div>
                                             </tr>
                                             <tr>
@@ -504,7 +536,7 @@
                                                     </select>
                                                     <input type="text" name="purchase-price" size="16"
                                                            class="purchase-price"
-                                                           placeholder="仕入価格" onblur="calculation(this);">
+                                                           placeholder="仕入価格" onblur="deliveryAndPriceNotNull(this);">
                                                     <span style="text-align:center;color: #ea193a">
                                                     </span>
 
@@ -512,7 +544,8 @@
                                             </tr>
                                             <tr>
                                                 <div class="ui input mini">
-                                                    <input type="text" name="salePrice" size="9" placeholder="販売価格">
+                                                    <input type="text" name="salePrice" size="9" placeholder="販売価格"
+                                                           onfocus="calculation(this);">
                                                 </div>
                                             </tr>
                                             <tr>
