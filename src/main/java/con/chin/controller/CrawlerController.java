@@ -5,7 +5,7 @@ import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
 import con.chin.task.ItemProcessor;
 import con.chin.util.ItemPhotoToZipUtil;
-import con.chin.util.PutItemInfoUtil;
+import con.chin.util.PutItemInfoCsvUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -91,7 +91,7 @@ public class CrawlerController {
         //item信息不为空时
         if (itemList != null) {
             //调用下载方法
-            PutItemInfoUtil.putItemInfoToCsv(itemList, itemCsvPath);
+            PutItemInfoCsvUtil.putItemInfoToCsv(itemList, itemCsvPath);
             //完成输出信息
             redirectAttributes.addFlashAttribute("message", "数据出完成");
         } else {

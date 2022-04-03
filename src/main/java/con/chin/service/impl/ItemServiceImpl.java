@@ -151,7 +151,8 @@ public class ItemServiceImpl implements ItemService {
         //itemName不为空时
         if (item.getItemName() != null && item.getItemName() != "") {
             oldItem.setItemName(item.getItemName());
-        } else if (oldItem.getItemName() != null && item.getItemName() != "") {
+            flog++;
+        } else if (oldItem.getItemName() != null && oldItem.getItemName() != "") {
             flog++;
         }
         //进货价

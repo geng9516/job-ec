@@ -10,7 +10,7 @@ import con.chin.service.ConfigService;
 import con.chin.service.ItemService;
 import con.chin.service.SiteShopService;
 import con.chin.util.CopyItemPhotoUtil;
-import con.chin.util.PutItemInfoUtil;
+import con.chin.util.PutItemInfoCsvUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -148,7 +148,7 @@ public class ItemInfoController {
         //检索下载iteminfo
         List<Item> itemList = itemService.findItemByItemCodes(itemCodeList);
         //导出CSV文件
-        PutItemInfoUtil.putItemInfoToCsv(itemList, null);
+        PutItemInfoCsvUtil.putItemInfoToCsv(itemList, null);
         //产品照片拷贝
         System.out.println("照片拷贝执行开始");
         CopyItemPhotoUtil.read(itemCodeList);

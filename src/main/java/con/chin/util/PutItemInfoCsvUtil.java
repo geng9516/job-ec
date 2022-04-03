@@ -15,13 +15,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class PutItemInfoUtil {
+public class PutItemInfoCsvUtil {
 
-    private static PutItemInfoUtil putItemInfoUtil;
+    private static PutItemInfoCsvUtil putItemInfoCsvUtil;
     //??
     @PostConstruct
     public void init() {
-        putItemInfoUtil = this;
+        putItemInfoCsvUtil = this;
     }
 
     @Autowired
@@ -66,7 +66,7 @@ public class PutItemInfoUtil {
                 if(item.getOption1() == null){
                     //数据库中的flog字段赋值0
                     item.setFlog(0);
-                    putItemInfoUtil.itemService.updateItem(item);
+                    putItemInfoCsvUtil.itemService.updateItem(item);
                     continue;
                 }
                 //おすすめ商品 relevant-links
@@ -282,7 +282,7 @@ public class PutItemInfoUtil {
         // 导出文件名称
         String fileName = now + "_yahooiteminfo";
         // 导出CSV文件
-        File csvFile = PutItemInfoUtil.createCSVFile(headList, dataList, downloadFilePath, fileName);
+        File csvFile = PutItemInfoCsvUtil.createCSVFile(headList, dataList, downloadFilePath, fileName);
         String fileName2 = csvFile.getName();
         System.out.println(fileName2);
 

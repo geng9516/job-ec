@@ -157,6 +157,18 @@
             }
         }
 
+        // function aaa(){
+        //     if($("#message").val() != null){
+        //         $('#message').delay(2000).hide(0);
+        //     }
+        // }
+        //
+        // $("#message").bind('DOMNodeInserted', function(e) {
+        //
+        //     $('#message').delay(2000).hide(0);
+        //
+        // });
+
     </script>
     <!--    表头固定-->
     <style>
@@ -247,7 +259,7 @@
             </table>
             <div class='ui container' align="center">
                 <!--/*@thymesVar id="message" type=""*/-->
-                <p style="color: brown" id="message" th:text="${message}"></p>
+                <p style="color: brown" id="message" th:text="${message}" onchange="aaa()"></p>
             </div>
             <div class="results"></div>&emsp;
         </div>
@@ -372,6 +384,7 @@
                     </td>
                     <td valign="top">
                         <form action="/setItemInfo" method="post" id="operation">
+                            <input type="hidden" th:value="${page.getPageNum()}" name="pageNum">
                             <table>
                                 <tr>
                                     <td colspan="2" style="border-right: none;border-bottom: none">
