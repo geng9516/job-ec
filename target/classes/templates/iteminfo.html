@@ -11,6 +11,12 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#meru").load("meru");
+
+            if (!$("#salePrice").text().empty()) {
+                var salePrice = $("#salePrice").text();
+                alert(salePrice);
+            }
+
         });
 
         //shop名でアイテムを検索
@@ -157,11 +163,16 @@
             }
         }
 
-        // function aaa(){
-        //     if($("#message").val() != null){
-        //         $('#message').delay(2000).hide(0);
-        //     }
-        // }
+        function getProfitability() {
+
+        }
+
+        function aaa() {
+            if ($("#message").text() != null) {
+                $('#message').delay(2000).hide(0);
+            }
+        }
+
         //
         // $("#message").bind('DOMNodeInserted', function(e) {
         //
@@ -411,8 +422,15 @@
                                                 <div>商品コード：<span th:text="${item.getItemCode()}"></span></div>
                                             </tr>
                                             <tr>
-                                                <div>販売価格：<span style="color: #ea193a"
-                                                                th:text="${item.getSalePrice()}"></span></div>
+                                                <div>
+                                                    販売価格：<span style="color: #ea193a" id="salePrice"
+                                                                th:text="${item.getSalePrice()}"></span>
+                                                </div>
+                                            </tr>
+                                            <tr>
+                                                <div>
+                                                    利益率：<span id="profitability"></span>
+                                                </div>
                                             </tr>
                                             <tr>
                                                 <div>価格：<span th:text="${item.getPrice()}"></span></div>
@@ -474,7 +492,7 @@
                                                     <input type="text" name="url3" size="6" placeholder="url3">
                                                 </div>
                                             </tr>
-                                            <tr>
+                                            <tr style="margin-top:2px">
                                                 <div class="ui input mini">
                                                     <select class="ui dropdown delivery"
                                                             name="delivery">

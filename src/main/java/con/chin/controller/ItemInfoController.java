@@ -254,7 +254,11 @@ public class ItemInfoController {
         }
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
-        return "redirect:/iteminfo?pageNum=" + pageNum;
+        if(pageNum != null && pageNum != "" ){
+            return "redirect:/iteminfo?pageNum=" + pageNum ;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1 ;
     }
 
     //一页显示数设定
