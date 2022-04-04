@@ -10,7 +10,7 @@ import con.chin.service.ConfigService;
 import con.chin.service.ItemService;
 import con.chin.service.SiteShopService;
 import con.chin.util.CopyItemPhotoUtil;
-import con.chin.util.PutItemInfoCsvUtil;
+import con.chin.util.ExportItemInfoCsvUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -89,7 +89,7 @@ public class ItemInfoController {
             httpSession.removeAttribute("flog");
         }
         //为了条件查询后的分页 (有这条会出现编辑状态切换时数据错误)
-//        httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
+        httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
         //如果是店铺查询后的模糊查询,并且分页
         String siteShop = (String) httpSession.getAttribute("siteShop");
         itemInfoQuery.setShopName(siteShop);
@@ -147,17 +147,22 @@ public class ItemInfoController {
     //下载iteminfo和产品照片拷贝
     @ResponseBody
     @PostMapping("/bulkOperation")
-    public String bulkOperation(@RequestParam("listString[]") List<String> itemCodeList) {
-
+    public String bulkOperation(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
+        Gson gson = new Gson();
         //检索下载iteminfo
         List<Item> itemList = itemService.findItemByItemCodes(itemCodeList);
         //导出CSV文件
-        PutItemInfoCsvUtil.putItemInfoToCsv(itemList, null);
+        ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, null);
+        //编辑状态
+        String flog = (String) httpSession.getAttribute("flog");
+        if (flog != null && flog == "3") {
+            return gson.toJson("照片已下载!");
+        }
         //产品照片拷贝
         System.out.println("照片拷贝执行开始");
         CopyItemPhotoUtil.read(itemCodeList);
         System.out.println("照片拷贝执行结束");
-        Gson gson = new Gson();
+
         return gson.toJson("アイテムCSV情報出力完了しました。");
     }
 
@@ -208,7 +213,7 @@ public class ItemInfoController {
             flog++;
         }
         //进货价
-        if (purchasePrice != ""  && salePrice != "") {
+        if (purchasePrice != "" && salePrice != "") {
             item.setPurchasePrice(Integer.parseInt(purchasePrice));
             flog++;
         }
@@ -256,16 +261,17 @@ public class ItemInfoController {
         }
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
-        if(pageNum != null && pageNum != "" ){
-            return "redirect:/iteminfo?pageNum=" + pageNum ;
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
         }
 
-        return "redirect:/iteminfo?pageNum=" + 1 ;
+        return "redirect:/iteminfo?pageNum=" + 1;
     }
 
     //一页显示数设定
     @PostMapping("/setPageSize")
     public String setPageNum(Model model, HttpSession httpSession, ItemInfoQuery itemInfoQuery) {
+
 
         //如果siteShop不为空的话的设定查询条件
         String siteShop = (String) httpSession.getAttribute("siteShop");

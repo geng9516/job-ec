@@ -121,7 +121,7 @@ public class CopyItemPhotoUtil {
                 }
             }
         }
-        System.out.println("照片拷贝完成!  文件价名为:  " + folderName);
+        System.out.println("照片拷贝完成!  照片文件价名为 -->  " + folderName);
         return;
     }
 }

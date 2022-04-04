@@ -8,9 +8,9 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Component
-public class RandomGetRelevantLinksUtil {
+public class SetDataUtil {
 
-    private static RandomGetRelevantLinksUtil randomGet;
+    private static SetDataUtil randomGet;
 
     //??
     @PostConstruct
@@ -73,6 +73,21 @@ public class RandomGetRelevantLinksUtil {
         //返回结果
         return set;
     }
+
+
+    //产品名字长度控制
+    public static String setItemName(String itemName){
+        if(itemName.length() > 70){
+            itemName = itemName.substring(0,itemName.lastIndexOf(" "));
+        }else {
+            return itemName;
+        }
+        if(itemName.length() > 75){
+            setItemName(itemName);
+        }
+        return itemName;
+    }
+
 
 
 }

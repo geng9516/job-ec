@@ -180,7 +180,8 @@
                 //販売価格为空时
             } else {
                 //消费税
-                var tax = (salsePrice1 + 850) * 0.1;
+                // var tax = (salsePrice1 + 850) * 0.1;
+                var tax= 0;
                 //站点费用
                 var site = ((salsePrice1 + 850) * 0.35).toFixed(0);
                 //利润
@@ -302,7 +303,7 @@
             </table>
             <div class='ui container' align="center">
                 <!--/*@thymesVar id="message" type=""*/-->
-                <p style="color: brown" id="message" th:text="${message}" onchange="aaa()"></p>
+                <p style="color: brown" id="message" th:text="${message}" ></p>
             </div>
             <div class="results"></div>&emsp;
         </div>
@@ -368,6 +369,7 @@
                     <!--一括操作-->
                     <td>
                         <div>
+
                             <button onclick="bulkOperation()"><i class="download icon"></i></button>
                         </div>
                     </td>
