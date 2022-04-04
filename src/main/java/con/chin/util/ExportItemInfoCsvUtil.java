@@ -99,7 +99,7 @@ public class ExportItemInfoCsvUtil {
                 } else {
                     //個別商品コード(sub-code) 选项只有一个的时候
                     for (String value1 : values1) {
-                        subCode += item.getOption1() + ":" + value1 + "=" + item.getItemCode() + i + "&";
+                        subCode += item.getOption1() + ":" + value1 + "=" + item.getItemCode() + (i <= 500 ? i++ : 0) + "&";
                     }
                     //把最后的"&"去除
                     subCode = subCode.substring(0, subCode.lastIndexOf("&"));
