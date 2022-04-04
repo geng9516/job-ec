@@ -73,10 +73,11 @@ public class ExportItemInfoCsvUtil {
                     continue;
                 }
                 //产品名修改
-                String itemName = null;
+                String itemName = item.getItemName();
                 if (item.getItemName().length() > 70) {
                     itemName = SetDataUtil.setItemName(item.getItemName());
                 }
+
                 //おすすめ商品 relevant-links
                 item.setRelevantLinks(SetDataUtil.getRelevantLinks(item.getItemPath()));
                 //個別商品コード(sub-code)
@@ -112,7 +113,7 @@ public class ExportItemInfoCsvUtil {
                 //csv文件写出
                 printWriter.print("\"" + item.getItemPath() + "\"");//商品ページのストア内カテゴリパス path
                 printWriter.print(",");
-                printWriter.print("\"" + item.getItemName() + "\"");//商品名 name
+                printWriter.print("\"" + itemName + "\"");//商品名 name
                 printWriter.print(",");
                 printWriter.print("\"" + itemCode + "\""); //商品コード code
                 printWriter.print(",");
