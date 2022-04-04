@@ -73,7 +73,10 @@ public class ExportItemInfoCsvUtil {
                     continue;
                 }
                 //产品名修改
-                String itemName = SetDataUtil.setItemName(item.getItemName());
+                String itemName = null;
+                if (item.getItemName().length() > 70) {
+                    itemName = SetDataUtil.setItemName(item.getItemName());
+                }
                 //おすすめ商品 relevant-links
                 item.setRelevantLinks(SetDataUtil.getRelevantLinks(item.getItemPath()));
                 //個別商品コード(sub-code)
@@ -81,7 +84,7 @@ public class ExportItemInfoCsvUtil {
                 String[] values1 = item.getValue1().split(" ");
                 //value2以" "分割成各个选项参数(颜色/尺码)
                 String values = item.getValue2();
-                if (values != null && item.getOption2().length() < 20) {
+                if (values != null && item.getOption2().length() < 6) {
                     String[] values2 = values.split(" ");
                     //value1和value2做特定格式拼接
                     for (String value1 : values1) {
@@ -109,7 +112,7 @@ public class ExportItemInfoCsvUtil {
                 //csv文件写出
                 printWriter.print("\"" + item.getItemPath() + "\"");//商品ページのストア内カテゴリパス path
                 printWriter.print(",");
-                printWriter.print("\"" + itemName + "\"");//商品名 name
+                printWriter.print("\"" + item.getItemName() + "\"");//商品名 name
                 printWriter.print(",");
                 printWriter.print("\"" + itemCode + "\""); //商品コード code
                 printWriter.print(",");

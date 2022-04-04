@@ -155,7 +155,7 @@ public class ItemInfoController {
         ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, null);
         //编辑状态
         String flog = (String) httpSession.getAttribute("flog");
-        if (flog != null && flog == "2") {
+        if (flog != null && "2".equals(flog)) {
             return gson.toJson("照片已下载!");
         }
         //产品照片拷贝
