@@ -77,12 +77,12 @@ public class SetDataUtil {
 
     //产品名字长度控制
     public static String setItemName(String itemName){
-        if(itemName.length() > 70){
+        if(itemName.length() > 150){
             itemName = itemName.substring(0,itemName.lastIndexOf(" "));
         }else {
             return itemName;
         }
-        if(itemName.length() > 75){
+        if(itemName.length() > 150){
             setItemName(itemName);
         }
         return itemName;

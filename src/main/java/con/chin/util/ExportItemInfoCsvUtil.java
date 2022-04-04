@@ -81,7 +81,7 @@ public class ExportItemInfoCsvUtil {
                 String[] values1 = item.getValue1().split(" ");
                 //value2以" "分割成各个选项参数(颜色/尺码)
                 String values = item.getValue2();
-                if (values != null && item.getOption2().length() < 8) {
+                if (values != null && item.getOption2().length() < 20) {
                     String[] values2 = values.split(" ");
                     //value1和value2做特定格式拼接
                     for (String value1 : values1) {
