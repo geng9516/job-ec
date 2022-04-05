@@ -112,6 +112,13 @@ public class ExportItemInfoCsvUtil {
                         (item.getOption5() != "" && item.getOption5() != null ? "\n" + "\n" + item.getOption5() : "") + " " + (item.getValue5() != "" && item.getValue5() != null ? item.getValue5() : "");
                 //商品コード code
                 itemCode = item.getItemCode();
+                //価格
+                Integer price = null;
+                if (item.getSalePrice() != null) {
+                    price = item.getSalePrice();
+                }else {
+                    price = item.getPrice();
+                }
                 //csv文件写出
                 printWriter.print("\"" + item.getItemPath() + "\"");//商品ページのストア内カテゴリパス path
                 printWriter.print(",");
@@ -121,7 +128,7 @@ public class ExportItemInfoCsvUtil {
                 printWriter.print(",");
                 printWriter.print("\"" + subCode + "\"");      //個別商品コード sub-code
                 printWriter.print(",");
-                printWriter.print("\"" + (item.getSalePrice().toString() == null ? item.getPrice().toString() : item.getSalePrice().toString()) + "\"");     //通常販売価格 price
+                printWriter.print("\"" + price + "\"");     //通常販売価格 price
                 printWriter.print(",");
                 printWriter.print("\"" + options + "\"");     //オプション options
                 printWriter.print(",");
