@@ -117,6 +117,39 @@
             })
         }
 
+        //选中的option削除
+        function setOption(e) {
+            var checkedValue = $('#top input:checked');
+            var value = e.parentNode.parentNode.parentNode.parentNode.parentNode;
+            var itemCode = $(value).find("input.itemCode").val();
+            console.log(itemCode)
+            // 判断是否项目被选择
+            if (typeof checkedValue.val() === "undefined") {
+                alert("操作項目を選択してください！")
+                return;
+            }
+            // 保存选中的item的code
+            var Values = new Array();
+            //遍历
+            checkedValue.each(function () {
+                Values.push($(this).val());
+            })
+            $.ajax({
+                url: '/setOption',
+                type: 'post',
+                data: {"listString": Values, "itemCode": itemCode},
+                dataType: 'json',
+                success: function (data) {
+                    window.location = "/iteminfo?pageNum=" + data;
+                    $("#message").text("必要ないオプション項削除完了！");
+                },
+                error: function (data) {
+                    $("#message").val(data);
+                }
+            })
+
+        }
+
         //计算价格
         function calculation(e) {
             //获取当前节点的父节点的父节点下的第一个子节点下的第一个子节点(送料)
@@ -127,15 +160,6 @@
             //进货价节点
             var value2 = e.parentNode.parentNode.children[1].children[1];
             var price = $(value2).val();
-
-            // if (delivery == null || delivery == "") {
-            //     alert("送料を入力してください！")
-            //     return;
-            // }
-            // if (price == null || price == "") {
-            //     alert("仕入れ価格を入力してください！");
-            //     return;
-            // }
             //総仕入れ価格（元）
             var chinaDelivery = 6;
             var optionPrice = 10;
@@ -168,7 +192,7 @@
             if ($(value4).text() == null || $(value4).text() != "") {
                 //消费税
                 // var tax = (salsePrice + 850) * 0.1;
-                var tax= 0;
+                var tax = 0;
                 //站点费用
                 var site = ((salsePrice + 850) * 0.35).toFixed(0);
                 //利润
@@ -181,7 +205,7 @@
             } else {
                 //消费税
                 // var tax = (salsePrice1 + 850) * 0.1;
-                var tax= 0;
+                var tax = 0;
                 //站点费用
                 var site = ((salsePrice1 + 850) * 0.35).toFixed(0);
                 //利润
@@ -303,7 +327,7 @@
             </table>
             <div class='ui container' align="center">
                 <!--/*@thymesVar id="message" type=""*/-->
-                <p style="color: brown" id="message" th:text="${message}" ></p>
+                <p style="color: brown" id="message" th:text="${message}"></p>
             </div>
             <div class="results"></div>&emsp;
         </div>
@@ -369,7 +393,6 @@
                     <!--一括操作-->
                     <td>
                         <div>
-
                             <button onclick="bulkOperation()"><i class="download icon"></i></button>
                         </div>
                     </td>
@@ -516,7 +539,6 @@
                                     </td>
                                     <td style="border-top: none">
                                         <!--id一括操作時に使う-->
-
                                         <table>
                                             <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
                                             <tr>
@@ -564,34 +586,59 @@
                     </td>
                     <td valign="top">
                         <table id="top">
+                            <input type="hidden" name="itemCode" class="itemCode" th:value="${item.getItemCode()}">
                             <tr th:if="${item.getOption1() != null}">
+                                <td><input type="checkbox" name="option1"
+                                           th:value="${'1:' + item.getOption1()}"></inpu>
+                                </td>
                                 <td style="width: 120px"><p th:text="${item.getOption1()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue1().replaceAll(' ','、')}"></span>
                                 </td>
                             </tr>
                             <tr th:if="${item.getOption2() != null}">
+                                <td><input type="checkbox" name="option2"
+                                           th:value="${'2:' + item.getOption2()}"></inpu>
+                                </td>
                                 <td style="width: 120px"><p th:text="${item.getOption2()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue2().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption3() != null}">
+                                <td><input type="checkbox" name="option3"
+                                           th:value="${'3:' + item.getOption3()}"></inpu>
+                                </td>
                                 <td style="width: 120px"><p th:text="${item.getOption3()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue3().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption4() != null}">
+                                <td><input type="checkbox" name="option4"
+                                           th:value="${'4:' + item.getOption4()}"></inpu>
+                                </td>
                                 <td style="width: 120px"><p th:text="${item.getOption4()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue4().replaceAll(' ', '、')}"></span></td>
                             </tr>
                             <tr th:if="${item.getOption5() != null}">
+                                <td><input type="checkbox" name="option5"
+                                           th:value="${'5:' + item.getOption5()}"></inpu>
+                                </td>
                                 <td style="width: 120px"><p th:text="${item.getOption5()}"></p></td>
                                 <td style="width: 300px"><span
                                         th:text="${item.getValue5().replaceAll(' ', '、')}"></span></td>
                             </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <!--                                        <input type="submit" value="送信">-->
+                                    <div>
+                                        <button onclick="setOption(this)">送信</button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </table>
-
                     </td>
                     <td valign="top">
                         <div><p>・作成日</p></div>

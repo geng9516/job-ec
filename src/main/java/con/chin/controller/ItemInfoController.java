@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -336,6 +338,70 @@ public class ItemInfoController {
 
 
         return "iteminfo";
+    }
+
+    //编辑option
+    @ResponseBody
+    @PostMapping("/setOption")
+    public String setOption(HttpSession httpSession,
+                            @RequestParam("itemCode") String itemCode,
+                            @RequestParam("listString[]") List<String> optionList
+    ) {
+
+//        //如果siteShop不为空的话的设定查询条件
+//        String siteShop = (String) httpSession.getAttribute("siteShop");
+//        if (siteShop != null && !"".equals(siteShop)) {
+//            itemInfoQuery.setShopName(siteShop);
+//        }
+//        //如果searchConditions不为空的话的设定查询条件
+//        String searchConditions = (String) httpSession.getAttribute("searchConditions");
+//        if (searchConditions != null && !"".equals(searchConditions)) {
+//            itemInfoQuery.setSearchConditions(searchConditions);
+//            httpSession.removeAttribute("searchConditions");
+//        }
+//        //如果表示页数有修改的话,进行设定
+//        String pageSize = (String) httpSession.getAttribute("pageSize");
+//        if (pageSize != null && !"".equals(pageSize)) {
+//            itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
+//        }
+//        //取得送料设定值 后期修改为session
+//        List<Config> configList = configService.findDeliveryConfig();
+//        model.addAttribute("configList", configList);
+//        //编辑状态放到全局变量中
+//        httpSession.setAttribute("flog", String.valueOf(itemInfoQuery.getFlog()));
+//        //siteshop一覧
+
+        Item item = new Item();
+        item.setItemCode(itemCode);
+        for (String option : optionList) {
+            String optionCode = option.substring(0,option.indexOf(":"));
+            switch (optionCode){
+                case "1":
+                    item.setOption1(option);
+                    break;
+                case "2":
+                    item.setOption2(option);
+                    break;
+                case "3":
+                    item.setOption3(option);
+                    break;
+                case "4":
+                    item.setOption4(option);
+                    break;
+                case "5":
+                    item.setOption5(option);
+                    break;
+            }
+        }
+        Gson gson = new Gson();
+        itemService.setOption(item);
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return gson.toJson(pageNum);
+        }
+
+        return gson.toJson(1);
     }
 }
 

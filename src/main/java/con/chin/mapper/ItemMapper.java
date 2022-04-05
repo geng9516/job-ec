@@ -48,6 +48,9 @@ public interface ItemMapper {
     //多个itemid查询
     List<Item> findItemByItemCodes(List<String> itemCodeList);
 
+    //删除option值
+    int setOption(Item item);
+
 //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用

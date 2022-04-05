@@ -32,7 +32,7 @@ public class YahooItemInfoUtil {
         //新商品code
         String itemCode = UUID.randomUUID().toString();
         String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-        item.setItemCode(itemCode1);
+        item.setItemCode("E" + itemCode1);
         //旧商品code
         List<Selectable> nodes = html.css("div#itm_cat li").nodes();
         Selectable selectable1 = nodes.get(nodes.size() - 1);
@@ -120,14 +120,14 @@ public class YahooItemInfoUtil {
                         }
                         break;
                     case 2:
-                        if(item.getOption4() == null){
+                        if (item.getOption4() == null) {
                             //option4
                             String option4 = options.get(i).css("p.elOptionHeading", "text").toString();
                             item.setOption4(option4);
                             //value4
                             String value4 = Jsoup.parse(options.get(i).toString()).select("select option").text();
                             item.setValue4(value4);
-                        }else{
+                        } else {
                             //option5
                             String option5 = options.get(i).css("p.elOptionHeading", "text").toString();
                             item.setOption5(option5);
@@ -137,7 +137,7 @@ public class YahooItemInfoUtil {
                         }
                         break;
                     case 3:
-                        if(item.getOption5() == null){
+                        if (item.getOption5() == null) {
                             //option5
                             String option5 = options.get(i).css("p.elOptionHeading", "text").toString();
                             item.setOption5(option5);
@@ -242,7 +242,7 @@ public class YahooItemInfoUtil {
         //siteshopinfo保存
         SiteShop siteShop = new SiteShop();
         siteShop.setShopName(storeName);
-        page.putField("siteShop",siteShop);
+        page.putField("siteShop", siteShop);
     }
 }
 
