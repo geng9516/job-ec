@@ -5,13 +5,27 @@
     <title>数据爬取</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <link rel=”stylesheet” href=”https://use.fontawesome.com/releases/v5.1.0/css/all.css“>
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+
 
     <!--    加载表头-->
     <script type="text/javascript">
         $(document).ready(function () {
             $("#meru").load("meru");
+
+            var top = $.cookie("scroll_top");
+            $('html,body').animate({
+                scrollTop:top
+            },100)
         });
+
+        $(window).unload(function (){
+            var top = $(window).scrollTop();
+
+            $.cookie("scroll_top",top);
+        })
 
         //shop名でアイテムを検索
         function findIteminfoBySiteShop() {
@@ -118,7 +132,7 @@
         }
 
         //选中的option削除
-        function setOption(e) {
+        function deleteOption(e) {
             var checkedValue = $('#top input:checked');
             var value = e.parentNode.parentNode.parentNode.parentNode.parentNode;
             var itemCode = $(value).find("input.itemCode").val();
@@ -135,7 +149,40 @@
                 Values.push($(this).val());
             })
             $.ajax({
-                url: '/setOption',
+                url: '/deleteOption',
+                type: 'post',
+                data: {"listString": Values, "itemCode": itemCode},
+                dataType: 'json',
+                success: function (data) {
+                    window.location = "/iteminfo?pageNum=" + data;
+                    // $("#message").text("必要ないオプション項削除完了！");
+                },
+                error: function (data) {
+                    $("#message").val(data);
+                }
+            })
+
+        }
+
+        //选中的option更新
+        function updateOption(e) {
+            var checkedValue = $('#top input:checked');
+            var value = e.parentNode.parentNode.parentNode.parentNode.parentNode;
+            var itemCode = $(value).find("input.itemCode").val();
+            console.log(itemCode)
+            // 判断是否项目被选择
+            if (typeof checkedValue.val() === "undefined") {
+                alert("操作項目を選択してください！")
+                return;
+            }
+            // 保存选中的item的code
+            var Values = new Array();
+            //遍历
+            checkedValue.each(function () {
+                Values.push($(this).val());
+            })
+            $.ajax({
+                url: '/updateOption',
                 type: 'post',
                 data: {"listString": Values, "itemCode": itemCode},
                 dataType: 'json',
@@ -459,9 +506,10 @@
                                         <!--<p th:text="${item.getItemName()}">-->
                                         <div class="ui form">
                                             <div class="field">
-                                            <textarea rows="5" cols=50
-                                                      onpropertychange="this.style.posHeight=this.scrollHeight "
-                                                      th:text="${item.getItemName()}" name="itemName"></textarea>
+                                                <textarea rows="5" cols=50
+                                                          onpropertychange="this.style.posHeight=this.scrollHeight "
+                                                          th:text="${item.getItemName()}" name="itemName">
+                                                </textarea>
                                             </div>
                                         </div>
                                         <!-- <textarea th:text="${item.getItemName()}"></textarea>-->
@@ -585,60 +633,239 @@
                         </form>
                     </td>
                     <td valign="top">
-                        <table id="top">
-                            <input type="hidden" name="itemCode" class="itemCode" th:value="${item.getItemCode()}">
-                            <tr th:if="${item.getOption1() != null}">
-                                <td><input type="checkbox" name="option1"
-                                           th:value="${'1:' + item.getOption1()}"></inpu>
-                                </td>
-                                <td style="width: 120px"><p th:text="${item.getOption1()}"></p></td>
-                                <td style="width: 300px"><span
-                                        th:text="${item.getValue1().replaceAll(' ','、')}"></span>
-                                </td>
-                            </tr>
-                            <tr th:if="${item.getOption2() != null}">
-                                <td><input type="checkbox" name="option2"
-                                           th:value="${'2:' + item.getOption2()}"></inpu>
-                                </td>
-                                <td style="width: 120px"><p th:text="${item.getOption2()}"></p></td>
-                                <td style="width: 300px"><span
-                                        th:text="${item.getValue2().replaceAll(' ', '、')}"></span></td>
-                            </tr>
-                            <tr th:if="${item.getOption3() != null}">
-                                <td><input type="checkbox" name="option3"
-                                           th:value="${'3:' + item.getOption3()}"></inpu>
-                                </td>
-                                <td style="width: 120px"><p th:text="${item.getOption3()}"></p></td>
-                                <td style="width: 300px"><span
-                                        th:text="${item.getValue3().replaceAll(' ', '、')}"></span></td>
-                            </tr>
-                            <tr th:if="${item.getOption4() != null}">
-                                <td><input type="checkbox" name="option4"
-                                           th:value="${'4:' + item.getOption4()}"></inpu>
-                                </td>
-                                <td style="width: 120px"><p th:text="${item.getOption4()}"></p></td>
-                                <td style="width: 300px"><span
-                                        th:text="${item.getValue4().replaceAll(' ', '、')}"></span></td>
-                            </tr>
-                            <tr th:if="${item.getOption5() != null}">
-                                <td><input type="checkbox" name="option5"
-                                           th:value="${'5:' + item.getOption5()}"></inpu>
-                                </td>
-                                <td style="width: 120px"><p th:text="${item.getOption5()}"></p></td>
-                                <td style="width: 300px"><span
-                                        th:text="${item.getValue5().replaceAll(' ', '、')}"></span></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">
-                                    <!--                                        <input type="submit" value="送信">-->
-                                    <div>
-                                        <button onclick="setOption(this)">送信</button>
+                        <form action="/updateOption" method="post">
+                            <table id="top">
+                                <input type="hidden" name="itemCode" class="itemCode" th:value="${item.getItemCode()}">
+                                <tr th:switch="${item.getOption1()}">
+                                    <div th:case=" null">
+                                        <td>
+                                            <input th:if="${item.getOption1()} != null" type="checkbox"
+                                                   th:value="${'1:' + item.getOption1()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="2" name="option1"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="2" name="value1"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </div>
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
+                                    <div th:case="*">
+                                        <td>
+                                            <input type="checkbox" th:value="${'1:' + item.getOption1()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="2" name="option1"
+                                                              th:text="${item.getOption1()}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="2" name="value1"
+                                                              th:text="${item.getValue1().replaceAll(' ','、')}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                </tr>
+                                <tr th:switch="${item.getOption2()}">
+                                    <div th:case="null">
+                                        <td>
+                                            <input th:if="${item.getOption2()} != null" type="checkbox"
+                                                   th:value="${'2:' + item.getOption2()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="2" name="option2"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="2" name="value2"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                    <div th:case="*">
+                                        <td>
+                                            <input type="checkbox" th:value="${'2:' + item.getOption2()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="2" name="option2"
+                                                              th:text="${item.getOption2()}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="2" name="value2"
+                                                              th:text="${item.getValue2().replaceAll(' ', '、')}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                </tr>
+                                <tr th:switch="${item.getOption3()}">
+                                    <div th:case="null">
+                                        <td>
+                                            <input th:if="${item.getOption3()} != null" type="checkbox"
+                                                   th:value="${'3:' + item.getOption3()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="option3"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="value3"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                    <div th:case="*">
+                                        <td>
+                                            <input type="checkbox" th:value="${'3:' + item.getOption3()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="option3"
+                                                              th:text="${item.getOption3()}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="value3"
+                                                              th:text="${item.getValue3().replaceAll(' ', '、')}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                </tr>
+                                <tr th:switch="${item.getOption4()}">
+                                    <div th:case="null">
+                                        <td>
+                                            <input th:if="${item.getOption4()} != null" type="checkbox"
+                                                   th:value="${'4:' + item.getOption4()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="option4"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="value4"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                    <div th:case="*">
+                                        <td>
+                                            <input type="checkbox" th:value="${'4:' + item.getOption4()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="option4"
+                                                              th:text="${item.getOption4()}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="value4"
+                                                              th:text="${item.getValue4().replaceAll(' ', '、')}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                </tr>
+                                <tr th:switch="${item.getOption5()}">
+                                    <div th:case="${null}">
+                                        <td>
+                                            <input th:if="${item.getOption5()} != null" type="checkbox"
+                                                   th:value="${'5:' + item.getOption5()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="option5"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="value5"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                    <div th:case="*">
+                                        <td>
+                                            <input type="checkbox" th:value="${'5:' + item.getOption5()}">
+                                        </td>
+                                        <td style="width: 120px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="option5"
+                                                              th:text="${item.getOption5()}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 300px">
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <textarea rows="1" name="value5"
+                                                              th:text="${item.getValue5().replaceAll(' ', '、')}"></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="ui button mini">
+                                            <button onclick="deleteOption(this)">削除</button>
+                                            <!--                                        <button onclick="updateOption(this)">更新</button>-->
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ui input mini blanl">
+                                            <input type="submit" value="更新">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
                     </td>
                     <td valign="top">
                         <div><p>・作成日</p></div>

@@ -47,7 +47,10 @@ public interface ItemService {
     List<Item> findItemByItemCodes(List<String> stringList);
 
     //删除option值
-    int setOption(Item item);
+    int deleteOption(Item item);
+
+    //更新option值
+    int updateOption(Item item);
 
     //---------------------------------------------------------------------------------------------------------
 

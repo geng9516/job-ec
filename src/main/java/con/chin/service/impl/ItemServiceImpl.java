@@ -241,31 +241,75 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findItemByItemCodes(itemCodeList);
     }
 
+    //削除option值
     @Override
-    public int setOption(Item item) {
-        //当前时间
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    public int deleteOption(Item item) {
+//        //当前时间
+//        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Item oldItem = new Item();
         oldItem = this.findItemByItemCode(item);
-        oldItem.setUpdatetime(now);
+//        oldItem.setUpdatetime(now);
 
         if (item.getOption1() != null && item.getOption1() != "") {
             oldItem.setOption1(null);
+            oldItem.setValue1(null);
         }
         if (item.getOption2() != null && item.getOption2() != "") {
             oldItem.setOption2(null);
+            oldItem.setValue2(null);
         }
         if (item.getOption3() != null && item.getOption3() != "") {
             oldItem.setOption3(null);
+            oldItem.setValue3(null);
         }
         if (item.getOption4() != null && item.getOption4() != "") {
             oldItem.setOption4(null);
+            oldItem.setValue4(null);
         }
         if (item.getOption5() != null && item.getOption5() != "") {
             oldItem.setOption5(null);
+            oldItem.setValue5(null);
+        }
+        int res = itemMapper.deleteOption(oldItem);
+        if(res == 1){
+            System.out.println("成功");
+        }else {
+            System.out.println("失敗");
         }
 
-        return itemMapper.setOption(oldItem);
+        return itemMapper.deleteOption(oldItem);
+    }
+
+    //更新option值
+    @Override
+    public int updateOption(Item item) {
+//        //当前时间
+//        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        Item oldItem = new Item();
+        oldItem = this.findItemByItemCode(item);
+//        oldItem.setUpdatetime(now);
+
+        if (item.getOption1() != null && item.getOption1() != "") {
+            oldItem.setOption1(item.getOption1());
+            oldItem.setValue1(item.getValue1());
+        }
+        if (item.getOption2() != null && item.getOption2() != "") {
+            oldItem.setOption2(item.getOption2());
+            oldItem.setValue2(item.getValue2());
+        }
+        if (item.getOption3() != null && item.getOption3() != "") {
+            oldItem.setOption3(item.getOption3());
+            oldItem.setValue3(item.getValue3());
+        }
+        if (item.getOption4() != null && item.getOption4() != "") {
+            oldItem.setOption4(item.getOption4());
+            oldItem.setValue4(item.getValue4());
+        }
+        if (item.getOption5() != null && item.getOption5() != "") {
+            oldItem.setOption5(item.getOption5());
+            oldItem.setValue5(item.getValue5());
+        }
+        return itemMapper.updateOption(oldItem);
     }
 
 //---------------------------------------------------------------------------------------------------------

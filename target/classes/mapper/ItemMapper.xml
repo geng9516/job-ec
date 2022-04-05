@@ -222,7 +222,24 @@
         </foreach>
     </select>
 
-    <update id="setOption">
+<!--    option削除-->
+    <update id="deleteOption">
+        update t_item
+        set option1   = #{option1},
+            value1    = #{value1},
+            option2   = #{option2},
+            value2    = #{value2},
+            option3   = #{option3},
+            value3    = #{value3},
+            option4   = #{option4},
+            value4    = #{value4},
+            option5   = #{option5},
+            value5    = #{value5},
+            updatetime=#{updatetime}
+        where itemcode = #{itemCode}
+    </update>
+    <!--    更新option值-->
+    <update id="updateOption">
         update t_item
         set option1   = #{option1},
             value1    = #{value1},

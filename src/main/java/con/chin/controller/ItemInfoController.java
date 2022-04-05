@@ -340,42 +340,18 @@ public class ItemInfoController {
         return "iteminfo";
     }
 
-    //编辑option
+    //削除option
     @ResponseBody
-    @PostMapping("/setOption")
+    @PostMapping("/deleteOption")
     public String setOption(HttpSession httpSession,
                             @RequestParam("itemCode") String itemCode,
                             @RequestParam("listString[]") List<String> optionList
     ) {
-
-//        //如果siteShop不为空的话的设定查询条件
-//        String siteShop = (String) httpSession.getAttribute("siteShop");
-//        if (siteShop != null && !"".equals(siteShop)) {
-//            itemInfoQuery.setShopName(siteShop);
-//        }
-//        //如果searchConditions不为空的话的设定查询条件
-//        String searchConditions = (String) httpSession.getAttribute("searchConditions");
-//        if (searchConditions != null && !"".equals(searchConditions)) {
-//            itemInfoQuery.setSearchConditions(searchConditions);
-//            httpSession.removeAttribute("searchConditions");
-//        }
-//        //如果表示页数有修改的话,进行设定
-//        String pageSize = (String) httpSession.getAttribute("pageSize");
-//        if (pageSize != null && !"".equals(pageSize)) {
-//            itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
-//        }
-//        //取得送料设定值 后期修改为session
-//        List<Config> configList = configService.findDeliveryConfig();
-//        model.addAttribute("configList", configList);
-//        //编辑状态放到全局变量中
-//        httpSession.setAttribute("flog", String.valueOf(itemInfoQuery.getFlog()));
-//        //siteshop一覧
-
         Item item = new Item();
         item.setItemCode(itemCode);
         for (String option : optionList) {
-            String optionCode = option.substring(0,option.indexOf(":"));
-            switch (optionCode){
+            String optionCode = option.substring(0, option.indexOf(":"));
+            switch (optionCode) {
                 case "1":
                     item.setOption1(option);
                     break;
@@ -394,7 +370,7 @@ public class ItemInfoController {
             }
         }
         Gson gson = new Gson();
-        itemService.setOption(item);
+        itemService.deleteOption(item);
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
         if (pageNum != null && pageNum != "") {
@@ -402,6 +378,69 @@ public class ItemInfoController {
         }
 
         return gson.toJson(1);
+    }
+
+    //编辑option
+//    @ResponseBody
+    @PostMapping("/updateOption")
+    public String updateOption(HttpSession httpSession,
+                               @RequestParam("itemCode") String itemCode,
+                               @RequestParam("option1") String option1,
+                               @RequestParam("option2") String option2,
+                               @RequestParam("option3") String option3,
+                               @RequestParam("option4") String option4,
+                               @RequestParam("option5") String option5,
+                               @RequestParam("value1") String value1,
+                               @RequestParam("value2") String value2,
+                               @RequestParam("value3") String value3,
+                               @RequestParam("value4") String value4,
+                               @RequestParam("value5") String value5
+
+    ) {
+        Item item = new Item();
+        item.setItemCode(itemCode);
+
+        if ((option1 != null && option1 != "") && (value1 != null && value1 != "")) {
+            option1 = option1.replaceAll("　","");
+            value1 = value1.replaceAll("　"," ").replaceAll("、"," ");
+            item.setOption1(option1);
+            item.setValue1(value1);
+        }
+        if ((option2 != null && option2 != "") && (value2 != null && value2 != "")) {
+            option2 = option2.replaceAll("　","");
+            value2 = value2.replaceAll("　"," ").replaceAll("、"," ");
+            item.setOption2(option2);
+            item.setValue2(value2);
+        }
+        if ((option3 != null && option3 != "") && (value3 != null && value3 != "")) {
+            option3 = option3.replaceAll("　","");
+            value3 = value3.replaceAll("　"," ").replaceAll("、"," ");
+            item.setOption3(option3);
+            item.setValue3(value3);
+        }
+        if ((option4 != null && option4 != "") && (value4 != null && value4 != "")) {
+            option4 = option4.replaceAll("　","");
+            value4 = value4.replaceAll("　"," ").replaceAll("、"," ");
+            item.setOption4(option4);
+            item.setValue4(value4);
+        }
+        if ((option5 != null && option5 != "") && (value5 != null && value5 != "")) {
+            option5 = option5.replaceAll("　","");
+            value5 = value5.replaceAll("　"," ").replaceAll("、"," ");
+            item.setOption5(option5);
+            item.setValue5(value5);
+        }
+
+
+//        Gson gson = new Gson();
+        itemService.updateOption(item);
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
     }
 }
 
