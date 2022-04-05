@@ -77,6 +77,7 @@ public class SetDataUtil {
 
     //产品名字长度控制
     public static String setItemName(String itemName){
+        itemName = itemName.replaceAll("　"," ");
         itemName = itemName.substring(0,70);
         itemName = itemName.substring(0,itemName.lastIndexOf(" "));
         return itemName;
