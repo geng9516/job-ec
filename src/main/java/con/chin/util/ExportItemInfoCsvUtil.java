@@ -121,7 +121,7 @@ public class ExportItemInfoCsvUtil {
                 printWriter.print(",");
                 printWriter.print("\"" + subCode + "\"");      //個別商品コード sub-code
                 printWriter.print(",");
-                printWriter.print("\"" + item.getSalePrice().toString() + "\"");     //通常販売価格 price
+                printWriter.print("\"" + (item.getSalePrice().toString() == null ? item.getPrice().toString() : item.getSalePrice().toString()) + "\"");     //通常販売価格 price
                 printWriter.print(",");
                 printWriter.print("\"" + options + "\"");     //オプション options
                 printWriter.print(",");
