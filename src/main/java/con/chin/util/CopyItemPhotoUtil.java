@@ -1,5 +1,6 @@
 package con.chin.util;
 
+import con.chin.pojo.Item;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,15 +18,15 @@ public class CopyItemPhotoUtil {
         this.fileName = FILENAME;
     }
 
-    public static void read(List<String> itemCodeList) {
+    public static void read(List<Item> itemCodeList) {
 
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
         //从propertied文件中照片读取地址取得
         String itemphotoPath = bundle.getString("ITEMPHOTOCOPY");
         File file = new File(itemphotoPath);
         //循环要要拷贝的照片名文件夹
-        for (String itemCode : itemCodeList) {
-            checkFileExitst(file.getAbsolutePath(), itemCode);
+        for (Item item : itemCodeList) {
+            checkFileExitst(file.getAbsolutePath(), item.getItemCode());
         }
     }
 

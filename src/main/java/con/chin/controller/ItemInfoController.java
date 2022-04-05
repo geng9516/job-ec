@@ -162,7 +162,7 @@ public class ItemInfoController {
         }
         //产品照片拷贝
         System.out.println("照片拷贝执行开始");
-        CopyItemPhotoUtil.read(itemCodeList);
+        CopyItemPhotoUtil.read(itemList);
         System.out.println("照片拷贝执行结束");
 
         return gson.toJson("アイテムCSV情報出力完了しました。");
