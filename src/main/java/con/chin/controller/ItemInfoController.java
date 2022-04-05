@@ -395,7 +395,6 @@ public class ItemInfoController {
                                @RequestParam("value3") String value3,
                                @RequestParam("value4") String value4,
                                @RequestParam("value5") String value5
-
     ) {
         Item item = new Item();
         item.setItemCode(itemCode);
@@ -432,7 +431,6 @@ public class ItemInfoController {
         }
 
 
-//        Gson gson = new Gson();
         itemService.updateOption(item);
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");

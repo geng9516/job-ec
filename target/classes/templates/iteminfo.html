@@ -9,7 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 
-
     <!--    加载表头-->
     <script type="text/javascript">
         $(document).ready(function () {
@@ -17,14 +16,14 @@
 
             var top = $.cookie("scroll_top");
             $('html,body').animate({
-                scrollTop:top
-            },100)
+                scrollTop: top
+            }, 100)
         });
 
-        $(window).unload(function (){
+        $(window).unload(function () {
             var top = $(window).scrollTop();
 
-            $.cookie("scroll_top",top);
+            $.cookie("scroll_top", top);
         })
 
         //shop名でアイテムを検索
@@ -56,14 +55,14 @@
             //id=all是全选/反选的checkbox，判断是选中还是没选中
             var isChecked = $("#allchecked").is(':checked');
             //获取所有checkbox组成的数组
-            var checkedArrs = $("input[type='checkbox']:checked");
+            var checkedArrs = $("input[type='checkbox'].checkbox:checked");
             //判断是全选还是反选
             if (isChecked) {
-                $("input[type='checkbox']").each(function () {
+                $("input[type='checkbox'].checkbox").each(function () {
                     $(this).prop('checked', true);
                 });
             } else {
-                $("input[type='checkbox']").each(function () {
+                $("input[type='checkbox'].checkbox").each(function () {
                     $(this).prop('checked', false);
                 });
             }
@@ -434,6 +433,7 @@
                 <col style="width: 20%;">
                 <col style="width: 20%;">
             </colgroup>
+
             <table class="ui celled table scroll-box" id="wTable">
                 <thead>
                 <tr class="_sticky">
@@ -483,12 +483,13 @@
                 <tbody>
                 <tr th:each="item : ${page.list}" class="sticky">
                     <td valign="top">
-                        <input type="checkbox" th:value="${item.getItemCode()}">
+                        <input type="checkbox" class="checkbox" th:value="${item.getItemCode()}">
                     </td>
                     <td valign="top">
                         <a th:href="@{/}" class="ui button mini pink">編集</a>
                         <br><br>
-                        <a th:href="@{deleteItem(itemCode=${item.getItemCode()})}" class="ui button mini teal">削除</a>
+                        <a th:href="@{deleteItem(itemCode=${item.getItemCode()})}"
+                           class="ui button mini teal">削除</a>
                     </td>
                     <td valign="top">
                         <div>
@@ -626,7 +627,6 @@
                                                 </div>
                                             </tr>
                                         </table>
-
                                     </td>
                                 </tr>
                             </table>
@@ -635,7 +635,8 @@
                     <td valign="top">
                         <form action="/updateOption" method="post">
                             <table id="top">
-                                <input type="hidden" name="itemCode" class="itemCode" th:value="${item.getItemCode()}">
+                                <input type="hidden" name="itemCode" class="itemCode"
+                                       th:value="${item.getItemCode()}">
                                 <tr th:switch="${item.getOption1()}">
                                     <div th:case=" null">
                                         <td>
@@ -855,7 +856,6 @@
                                     <td colspan="2">
                                         <div class="ui button mini">
                                             <button onclick="deleteOption(this)">削除</button>
-                                            <!--                                        <button onclick="updateOption(this)">更新</button>-->
                                         </div>
                                     </td>
                                     <td>
