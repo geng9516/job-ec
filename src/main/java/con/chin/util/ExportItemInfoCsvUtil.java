@@ -186,8 +186,8 @@ public class ExportItemInfoCsvUtil {
             System.out.println("总共输出了: " + (count - 1));
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
-            System.out.println("这产品番号为:  " + itemCode + " 的没输出成功,有问题!");
+//        } catch (NullPointerException e) {
+//            System.out.println("这产品番号为:  " + itemCode + " 的没输出成功,有问题!");
         } finally {
             //文件流关闭
             if (printWriter != null) {
