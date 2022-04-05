@@ -27,7 +27,7 @@ public class SetDataUtil {
         //数据库中一个种类的产品code全拿出来
         List<String> relevantLinksList = randomGet.itemService.findItemCodeByPath(path);
         //种类的产品code只有一个的话直接返回null
-        if(relevantLinksList.size() == 1){
+        if (relevantLinksList.size() == 1) {
             return null;
         }
         //推荐产品的itemcode保存用
@@ -42,7 +42,7 @@ public class SetDataUtil {
                 //推荐产品的itemcode多个拼接保存
                 relevantLinks += s;
             }
-        }else{
+        } else {
             //数据库中一个种类的产品超过20个的时候,随机取出20个放到set集合里
             for (int i = 0; i < 20; i++) {
                 //List中的元素随机添加
