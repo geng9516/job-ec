@@ -87,7 +87,7 @@ public class CrawlerController {
     @GetMapping("/putItemInfo")
     public String putItemInfo(RedirectAttributes redirectAttributes) {
         //取得所有已编辑并且没有失效的产品
-        List<Item> itemList = itemService.findAllValidItem();
+        List<Item> itemList = itemService.findAll();
         //item信息不为空时
         if (itemList != null) {
             //调用下载方法

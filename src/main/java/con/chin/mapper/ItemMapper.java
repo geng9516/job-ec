@@ -54,10 +54,10 @@ public interface ItemMapper {
     //更新option值
     int updateOption(Item item);
 
+    List<Item> findAll();
 //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用
     void setdate(Item item);
 
-    List<Item> findAll();
 }
