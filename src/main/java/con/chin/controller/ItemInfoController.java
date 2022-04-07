@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -149,21 +147,42 @@ public class ItemInfoController {
     //下载iteminfo和产品照片拷贝
     @ResponseBody
     @PostMapping("/bulkOperation")
-    public String bulkOperation(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
+    public String bulkOperation(@RequestParam("listString[]") List<String> itemCodeList, @RequestParam("checkFlog") String checkFlog, HttpSession httpSession) {
+
         Gson gson = new Gson();
+        String flog = null;
         //检索下载iteminfo
         List<Item> itemList = itemService.findItemByItemCodes(itemCodeList);
-        //导出CSV文件
-        ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, null);
-        //编辑状态
-        String flog = (String) httpSession.getAttribute("flog");
-        if (flog != null && "2".equals(flog)) {
-            return gson.toJson("照片已下载!");
+        switch (checkFlog) {
+            case "0":
+                //导出CSV文件
+                ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, null);
+                break;
+            case "1":
+                //编辑状态
+                flog = (String) httpSession.getAttribute("flog");
+                if (flog != null && "2".equals(flog)) {
+                    return gson.toJson("照片已下载!");
+                }
+                //产品照片拷贝
+                System.out.println("照片拷贝执行开始");
+                CopyItemPhotoUtil.read(itemList);
+                System.out.println("照片拷贝执行结束");
+                break;
+            case "2":
+                //导出CSV文件
+                ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, null);
+                //编辑状态
+                flog = (String) httpSession.getAttribute("flog");
+                if (flog != null && "2".equals(flog)) {
+                    return gson.toJson("照片已下载!");
+                }
+                //产品照片拷贝
+                System.out.println("照片拷贝执行开始");
+                CopyItemPhotoUtil.read(itemList);
+                System.out.println("照片拷贝执行结束");
+                break;
         }
-        //产品照片拷贝
-        System.out.println("照片拷贝执行开始");
-        CopyItemPhotoUtil.read(itemList);
-        System.out.println("照片拷贝执行结束");
 
         return gson.toJson("アイテムCSV情報出力完了しました。");
     }
@@ -400,32 +419,32 @@ public class ItemInfoController {
         item.setItemCode(itemCode);
 
         if ((option1 != null && option1 != "") && (value1 != null && value1 != "")) {
-            option1 = option1.replaceAll("　","");
-            value1 = value1.replaceAll("　"," ").replaceAll("、"," ");
+            option1 = option1.replaceAll("　", "");
+            value1 = value1.replaceAll("　", " ").replaceAll("、", " ");
             item.setOption1(option1);
             item.setValue1(value1);
         }
         if ((option2 != null && option2 != "") && (value2 != null && value2 != "")) {
-            option2 = option2.replaceAll("　","");
-            value2 = value2.replaceAll("　"," ").replaceAll("、"," ");
+            option2 = option2.replaceAll("　", "");
+            value2 = value2.replaceAll("　", " ").replaceAll("、", " ");
             item.setOption2(option2);
             item.setValue2(value2);
         }
         if ((option3 != null && option3 != "") && (value3 != null && value3 != "")) {
-            option3 = option3.replaceAll("　","");
-            value3 = value3.replaceAll("　"," ").replaceAll("、"," ");
+            option3 = option3.replaceAll("　", "");
+            value3 = value3.replaceAll("　", " ").replaceAll("、", " ");
             item.setOption3(option3);
             item.setValue3(value3);
         }
         if ((option4 != null && option4 != "") && (value4 != null && value4 != "")) {
-            option4 = option4.replaceAll("　","");
-            value4 = value4.replaceAll("　"," ").replaceAll("、"," ");
+            option4 = option4.replaceAll("　", "");
+            value4 = value4.replaceAll("　", " ").replaceAll("、", " ");
             item.setOption4(option4);
             item.setValue4(value4);
         }
         if ((option5 != null && option5 != "") && (value5 != null && value5 != "")) {
-            option5 = option5.replaceAll("　","");
-            value5 = value5.replaceAll("　"," ").replaceAll("、"," ");
+            option5 = option5.replaceAll("　", "");
+            value5 = value5.replaceAll("　", " ").replaceAll("、", " ");
             item.setOption5(option5);
             item.setValue5(value5);
         }

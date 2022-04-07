@@ -20,12 +20,6 @@
             }, 100)
         });
 
-        $(window).unload(function () {
-            var top = $(window).scrollTop();
-
-            $.cookie("scroll_top", top);
-        })
-
         //shop名でアイテムを検索
         function findIteminfoBySiteShop() {
             $("#findIteminfoBySiteShop").removeAttr("action");
@@ -50,6 +44,14 @@
             $("#setPageSize").submit();
         }
 
+        //ダウンロードCSV
+        function downloadCsv() {
+            $("#downloadCsvFrom").removeAttr("action");
+            $("#downloadCsvFrom").attr("method", "post");
+            $("#downloadCsvFrom").attr('action', "/bulkOperation");
+            $("#downloadCsvFrom").submit();
+        }
+
         //全选和反选
         function selectAll() {
             //id=all是全选/反选的checkbox，判断是选中还是没选中
@@ -68,37 +70,6 @@
             }
         }
 
-        // //选中的产品下载iteminfo.csv 和照片拷贝
-        // function bulkOperation() {
-        //     var checkedValue = $('tbody input:checked');
-        //     //判断是否项目被选择
-        //     if (typeof checkedValue.val() === "undefined") {
-        //         alert("操作項目を選択してください！")
-        //         return;
-        //     }
-        //     //保存选中的item的code
-        //     var Values = new Array();
-        //     //遍历
-        //     checkedValue.each(function () {
-        //         Values.push($(this).val());
-        //     })
-        //     //被选中的是哪个操作
-        //     // var checkFlog = $("#bulk-operation").val();
-        //     $.ajax({
-        //         url: '/bulkOperation',
-        //         type: 'post',
-        //         data: {"listString": Values},
-        //         dataType: 'json',
-        //         success: function (data) {
-        //             $("#message").text(data);
-        //             // alert(data)
-        //         },
-        //         error: function (data) {
-        //             $("#message").val(data);
-        //         }
-        //     })
-        // }
-
         //选中的产品下载iteminfo.csv 和照片拷贝
         function bulkOperation() {
             var checkedValue = $('tbody input:checked');
@@ -114,15 +85,19 @@
                 Values.push($(this).val());
             })
             //被选中的是哪个操作
-            // var checkFlog = $("#bulk-operation").val();
+            var checkFlog = $("#downloadCsv").val();
+            if (checkFlog === "") {
+                return;
+            }
+            console.log(checkFlog)
             $.ajax({
                 url: '/bulkOperation',
                 type: 'post',
-                data: {"listString": Values},
+                data: {"listString": Values, "checkFlog": checkFlog},
                 dataType: 'json',
                 success: function (data) {
                     $("#message").text(data);
-                    // alert(data)
+                    window.location = "/iteminfo?pageNum=" + 1;
                 },
                 error: function (data) {
                     $("#message").val(data);
@@ -149,39 +124,6 @@
             })
             $.ajax({
                 url: '/deleteOption',
-                type: 'post',
-                data: {"listString": Values, "itemCode": itemCode},
-                dataType: 'json',
-                success: function (data) {
-                    window.location = "/iteminfo?pageNum=" + data;
-                    // $("#message").text("必要ないオプション項削除完了！");
-                },
-                error: function (data) {
-                    $("#message").val(data);
-                }
-            })
-
-        }
-
-        //选中的option更新
-        function updateOption(e) {
-            var checkedValue = $('#top input:checked');
-            var value = e.parentNode.parentNode.parentNode.parentNode.parentNode;
-            var itemCode = $(value).find("input.itemCode").val();
-            console.log(itemCode)
-            // 判断是否项目被选择
-            if (typeof checkedValue.val() === "undefined") {
-                alert("操作項目を選択してください！")
-                return;
-            }
-            // 保存选中的item的code
-            var Values = new Array();
-            //遍历
-            checkedValue.each(function () {
-                Values.push($(this).val());
-            })
-            $.ajax({
-                url: '/updateOption',
                 type: 'post',
                 data: {"listString": Values, "itemCode": itemCode},
                 dataType: 'json',
@@ -377,7 +319,6 @@
             </div>
             <div class="results"></div>&emsp;
         </div>
-        <br>
         <!--分页页面顶部-->
         <div align="center">
             <table width="800px">
@@ -385,9 +326,11 @@
                 <tr>
                     <td>
                         <a th:href="@{/iteminfo(pageNum=${1})}" class="ui button basic mini"
-                           th:unless="${page.isFirstPage}">最初ページへ</a>
+                           th:unless="${page.isFirstPage}">最初ページへ
+                        </a>
                         <a th:href="@{/iteminfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"
-                           th:unless="${page.isFirstPage}">前へ</a>
+                           th:unless="${page.isFirstPage}">前へ
+                        </a>
                     </td>
                     <td>
                         <h8 th:text="${page.pageNum}">2</h8>
@@ -396,7 +339,6 @@
                         ページ&emsp;
                         商品数
                         <h8 th:text="${page.total}">29</h8>
-
                     </td>
                     <td>
                         <form name="pageForm" th:action="@{/iteminfo}" method="get">
@@ -408,22 +350,46 @@
                                         class="button mini">
                                     へジャンプ
                                 </button>
-
                             </div>
                         </form>
                     </td>
                     <td>&nbsp;</td>
                     <td style="float:right">
                         <a th:href="@{/iteminfo(pageNum=${page.pageNum+1})}" class="ui button basic mini"
-                           style="float:right;" th:unless="${page.isLastPage}">次へ</a>
+                           style="float:right;" th:unless="${page.isLastPage}">次へ
+                        </a>
                         <a th:href="@{/iteminfo(pageNum=${page.getPages()})}" class="ui button basic mini"
-                           style="float:right;" th:unless="${page.isLastPage}">最終ページへ</a>
+                           style="float:right;" th:unless="${page.isLastPage}">最終ページへ
+                        </a>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <br>
+        <table style="width: 100%">
+            <tr class="_sticky">
+                <!--一括操作-->
+                <td colspan="2">
+                    <!-- <button onclick="bulkOperation()"><i class="download icon"></i></button>-->
+                    <select class="ui dropdown" id="downloadCsv" name="downloadCsv" onchange="bulkOperation()">
+                        <option value="">ダウンロード</option>
+                        <option value="0">アイテムCSVのみ</option>
+                        <option value="1">商品画像のみ</option>
+                        <option value="2">両方</option>
+                    </select>
+                </td>
+                <td align="right">
+                    <form action="" id="setPageSize">
+                        <select class="ui dropdown" id="pageSize" name="pageSize" onchange="setPageSize()">
+                            <option value="">表示件数</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="500">500</option>
+                        </select>
+                    </form>
+                </td>
+            </tr>
+        </table>
         <div>
             <colgroup>
                 <col style="width: 5%;">
@@ -436,29 +402,6 @@
 
             <table class="ui celled table scroll-box" id="wTable">
                 <thead>
-                <tr class="_sticky">
-                    <!--一括操作-->
-                    <td>
-                        <div>
-                            <button onclick="bulkOperation()"><i class="download icon"></i></button>
-                        </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <form action="" id="setPageSize">
-                            <select class="ui dropdown" id="pageSize" name="pageSize" onchange="setPageSize()">
-                                <option value="">表示件数</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                                <option value="500">500</option>
-                            </select>
-                        </form>
-
-                    </td>
-                </tr>
                 <tr class="_sticky">
                     <th>
                         <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
@@ -876,7 +819,6 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
         <br>
         <!--        分页页面底部-->
@@ -927,7 +869,6 @@
         <br>
         <br>
         <br>
-
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
