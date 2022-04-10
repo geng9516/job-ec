@@ -204,6 +204,24 @@ public class ItemInfoController {
         return "redirect:/iteminfo?pageNum=" + pageNum;
     }
 
+    //削除
+    @ResponseBody
+    @PostMapping("/deleteItems")
+    public String deleteItems(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
+
+        Gson gson = new Gson();
+        Item item = new Item();
+        for (String itemCode : itemCodeList) {
+            item.setItemCode(itemCode);
+            itemService.deleteItem(item);
+        }
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return gson.toJson(pageNum);
+        }
+        return gson.toJson(1);
+    }
+
     //修改值
     @PostMapping("/setItemInfo")
     public String setItemInfo(
@@ -354,8 +372,6 @@ public class ItemInfoController {
         //一页显示数设定
         PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemInfoQuery);
         model.addAttribute("page", itemList);
-
-
         return "iteminfo";
     }
 
@@ -368,6 +384,7 @@ public class ItemInfoController {
     ) {
         Item item = new Item();
         item.setItemCode(itemCode);
+        //把有勾选的option全部进行设定
         for (String option : optionList) {
             String optionCode = option.substring(0, option.indexOf(":"));
             switch (optionCode) {
@@ -400,7 +417,6 @@ public class ItemInfoController {
     }
 
     //编辑option
-//    @ResponseBody
     @PostMapping("/updateOption")
     public String updateOption(HttpSession httpSession,
                                @RequestParam("itemCode") String itemCode,
@@ -416,40 +432,49 @@ public class ItemInfoController {
                                @RequestParam("value5") String value5
     ) {
         Item item = new Item();
+        //设置itemcode
         item.setItemCode(itemCode);
-
+        //把option和value的值进行设定
         if ((option1 != null && option1 != "") && (value1 != null && value1 != "")) {
-            option1 = option1.replaceAll("　", "");
-            value1 = value1.replaceAll("　", " ").replaceAll("、", " ");
+            //有全角或半角空格全部去除
+            option1 = option1.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value1 = value1.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
             item.setOption1(option1);
             item.setValue1(value1);
         }
         if ((option2 != null && option2 != "") && (value2 != null && value2 != "")) {
-            option2 = option2.replaceAll("　", "");
-            value2 = value2.replaceAll("　", " ").replaceAll("、", " ");
+            //有全角或半角空格全部去除
+            option2 = option2.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value2 = value2.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
             item.setOption2(option2);
             item.setValue2(value2);
         }
         if ((option3 != null && option3 != "") && (value3 != null && value3 != "")) {
-            option3 = option3.replaceAll("　", "");
-            value3 = value3.replaceAll("　", " ").replaceAll("、", " ");
+            //有全角或半角空格全部去除
+            option3 = option3.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value3 = value3.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
             item.setOption3(option3);
             item.setValue3(value3);
         }
         if ((option4 != null && option4 != "") && (value4 != null && value4 != "")) {
-            option4 = option4.replaceAll("　", "");
-            value4 = value4.replaceAll("　", " ").replaceAll("、", " ");
+            //有全角或半角空格全部去除
+            option4 = option4.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value4 = value4.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
             item.setOption4(option4);
             item.setValue4(value4);
         }
         if ((option5 != null && option5 != "") && (value5 != null && value5 != "")) {
-            option5 = option5.replaceAll("　", "");
-            value5 = value5.replaceAll("　", " ").replaceAll("、", " ");
+            //有全角或半角空格全部去除
+            option5 = option5.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value5 = value5.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
             item.setOption5(option5);
             item.setValue5(value5);
         }
-
-
         itemService.updateOption(item);
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");

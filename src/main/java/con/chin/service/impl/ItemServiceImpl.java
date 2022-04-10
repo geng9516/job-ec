@@ -271,9 +271,9 @@ public class ItemServiceImpl implements ItemService {
             oldItem.setValue5(null);
         }
         int res = itemMapper.deleteOption(oldItem);
-        if(res == 1){
+        if (res == 1) {
             System.out.println("成功");
-        }else {
+        } else {
             System.out.println("失敗");
         }
 
@@ -311,6 +311,103 @@ public class ItemServiceImpl implements ItemService {
         }
         return itemMapper.updateOption(oldItem);
     }
+
+    //csv文件更新数据或追加数据
+    @Override
+    public int updateItemByCsv(Item item) {
+        //当前时间
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        Item oldItem = itemMapper.findItemByItemCode(item);
+
+        if (oldItem == null) {
+            item.setUpdatetime(now);
+            String oldItemCode = now.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
+            item.setOldItemCode("E" + oldItemCode);
+            item.setFlog(0);
+            item.setCreated(now);
+            item.setEndDate("2099-12-31 23:59:59");
+            return itemMapper.saveItem(item);
+        }
+
+        oldItem.setUpdatetime(now);
+
+        if (item.getItemPath() != null && item.getItemPath() != "") {
+            oldItem.setItemPath(item.getItemPath());
+        }
+
+        if (item.getItemName() != null && item.getItemName() != "") {
+            oldItem.setItemName(item.getItemName());
+        }
+
+        if (item.getItemCode() != null && item.getItemCode() != "") {
+            oldItem.setItemCode(item.getItemCode());
+        }
+
+        if (item.getSalePrice() != null) {
+            oldItem.setSalePrice(item.getSalePrice());
+        }
+
+        if (item.getOption1() != null && item.getOption1() != "") {
+            oldItem.setOption1(item.getOption1());
+        }
+        if (item.getOption2() != null && item.getOption2() != "") {
+            oldItem.setOption2(item.getOption2());
+        }
+        if (item.getOption3() != null && item.getOption3() != "") {
+            oldItem.setOption3(item.getOption3());
+        }
+        if (item.getOption4() != null && item.getOption4() != "") {
+            oldItem.setOption4(item.getOption4());
+        }
+        if (item.getOption5() != null && item.getOption5() != "") {
+            oldItem.setOption5(item.getOption5());
+        }
+
+        if (item.getValue1() != null && item.getValue1() != "") {
+            oldItem.setValue1(item.getValue1());
+        }
+
+        if (item.getValue2() != null && item.getValue2() != "") {
+            oldItem.setValue2(item.getValue2());
+        }
+
+        if (item.getValue3() != null && item.getValue3() != "") {
+            oldItem.setValue3(item.getValue3());
+        }
+
+        if (item.getValue4() != null && item.getValue4() != "") {
+            oldItem.setValue4(item.getValue4());
+        }
+
+        if (item.getValue5() != null && item.getValue5() != "") {
+            oldItem.setValue5(item.getValue5());
+        }
+
+        if (item.getHeadline() != null && item.getHeadline() != "") {
+            oldItem.setHeadline(item.getHeadline());
+        }
+
+        if (item.getCaption() != null && item.getCaption() != "") {
+            oldItem.setCaption(item.getCaption());
+        }
+
+        if (item.getExplanation() != null && item.getExplanation() != "") {
+            oldItem.setExplanation(item.getExplanation());
+        }
+
+        if (item.getRelevantLinks() != null && item.getRelevantLinks() != "") {
+            oldItem.setRelevantLinks(item.getRelevantLinks());
+        }
+
+        if (item.getItemCategoryCode() != null) {
+            oldItem.setItemCategoryCode(item.getItemCategoryCode());
+        }
+
+        itemMapper.updateItemByCsv(oldItem);
+
+        return -1;
+    }
+
 
 //---------------------------------------------------------------------------------------------------------
 

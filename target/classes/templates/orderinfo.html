@@ -12,11 +12,12 @@
             $("#meru").load("meru");
         });
 
+        //上传orderInfocsv
         function csvImport() {
             $("#dataimpott").removeAttr("action");
             $("#dataimpott").attr("method", "post");
             $("#dataimpott").attr("enctype", "multipart/form-data");
-            $("#dataimpott").attr('action', "/csvImport");
+            $("#dataimpott").attr('action', "/orderCsvImport");
             $("#dataimpott").submit();
         }
 

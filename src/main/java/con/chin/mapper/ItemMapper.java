@@ -16,7 +16,7 @@ public interface ItemMapper {
     int saveItem (Item item);
 
     //更新产品
-    void updateItem(Item item);
+    int updateItem(Item item);
 
     //已编辑并且没有失效的产品
     List<Item> findAllValidItem();
@@ -54,7 +54,11 @@ public interface ItemMapper {
     //更新option值
     int updateOption(Item item);
 
+    //检索所有
     List<Item> findAll();
+
+    //csv文件更新数据或追加数据
+    int updateItemByCsv(Item item);
 //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用

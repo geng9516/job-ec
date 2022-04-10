@@ -1,5 +1,6 @@
 package con.chin.service;
 
+import con.chin.pojo.Item;
 import con.chin.pojo.OrderInfo;
 import con.chin.pojo.OrderItemInfo;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,7 @@ public interface FileImportService {
 
     //更新订单产品信息
     int updataOderItemInfo(OrderItemInfo orderItemInfo);
+
+    //追加或更新iteminfo
+    int savaItem(Item item);
 }

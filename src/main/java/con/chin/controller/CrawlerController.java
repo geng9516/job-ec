@@ -45,6 +45,7 @@ public class CrawlerController {
 
         String[] urls = url.split(System.lineSeparator());
         List<String> stringList = new ArrayList<>();
+        //把按照换行进行分割
         Matcher m = Pattern.compile("(?m)^.*$").matcher(url);
         while (m.find()) {
             stringList.add(m.group());
