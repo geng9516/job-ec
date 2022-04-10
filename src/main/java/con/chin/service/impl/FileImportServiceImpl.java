@@ -1,9 +1,11 @@
 package con.chin.service.impl;
 
 import con.chin.mapper.FileImportMapper;
+import con.chin.pojo.Item;
 import con.chin.pojo.OrderInfo;
 import con.chin.pojo.OrderItemInfo;
 import con.chin.service.FileImportService;
+import con.chin.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class FileImportServiceImpl implements FileImportService {
 
     @Autowired
-    FileImportMapper fileImportMapper;
+    private FileImportMapper fileImportMapper;
+
+    @Autowired
+    private ItemService itemService;
 
     //----------------------------------------------------
     //订单信息保存
@@ -41,6 +46,7 @@ public class FileImportServiceImpl implements FileImportService {
     }
 
     //----------------------------------------------------
+    //订单产品
     @Override
     public int savaOrderItemInfo(OrderItemInfo orderItemInfo) {
 
@@ -53,14 +59,23 @@ public class FileImportServiceImpl implements FileImportService {
         return -1;
     }
 
+    //订单号查找订单
     @Override
     public OrderItemInfo findOrderItemInfoByOrderIdAndItemId(OrderItemInfo orderItemInfo) {
         return fileImportMapper.findOrderItemInfoByOrderIdAndItemId(orderItemInfo);
     }
 
+    //更新订单产品信息
     @Override
     public int updataOderItemInfo(OrderItemInfo orderItemInfo) {
         return fileImportMapper.updataOderItemInfo(orderItemInfo);
+    }
+
+    //----------------------------------------------------
+    //追加或更新iteminfo
+    @Override
+    public int savaItem(Item item) {
+        return itemService.updateItemByCsv(item);
     }
 
 

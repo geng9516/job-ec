@@ -52,6 +52,9 @@ public interface ItemService {
     //更新option值
     int updateOption(Item item);
 
+    //csv文件更新数据或追加数据
+    int updateItemByCsv(Item item);
+
     //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用

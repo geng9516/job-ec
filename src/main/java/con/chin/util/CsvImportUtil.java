@@ -1,7 +1,15 @@
 package con.chin.util;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.text.csv.CsvData;
+import cn.hutool.core.text.csv.CsvReader;
+import cn.hutool.core.text.csv.CsvRow;
+import cn.hutool.core.text.csv.CsvUtil;
+import con.chin.pojo.Item;
 import con.chin.pojo.OrderInfo;
 import con.chin.pojo.OrderItemInfo;
+import org.apache.commons.collections.map.HashedMap;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,8 +18,13 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CsvImportUtil {
 
@@ -203,7 +216,7 @@ public class CsvImportUtil {
                 //商品の販売価格種別
                 orderItemInfo.setPriceType(orderItemData[12]);
                 //価格対する注文によるポイント
-                orderItemInfo.setUnitGetPoint(orderItemData[13].isEmpty() ? 0 :Integer.parseInt(orderItemData[13]));
+                orderItemInfo.setUnitGetPoint(orderItemData[13].isEmpty() ? 0 : Integer.parseInt(orderItemData[13]));
                 //Lineごと小計
                 orderItemInfo.setLineSubTotal(orderItemData[14].isEmpty() ? 0 : Integer.parseInt(orderItemData[14]));
                 //Lineごとの付与ポイント小計
@@ -267,4 +280,150 @@ public class CsvImportUtil {
         return null;
     }
 
+    //把产品信息加到item对象中
+    public static List<Item> readItemInfoCSV(String filePath) {
+
+
+        CsvReader reader = CsvUtil.getReader();
+        CsvData readData = reader.read(FileUtil.file(filePath), Charset.forName("Shift-JIS"));
+        List<CsvRow> rows = readData.getRows();
+
+        List<String> headsplit = rows.get(0).getRawList();
+
+        Map<String, Integer> stringMap = new HashedMap();
+        for (int i = 0; i < headsplit.size(); i++) {
+            switch (headsplit.get(i)) {
+                case "path":
+                    stringMap.put("path", i);
+                    break;
+                case "name":
+                    stringMap.put("name", i);
+                    break;
+                case "code":
+                    stringMap.put("code", i);
+                    break;
+                case "price":
+                    stringMap.put("price", i);
+                    break;
+                case "options":
+                    stringMap.put("options", i);
+                    break;
+                case "headline":
+                    stringMap.put("headline", i);
+                    break;
+                case "caption":
+                    stringMap.put("caption", i);
+                    break;
+                case "explanation":
+                    stringMap.put("explanation", i);
+                    break;
+                case "relevant-links":
+                    stringMap.put("relevant-links", i);
+                    break;
+                case "product-category":
+                    stringMap.put("product-category", i);
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+        List<Item> itemList = new ArrayList<>();
+        for (int i = 1; i < rows.size(); i++) {
+
+            Item item = new Item();
+
+            List<String> rawList = rows.get(i).getRawList();
+            for (String key : stringMap.keySet()) {
+                switch (key) {
+                    case "path":
+                        item.setItemPath(rawList.get(stringMap.get(key)));
+                        break;
+                    case "name":
+                        item.setItemName(rawList.get(stringMap.get(key)));
+                        break;
+                    case "code":
+                        item.setItemCode(rawList.get(stringMap.get(key)));
+                        break;
+                    case "price":
+                        item.setSalePrice(Integer.parseInt(rawList.get(stringMap.get(key))));
+                        break;
+                    case "options":
+                        List<String> stringList = new ArrayList<>();
+                        String options = rawList.get(stringMap.get(key));
+                        //把按照换行进行分割
+                        Matcher m = Pattern.compile("(?m)^.*$").matcher(options);
+                        while (m.find()) {
+
+                            if (m.group().length() == 0) {
+                                continue;
+                            }
+                            stringList.add(m.group());
+                        }
+                        for (int t = 0; t < stringList.size(); t++) {
+                            String optionAndValue = stringList.get(t);
+                            String option = optionAndValue.substring(0, optionAndValue.indexOf(" "));
+                            String value = optionAndValue.substring(optionAndValue.indexOf(" ") + 1).trim();
+                            switch (t) {
+                                case 0:
+                                    if (option != null && option != "" && value != null && value != "") {
+                                        item.setOption1(option);
+                                        item.setValue1(value);
+                                    }
+                                    break;
+                                case 1:
+                                    if (option != null && option != "" && value != null && value != "") {
+
+                                        item.setOption2(option);
+                                        item.setValue2(value);
+                                    }
+                                    break;
+                                case 2:
+                                    if (option != null && option != "" && value != null && value != "") {
+
+                                        item.setOption3(option);
+                                        item.setValue3(value);
+                                    }
+                                    break;
+                                case 3:
+                                    if (option != null && option != "" && value != null && value != "") {
+
+                                        item.setOption4(option);
+                                        item.setValue4(value);
+                                    }
+                                    break;
+                                case 4:
+                                    if (option != null && option != "" && value != null && value != "") {
+
+                                        item.setOption5(option);
+                                        item.setValue5(value);
+                                    }
+                                    break;
+                            }
+                        }
+                        break;
+                    case "headline":
+                        item.setHeadline(rawList.get(stringMap.get(key)));
+                        break;
+                    case "caption":
+                        item.setCaption(rawList.get(stringMap.get(key)));
+                        break;
+                    case "explanation":
+                        item.setExplanation(rawList.get(stringMap.get(key)));
+                        break;
+                    case "relevant-links":
+                        item.setRelevantLinks(rawList.get(stringMap.get(key)));
+                        break;
+                    case "product-category":
+                        item.setItemCategoryCode(Integer.parseInt(rawList.get(stringMap.get(key))));
+                        break;
+                }
+            }
+            itemList.add(item);
+        }
+        //返回list
+        return itemList;
+
+    }
 }

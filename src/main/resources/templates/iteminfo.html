@@ -52,6 +52,15 @@
             $("#downloadCsvFrom").submit();
         }
 
+        //上传orderInfocsv
+        function csvImport() {
+            $("#dataimpott").removeAttr("action");
+            $("#dataimpott").attr("method", "post");
+            $("#dataimpott").attr("enctype", "multipart/form-data");
+            $("#dataimpott").attr('action', "/itemCsvImport");
+            $("#dataimpott").submit();
+        }
+
         //全选和反选
         function selectAll() {
             //id=all是全选/反选的checkbox，判断是选中还是没选中
@@ -89,11 +98,39 @@
             if (checkFlog === "") {
                 return;
             }
-            console.log(checkFlog)
             $.ajax({
                 url: '/bulkOperation',
                 type: 'post',
                 data: {"listString": Values, "checkFlog": checkFlog},
+                dataType: 'json',
+                success: function (data) {
+                    $("#message").text(data);
+                    window.location = "/iteminfo?pageNum=" + 1;
+                },
+                error: function (data) {
+                    $("#message").val(data);
+                }
+            })
+        }
+
+        //选中的产品删除
+        function deleteItems() {
+            var checkedValue = $('tbody input:checked');
+            //判断是否项目被选择
+            if (typeof checkedValue.val() === "undefined") {
+                alert("操作項目を選択してください！")
+                return;
+            }
+            //保存选中的item的code
+            var Values = new Array();
+            //遍历
+            checkedValue.each(function () {
+                Values.push($(this).val());
+            })
+            $.ajax({
+                url: '/deleteItems',
+                type: 'post',
+                data: {"listString": Values},
                 dataType: 'json',
                 success: function (data) {
                     $("#message").text(data);
@@ -311,6 +348,16 @@
                             </select>
                         </form>
                     </td>
+                    <td>
+                        <!--csv文件上传-->
+                        <form action="" method="" id="dataimpott">
+                            <div>
+                                <input class="field" type="file" name="import-iteminfocsv" id="import-iteminfocsv"
+                                       required accept=".csv"><br>
+                                <button id="bt-import-csv" onclick="csvImport()">アップロード</button>
+                            </div>
+                        </form>
+                    </td>
                 </tr>
             </table>
             <div class='ui container' align="center">
@@ -370,13 +417,15 @@
             <tr class="_sticky">
                 <!--一括操作-->
                 <td colspan="2">
-                    <!-- <button onclick="bulkOperation()"><i class="download icon"></i></button>-->
                     <select class="ui dropdown" id="downloadCsv" name="downloadCsv" onchange="bulkOperation()">
                         <option value="">ダウンロード</option>
                         <option value="0">アイテムCSVのみ</option>
                         <option value="1">商品画像のみ</option>
                         <option value="2">両方</option>
                     </select>
+                    <button class="ui button mini ui-corner-left" onclick="deleteItems()">
+                        一括削除
+                    </button>
                 </td>
                 <td align="right">
                     <form action="" id="setPageSize">
