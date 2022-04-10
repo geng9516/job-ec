@@ -93,6 +93,33 @@
 
     </update>
 
+    <!--    产品更新-->
+    <update id="updateItemByCsv">
+
+        update t_item
+        set shopname=#{shopName},
+            itemname=#{itemName},
+            price=#{price},
+            option1=#{option1},
+            option1=#{option1},
+            value1=#{value1},
+            option2=#{option2},
+            value2=#{value2},
+            option3=#{option3},
+            value3=#{value3},
+            option4=#{option4},
+            value4=#{value4},
+            option5=#{option5},
+            value5=#{value5},
+            headline=#{headline},
+            url5=#{url5},
+            explanation=#{explanation},
+            updatetime=#{updatetime},
+            flog=#{flog}
+        where itemCode = #{itemCode}
+
+    </update>
+
     <!--    已编辑并且没有失效的产品-->
     <select id="findAllItem" resultType="con.chin.pojo.Item">
 
