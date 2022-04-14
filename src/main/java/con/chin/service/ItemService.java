@@ -46,6 +46,9 @@ public interface ItemService {
     //多个itemid查询
     List<Item> findItemByItemCodes(List<String> stringList);
 
+    //多个itemid查询
+    List<Item> findItemByItemCodeAll(List<String> stringList);
+
     //删除option值
     int deleteOption(Item item);
 

@@ -241,6 +241,13 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findItemByItemCodes(itemCodeList);
     }
 
+    //多个itemid查询
+    @Override
+    public List<Item> findItemByItemCodeAll(List<String> itemCodeList) {
+        //返回需要下载的iteminfo
+        return itemMapper.findItemByItemCodes(itemCodeList);
+    }
+
     //削除option值
     @Override
     public int deleteOption(Item item) {

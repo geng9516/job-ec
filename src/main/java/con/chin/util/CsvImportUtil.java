@@ -325,7 +325,6 @@ public class CsvImportUtil {
                     break;
                 default:
                     break;
-
             }
         }
 

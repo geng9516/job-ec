@@ -43,6 +43,10 @@
         <div>
             <img class="ui fluid image" src="/images/icon/siteimage.png">
         </div>
+        <div class='ui container' align="center">
+            <!--/*@thymesVar id="message" type=""*/-->
+            <p style="color: brown" id="message" th:text="${message}"></p>
+        </div>
         <div>
             <form class="ui form" action="/getUrl">
                 <div class="ui form">
@@ -56,53 +60,67 @@
             </form>
         </div>
         <br>
-        <div class="ui form">
-            <div class="inline fields">
-                <label>店舗を選択</label>
+<!--        <div class="ui form">-->
+<!--            <div class="inline fields">-->
+<!--                <label>店舗を選択</label>-->
+<!--                <div class="field">-->
+<!--                    <div class="ui radio checkbox">-->
+<!--                        <input type="radio" name="frequency" checked="checked">-->
+<!--                        <label>清雲商店</label>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="field">-->
+<!--                    <div class="ui radio checkbox">-->
+<!--                        <input type="radio" name="frequency">-->
+<!--                        <label>キヨウ商店</label>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="field">-->
+<!--                    <div class="ui radio checkbox">-->
+<!--                        <input type="radio" name="frequency">-->
+<!--                        <label>その他</label>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="field">-->
+<!--                    <div class="ui radio checkbox">-->
+<!--                        <input type="radio" name="frequency">-->
+<!--                        <label>その他2</label>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <form class="ui form" action="/putItemInfo" method="post">
+            <div class="ui form">
                 <div class="field">
-                    <div class="ui radio checkbox">
-                        <input type="radio" name="frequency" checked="checked">
-                        <label>清雲商店</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        <input type="radio" name="frequency">
-                        <label>キヨウ商店</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        <input type="radio" name="frequency">
-                        <label>その他</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        <input type="radio" name="frequency">
-                        <label>その他2</label>
-                    </div>
+                    <textarea id="itemCodes" name="itemCodes" placeholder="アイテムコード複数可 "></textarea>
                 </div>
             </div>
-        </div>
-        <div align="center">
-            <a th:href="@{/putItemInfo}"><input class="fluid ui button" type="button" value='下载数据'></a>
-        </div>
+            <br>
+            <hr>
+            <input class="fluid ui button" type="submit" value="下载数据">
+        </form>
+<!--        <div align="center">-->
+<!--            <a th:href="@{/putItemInfo}"><input class="fluid ui button" type="button" value='下载数据'></a>-->
+<!--        </div>-->
         <br><br>
 <!--        <a th:href="@{/photoToZip}">-->
 <!--            <button type="submit">写真をzipにする</button>-->
 <!--        </a>-->
         <br>
+<!--        <a th:href="@{/setDate}">-->
+<!--            <button type="submit">更新数据</button>-->
+<!--        </a>-->
         <br>
-        <br>
-        <a th:href="@{/setDate}">
-            <button type="submit">更新数据</button>
-        </a>
-        <br>
-        <div class='ui container' align="center">
-            <!--/*@thymesVar id="message" type=""*/-->
-            <p style="color: brown" id="message" th:text="${message}"></p>
-        </div>
+        <form class="ui form" action="/filePath" method="post">
+<!--            <div class="ui form">-->
+<!--                <div class="field">-->
+<!--                    <input type="file" id="filePath" name="filePath" placeholder="アイテムコード複数可 ">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--            <hr>-->
+            <input class="fluid ui button" type="submit" value="アイテムコード取得">
+        </form>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>

@@ -79,21 +79,23 @@ public class CsvFileImportController {
         int saveSuccessCount = 0;
         //更新成功次数
         int updateSuccessCount = 0;
-        //上传文件是orderdate.csv
-//        if ("orderdate.csv".equals(file.getOriginalFilename())) {
-            //传入path
-            List<Item> itemList = CsvImportUtil.readItemInfoCSV(csvFile.getPath());
 
-            int count = 0;
-            for (Item item : itemList) {
-                count = fileImportService.savaItem(item);
-                if (count > 0) {
-                    saveSuccessCount += count;
-                } else {
-                    updateSuccessCount += count;
-                }
+        int counts = 0;
+
+        List<Item> itemList = CsvImportUtil.readItemInfoCSV(csvFile.getPath());
+
+        int count = 0;
+        for (Item item : itemList) {
+
+            count = fileImportService.savaItem(item);
+            if (count > 0) {
+                saveSuccessCount += count;
+            } else {
+                updateSuccessCount += count;
             }
-//        }
+            counts += count;
+            System.out.println("从CSV文件中保存了产品ID为:  " + item.getItemCode() + "     " + counts + "件完成");
+        }
 
         //前端传消息
         redirectAttributes.addFlashAttribute("message", saveSuccessCount + "件データアップロード," + Math.abs(updateSuccessCount) + "件アップデート成功しました。");

@@ -4,6 +4,7 @@ import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
 import con.chin.task.ItemProcessor;
+import con.chin.util.CsvImportUtil;
 import con.chin.util.ItemPhotoToZipUtil;
 import con.chin.util.ExportItemInfoCsvUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +12,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static con.chin.util.CopyItemPhotoUtil.copyItemPhoto;
 
 @Controller
 public class CrawlerController {
@@ -85,10 +91,25 @@ public class CrawlerController {
     private String itemCsvPath;
 
     //所以产品资料下载csv
-    @GetMapping("/putItemInfo")
-    public String putItemInfo(RedirectAttributes redirectAttributes) {
+    @PostMapping("/putItemInfo")
+    public String putItemInfo(RedirectAttributes redirectAttributes,
+                              @RequestParam("itemCodes") String itemCodes
+
+    ) {
+        List<String> stringList = new ArrayList<>();
+        //把按照换行进行分割
+        Matcher m = Pattern.compile("(?m)^.*$").matcher(itemCodes);
+        while (m.find()) {
+            stringList.add(m.group());
+        }
+
+        List<Item> itemList = new ArrayList<>();
         //取得所有已编辑并且没有失效的产品
-        List<Item> itemList = itemService.findAll();
+        if(itemCodes != null && itemCodes != ""){
+            itemList = itemService.findItemByItemCodeAll(stringList);
+        }else {
+            itemList = itemService.findAll();
+        }
         //item信息不为空时
         if (itemList != null) {
             //调用下载方法
@@ -121,6 +142,45 @@ public class CrawlerController {
         itemService.setdate();
         return "index";
     }
+
+    @PostMapping("/filePath")
+    public String filePath() {
+        //上传文件的路径
+        File csvFile = new File("/Users/geng9516/Documents/商品画像編集/200_実行後");
+        //判断itemCode的文件价存在
+
+        //把文件路径的文件价抽象化
+
+        if (csvFile.exists()) {
+            File[] files = csvFile.listFiles();
+            if (files.length == 0) {
+//                System.out.println("ファイルが存在しません。");
+            } else {
+                //文件夹下存在文件时
+                for (File file1 : files) {
+                    //是一个文件夹
+                    if (!file1.isDirectory()) {
+                        if(file1.isFile()){
+                            String fileName = file1.getName();
+                            fileName= fileName.replaceAll(".jpg","");
+                            if(fileName.contains("_")){
+                                continue;
+                            }else {
+                                System.out.println(fileName);
+                            }
+                        }
+                    }else {
+                        return "index";
+                    }
+                }
+            }
+        } else {
+            System.out.println("文件路径不存在!");
+        }
+
+        return "index";
+    }
+
 
 
 }
