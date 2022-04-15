@@ -4,6 +4,7 @@ import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
 import con.chin.task.ItemProcessor;
+import con.chin.util.CopyItemPhotoUtil;
 import con.chin.util.CsvImportUtil;
 import con.chin.util.ItemPhotoToZipUtil;
 import con.chin.util.ExportItemInfoCsvUtil;
@@ -127,31 +128,28 @@ public class CrawlerController {
             //删除产品资料
         }else if ("1".equals(frequency)){
             itemService.deleteItems(stringList);
+        }else if("2".equals(frequency)){
+            List<Item> itemList = new ArrayList<>();
+            itemList = itemService.findItemByItemCodeAll(stringList);
+            //产品照片拷贝
+            System.out.println("照片拷贝执行开始");
+            CopyItemPhotoUtil.read(itemList);
+            System.out.println("照片拷贝执行结束");
         }
 
         //刷新主页
         return "redirect:/";
     }
 
-    //数据错误时做更新使用
+    //创建ZIP文件
     @GetMapping("/photoToZip")
     public String photoToZip() {
-
+        //调用创建ZIP文件方法
         ItemPhotoToZipUtil.fileZipSave();
         return "index";
     }
 
-
-    //---------------------------------------------------------------------------------------------------------
-
-    //数据错误时做更新使用
-    @GetMapping("/setDate")
-    public String setDate() {
-
-        itemService.setdate();
-        return "index";
-    }
-
+    //把制作好的照片的产品ID取得
     @PostMapping("/filePath")
     public String filePath() {
         //上传文件的路径
@@ -189,6 +187,18 @@ public class CrawlerController {
 
         return "index";
     }
+
+    //---------------------------------------------------------------------------------------------------------
+
+    //数据错误时做更新使用
+    @GetMapping("/setDate")
+    public String setDate() {
+
+        itemService.setdate();
+        return "index";
+    }
+
+
 
 
 

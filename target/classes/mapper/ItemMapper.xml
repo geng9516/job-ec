@@ -86,6 +86,7 @@
             value5=#{value5},
             headline=#{headline},
             url5=#{url5},
+            Caption=#{caption},
             explanation=#{explanation},
             updatetime=#{updatetime},
             flog=#{flog}

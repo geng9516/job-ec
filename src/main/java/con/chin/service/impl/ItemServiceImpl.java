@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -241,7 +242,16 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> findItemByItemCodeAll(List<String> itemCodeList) {
         //返回需要下载的iteminfo
-        return itemMapper.findItemByItemCodes(itemCodeList);
+        if (itemCodeList.size() > 1) {
+            return itemMapper.findItemByItemCodes(itemCodeList);
+        }
+        Item item = new Item();
+        List<Item> itemList = new ArrayList<>();
+        item.setItemCode(itemCodeList.get(0));
+        item = itemMapper.findItemByItemCode(item);
+        itemList.add(item);
+        return itemList;
+
     }
 
     //削除option值
@@ -423,9 +433,17 @@ public class ItemServiceImpl implements ItemService {
 
         int count = 0;
         for (Item item : itemList) {
-            item.setExplanation(item.getExplanation().replaceAll("\"",""));
-            itemMapper.updateItem(item);
-            System.out.println(count++ + "  件完成");
+
+            String[] s = item.getCaption().split("<br>");
+            String s1 = null;
+            if (s.length > 22) {
+                for (int j = 0; j < 21; j++) {
+                    s1 += s[j];
+                }
+                item.setCaption(s1);
+                itemMapper.updateItem(item);
+                System.out.println(count++ + "  件完成");
+            }
         }
     }
 }
