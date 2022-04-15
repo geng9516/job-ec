@@ -283,7 +283,6 @@ public class CsvImportUtil {
     //把产品信息加到item对象中
     public static List<Item> readItemInfoCSV(String filePath) {
 
-
         CsvReader reader = CsvUtil.getReader();
         CsvData readData = reader.read(FileUtil.file(filePath), Charset.forName("Shift-JIS"));
         List<CsvRow> rows = readData.getRows();

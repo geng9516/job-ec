@@ -426,13 +426,6 @@ public class ItemServiceImpl implements ItemService {
             item.setExplanation(item.getExplanation().replaceAll("\"",""));
             itemMapper.updateItem(item);
             System.out.println(count++ + "  件完成");
-
         }
-
-
-
-
     }
-
-
 }

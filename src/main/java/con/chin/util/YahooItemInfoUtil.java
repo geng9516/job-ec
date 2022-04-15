@@ -52,7 +52,7 @@ public class YahooItemInfoUtil {
         //产品详情说明文
         String mdItemDescription = html.css("div.mdItemDescription p").toString().replaceAll("<br>", "\n");
         //把不要的文字删除
-        mdItemDescription = mdItemDescription.replace("<p>", "").replace("</p>", "").replaceAll("\"","");
+        mdItemDescription = mdItemDescription.replace("<p>", "").replace("</p>", "").replaceAll("\"", "");
         item.setExplanation(mdItemDescription);
         //option选项有没有判断
         List<Selectable> optionNodes = html.css("div.elTableInner thead.elTableHeader th").nodes();
@@ -215,7 +215,9 @@ public class YahooItemInfoUtil {
         //产品情报照片/SP
         //https://item-shopping.c.yimg.jp/i/l/takahashihonpo_21-030-t00247_18
         String caption = "<img src='https://item-shopping.c.yimg.jp/i/n/seiunstore_" + itemCode1 + "' width='100%'/><br>";
-        for (int i = 1; i <= photoAll.size() - 1; i++) {
+        //产品照片的数量
+        int photoAllSize = photoAll.size() >= 21 ? 20 : photoAll.size();
+        for (int i = 1; i <= photoAllSize; i++) {
             caption += "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "_" + i + ".jpg' width='100%'/><br>";
         }
         item.setCaption(caption);
