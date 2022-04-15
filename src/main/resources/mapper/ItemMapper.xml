@@ -205,10 +205,21 @@
 
     </select>
 
+    <!--一个删除-->
     <delete id="deleteItem">
         delete
         from t_item
         where itemcode = #{itemCode}
+    </delete>
+
+    <!--多个删除-->
+    <delete id="deleteItems">
+        delete
+        from t_item
+        where itemcode in
+        <foreach collection="list" item="itemCode" open="(" close=")" separator=",">
+            #{itemCode}
+        </foreach>
     </delete>
 
     <update id="setItemSalePrice">
@@ -249,7 +260,7 @@
         </foreach>
     </select>
 
-<!--    option削除-->
+    <!--    option削除-->
     <update id="deleteOption">
         update t_item
         set option1   = #{option1},

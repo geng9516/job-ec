@@ -204,17 +204,18 @@ public class ItemInfoController {
         return "redirect:/iteminfo?pageNum=" + pageNum;
     }
 
-    //削除
+    //削除多个
     @ResponseBody
     @PostMapping("/deleteItems")
     public String deleteItems(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
 
         Gson gson = new Gson();
-        Item item = new Item();
-        for (String itemCode : itemCodeList) {
-            item.setItemCode(itemCode);
-            itemService.deleteItem(item);
-        }
+//        Item item = new Item();
+//        for (String itemCode : itemCodeList) {
+//            item.setItemCode(itemCode);
+//            itemService.deleteItem(item);
+//        }
+        itemService.deleteItems(itemCodeList);
         String pageNum = (String) httpSession.getAttribute("pageNum");
         if (pageNum != null && pageNum != "") {
             return gson.toJson(pageNum);

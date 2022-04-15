@@ -36,6 +36,9 @@ public interface ItemMapper {
     //删除产品
     int deleteItem(Item item);
 
+    //删除多个产品
+    int deleteItems(List<String> itemCodeList);
+
     //后期修改时,价格,进货url,状态,送料,进货价等等
     int setItemSalePrice(Item item);
 

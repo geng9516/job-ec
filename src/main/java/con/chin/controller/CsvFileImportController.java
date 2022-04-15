@@ -96,7 +96,7 @@ public class CsvFileImportController {
             counts += count;
             System.out.println("从CSV文件中保存了产品ID为:  " + item.getItemCode() + "     " + counts + "件完成");
         }
-
+        System.out.println("从CSV文件中保存完成");
         //前端传消息
         redirectAttributes.addFlashAttribute("message", saveSuccessCount + "件データアップロード," + Math.abs(updateSuccessCount) + "件アップデート成功しました。");
         //刷新order数据界面

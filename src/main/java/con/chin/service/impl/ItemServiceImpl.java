@@ -1,5 +1,6 @@
 package con.chin.service.impl;
 
+import cn.hutool.core.util.ZipUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import con.chin.mapper.ItemCategoryMapper;
@@ -128,13 +129,8 @@ public class ItemServiceImpl implements ItemService {
     public int deleteItems(List<String> itemCodeList) {
         //结果值
         int res = 0;
-        //封装查询条件
-        Item item = new Item();
-        for (String itemCode : itemCodeList) {
-            item.setItemCode(itemCode);
-            //调用删除一个item方法
-            res = itemMapper.deleteItem(item);
-        }
+        //调用删除多个的
+        itemMapper.deleteItems(itemCodeList);
         //返回结果
         return res;
     }
@@ -423,14 +419,19 @@ public class ItemServiceImpl implements ItemService {
     public void setdate() {
 //        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         int i = 0;
-//        List<Item> itemList = this.findAll();
-        String[] s = "a072395e097 9750f6cf3bf 07d114b2e34 00fd0cb2bd9 0b2fa53549c 00cb0ba7fbe 600738a1094 4cf7781f75f 319f61f9f42 462356a9ffe 3b13df1bf63 0601ed6e6c3 8ab3d92b61d 76adf29fba9 a160e565af1 ea1f05dace4 7bc2cddcbbf ffc193e9f32 3b609be1e91 f3f73ed4a00 7bc0f1ee323 075c57abf67 3ee43468fdd fa13ccf07d2 9e3b5e4503a 6d7e453fd5e 9e4b831bb0c 9bc59b50464 88ee297af79 6.56948E+11 b3672aa108b a4c357ca471 4f8af733b06 5807cc8ccc3 e334d261442 13417fae780 33358146657 1d0ca5fa0ab 9070f13690c f65c199e262 973fe4021c0 b1793d3b091 8147f9daa09 045ebc44133 94907a4121e d1a8764a99f 489924d0073 9a4cfe527d8 794fdfa154c 1770c76d8b3 7b9b185acb3 e9ff5451ad1 b89806dee97 5ca2a8e882f 115d6497659 f444f4ccc17 4585e2cfef1 5c8d5ae7965 fa02a22b1f2 213396d43eb 673bb3e50b4 e7fe49f6440 a29c081cb82 0d5526955db e3dff173750 109a4fe1fc2 0f243658cd3 631c7bc9060 6d4dbb87686 3c2337edffa 78e34a93e16 012a540af63 92104be6450 dbf4a714a21 d9b3a76da48 916ac39166b 83afeaa5b18 16af9db686d a12dd690ece ef0e4f0187d 6d707e326ca 2ba74389796 934a1de69a7 f3f23587a13 1fea111ad8b 6034a86f431 fdcab7feed8 75d4a923bac 3e550a7504f ed58829340a de94d12dfc0 d1e1f52434b 8eadd64dcad d65fda0f138 33cd5f563aa e7bcff0dbd2 235f1dc1e29 fed1387486e fd8af0af788 1ad58d04c2d e11f519a0a5 a337676f354 01b5b9b28a2 b26e290ab7b 5ac94d8ce7d 5c248dd79f5".split(" ");
-        List<OrderItemInfo> orderItemInfoList = orderItemInfoMapper.findOrderItemInfo();
-        for (int e = 0; e < orderItemInfoList.size(); e++) {
-            orderItemInfoList.get(e).setItemId(s[e]);
-            orderItemInfoMapper.updateOrderItemInfoById(orderItemInfoList.get(e));
-            System.out.println("完成 " + i++ + " 件了");
+        List<Item> itemList = this.findAll();
+
+        int count = 0;
+        for (Item item : itemList) {
+            item.setExplanation(item.getExplanation().replaceAll("\"",""));
+            itemMapper.updateItem(item);
+            System.out.println(count++ + "  件完成");
+
         }
+
+
+
+
     }
 
 

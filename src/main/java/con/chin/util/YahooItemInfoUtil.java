@@ -51,7 +51,9 @@ public class YahooItemInfoUtil {
         item.setPrice(Integer.parseInt(html.css("span.elPriceNumber", "text").nodes().get(0).toString().replace(",", "").replace("円", "").trim()));
         //产品详情说明文
         String mdItemDescription = html.css("div.mdItemDescription p").toString().replaceAll("<br>", "\n");
-        item.setExplanation(mdItemDescription.replace("<p>", "").replace("</p>", ""));
+        //把不要的文字删除
+        mdItemDescription = mdItemDescription.replace("<p>", "").replace("</p>", "").replaceAll("\"","");
+        item.setExplanation(mdItemDescription);
         //option选项有没有判断
         List<Selectable> optionNodes = html.css("div.elTableInner thead.elTableHeader th").nodes();
         List<Selectable> options = html.css("div.mdOrderOptions li").nodes();

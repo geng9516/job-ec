@@ -90,36 +90,45 @@ public class CrawlerController {
     @Value("${ITEMCSVPATH}")
     private String itemCsvPath;
 
-    //所以产品资料下载csv
+    //根据产品ID下载csv 和删除
     @PostMapping("/putItemInfo")
     public String putItemInfo(RedirectAttributes redirectAttributes,
-                              @RequestParam("itemCodes") String itemCodes
+                              @RequestParam("itemCodes") String itemCodes,
+                              @RequestParam("frequency") String frequency
 
     ) {
         List<String> stringList = new ArrayList<>();
         //把按照换行进行分割
-        Matcher m = Pattern.compile("(?m)^.*$").matcher(itemCodes);
-        while (m.find()) {
-            stringList.add(m.group());
+        if(itemCodes != null && itemCodes != ""){
+            Matcher m = Pattern.compile("(?m)^.*$").matcher(itemCodes);
+            while (m.find()) {
+                stringList.add(m.group());
+            }
+        }
+        //下载产品资料
+        if("0".equals(frequency)){
+            List<Item> itemList = new ArrayList<>();
+            //取得所有已编辑并且没有失效的产品
+            if(itemCodes != null && itemCodes != ""){
+                itemList = itemService.findItemByItemCodeAll(stringList);
+            }else {
+                itemList = itemService.findAll();
+            }
+            //item信息不为空时
+            if (itemList != null) {
+                //调用下载方法
+                ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath);
+                //完成输出信息
+                redirectAttributes.addFlashAttribute("message", "数据出完成");
+            } else {
+                //失败信息
+                redirectAttributes.addFlashAttribute("message", "***没有数据可输出***");
+            }
+            //删除产品资料
+        }else if ("1".equals(frequency)){
+            itemService.deleteItems(stringList);
         }
 
-        List<Item> itemList = new ArrayList<>();
-        //取得所有已编辑并且没有失效的产品
-        if(itemCodes != null && itemCodes != ""){
-            itemList = itemService.findItemByItemCodeAll(stringList);
-        }else {
-            itemList = itemService.findAll();
-        }
-        //item信息不为空时
-        if (itemList != null) {
-            //调用下载方法
-            ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath);
-            //完成输出信息
-            redirectAttributes.addFlashAttribute("message", "数据出完成");
-        } else {
-            //失败信息
-            redirectAttributes.addFlashAttribute("message", "***没有数据可输出***");
-        }
         //刷新主页
         return "redirect:/";
     }
