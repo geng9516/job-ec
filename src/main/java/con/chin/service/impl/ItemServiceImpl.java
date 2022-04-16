@@ -346,15 +346,15 @@ public class ItemServiceImpl implements ItemService {
 
         oldItem.setUpdatetime(now);
 
-        if (item.getItemPath() != null && item.getItemPath() != "") {
+        if (item.getItemPath() != null && !"".equals(item.getItemPath())) {
             oldItem.setItemPath(item.getItemPath());
         }
 
-        if (item.getItemName() != null && item.getItemName() != "") {
+        if (item.getItemName() != null && !"".equals(item.getItemName())) {
             oldItem.setItemName(item.getItemName());
         }
 
-        if (item.getItemCode() != null && item.getItemCode() != "") {
+        if (item.getItemCode() != null && !"".equals(item.getItemCode())) {
             oldItem.setItemCode(item.getItemCode());
         }
 
@@ -362,55 +362,75 @@ public class ItemServiceImpl implements ItemService {
             oldItem.setSalePrice(item.getSalePrice());
         }
 
-        if (item.getOption1() != null && item.getOption1() != "") {
+        if (item.getOption1() != null && !"".equals(item.getOption1())) {
             oldItem.setOption1(item.getOption1());
+        } else {
+            oldItem.setOption1("");
         }
-        if (item.getOption2() != null && item.getOption2() != "") {
+        if (item.getOption2() != null && !"".equals(item.getOption2())) {
             oldItem.setOption2(item.getOption2());
+        } else {
+            oldItem.setOption2("");
         }
-        if (item.getOption3() != null && item.getOption3() != "") {
+        if (item.getOption3() != null && !"".equals(item.getOption3())) {
             oldItem.setOption3(item.getOption3());
+        } else {
+            oldItem.setOption3("");
         }
-        if (item.getOption4() != null && item.getOption4() != "") {
+        if (item.getOption4() != null && !"".equals(item.getOption4())) {
             oldItem.setOption4(item.getOption4());
+        } else {
+            oldItem.setOption4("");
         }
-        if (item.getOption5() != null && item.getOption5() != "") {
+        if (item.getOption5() != null && !"".equals(item.getOption5())) {
             oldItem.setOption5(item.getOption5());
+        } else {
+            oldItem.setOption5("");
         }
 
-        if (item.getValue1() != null && item.getValue1() != "") {
+        if (item.getValue1() != null && !"".equals(item.getValue1())) {
             oldItem.setValue1(item.getValue1());
+        } else {
+            oldItem.setValue1("");
         }
 
-        if (item.getValue2() != null && item.getValue2() != "") {
+        if (item.getValue2() != null && !"".equals(item.getValue2())) {
             oldItem.setValue2(item.getValue2());
+        } else {
+            oldItem.setValue2("");
         }
 
-        if (item.getValue3() != null && item.getValue3() != "") {
+        if (item.getValue3() != null && !"".equals(item.getValue3())) {
             oldItem.setValue3(item.getValue3());
+        } else {
+            oldItem.setValue3("");
         }
 
-        if (item.getValue4() != null && item.getValue4() != "") {
+        if (item.getValue4() != null && !"".equals(item.getValue4())) {
             oldItem.setValue4(item.getValue4());
+        } else {
+            oldItem.setValue4("");
         }
 
-        if (item.getValue5() != null && item.getValue5() != "") {
+        if (item.getValue5() != null && !"".equals(item.getValue5())) {
             oldItem.setValue5(item.getValue5());
+        } else {
+            oldItem.setValue5("");
         }
 
-        if (item.getHeadline() != null && item.getHeadline() != "") {
+        if (item.getHeadline() != null && !"".equals(item.getHeadline())) {
             oldItem.setHeadline(item.getHeadline());
         }
 
-        if (item.getCaption() != null && item.getCaption() != "") {
+        if (item.getCaption() != null && !"".equals(item.getCaption())) {
             oldItem.setCaption(item.getCaption());
         }
 
-        if (item.getExplanation() != null && item.getExplanation() != "") {
+        if (item.getExplanation() != null && !"".equals(item.getExplanation())) {
             oldItem.setExplanation(item.getExplanation());
         }
 
-        if (item.getRelevantLinks() != null && item.getRelevantLinks() != "") {
+        if (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks())) {
             oldItem.setRelevantLinks(item.getRelevantLinks());
         }
 

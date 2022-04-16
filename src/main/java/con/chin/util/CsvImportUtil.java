@@ -345,16 +345,25 @@ public class CsvImportUtil {
                         item.setItemCode(rawList.get(stringMap.get(key)));
                         break;
                     case "price":
-                        item.setSalePrice(Integer.parseInt(rawList.get(stringMap.get(key))));
+                        String price = rawList.get(stringMap.get(key));
+                        //是不是数字判断,不是为0
+                        if(price == null || !FlogUtil.isInteger(price)){
+                            price = "0";
+                        }
+                        item.setPrice(Integer.parseInt(price));
+                        item.setSalePrice(Integer.parseInt(price));
                         break;
                     case "options":
+                        //把原有的删除
                         List<String> stringList = new ArrayList<>();
                         String options = rawList.get(stringMap.get(key));
                         //把按照换行进行分割
                         Matcher m = Pattern.compile("(?m)^.*$").matcher(options);
                         while (m.find()) {
 
-                            if (m.group().length() == 0) {
+                            String s = m.group();
+                            s = s.replaceAll(" ","").replaceAll("　","");
+                            if (s.length() == 0) {
                                 continue;
                             }
                             stringList.add(m.group());
@@ -362,37 +371,42 @@ public class CsvImportUtil {
                         for (int t = 0; t < stringList.size(); t++) {
                             String optionAndValue = stringList.get(t);
                             String option = optionAndValue.substring(0, optionAndValue.indexOf(" "));
+                            option = option.replaceAll(" ","").replaceAll("　","");
                             String value = optionAndValue.substring(optionAndValue.indexOf(" ") + 1).trim();
+                            if(value == null || "".equals(value)){
+                                continue;
+                            }
+                            value = value.replaceAll(" ","").replaceAll("　","");
                             switch (t) {
                                 case 0:
-                                    if (option != null && option != "" && value != null && value != "") {
+                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
                                         item.setOption1(option);
                                         item.setValue1(value);
                                     }
                                     break;
                                 case 1:
-                                    if (option != null && option != "" && value != null && value != "") {
+                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
 
                                         item.setOption2(option);
                                         item.setValue2(value);
                                     }
                                     break;
                                 case 2:
-                                    if (option != null && option != "" && value != null && value != "") {
+                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
 
                                         item.setOption3(option);
                                         item.setValue3(value);
                                     }
                                     break;
                                 case 3:
-                                    if (option != null && option != "" && value != null && value != "") {
+                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
 
                                         item.setOption4(option);
                                         item.setValue4(value);
                                     }
                                     break;
                                 case 4:
-                                    if (option != null && option != "" && value != null && value != "") {
+                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
 
                                         item.setOption5(option);
                                         item.setValue5(value);
