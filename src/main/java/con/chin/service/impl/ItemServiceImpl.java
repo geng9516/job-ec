@@ -448,27 +448,67 @@ public class ItemServiceImpl implements ItemService {
 
         for (Item item : itemList) {
 
-            if (item.getOption2() == null || item.getOption2() == "") {
-                if (item.getOption3() != null && item.getOption3() != "") {
+
+            if (item.getOption2() == null || "".equals(item.getOption2())) {
+                if ((item.getOption3() == null || "".equals(item.getOption3())) && (item.getOption4() == null || "".equals(item.getOption4())) && (item.getOption5() == null || "".equals(item.getOption5()))) {
+                    continue;
+                }
+                if (item.getOption3() != null && !"".equals(item.getOption3())) {
                     item.setOption2(item.getOption3());
                     item.setOption3(null);
                     item.setValue2(item.getValue3());
                     item.setValue3(null);
                     itemMapper.updateItem(item);
                     System.out.println(count++ + "  件完成  产品ID为     " + item.getItemCode() + "   option2为空");
+                } else if (item.getOption4() != null && !"".equals(item.getOption4())) {
+                    item.setOption2(item.getOption4());
+                    item.setOption4(null);
+                    item.setValue2(item.getValue4());
+                    item.setValue4(null);
+                    itemMapper.updateItem(item);
+                    System.out.println(count++ + "  件完成  产品ID为     " + item.getItemCode() + "   option2为空");
+                } else {
+                    item.setOption2(item.getOption5());
+                    item.setOption5(null);
+                    item.setValue2(item.getValue5());
+                    item.setValue5(null);
+                    itemMapper.updateItem(item);
+                    System.out.println(count++ + "  件完成  产品ID为     " + item.getItemCode() + "   option2为空");
                 }
-            }else if(item.getOption3() == null || item.getOption3() == ""){
-                if (item.getOption4() != null && item.getOption4() != "") {
+            } else if (item.getOption3() == null || "".equals(item.getOption3())) {
+
+                if ((item.getOption4() == null || "".equals(item.getOption4())) && (item.getOption5() == null || "".equals(item.getOption5()))) {
+                    continue;
+                }
+
+
+                if (item.getOption4() != null && !"".equals(item.getOption4())) {
                     item.setOption3(item.getOption4());
                     item.setOption4(null);
                     item.setValue3(item.getValue4());
                     item.setValue4(null);
                     itemMapper.updateItem(item);
                     System.out.println(count++ + "  件完成  产品ID为     " + item.getItemCode() + "   option3为空");
+                } else {
+                    item.setOption3(item.getOption5());
+                    item.setOption5(null);
+                    item.setValue3(item.getValue5());
+                    item.setValue5(null);
+                    itemMapper.updateItem(item);
+                    System.out.println(count++ + "  件完成  产品ID为     " + item.getItemCode() + "   option3为空");
                 }
+            } else if (item.getOption4() == null || "".equals(item.getOption4())) {
+                if (item.getOption5() != null && !"".equals(item.getOption5())) {
+                    item.setOption4(item.getOption5());
+                    item.setOption5(null);
+                    item.setValue4(item.getValue5());
+                    item.setValue5(null);
+                    itemMapper.updateItem(item);
+                    System.out.println(count++ + "  件完成  产品ID为     " + item.getItemCode() + "   option4为空");
+                }
+
             }
-
         }
-
+        System.out.println("完成");
     }
 }

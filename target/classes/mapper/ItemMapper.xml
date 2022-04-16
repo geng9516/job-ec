@@ -74,7 +74,6 @@
             itemname=#{itemName},
             price=#{price},
             option1=#{option1},
-            option1=#{option1},
             value1=#{value1},
             option2=#{option2},
             value2=#{value2},
