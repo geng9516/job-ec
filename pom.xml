@@ -153,7 +153,13 @@
             <version>5.7.20</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.test.util</groupId>
+            <artifactId>com.test.util</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jp.co.yahoo.yconnect-2.1.2.jar</systemPath>
+        </dependency>
     </dependencies>
 
 
@@ -166,6 +172,13 @@
                     <include>**/*.xml</include>
                 </includes>
                 <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>lib</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
             </resource>
         </resources>
         <plugins>

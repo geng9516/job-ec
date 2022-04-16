@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -428,22 +430,41 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void setdate() {
 //        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        int i = 0;
-        List<Item> itemList = this.findAll();
 
-        int count = 0;
+
+//        List<String> stringList = new ArrayList<>();
+//        //把按照换行进行分割
+//        if(itemCodes != null && itemCodes != ""){
+//            Matcher m = Pattern.compile("(?m)^.*$").matcher(itemCodes);
+//            while (m.find()) {
+//                stringList.add(m.group());
+//            }
+//        }
+
+
+        List<Item> itemList = itemMapper.findAll();
+
+        int count = 1;
+
         for (Item item : itemList) {
 
-            String[] s = item.getCaption().split("<br>");
-            String s1 = null;
-            if (s.length > 22) {
-                for (int j = 0; j < 21; j++) {
-                    s1 += s[j];
+            if (item.getOption2() == null || item.getOption2() == "") {
+                if (item.getOption3() != null && item.getOption3() != "") {
+                    item.setOption2(item.getOption3());
+                    item.setValue2(item.getValue3());
+                    itemMapper.updateItem(item);
+                    System.out.println(count++ + "  件完成  产品ID为" + item.getItemCode() + "option2为空");
                 }
-                item.setCaption(s1);
-                itemMapper.updateItem(item);
-                System.out.println(count++ + "  件完成");
+            }else if(item.getOption3() == null || item.getOption3() == ""){
+                if (item.getOption4() != null && item.getOption4() != "") {
+                    item.setOption3(item.getOption4());
+                    item.setValue3(item.getValue4());
+                    itemMapper.updateItem(item);
+                    System.out.println(count++ + "  件完成  产品ID为" + item.getItemCode() + "option3为空");
+                }
             }
+
         }
+
     }
 }
