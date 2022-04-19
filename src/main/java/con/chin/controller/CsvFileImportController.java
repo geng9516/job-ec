@@ -4,7 +4,7 @@ import con.chin.pojo.Item;
 import con.chin.pojo.OrderInfo;
 import con.chin.pojo.OrderItemInfo;
 import con.chin.service.impl.FileImportServiceImpl;
-import con.chin.util.CsvImportUtil;
+import con.chin.util.ImportCsvUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +26,7 @@ public class CsvFileImportController {
     public String orderInfoCsvImport(@RequestParam("import-ordercsv") MultipartFile file, RedirectAttributes redirectAttributes) {
 
         //上传文件的路径
-        File csvFile = CsvImportUtil.uploadFile(file);
+        File csvFile = ImportCsvUtil.uploadFile(file);
         //上传成功次数
         int saveSuccessCount = 0;
         //更新成功次数
@@ -34,7 +34,7 @@ public class CsvFileImportController {
         //上传文件是orderdate.csv
         if ("orderdate.csv".equals(file.getOriginalFilename())) {
             //传入path
-            List<OrderInfo> orderInfoList = CsvImportUtil.readOrderInfoCSV(csvFile.getPath());
+            List<OrderInfo> orderInfoList = ImportCsvUtil.readOrderInfoCSV(csvFile.getPath());
 
             int count = 0;
             for (OrderInfo orderInfo : orderInfoList) {
@@ -49,7 +49,7 @@ public class CsvFileImportController {
         //上传文件是itemdate.csv
         if ("itemdate.csv".equals(file.getOriginalFilename())) {
             //传入path
-            List<OrderItemInfo> orderItemInfoList = CsvImportUtil.readOrderItemInfoCSV(csvFile.getPath());
+            List<OrderItemInfo> orderItemInfoList = ImportCsvUtil.readOrderItemInfoCSV(csvFile.getPath());
 
             int count = 0;
             for (OrderItemInfo orderItemInfo : orderItemInfoList) {
@@ -74,7 +74,7 @@ public class CsvFileImportController {
     ) {
 
         //上传文件的路径
-        File csvFile = CsvImportUtil.uploadFile(file);
+        File csvFile = ImportCsvUtil.uploadFile(file);
         //上传成功次数
         int saveSuccessCount = 0;
         //更新成功次数
@@ -82,11 +82,11 @@ public class CsvFileImportController {
 
         int counts = 0;
 
-        List<Item> itemList = CsvImportUtil.readItemInfoCSV(csvFile.getPath());
+        List<Item> itemList = ImportCsvUtil.readItemInfoCSV(csvFile.getPath());
 
         int count = 0;
         for (Item item : itemList) {
-
+            long start = System.currentTimeMillis();
             count = fileImportService.savaItem(item);
             if (count > 0) {
                 saveSuccessCount += count;
@@ -94,7 +94,8 @@ public class CsvFileImportController {
                 updateSuccessCount += count;
             }
             counts += count;
-            System.out.println("从CSV文件中保存了产品ID为:  " + item.getItemCode() + "     " + counts + "件完成");
+            long end = System.currentTimeMillis();
+            System.out.println("从CSV文件中保存了产品ID为:  " + item.getItemCode() + "     " + counts + "件完成     耗时：" + (end - start) + " ms");
         }
         System.out.println("从CSV文件中保存完成");
         //前端传消息

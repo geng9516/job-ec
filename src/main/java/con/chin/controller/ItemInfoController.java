@@ -9,8 +9,8 @@ import con.chin.pojo.query.ItemInfoQuery;
 import con.chin.service.ConfigService;
 import con.chin.service.ItemService;
 import con.chin.service.SiteShopService;
-import con.chin.util.CopyItemPhotoUtil;
-import con.chin.util.ExportItemInfoCsvUtil;
+import con.chin.util.ItemPhotoCopyUtil;
+import con.chin.util.ItemInfoCsvExportUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -156,7 +156,7 @@ public class ItemInfoController {
         switch (checkFlog) {
             case "0":
                 //导出CSV文件
-                ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, null);
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, null);
                 break;
             case "1":
                 //编辑状态
@@ -166,12 +166,12 @@ public class ItemInfoController {
                 }
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
-                CopyItemPhotoUtil.read(itemList);
+                ItemPhotoCopyUtil.read(itemList);
                 System.out.println("照片拷贝执行结束");
                 break;
             case "2":
                 //导出CSV文件
-                ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, null);
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, null);
                 //编辑状态
                 flog = (String) httpSession.getAttribute("flog");
                 if (flog != null && "2".equals(flog)) {
@@ -179,7 +179,7 @@ public class ItemInfoController {
                 }
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
-                CopyItemPhotoUtil.read(itemList);
+                ItemPhotoCopyUtil.read(itemList);
                 System.out.println("照片拷贝执行结束");
                 break;
         }

@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CsvImportUtil {
+public class ImportCsvUtil {
 
 
     //上传文件的路径
@@ -376,7 +376,7 @@ public class CsvImportUtil {
                             if(value == null || "".equals(value)){
                                 continue;
                             }
-                            value = value.replaceAll(" ","").replaceAll("　","");
+//                            value = value.replaceAll(" ","").replaceAll("　","");
                             switch (t) {
                                 case 0:
                                     if (option != null || !"".equals(option) && value != null || !"".equals(value)) {

@@ -5,16 +5,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class CopyItemPhotoUtil {
+public class ItemPhotoCopyUtil {
 
     private static String fileName;
 
     @Value("${FILENAME}")
-    public void setFileName(String FILENAME){
+    public void setFileName(String FILENAME) {
         this.fileName = FILENAME;
     }
 
@@ -86,7 +87,7 @@ public class CopyItemPhotoUtil {
                     //拷贝源输入流
                     fileInputStream = new FileInputStream(file1.getPath());
                     //判断是否有那个itemCode的文件夹,没有创建
-                    if(!file2.exists()){
+                    if (!file2.exists()) {
                         file2.mkdir();
                     }
                     //拷贝后的地址输出流
@@ -94,7 +95,7 @@ public class CopyItemPhotoUtil {
                     // 一次复制1MB 设定
                     byte[] bytes = new byte[1024 * 1024];
                     int readCount = 0;
-                    while((readCount = fileInputStream.read(bytes)) != -1){
+                    while ((readCount = fileInputStream.read(bytes)) != -1) {
                         fileOutputStream.write(bytes, 0, readCount);
                     }
                     //清空流的管道
@@ -125,6 +126,100 @@ public class CopyItemPhotoUtil {
         System.out.println("照片拷贝完成!  照片文件价名为 -->  " + folderName);
         return;
     }
+
+    public static List<String> read2() {
+
+        ResourceBundle bundle = ResourceBundle.getBundle(fileName);
+        //从propertied文件中照片读取地址取得
+        String itemphotoPath = bundle.getString("ITEMPHOTOCOPY");
+        File file = new File(itemphotoPath);
+        List<String> stringList = new ArrayList<>();
+        //循环要要拷贝的照片名文件夹
+        stringList = checkFileExitst2(file.getAbsolutePath());
+        return stringList2;
+    }
+
+    //判断itemCode的文件价存在
+    public static List<String> checkFileExitst2(String filePath) {
+        List<String> stringList = new ArrayList<>();
+        //把文件路径的文件价抽象化
+        File file = new File(filePath);
+        if (file.exists()) {
+            File[] files = file.listFiles();
+            if (files.length == 0) {
+//                System.out.println("ファイルが存在しません。");
+            } else {
+                //文件夹下存在文件时
+                for (File file1 : files) {
+                    //是一个文件夹
+                    if (file1.isDirectory()) {
+                        checkFileExitst2(file1.getAbsolutePath());
+                    } else {
+                        if (file1.getName().contains("_")) {
+                            continue;
+                        } else {
+                            stringList2.add(file1.getName().replaceAll(".jpg",""));
+                        }
+                    }
+                }
+            }
+        } else {
+            System.out.println("文件路径不存在!");
+        }
+        return stringList;
+    }
+
+    public static void read3(List<String> itemCodeList) {
+
+        ResourceBundle bundle = ResourceBundle.getBundle(fileName);
+        //从propertied文件中照片读取地址取得
+        String itemphotoPath = bundle.getString("ITEMPHOTOCOPY");
+        File file = new File(itemphotoPath);
+        //循环要要拷贝的照片名文件夹
+        for (String s : itemCodeList) {
+            checkFileExitst3(file.getAbsolutePath(), s);
+        }
+    }
+
+    //判断itemCode的文件价存在
+    public static void checkFileExitst3(String filePath, String fileName) {
+        //把文件路径的文件价抽象化
+        File file = new File(filePath);
+        if (file.exists()) {
+            File[] files = file.listFiles();
+            if (files.length == 0) {
+//                System.out.println("ファイルが存在しません。");
+            } else {
+                //文件夹下存在文件时
+                for (File file1 : files) {
+                    //是一个文件夹
+                    if (file1.isDirectory()) {
+                        //文件夹名叫 .DS_Store 时跳过
+                        if (".DS_Store".equals(file1.getName())) {
+                            continue;
+                            //文件名和itemCode一致时
+                        } else if (fileName.equals(file1.getName())) {
+                            //调用拷贝方法 传入filepath
+                            for (File listFile : file1.listFiles()) {
+                                if(listFile.isFile()){
+                                    listFile.delete();
+                                }
+                            }
+                            file1.delete();
+                            //不一致时递归
+                        } else {
+                            checkFileExitst3(file1.getAbsolutePath(), fileName);
+                        }
+                    }
+                }
+            }
+        } else {
+            System.out.println("文件路径不存在!");
+        }
+    }
+
+    private static final List<String> stringList2 = new ArrayList<>();
+
 }
 
 

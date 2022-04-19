@@ -4,10 +4,9 @@ import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
 import con.chin.task.ItemProcessor;
-import con.chin.util.CopyItemPhotoUtil;
-import con.chin.util.CsvImportUtil;
+import con.chin.util.ItemPhotoCopyUtil;
 import con.chin.util.ItemPhotoToZipUtil;
-import con.chin.util.ExportItemInfoCsvUtil;
+import con.chin.util.ItemInfoCsvExportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
@@ -27,8 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static con.chin.util.CopyItemPhotoUtil.copyItemPhoto;
 
 @Controller
 public class CrawlerController {
@@ -100,25 +96,25 @@ public class CrawlerController {
     ) {
         List<String> stringList = new ArrayList<>();
         //把按照换行进行分割
-        if(itemCodes != null && itemCodes != ""){
+        if (itemCodes != null && itemCodes != "") {
             Matcher m = Pattern.compile("(?m)^.*$").matcher(itemCodes);
             while (m.find()) {
                 stringList.add(m.group());
             }
         }
         //下载产品资料
-        if("0".equals(frequency)){
+        if ("0".equals(frequency)) {
             List<Item> itemList = new ArrayList<>();
             //取得所有已编辑并且没有失效的产品
-            if(itemCodes != null && itemCodes != ""){
+            if (itemCodes != null && itemCodes != "") {
                 itemList = itemService.findItemByItemCodeAll(stringList);
-            }else {
+            } else {
                 itemList = itemService.findAll();
             }
             //item信息不为空时
             if (itemList != null) {
                 //调用下载方法
-                ExportItemInfoCsvUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath);
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath);
                 //完成输出信息
                 redirectAttributes.addFlashAttribute("message", "数据出完成");
             } else {
@@ -126,14 +122,14 @@ public class CrawlerController {
                 redirectAttributes.addFlashAttribute("message", "***没有数据可输出***");
             }
             //删除产品资料
-        }else if ("1".equals(frequency)){
+        } else if ("1".equals(frequency)) {
             itemService.deleteItems(stringList);
-        }else if("2".equals(frequency)){
+        } else if ("2".equals(frequency)) {
             List<Item> itemList = new ArrayList<>();
             itemList = itemService.findItemByItemCodeAll(stringList);
             //产品照片拷贝
             System.out.println("照片拷贝执行开始");
-            CopyItemPhotoUtil.read(itemList);
+            ItemPhotoCopyUtil.read(itemList);
             System.out.println("照片拷贝执行结束");
         }
 
@@ -153,7 +149,7 @@ public class CrawlerController {
     @PostMapping("/filePath")
     public String filePath() {
         //上传文件的路径
-        File csvFile = new File("/Users/geng9516/Documents/商品画像編集/200_実行後");
+        File csvFile = new File("/Users/geng9516/Documents/EC関連/20_商品画像編集/200_実行後");
         //判断itemCode的文件价存在
 
         //把文件路径的文件价抽象化
@@ -167,16 +163,16 @@ public class CrawlerController {
                 for (File file1 : files) {
                     //是一个文件夹
                     if (!file1.isDirectory()) {
-                        if(file1.isFile()){
+                        if (file1.isFile()) {
                             String fileName = file1.getName();
-                            fileName= fileName.replaceAll(".jpg","");
-                            if(fileName.contains("_")){
+                            fileName = fileName.replaceAll(".jpg", "");
+                            if (fileName.contains("_")) {
                                 continue;
-                            }else {
+                            } else {
                                 System.out.println(fileName);
                             }
                         }
-                    }else {
+                    } else {
                         return "index";
                     }
                 }
@@ -193,12 +189,44 @@ public class CrawlerController {
     //数据错误时做更新使用
     @GetMapping("/setDate")
     public String setDate() {
-        itemService.setdate();
+//        itemService.setdate();
+        List<String> stringList = new ArrayList<>();
+        List<String> stringList1 = new ArrayList<>();
+        stringList = ItemPhotoCopyUtil.read2();
+
+        List<Item> itemList = new ArrayList<>();
+        itemList = itemService.findAll();
+//        for (String s : stringList) {
+//            int i = 0;
+//            for (Item item : itemList) {
+//                if (s.equals(item.getItemCode())) {
+//                    i = i + 1;
+//                }
+//            }
+//            if(i == 0){
+//                stringList1.add(s);
+//                System.out.println("削除写真　　　" + s);
+//            }
+//        }
+
+        for (Item item : itemList) {
+            int i = 0;
+            for (String s : stringList) {
+                if (s.equals(item.getItemCode())) {
+                    i = i + 1;
+                }
+            }
+            if (i == 0) {
+                stringList1.add(item.getItemCode());
+                System.out.println("削除写真　　　" + item.getItemCode());
+
+            }
+
+        }
+        itemService.deleteItems(stringList1);
+//        ItemPhotoCopyUtil.read3(stringList1);
         return "index";
     }
-
-
-
 
 
 }

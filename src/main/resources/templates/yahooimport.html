@@ -6,42 +6,42 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 
-    <!--    加载表头-->
-<!--    <script type="text/javascript">-->
-<!--        // $(document).ready(function () {-->
-    <!--        //     $("#meru").load("meru");-->
-    <!--        // });-->
+    <!--        加载表头-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#meru").load("meru");
+        });
 
-        <script type="text/javascript">
-            window.yconnectInit = function() {
-            YAHOO.JP.yconnect.Authorization.init({
-                button: {
-                    format: "image",
-                    type: "a",
-                    width: 196,
-                    height: 38,
-                    className: "yconnectLogin"
-                },
-                authorization: {
-                    clientId: "YOUR_APPLICATION_ID",
-                    redirectUri: "https://example.com/callback",
-                    scope: "openid",
-                    state: "<リクエストとコールバック間の検証用のランダムな文字列>",
-                    nonce: "<リプレイアタック対策のランダムな文字列>"
-                },
-                onError: function(res) {
-                    // エラー発生時のコールバック関数
-                },
-                onCancel: function(res) {
-                    // 同意キャンセルされた時のコールバック関数
-                }
-            });
-        };
-            (function(){
-            var fs = document.getElementsByTagName("script")[0], s = document.createElement("script");
-            s.setAttribute("src", "https://s.yimg.jp/images/login/yconnect/auth/1.0.3/auth-min.js");
-            fs.parentNode.insertBefore(s, fs);
-        })();
+        // <!--        <script type="text/javascript">-->
+        // <!--            window.yconnectInit = function() {-->
+        // <!--            YAHOO.JP.yconnect.Authorization.init({-->
+        // <!--                button: {-->
+        // <!--                    format: "image",-->
+        // <!--                    type: "a",-->
+        // <!--                    width: 196,-->
+        // <!--                    height: 38,-->
+        // <!--                    className: "yconnectLogin"-->
+        // <!--                },-->
+        // <!--                authorization: {-->
+        // <!--                    clientId: "YOUR_APPLICATION_ID",-->
+        // <!--                    redirectUri: "https://example.com/callback",-->
+        // <!--                    scope: "openid",-->
+        // <!--                    state: "<リクエストとコールバック間の検証用のランダムな文字列>",-->
+        // <!--                    nonce: "<リプレイアタック対策のランダムな文字列>"-->
+        // <!--                },-->
+        // <!--                onError: function(res) {-->
+        // <!--                    // エラー発生時のコールバック関数-->
+        // <!--                },-->
+        // <!--                onCancel: function(res) {-->
+        // <!--                    // 同意キャンセルされた時のコールバック関数-->
+        // <!--                }-->
+        // <!--            });-->
+        // <!--        };-->
+        // <!--            (function(){-->
+        // <!--            var fs = document.getElementsByTagName("script")[0], s = document.createElement("script");-->
+        // <!--            s.setAttribute("src", "https://s.yimg.jp/images/login/yconnect/auth/1.0.3/auth-min.js");-->
+        // <!--            fs.parentNode.insertBefore(s, fs);-->
+        // <!--        })();-->
     </script>
     <!--    表头固定-->
     <style>
@@ -59,6 +59,47 @@
     <div>
         <div style="width:100%;height:60px" id="meru"></div>
     </div>
+    <br>
+    <br>
+    <div>
+        <h1>YConnect Sample</h1>
+        <span class="yconnectLogin"></span>
+        <script type="text/javascript">
+            window.yconnectInit = function() {
+                YAHOO.JP.yconnect.Authorization.init({
+                    button : {
+                        format : "image",
+                        type : "a",
+                        width : 260,
+                        height : 50,
+                        className : "yconnectLogin"
+                    },
+                    authorization : {
+                        clientId : "dj00aiZpPWthUW4xbFQ0Q2gwWiZzPWNvbnN1bWVyc2VjcmV0Jng9ZDM-",
+                        redirectUri : "http://localhost:8080/showYahoo",
+                        scope : "openid email address",
+                        state : "5Ye65oi744KKT0vjgafjgZnjgojjgIHlhYjovKnjg4M",
+                        nonce : "SUTljqjjga8uLi7jgrrjg4Plj4vjgaDjgoc"
+                    },
+                    onError : function(res) {
+                        // エラー発生時のコールバック関数
+                        console.log("error: " + res.Error.errorDescription);
+                    },
+                    onCancel : function(res) {
+                        // 同意キャンセルされた時のコールバック関数
+                        console.log("state: " + res.Error.state);
+                    }
+                });
+            };
+            (function() {
+                var fs = document.getElementsByTagName("script")[0], s = document.createElement("script");
+                s.setAttribute("src","https://s.yimg.jp/images/login/yconnect/auth/1.0.0/auth-min.js");
+                fs.parentNode.insertBefore(s, fs);
+            })();
+
+        </script>
+    </div>
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </body>

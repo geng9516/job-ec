@@ -505,7 +505,12 @@
                                                 </textarea>
                                             </div>
                                         </div>
-                                        <!-- <textarea th:text="${item.getItemName()}"></textarea>-->
+                                        <div class="ui form">
+                                            <div class="field">
+                                                <p th:text="${item.getItemPath()}" name="itemPath">
+                                                </p>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td style="border-left: none;border-bottom: none"></td>
                                 </tr>
@@ -638,14 +643,14 @@
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <textarea rows="2" name="option1"></textarea>
+                                                    <input rows="1" name="option1"></input>
                                                 </div>
                                             </div>
                                         </td>
                                         <td style="width: 300px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <textarea rows="2" name="value1"></textarea>
+                                                    <textarea rows="1" name="value1"></textarea>
                                                 </div>
                                             </div>
                                         </td>
@@ -657,7 +662,7 @@
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <textarea rows="2" name="option1"
+                                                    <textarea rows="1" name="option1"
                                                               th:text="${item.getOption1()}"></textarea>
                                                 </div>
                                             </div>
@@ -665,7 +670,7 @@
                                         <td style="width: 300px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <textarea rows="2" name="value1"
+                                                    <textarea rows="1" name="value1"
                                                               th:text="${item.getValue1().replaceAll(' ','、')}"></textarea>
                                                 </div>
                                             </div>
@@ -681,14 +686,14 @@
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <textarea rows="2" name="option2"></textarea>
+                                                    <textarea rows="1" name="option2"></textarea>
                                                 </div>
                                             </div>
                                         </td>
                                         <td style="width: 300px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <textarea rows="2" name="value2"></textarea>
+                                                    <textarea rows="1" name="value2"></textarea>
                                                 </div>
                                             </div>
                                         </td>
@@ -700,7 +705,7 @@
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <textarea rows="2" name="option2"
+                                                    <textarea rows="1" name="option2"
                                                               th:text="${item.getOption2()}"></textarea>
                                                 </div>
                                             </div>
@@ -708,7 +713,7 @@
                                         <td style="width: 300px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <textarea rows="2" name="value2"
+                                                    <textarea rows="1" name="value2"
                                                               th:text="${item.getValue2().replaceAll(' ', '、')}"></textarea>
                                                 </div>
                                             </div>

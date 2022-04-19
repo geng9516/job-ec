@@ -333,7 +333,6 @@ public class ItemServiceImpl implements ItemService {
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Item oldItem = itemMapper.findItemByItemCode(item);
-
         if (oldItem == null) {
             item.setUpdatetime(now);
             String oldItemCode = now.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
@@ -365,57 +364,57 @@ public class ItemServiceImpl implements ItemService {
         if (item.getOption1() != null && !"".equals(item.getOption1())) {
             oldItem.setOption1(item.getOption1());
         } else {
-            oldItem.setOption1("");
+            oldItem.setOption1(null);
         }
         if (item.getOption2() != null && !"".equals(item.getOption2())) {
             oldItem.setOption2(item.getOption2());
         } else {
-            oldItem.setOption2("");
+            oldItem.setOption2(null);
         }
         if (item.getOption3() != null && !"".equals(item.getOption3())) {
             oldItem.setOption3(item.getOption3());
         } else {
-            oldItem.setOption3("");
+            oldItem.setOption3(null);
         }
         if (item.getOption4() != null && !"".equals(item.getOption4())) {
             oldItem.setOption4(item.getOption4());
         } else {
-            oldItem.setOption4("");
+            oldItem.setOption4(null);
         }
         if (item.getOption5() != null && !"".equals(item.getOption5())) {
             oldItem.setOption5(item.getOption5());
         } else {
-            oldItem.setOption5("");
+            oldItem.setOption5(null);
         }
 
         if (item.getValue1() != null && !"".equals(item.getValue1())) {
             oldItem.setValue1(item.getValue1());
         } else {
-            oldItem.setValue1("");
+            oldItem.setValue1(null);
         }
 
         if (item.getValue2() != null && !"".equals(item.getValue2())) {
             oldItem.setValue2(item.getValue2());
         } else {
-            oldItem.setValue2("");
+            oldItem.setValue2(null);
         }
 
         if (item.getValue3() != null && !"".equals(item.getValue3())) {
             oldItem.setValue3(item.getValue3());
         } else {
-            oldItem.setValue3("");
+            oldItem.setValue3(null);
         }
 
         if (item.getValue4() != null && !"".equals(item.getValue4())) {
             oldItem.setValue4(item.getValue4());
         } else {
-            oldItem.setValue4("");
+            oldItem.setValue4(null);
         }
 
         if (item.getValue5() != null && !"".equals(item.getValue5())) {
             oldItem.setValue5(item.getValue5());
         } else {
-            oldItem.setValue5("");
+            oldItem.setValue5(null);
         }
 
         if (item.getHeadline() != null && !"".equals(item.getHeadline())) {
@@ -437,9 +436,7 @@ public class ItemServiceImpl implements ItemService {
         if (item.getItemCategoryCode() != null) {
             oldItem.setItemCategoryCode(item.getItemCategoryCode());
         }
-
         itemMapper.updateItemByCsv(oldItem);
-
         return -1;
     }
 
