@@ -8,6 +8,7 @@ import con.chin.mapper.ItemMapper;
 import con.chin.mapper.OrderItemInfoMapper;
 import con.chin.pojo.OrderItemInfo;
 import con.chin.pojo.query.ItemInfoQuery;
+import con.chin.util.ItemPhotoCopyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import con.chin.pojo.Item;
@@ -124,6 +125,11 @@ public class ItemServiceImpl implements ItemService {
     //删除产品
     @Override
     public int deleteItem(Item item) {
+        //删除照片时的条件设置
+        List<String> stringList = new ArrayList<>();
+        stringList.add(item.getItemCode());
+        //调用删除照片方法
+        ItemPhotoCopyUtil.read3(stringList);
         return itemMapper.deleteItem(item);
     }
 
@@ -134,6 +140,8 @@ public class ItemServiceImpl implements ItemService {
         int res = 0;
         //调用删除多个的
         itemMapper.deleteItems(itemCodeList);
+        //删除照片
+        ItemPhotoCopyUtil.read3(itemCodeList);
         //返回结果
         return res;
     }
@@ -356,6 +364,10 @@ public class ItemServiceImpl implements ItemService {
         if (item.getItemCode() != null && !"".equals(item.getItemCode())) {
             oldItem.setItemCode(item.getItemCode());
         }
+
+//        if (item.getPrice() != null) {
+//            oldItem.setPrice(item.getPrice());
+//        }
 
         if (item.getSalePrice() != null) {
             oldItem.setSalePrice(item.getSalePrice());

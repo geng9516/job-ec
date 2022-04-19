@@ -127,6 +127,7 @@ public class ItemPhotoCopyUtil {
         return;
     }
 
+    //取得所以照片名
     public static List<String> read2() {
 
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
@@ -169,6 +170,7 @@ public class ItemPhotoCopyUtil {
         return stringList;
     }
 
+    //照片删除
     public static void read3(List<String> itemCodeList) {
 
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
@@ -181,7 +183,7 @@ public class ItemPhotoCopyUtil {
         }
     }
 
-    //判断itemCode的文件价存在
+    //照片删除
     public static void checkFileExitst3(String filePath, String fileName) {
         //把文件路径的文件价抽象化
         File file = new File(filePath);

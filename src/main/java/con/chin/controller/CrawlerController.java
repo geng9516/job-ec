@@ -219,9 +219,7 @@ public class CrawlerController {
             if (i == 0) {
                 stringList1.add(item.getItemCode());
                 System.out.println("削除写真　　　" + item.getItemCode());
-
             }
-
         }
         itemService.deleteItems(stringList1);
 //        ItemPhotoCopyUtil.read3(stringList1);
