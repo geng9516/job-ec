@@ -125,14 +125,24 @@ public class CrawlerController {
             }
             //删除产品资料
         } else if ("1".equals(frequency)) {
-            itemService.deleteItems(stringList);
+            if (itemCodes != null && itemCodes != "") {
+                itemService.deleteItems(stringList);
+            } else {
+                redirectAttributes.addFlashAttribute("message", "削除対象アイテムコードを入力してください！");
+            }
+
         } else if ("2".equals(frequency)) {
-            List<Item> itemList = new ArrayList<>();
-            itemList = itemService.findItemByItemCodeAll(stringList);
-            //产品照片拷贝
-            System.out.println("照片拷贝执行开始");
-            ItemPhotoCopyUtil.read(itemList);
-            System.out.println("照片拷贝执行结束");
+            if (itemCodes != null && itemCodes != "") {
+                List<Item> itemList = new ArrayList<>();
+                itemList = itemService.findItemByItemCodeAll(stringList);
+                //产品照片拷贝
+                System.out.println("照片拷贝执行开始");
+                ItemPhotoCopyUtil.read(itemList);
+                System.out.println("照片拷贝执行结束");
+            } else {
+                redirectAttributes.addFlashAttribute("message", "ダウンロード対象アイテムコードを入力してください！");
+            }
+
         }
 
         //刷新主页
@@ -197,40 +207,10 @@ public class CrawlerController {
     //数据错误时做更新使用
     @GetMapping("/setDate")
     public String setDate() {
-//        itemService.setdate();
-        List<String> stringList = new ArrayList<>();
-        List<String> stringList1 = new ArrayList<>();
-        stringList = ItemPhotoCopyUtil.read2();
 
-        List<Item> itemList = new ArrayList<>();
-        itemList = itemService.findAll();
-//        for (String s : stringList) {
-//            int i = 0;
-//            for (Item item : itemList) {
-//                if (s.equals(item.getItemCode())) {
-//                    i = i + 1;
-//                }
-//            }
-//            if(i == 0){
-//                stringList1.add(s);
-//                System.out.println("削除写真　　　" + s);
-//            }
-//        }
+        List<String> strings = ItemPhotoCopyUtil.read2();
+        ItemPhotoCopyUtil.read4(strings);
 
-        for (Item item : itemList) {
-            int i = 0;
-            for (String s : stringList) {
-                if (s.equals(item.getItemCode())) {
-                    i = i + 1;
-                }
-            }
-            if (i == 0) {
-                stringList1.add(item.getItemCode());
-                System.out.println("削除写真　　　" + item.getItemCode());
-            }
-        }
-        itemService.deleteItems(stringList1);
-//        ItemPhotoCopyUtil.read3(stringList1);
         return "index";
     }
 
