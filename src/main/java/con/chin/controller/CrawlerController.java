@@ -4,6 +4,7 @@ import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
 import con.chin.task.ItemProcessor;
+import con.chin.util.ImportCsvUtil;
 import con.chin.util.ItemPhotoCopyUtil;
 import con.chin.util.ItemPhotoToZipUtil;
 import con.chin.util.ItemInfoCsvExportUtil;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
@@ -147,38 +149,44 @@ public class CrawlerController {
 
     //把制作好的照片的产品ID取得
     @PostMapping("/filePath")
-    public String filePath() {
+    public String filePath(Model model) {
+
         //上传文件的路径
-        File csvFile = new File("/Users/geng9516/Documents/EC関連/20_商品画像編集/200_実行後");
+        File csvFile = new File("/Users/geng9516/Documents/EC関連/20_商品画像編集/300_追加");
         //判断itemCode的文件价存在
 
-        //把文件路径的文件价抽象化
-
-        if (csvFile.exists()) {
-            File[] files = csvFile.listFiles();
-            if (files.length == 0) {
+        if(csvFile.isDirectory()){
+            //把文件路径的文件价抽象化
+            if (csvFile.exists()) {
+                File[] files = csvFile.listFiles();
+                if (files.length == 0) {
 //                System.out.println("ファイルが存在しません。");
-            } else {
-                //文件夹下存在文件时
-                for (File file1 : files) {
-                    //是一个文件夹
-                    if (!file1.isDirectory()) {
-                        if (file1.isFile()) {
-                            String fileName = file1.getName();
-                            fileName = fileName.replaceAll(".jpg", "");
-                            if (fileName.contains("_")) {
-                                continue;
-                            } else {
-                                System.out.println(fileName);
+                } else {
+                    //文件夹下存在文件时
+                    for (File file1 : files) {
+                        //是一个文件夹
+                        if (!file1.isDirectory()) {
+                            if (file1.isFile()) {
+                                String fileName = file1.getName();
+                                fileName = fileName.replaceAll(".jpg", "");
+                                if (fileName.contains("_")) {
+                                    continue;
+                                } else {
+                                    System.out.println(fileName);
+                                }
                             }
+                        } else {
+                            model.addAttribute("page", "抽出完了しました！");
+                            return "index";
                         }
-                    } else {
-                        return "index";
                     }
                 }
+            } else {
+                model.addAttribute("page", "フィルダーが存在しません！");
+                System.out.println("文件路径不存在!");
             }
-        } else {
-            System.out.println("文件路径不存在!");
+        }else {
+            model.addAttribute("page", "フィルダーを選択してください！");
         }
 
         return "index";

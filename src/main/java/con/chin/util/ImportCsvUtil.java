@@ -366,7 +366,7 @@ public class ImportCsvUtil {
                             if (s.length() == 0) {
                                 continue;
                             }
-                            stringList.add(m.group());
+                            stringList.add(m.group().replaceAll("　"," "));
                         }
                         for (int t = 0; t < stringList.size(); t++) {
                             String optionAndValue = stringList.get(t);
