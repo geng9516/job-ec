@@ -27,8 +27,8 @@ public class SetDataUtil {
         //数据库中一个种类的产品code全拿出来
         List<String> relevantLinksList = randomGet.itemService.findItemCodeByPath(path);
         //种类的产品code只有一个的话直接返回null
-        if (relevantLinksList.size() == 1) {
-            return null;
+        if (relevantLinksList.size() <= 1) {
+            return "";
         }
         //推荐产品的itemcode保存用
         String relevantLinks = "";

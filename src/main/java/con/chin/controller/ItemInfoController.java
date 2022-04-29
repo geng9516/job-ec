@@ -188,7 +188,7 @@ public class ItemInfoController {
         return gson.toJson("アイテムCSV情報出力完了しました。");
     }
 
-    //列入删除列表
+    //列入已编辑列表
     @GetMapping("/setItemFlogToEdit")
     public String setItemFlogToEdit(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 
