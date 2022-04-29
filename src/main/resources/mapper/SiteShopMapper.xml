@@ -19,6 +19,12 @@
 
         select *
         from t_siteshop
+        <where>
+            <if test="shopName != null and shopName != ''">
+                and shopName = #{shopName}
+            </if>
+        </where>
+
     </select>
 
     <!--全部/条件查找数据源店铺-->
