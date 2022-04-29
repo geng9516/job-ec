@@ -20,49 +20,65 @@ public class ItemPhotoCopyUtil {
     }
 
     //拷贝照片
-    public static void read(List<Item> itemCodeList) {
+    public static void read(List<String> itemCodeList) {
 
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
         //从propertied文件中照片读取地址取得
         String itemphotoPath = bundle.getString("ITEMPHOTOCOPY");
         File file = new File(itemphotoPath);
         //循环要要拷贝的照片名文件夹
-        for (Item item : itemCodeList) {
-            checkFileExitst(file.getAbsolutePath(), item.getItemCode());
+//        for (Item item : itemCodeList) {
+//            checkFileExitst(file.getAbsolutePath(), item.getItemCode());
+//        }
+        findCopyPhoto(file, itemCodeList);
+    }
+
+    private static void findCopyPhoto(File itemphotoPath, List<String> itemCodeList) {
+
+        File[] fileItemPhotos = itemphotoPath.listFiles();
+        //循环要要拷贝的照片名文件夹
+        for (String itemCode : itemCodeList) {
+            for (File fileItemPhoto : fileItemPhotos) {
+                if (itemCode.equals(fileItemPhoto.getName())) {
+                    //调用拷贝方法
+                    copyItemPhoto(fileItemPhoto.getPath(), itemCode);
+                }
+            }
         }
     }
 
-    //判断itemCode的文件价存在
-    public static void checkFileExitst(String filePath, String fileName) {
-        //把文件路径的文件价抽象化
-        File file = new File(filePath);
-        if (file.exists()) {
-            File[] files = file.listFiles();
-            if (files.length == 0) {
-//                System.out.println("ファイルが存在しません。");
-            } else {
-                //文件夹下存在文件时
-                for (File file1 : files) {
-                    //是一个文件夹
-                    if (file1.isDirectory()) {
-                        //文件夹名叫 .DS_Store 时跳过
-                        if (".DS_Store".equals(file1.getName())) {
-                            continue;
-                            //文件名和itemCode一致时
-                        } else if (fileName.equals(file1.getName())) {
-                            //调用拷贝方法 传入filepath
-                            copyItemPhoto(file1.getAbsolutePath(), file1.getName());
-                            //不一致时递归
-                        } else {
-                            checkFileExitst(file1.getAbsolutePath(), fileName);
-                        }
-                    }
-                }
-            }
-        } else {
-            System.out.println("文件路径不存在!");
-        }
-    }
+
+//    //判断itemCode的文件价存在
+//    public static void checkFileExitst(String filePath, String fileName) {
+//        //把文件路径的文件价抽象化
+//        File file = new File(filePath);
+//        if (file.exists()) {
+//            File[] files = file.listFiles();
+//            if (files.length == 0) {
+////                System.out.println("ファイルが存在しません。");
+//            } else {
+//                //文件夹下存在文件时
+//                for (File file1 : files) {
+//                    //是一个文件夹
+//                    if (file1.isDirectory()) {
+//                        //文件夹名叫 .DS_Store 时跳过
+//                        if (".DS_Store".equals(file1.getName())) {
+//                            continue;
+//                            //文件名和itemCode一致时
+//                        } else if (fileName.equals(file1.getName())) {
+//                            //调用拷贝方法 传入filepath
+//                            copyItemPhoto(file1.getAbsolutePath(), file1.getName());
+//                            //不一致时递归
+//                        } else {
+//                            checkFileExitst(file1.getAbsolutePath(), fileName);
+//                        }
+//                    }
+//                }
+//            }
+//        } else {
+//            System.out.println("文件路径不存在!");
+//        }
+//    }
 
     //照片拷贝方法
     public static void copyItemPhoto(String filePath, String folderName) {
@@ -187,7 +203,7 @@ public class ItemPhotoCopyUtil {
         String itemIMGPath = bundle.getString("ITEM-IMG");
         File file1 = new File(itemIMGPath);
 
-        findPhotoFile(file,file1,itemCodeList);
+        findPhotoFile(file, file1, itemCodeList);
 
     }
 
@@ -210,7 +226,7 @@ public class ItemPhotoCopyUtil {
             for (File fileItemIMG : fileItemIMGs) {
                 String imgName = fileItemIMG.getName();
                 imgName = imgName.replaceAll(".jpg", "");
-                if(itemCode.equals(imgName)){
+                if (itemCode.equals(imgName)) {
                     //删除itemIMG
                     fileItemIMG.delete();
                 }

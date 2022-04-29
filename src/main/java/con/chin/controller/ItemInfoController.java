@@ -156,12 +156,13 @@ public class ItemInfoController {
 
         Gson gson = new Gson();
         String flog = null;
-        //检索下载iteminfo
-        List<Item> itemList = itemService.findItemByItemCodes(itemCodeList);
+        List<Item> itemList = new ArrayList<>();
         switch (checkFlog) {
             case "0":
+                //检索下载iteminfo
+                itemList = itemService.findItemByItemCodes(itemCodeList);
                 //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"download");
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
                 break;
             case "1":
                 //编辑状态
@@ -171,12 +172,14 @@ public class ItemInfoController {
                 }
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
-                ItemPhotoCopyUtil.read(itemList);
+                ItemPhotoCopyUtil.read(itemCodeList);
                 System.out.println("照片拷贝执行结束");
                 break;
             case "2":
+                //检索下载iteminfo
+                itemList = itemService.findItemByItemCodes(itemCodeList);
                 //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"download");
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
                 //编辑状态
                 flog = (String) httpSession.getAttribute("flog");
                 if (flog != null && "2".equals(flog)) {
@@ -184,7 +187,7 @@ public class ItemInfoController {
                 }
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
-                ItemPhotoCopyUtil.read(itemList);
+                ItemPhotoCopyUtil.read(itemCodeList);
                 System.out.println("照片拷贝执行结束");
                 break;
         }

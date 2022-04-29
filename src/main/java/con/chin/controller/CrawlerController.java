@@ -143,18 +143,18 @@ public class CrawlerController {
         } else if ("2".equals(frequency)) {
 
             if (itemCodes != null && itemCodes != "") {
-                List<Item> itemList = new ArrayList<>();
-                itemList = itemService.findItemByItemCodeAll(stringList);
+//                List<Item> itemList = new ArrayList<>();
+//                itemList = itemService.findItemByItemCodeAll(stringList);
                 //开始时间
                 long start = System.currentTimeMillis();
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
-                ItemPhotoCopyUtil.read(itemList);
+                ItemPhotoCopyUtil.read(stringList);
                 System.out.println("照片拷贝执行结束");
                 //结束时间
                 long end = System.currentTimeMillis();
                 System.out.println("照片拷贝完成!    总耗时：" + (end - start) / 1000 + " 秒");
-                redirectAttributes.addFlashAttribute("message", itemList.size() + " 件のアイテム写真のダウンロードが完了しました。");
+                redirectAttributes.addFlashAttribute("message", stringList.size() + " 件のアイテム写真のダウンロードが完了しました。");
             } else {
                 redirectAttributes.addFlashAttribute("message", "ダウンロード対象のアイテムコードを入力してください！");
             }
