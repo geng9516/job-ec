@@ -150,7 +150,6 @@ public class CrawlerController {
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
                 ItemPhotoCopyUtil.read(stringList);
-                System.out.println("照片拷贝执行结束");
                 //结束时间
                 long end = System.currentTimeMillis();
                 System.out.println("照片拷贝完成!    总耗时：" + (end - start) / 1000 + " 秒");
