@@ -134,7 +134,7 @@ public class CrawlerController {
                 long start = System.currentTimeMillis();
                 itemService.deleteItems(stringList);
                 long end = System.currentTimeMillis();
-                System.out.println("产品删除完成!    总耗时：" + (end - start) / 1000 + " 秒");
+                System.out.println("产品删除完成!    总耗时：" + (end - start)  + " ms");
                 redirectAttributes.addFlashAttribute("message", "アイテム削除完了しました");
             } else {
                 redirectAttributes.addFlashAttribute("message", "削除対象アイテムコードを入力してください！");

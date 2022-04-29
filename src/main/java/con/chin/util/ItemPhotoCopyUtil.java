@@ -184,19 +184,55 @@ public class ItemPhotoCopyUtil {
         String itemphotoPath = bundle.getString("ITEMPHOTO");
         File file = new File(itemphotoPath);
         //IMG照片下载地址取得
-        String itemIMG = bundle.getString("ITEM-IMG");
-        File file1 = new File(itemIMG);
+        String itemIMGPath = bundle.getString("ITEM-IMG");
+        File file1 = new File(itemIMGPath);
+
+        findPhotoFile(file,file1,itemCodeList);
+
+//        //循环要要拷贝的照片名文件夹
+//        for (String itemCode : itemCodeList) {
+//            //开始时间
+//            long start = System.currentTimeMillis();
+//            //删除Itemphpto
+//            deleteItemPhotos(file.getAbsolutePath(), itemCode);
+//            //删除itemIMG
+//            deleteItemImage(file1.getAbsolutePath(), itemCode);
+//            //结束时间
+//            long end = System.currentTimeMillis();
+//            System.out.println("产品code为: " + itemCode + " 的产品删除成功    耗时：" + (end - start) + " ms");
+//        }
+    }
+
+    public static void findPhotoFile(File itemphotoPath, File itemIMGPath, List<String> itemCodeList) {
+
+        File[] fileItemPhotos = itemphotoPath.listFiles();
+
+        File[] fileItemIMGs = itemIMGPath.listFiles();
+
         //循环要要拷贝的照片名文件夹
         for (String itemCode : itemCodeList) {
-            //开始时间
-            long start = System.currentTimeMillis();
-            //删除Itemphpto
-            deleteItemPhotos(file.getAbsolutePath(), itemCode);
-            //删除itemIMG
-            deleteItemImage(file1.getAbsolutePath(), itemCode);
-            //结束时间
-            long end = System.currentTimeMillis();
-            System.out.println("产品code为: " + itemCode + " 的产品删除成功    耗时：" + (end - start) + " ms");
+//            //开始时间
+//            long start = System.currentTimeMillis();
+
+            for (File fileItemPhoto : fileItemPhotos) {
+
+                if (itemCode.equals(fileItemPhoto.getName())) {
+                    //删除Itemphpto
+                    deleteItemPhotos(fileItemPhoto.getPath(), itemCode);
+                }
+            }
+
+            for (File fileItemIMG : fileItemIMGs) {
+
+                if(itemCode.equals(fileItemIMG.getName())){
+                    //删除itemIMG
+                    deleteItemImage(fileItemIMG.getPath(), itemCode);
+                }
+            }
+
+//            //结束时间
+//            long end = System.currentTimeMillis();
+//            System.out.println("产品code为: " + itemCode + " 的产品删除成功    耗时：" + (end - start) + " ms");
         }
     }
 
@@ -206,41 +242,59 @@ public class ItemPhotoCopyUtil {
         long start = System.currentTimeMillis();
         //把文件路径的文件价抽象化
         File file = new File(filePath);
-        if (file.exists()) {
-            File[] files = file.listFiles();
-            if (files.length == 0) {
-//                System.out.println("ファイルが存在しません。");
-            } else {
-                //文件夹下存在文件时
-                for (File file1 : files) {
-                    //是一个文件夹
-                    if (file1.isDirectory()) {
-                        //文件夹名叫 .DS_Store 时跳过
-                        if (".DS_Store".equals(file1.getName())) {
-                            continue;
-                            //文件名和itemCode一致时
-                        } else if (fileName.equals(file1.getName())) {
-                            //调用拷贝方法 传入filepath
-                            for (File listFile : file1.listFiles()) {
-                                if (listFile.isFile()) {
-                                    listFile.delete();
-                                }
-                            }
-                            file1.delete();
-                            //结束时间
-                            long end = System.currentTimeMillis();
-                            System.out.println("照片删除完成!  照片文件价名为 -->  " + fileName + "    耗时：" + (end - start) + " ms");
-                            //不一致时递归
-                        } else {
-                            deleteItemPhotos(file1.getAbsolutePath(), fileName);
-                        }
-                    }
-                }
+        //调用拷贝方法 传入filepath
+        for (File listFile : file.listFiles()) {
+            if (listFile.isFile()) {
+                listFile.delete();
             }
-        } else {
-            System.out.println("文件路径不存在!");
         }
+        file.delete();
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("照片删除完成!  照片文件价名为 -->  " + fileName + "    耗时：" + (end - start) + " ms");
     }
+
+//    //照片删除
+//    public static void deleteItemPhotos(String filePath, String fileName) {
+//        //开始时间
+//        long start = System.currentTimeMillis();
+//        //把文件路径的文件价抽象化
+//        File file = new File(filePath);
+//        if (file.exists()) {
+//            File[] files = file.listFiles();
+//            if (files.length == 0) {
+////                System.out.println("ファイルが存在しません。");
+//            } else {
+//                //文件夹下存在文件时
+//                for (File file1 : files) {
+//                    //是一个文件夹
+//                    if (file1.isDirectory()) {
+//                        //文件夹名叫 .DS_Store 时跳过
+//                        if (".DS_Store".equals(file1.getName())) {
+//                            continue;
+//                            //文件名和itemCode一致时
+//                        } else if (fileName.equals(file1.getName())) {
+//                            //调用拷贝方法 传入filepath
+//                            for (File listFile : file1.listFiles()) {
+//                                if (listFile.isFile()) {
+//                                    listFile.delete();
+//                                }
+//                            }
+//                            file1.delete();
+//                            //结束时间
+//                            long end = System.currentTimeMillis();
+//                            System.out.println("照片删除完成!  照片文件价名为 -->  " + fileName + "    耗时：" + (end - start) + " ms");
+//                            //不一致时递归
+//                        } else {
+//                            deleteItemPhotos(file1.getAbsolutePath(), fileName);
+//                        }
+//                    }
+//                }
+//            }
+//        } else {
+//            System.out.println("文件路径不存在!");
+//        }
+//    }
 
     //itemIMG删除
     public static void deleteItemImage(String filePath, String fileName) {
