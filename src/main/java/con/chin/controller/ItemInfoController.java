@@ -13,6 +13,7 @@ import con.chin.util.ItemPhotoCopyUtil;
 import con.chin.util.ItemInfoCsvExportUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -145,6 +146,9 @@ public class ItemInfoController {
         return "iteminfo";
     }
 
+    @Value("${ITEMCSVPATH}")
+    private String itemCsvPath;
+
     //下载iteminfo和产品照片拷贝
     @ResponseBody
     @PostMapping("/bulkOperation")
@@ -157,7 +161,7 @@ public class ItemInfoController {
         switch (checkFlog) {
             case "0":
                 //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, null,"download");
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"download");
                 break;
             case "1":
                 //编辑状态
@@ -172,7 +176,7 @@ public class ItemInfoController {
                 break;
             case "2":
                 //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, null,"download");
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"download");
                 //编辑状态
                 flog = (String) httpSession.getAttribute("flog");
                 if (flog != null && "2".equals(flog)) {
