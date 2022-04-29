@@ -10,6 +10,9 @@ import con.chin.pojo.OrderInfo;
 import con.chin.pojo.OrderItemInfo;
 import org.apache.commons.collections.map.HashedMap;
 import org.checkerframework.checker.units.qual.C;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,19 +22,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class ImportCsvUtil {
 
 
     //上传文件的路径
     private final static URL PATH = Thread.currentThread().getContextClassLoader().getResource("");
 
+    private static String FILENAME;
+
+    @Value("${FILENAME}")
+    public void setItemphoto(String FILENAME) {
+        this.FILENAME = FILENAME;
+    }
 
     /**
      * @return File  一般文件类型
@@ -328,6 +335,8 @@ public class ImportCsvUtil {
         }
 
         List<Item> itemList = new ArrayList<>();
+        List<Item> itemList1 = new ArrayList<>();
+        List<String> itemCodoList = new ArrayList<>();
         for (int i = 1; i < rows.size(); i++) {
 
             Item item = new Item();
@@ -339,15 +348,19 @@ public class ImportCsvUtil {
                         item.setItemPath(rawList.get(stringMap.get(key)));
                         break;
                     case "name":
-                        item.setItemName(rawList.get(stringMap.get(key)));
+                        String itemName = rawList.get(stringMap.get(key));
+                        itemName = itemName.replaceAll("\"", "").replaceAll("”", "");
+                        item.setItemName(itemName);
                         break;
                     case "code":
                         item.setItemCode(rawList.get(stringMap.get(key)));
+                        //itemcode放入集合(为了下载itemcodeCSV)
+                        itemCodoList.add(rawList.get(stringMap.get(key)));
                         break;
                     case "price":
                         String price = rawList.get(stringMap.get(key));
                         //是不是数字判断,不是为0
-                        if(price == null || !FlogUtil.isInteger(price)){
+                        if (price == null || !FlogUtil.isInteger(price)) {
                             price = "0";
                         }
                         item.setPrice(Integer.parseInt(price));
@@ -360,69 +373,82 @@ public class ImportCsvUtil {
                         //把按照换行进行分割
                         Matcher m = Pattern.compile("(?m)^.*$").matcher(options);
                         while (m.find()) {
-
                             String s = m.group();
-                            s = s.replaceAll(" ","").replaceAll("　","");
+                            s = s.replaceAll(" ", "").replaceAll("　", "");
                             if (s.length() == 0) {
                                 continue;
                             }
-                            stringList.add(m.group().replaceAll("　"," "));
+                            //把每个opton值的空格统一
+                            String option = m.group().replaceAll("　", " ").replaceAll("  ", " ");
+                            stringList.add(option);
                         }
                         for (int t = 0; t < stringList.size(); t++) {
                             String optionAndValue = stringList.get(t);
                             String option = optionAndValue.substring(0, optionAndValue.indexOf(" "));
-                            option = option.replaceAll(" ","").replaceAll("　","");
+                            option = option.replaceAll(" ", "").replaceAll("　", "");
                             String value = optionAndValue.substring(optionAndValue.indexOf(" ") + 1).trim();
-                            if(value == null || "".equals(value)){
+                            if (value == null || "".equals(value)) {
                                 continue;
                             }
-//                            value = value.replaceAll(" ","").replaceAll("　","");
+                            //value值进行去重
+                            String[] values = SetDataUtil.distinctByArr(value.split(" "));
+                            String value2 = "";
+                            for (String s : values) {
+                                value2 += s + " ";
+                            }
+                            value2 = value2.substring(0, value2.lastIndexOf(" "));
                             switch (t) {
                                 case 0:
-                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
+                                    if (option != null || !"".equals(option) && value2 != null || !"".equals(value2)) {
                                         item.setOption1(option);
-                                        item.setValue1(value);
+                                        item.setValue1(value2);
                                     }
                                     break;
                                 case 1:
-                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
+                                    if (option != null || !"".equals(option) && value2 != null || !"".equals(value2)) {
 
                                         item.setOption2(option);
-                                        item.setValue2(value);
+                                        item.setValue2(value2);
                                     }
                                     break;
                                 case 2:
-                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
+                                    if (option != null || !"".equals(option) && value2 != null || !"".equals(value2)) {
 
                                         item.setOption3(option);
-                                        item.setValue3(value);
+                                        item.setValue3(value2);
                                     }
                                     break;
                                 case 3:
-                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
+                                    if (option != null || !"".equals(option) && value2 != null || !"".equals(value2)) {
 
                                         item.setOption4(option);
                                         item.setValue4(value);
                                     }
                                     break;
                                 case 4:
-                                    if (option != null || !"".equals(option) && value != null || !"".equals(value)) {
+                                    if (option != null || !"".equals(option) && value2 != null || !"".equals(value2)) {
 
                                         item.setOption5(option);
-                                        item.setValue5(value);
+                                        item.setValue5(value2);
                                     }
                                     break;
                             }
                         }
                         break;
                     case "headline":
-                        item.setHeadline(rawList.get(stringMap.get(key)));
+                        String headline = rawList.get(stringMap.get(key));
+                        //把「"」去除
+                        headline = headline.replaceAll("\"", "").replaceAll("”", "");
+                        item.setHeadline(headline);
                         break;
                     case "caption":
                         item.setCaption(rawList.get(stringMap.get(key)));
                         break;
                     case "explanation":
-                        item.setExplanation(rawList.get(stringMap.get(key)));
+                        String explanation = rawList.get(stringMap.get(key));
+                        //把「"」去除
+                        explanation = explanation.replaceAll("\"", "").replaceAll("”", "");
+                        item.setExplanation(explanation);
                         break;
                     case "relevant-links":
                         item.setRelevantLinks(rawList.get(stringMap.get(key)));
@@ -432,10 +458,37 @@ public class ImportCsvUtil {
                         break;
                 }
             }
-            itemList.add(item);
+            //商品说明的长度过长
+            if (item.getExplanation().length() > 500) {
+                item.setExplanation("字数 " + item.getExplanation().length() + " 商品説明の長さが500を超えています。\n\n" + item.getExplanation());
+                itemList1.add(item);
+            } else {
+                itemList.add(item);
+            }
         }
+        //properties文件的名字取得
+        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
+        //IMG照片下载地址取得
+        String itemCsvPath = bundle.getString("EDITCSVPATH");
+        //调用itemcodecsv下载
+        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList1, itemCsvPath, "edit");
         //返回list
         return itemList;
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

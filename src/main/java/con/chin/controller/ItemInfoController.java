@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -156,7 +157,7 @@ public class ItemInfoController {
         switch (checkFlog) {
             case "0":
                 //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, null);
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, null,"download");
                 break;
             case "1":
                 //编辑状态
@@ -171,7 +172,7 @@ public class ItemInfoController {
                 break;
             case "2":
                 //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, null);
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, null,"download");
                 //编辑状态
                 flog = (String) httpSession.getAttribute("flog");
                 if (flog != null && "2".equals(flog)) {
@@ -187,34 +188,127 @@ public class ItemInfoController {
         return gson.toJson("アイテムCSV情報出力完了しました。");
     }
 
+    //列入删除列表
+    @GetMapping("/setItemFlogToEdit")
+    public String setItemFlogToEdit(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+
+        List<Item> itemList = new ArrayList<>();
+        Item item = new Item();
+        item.setItemCode(itemCode);
+        item.setFlog(0);
+        itemList.add(item);
+        //调用修改flog方法
+        int res = itemService.setItemFlog(itemList);
+        if (res == 1) {
+            redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を未編集に戻しました。");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " 未編集に戻せなかった。");
+        }
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
+    //列入删除列表
+    @GetMapping("/setDeleteItem")
+    public String setDeleteItem(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+
+        List<Item> itemList = new ArrayList<>();
+        Item item = new Item();
+        item.setItemCode(itemCode);
+        item.setFlog(3);
+        itemList.add(item);
+        //调用修改flog方法
+        int res = itemService.setItemFlog(itemList);
+        if (res == 1) {
+            redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を削除リストに追加しました。");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " リストに追加できなかった。");
+        }
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
     //削除
     @GetMapping("/deleteItem")
     public String deleteItem(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 
-        Item item = new Item();
-        item.setItemCode(itemCode);
-        int res = itemService.deleteItem(item);
-        if (res == 1) {
-            redirectAttributes.addFlashAttribute("message", "削除しました。");
+        List<String> itemCodeList = new ArrayList<>();
+        itemCodeList.add(itemCode);
+        int res = itemService.deleteItems(itemCodeList);
+        if (res > 0) {
+            redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を削除しました。");
         } else {
-            redirectAttributes.addFlashAttribute("message", "削除できなかった。");
+            redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + "削除できなかった。");
         }
-        //从session中把pageNum取得,放入ItemInfoQuery对象
+        //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
-        return "redirect:/iteminfo?pageNum=" + pageNum;
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
+    //多个返回列表
+    @ResponseBody
+    @PostMapping("/setItemsFlogToEdit")
+    public String setItemsFlogToEdit(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
+
+        Gson gson = new Gson();
+        List<Item> itemList = new ArrayList<>();
+        for (String itemCode : itemCodeList) {
+            Item item = new Item();
+            item.setItemCode(itemCode);
+            item.setFlog(0);
+            itemList.add(item);
+        }
+        //调用修改flog方法
+        itemService.setItemFlog(itemList);
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return gson.toJson(pageNum);
+        }
+        return gson.toJson(1);
+    }
+
+    //多个列入删除列表
+    @ResponseBody
+    @PostMapping("/setDeleteItems")
+    public String setDeleteItems(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
+
+        Gson gson = new Gson();
+        List<Item> itemList = new ArrayList<>();
+        for (String itemCode : itemCodeList) {
+            Item item = new Item();
+            item.setItemCode(itemCode);
+            item.setFlog(3);
+            itemList.add(item);
+        }
+        //调用修改flog方法
+        itemService.setItemFlog(itemList);
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return gson.toJson(pageNum);
+        }
+        return gson.toJson(1);
     }
 
     //削除多个
     @ResponseBody
     @PostMapping("/deleteItems")
-    public String deleteItems(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
+    public String setDeleteItemsz(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
 
         Gson gson = new Gson();
-//        Item item = new Item();
-//        for (String itemCode : itemCodeList) {
-//            item.setItemCode(itemCode);
-//            itemService.deleteItem(item);
-//        }
         itemService.deleteItems(itemCodeList);
         String pageNum = (String) httpSession.getAttribute("pageNum");
         if (pageNum != null && pageNum != "") {
@@ -367,6 +461,7 @@ public class ItemInfoController {
         model.addAttribute("configList", configList);
         //编辑状态放到全局变量中
         httpSession.setAttribute("flog", String.valueOf(itemInfoQuery.getFlog()));
+        model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);

@@ -7,9 +7,12 @@ import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class ItemProcessor implements PageProcessor {
@@ -46,7 +49,21 @@ public class ItemProcessor implements PageProcessor {
                 page.addTargetRequest(elNext);
                 //商品详情页
             } else {
-                YahooItemInfoUtil.saveItemInfo(page);
+//                Html html = page.getHtml();
+//                String ss = html.css(".mdReviewSummary a.elReviewLink span.elReviewCount").nodes().get(0).css("span","text").toString();
+//
+//                Pattern p = Pattern.compile("[^\\d]+([\\d]+)[^\\d]+.*");
+//                Matcher m = p.matcher(ss);
+//                boolean result = m.find();
+//                String find_result = null;
+//                if (result) {
+//                    find_result = m.group(1);
+//                }
+//                String elReviewValue = html.css(".mdReviewSummary a.elReviewLink span.elReviewCount").nodes().get(0).css("span","text").toString();
+//                Integer elReviewCount = Integer.parseInt(find_result);
+//                if(elReviewCount > 0 && elReviewCount != null){
+                    YahooItemInfoUtil.saveItemInfo(page);
+//                }
             }
         }
     }

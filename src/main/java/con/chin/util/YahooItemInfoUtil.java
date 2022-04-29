@@ -19,10 +19,12 @@ import java.util.*;
 public class YahooItemInfoUtil {
 
     public static void saveItemInfo(Page page) {
-        //商品详情对象
-        Item item = new Item();
         //解析页面
         Html html = page.getHtml();
+
+        //商品详情对象
+        Item item = new Item();
+
         //店铺名
         String storeName = html.css("div.mdBreadCrumb a").nodes().get(0).css("span", "text").toString();
         //サイト名
@@ -43,9 +45,13 @@ public class YahooItemInfoUtil {
         item.setItemPath(path.replace(" ", ":"));
         //产品名称
         String productName = html.css("div.mdItemName p.elName", "text").toString();
+        //把「"」去除
+        productName = productName.replaceAll("\"", "").replaceAll("”", "");
         item.setItemName(productName);
         //标题
         String headlin = html.css("div.mdItemName p.elCatchCopy", "text").toString();
+        //把「"」去除
+        headlin = headlin.replaceAll("\"", "").replaceAll("”", "");
         item.setHeadline(headlin);
         //产品价格
         item.setPrice(Integer.parseInt(html.css("span.elPriceNumber", "text").nodes().get(0).toString().replace(",", "").replace("円", "").trim()));
@@ -57,10 +63,13 @@ public class YahooItemInfoUtil {
         //option选项有没有判断
         List<Selectable> optionNodes = html.css("div.elTableInner thead.elTableHeader th").nodes();
         List<Selectable> options = html.css("div.mdOrderOptions li").nodes();
-        if (optionNodes.size() > 0) {
-            //选择项不同
-            String option = html.css("div.elHeaderMain p.elHeaderCaption", "text").toString();
-            String text = html.css("div.elHeaderMain p.elHeaderNote", "text").toString();
+        //选择项不同
+        String option = html.css("div.elHeaderMain p.elHeaderCaption", "text").toString();
+        String text = html.css("div.elHeaderMain p.elHeaderNote", "text").toString();
+        if (optionNodes.size() > 0 && (option.contains("×") || "以下の一覧からご希望の商品を選択してください".equals(text))) {
+//            //选择项不同
+//            String option = html.css("div.elHeaderMain p.elHeaderCaption", "text").toString();
+//            String text = html.css("div.elHeaderMain p.elHeaderNote", "text").toString();
             //value模块
             String elTableInne = html.css("div.elTableInner").toString();
             //value1
@@ -214,11 +223,11 @@ public class YahooItemInfoUtil {
         List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
         //产品情报照片/SP
         //https://item-shopping.c.yimg.jp/i/l/takahashihonpo_21-030-t00247_18
-        String caption = "<img src='https://item-shopping.c.yimg.jp/i/n/seiunstore_" + itemCode1 + "' width='100%'/><br>";
+        String caption = "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "' width='100%'/><br>";
         //产品照片的数量
         int photoAllSize = photoAll.size() >= 21 ? 20 : photoAll.size();
         for (int i = 1; i <= photoAllSize; i++) {
-            caption += "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "_" + i + ".jpg' width='100%'/><br>";
+            caption += "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "_" + i + "' width='100%'/><br>";
         }
         item.setCaption(caption);
         //产品数据保存

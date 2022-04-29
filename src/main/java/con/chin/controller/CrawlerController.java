@@ -4,10 +4,7 @@ import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
 import con.chin.task.ItemProcessor;
-import con.chin.util.ImportCsvUtil;
-import con.chin.util.ItemPhotoCopyUtil;
-import con.chin.util.ItemPhotoToZipUtil;
-import con.chin.util.ItemInfoCsvExportUtil;
+import con.chin.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +20,8 @@ import us.codecraft.webmagic.scheduler.QueueScheduler;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -45,7 +44,7 @@ public class CrawlerController {
     }
 
     //爬取url
-    @GetMapping("/getUrl")
+    @PostMapping("/getUrl")
     public String index(@RequestParam(name = "url") String url, RedirectAttributes redirectAttributes) {
 
         String[] urls = url.split(System.lineSeparator());
@@ -79,6 +78,7 @@ public class CrawlerController {
                         .run();
             }
         }
+
         //成功信息
         redirectAttributes.addFlashAttribute("message", "全部抓取完成");
         System.out.println("全部抓取完成");
@@ -98,7 +98,7 @@ public class CrawlerController {
     ) {
         List<String> stringList = new ArrayList<>();
         //把按照换行进行分割
-        if (itemCodes != null && itemCodes != "") {
+        if (itemCodes != null || !"".equals(itemCodes)) {
             Matcher m = Pattern.compile("(?m)^.*$").matcher(itemCodes);
             while (m.find()) {
                 stringList.add(m.group());
@@ -114,37 +114,68 @@ public class CrawlerController {
                 itemList = itemService.findAll();
             }
             //item信息不为空时
-            if (itemList != null) {
+            if (itemList.size() > 0) {
+                //开始时间
+                long start = System.currentTimeMillis();
                 //调用下载方法
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath);
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
+                long end = System.currentTimeMillis();
+                System.out.println("照片拷贝完成!    总耗时：" + (end - start)  + " ms");
                 //完成输出信息
-                redirectAttributes.addFlashAttribute("message", "数据出完成");
+                redirectAttributes.addFlashAttribute("message", "アイテム情報が " + itemList.size() + " 件出力されました。");
             } else {
                 //失败信息
-                redirectAttributes.addFlashAttribute("message", "***没有数据可输出***");
+                redirectAttributes.addFlashAttribute("message", "***入力されたアイテムコード関連のデータがありません***");
             }
             //删除产品资料
         } else if ("1".equals(frequency)) {
             if (itemCodes != null && itemCodes != "") {
+                //开始时间
+                long start = System.currentTimeMillis();
                 itemService.deleteItems(stringList);
+                long end = System.currentTimeMillis();
+                System.out.println("产品删除完成!    总耗时：" + (end - start) / 1000 + " 秒");
+                redirectAttributes.addFlashAttribute("message", "アイテム削除完了しました");
             } else {
                 redirectAttributes.addFlashAttribute("message", "削除対象アイテムコードを入力してください！");
             }
-
+            //产品照片拷贝
         } else if ("2".equals(frequency)) {
+
             if (itemCodes != null && itemCodes != "") {
                 List<Item> itemList = new ArrayList<>();
                 itemList = itemService.findItemByItemCodeAll(stringList);
+                //开始时间
+                long start = System.currentTimeMillis();
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
                 ItemPhotoCopyUtil.read(itemList);
                 System.out.println("照片拷贝执行结束");
+                //结束时间
+                long end = System.currentTimeMillis();
+                System.out.println("照片拷贝完成!    总耗时：" + (end - start) / 1000 + " 秒");
+                redirectAttributes.addFlashAttribute("message", itemList.size() + " 件のアイテム写真のダウンロードが完了しました。");
             } else {
-                redirectAttributes.addFlashAttribute("message", "ダウンロード対象アイテムコードを入力してください！");
+                redirectAttributes.addFlashAttribute("message", "ダウンロード対象のアイテムコードを入力してください！");
             }
 
-        }
+        } else if ("3".equals(frequency)) {
 
+            if (itemCodes != null && itemCodes != "") {
+                //开始时间
+                long start = System.currentTimeMillis();
+                //产品照片拷贝
+                System.out.println("照片删除执行开始");
+                ItemPhotoCopyUtil.read3(stringList);
+                System.out.println("照片删除执行结束");
+                //结束时间
+                long end = System.currentTimeMillis();
+                System.out.println("照片删除完成!    总耗时：" + (end - start) / 1000 + " 秒");
+                redirectAttributes.addFlashAttribute("message", "アイテム写真の删除が完了しました。");
+            } else {
+                redirectAttributes.addFlashAttribute("message", "ダウンロード対象のアイテムコードを入力してください！");
+            }
+        }
         //刷新主页
         return "redirect:/";
     }
@@ -152,53 +183,32 @@ public class CrawlerController {
     //创建ZIP文件
     @GetMapping("/photoToZip")
     public String photoToZip() {
+        //开始时间
+        long start = System.currentTimeMillis();
         //调用创建ZIP文件方法
         ItemPhotoToZipUtil.fileZipSave();
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("创建ZIP文件!    总耗时：" + (end - start) + " ms");
         return "index";
     }
+
+    @Value("${ZIPPHNTOFLEPATH}")
+    private String itemCodeCsvPath;
 
     //把制作好的照片的产品ID取得
     @PostMapping("/filePath")
     public String filePath(Model model) {
 
-        //上传文件的路径
-        File csvFile = new File("/Users/geng9516/Documents/EC関連/20_商品画像編集/300_追加");
-        //判断itemCode的文件价存在
+        List<String> itemCodeList = new ArrayList<>();
 
-        if(csvFile.isDirectory()){
-            //把文件路径的文件价抽象化
-            if (csvFile.exists()) {
-                File[] files = csvFile.listFiles();
-                if (files.length == 0) {
-//                System.out.println("ファイルが存在しません。");
-                } else {
-                    //文件夹下存在文件时
-                    for (File file1 : files) {
-                        //是一个文件夹
-                        if (!file1.isDirectory()) {
-                            if (file1.isFile()) {
-                                String fileName = file1.getName();
-                                fileName = fileName.replaceAll(".jpg", "");
-                                if (fileName.contains("_")) {
-                                    continue;
-                                } else {
-                                    System.out.println(fileName);
-                                }
-                            }
-                        } else {
-                            model.addAttribute("page", "抽出完了しました！");
-                            return "index";
-                        }
-                    }
-                }
-            } else {
-                model.addAttribute("page", "フィルダーが存在しません！");
-                System.out.println("文件路径不存在!");
-            }
-        }else {
-            model.addAttribute("page", "フィルダーを選択してください！");
-        }
-
+        itemCodeList = ItemPhotoCopyUtil.read2();
+        //现在时间作为文件名(线程安全的)
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
+        System.out.println("写入itemCodeCSV开始");
+        DataExportUtil.exportItemCodeCsv(itemCodeList, now);
+        System.out.println("写入itemCodeCSV结束");
         return "index";
     }
 
@@ -207,9 +217,34 @@ public class CrawlerController {
     //数据错误时做更新使用
     @GetMapping("/setDate")
     public String setDate() {
+        List<String> itemCodeList = new ArrayList<>();
+        List<String> itemCodeList1 = new ArrayList<>();
+        List<Item> itemList = new ArrayList<>();
+        itemCodeList = ItemPhotoCopyUtil.read2();
+        itemList = itemService.findAll();
 
-        List<String> strings = ItemPhotoCopyUtil.read2();
-        ItemPhotoCopyUtil.read4(strings);
+
+        for (Item item : itemList) {
+            int flog = 0;
+            for (String s : itemCodeList) {
+
+                if(item.getItemCode().equals(s)){
+                    flog=1;
+                    continue;
+                }
+
+            }
+            if(flog == 0){
+                itemCodeList1.add(item.getItemCode());
+            }
+        }
+        //现在时间作为文件名(线程安全的)
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
+        System.out.println("写入itemCodeCSV开始");
+        DataExportUtil.exportItemCodeCsv(itemCodeList1, now);
+        System.out.println("写入itemCodeCSV结束");
+
 
         return "index";
     }

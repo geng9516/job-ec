@@ -62,6 +62,9 @@ public interface ItemMapper {
 
     //csv文件更新数据或追加数据
     int updateItemByCsv(Item item);
+
+    //修改itemflog值
+    int setItemFlog(Item item);
 //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用

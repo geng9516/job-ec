@@ -16,29 +16,31 @@ import java.util.ResourceBundle;
 public class PhotoDownloadUtil {
 
 
-    private static String fileName;
+    private static String FILENAME;
 
     @Value("${FILENAME}")
-    public void setFileName(String FILENAME){
-        this.fileName = FILENAME;
+    public void setFileName(String FILENAME) {
+        this.FILENAME = FILENAME;
     }
 
     //照片下载
     public static void download(List<String> urlList, String itemCode, String path) {
 
         //产品表示照片下载
-        imageInput(urlList.get(0),itemCode);
-        //照片保存文件等
-        path = path.replace(":", "/");
+        imageInput(urlList.get(0), itemCode);
+        //照片保存文件等  不用
+//        path = path.replace(":", "/");
         //properties文件的名字取得
-        ResourceBundle bundle = ResourceBundle.getBundle(fileName);
+        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
         //照片下载地址取得
         String itemphoto = bundle.getString("ITEMPHOTO");
         //创建流
         InputStream inputStream = null;
         OutputStream outputStream = null;
+        Integer urls = urlList.size();
+        urls = urls > 21 ? 21 : urls;
         //遍历照片集合
-        for (int i = 0; i < urlList.size(); i++) {
+        for (int i = 0; i < urls; i++) {
             try {
                 URL url = new URL(urlList.get(i));
 
@@ -52,13 +54,13 @@ public class PhotoDownloadUtil {
 
                 int len;
 
-                File file = new File(itemphoto + path + File.separator + itemCode);
+                File file = new File(itemphoto + File.separator + itemCode);
 
                 if (!file.exists()) {
                     file.mkdirs();
                 }
 
-                outputStream = new FileOutputStream(file.getPath() + File.separator + itemCode + (i==0?"":"_"+i) + ".jpg", true);
+                outputStream = new FileOutputStream(file.getPath() + File.separator + itemCode + (i == 0 ? "" : "_" + i) + ".jpg", true);
 
                 while ((len = inputStream.read(bytes)) != -1) {
                     outputStream.write(bytes, 0, len);
@@ -91,9 +93,9 @@ public class PhotoDownloadUtil {
     public static void imageInput(String photoUrl, String imgName) {
 
         //properties文件的名字取得
-        ResourceBundle bundle = ResourceBundle.getBundle(fileName);
-        //照片下载地址取得
-        String itemphoto = bundle.getString("ITEM-IMG");
+        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
+        //IMG照片下载地址取得
+        String itemIMG = bundle.getString("ITEM-IMG");
 
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -111,7 +113,7 @@ public class PhotoDownloadUtil {
 
             int len;
 
-            File file = new File(itemphoto);
+            File file = new File(itemIMG);
 
             if (!file.exists()) {
                 file.mkdirs();
@@ -127,7 +129,7 @@ public class PhotoDownloadUtil {
             String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             System.out.println("产品主图番号为:  " + imgName + "   的下载完成 :  " + now);
 
-        } catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

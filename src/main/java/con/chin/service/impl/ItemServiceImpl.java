@@ -8,13 +8,16 @@ import con.chin.mapper.ItemMapper;
 import con.chin.mapper.OrderItemInfoMapper;
 import con.chin.pojo.OrderItemInfo;
 import con.chin.pojo.query.ItemInfoQuery;
+import con.chin.util.ItemInfoCsvExportUtil;
 import con.chin.util.ItemPhotoCopyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ import java.util.regex.Pattern;
 
 
 @Service
+@Transactional
 public class ItemServiceImpl implements ItemService {
 
     @Autowired
@@ -39,8 +43,10 @@ public class ItemServiceImpl implements ItemService {
 
     //保存产品和更新
     @Override
-    @Transactional
     public int saveItem(Item item) {
+
+        //开始时间
+        long start = System.currentTimeMillis();
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         //设置产品种类番号(条件はpathとサイト名)
@@ -58,7 +64,8 @@ public class ItemServiceImpl implements ItemService {
         //保存产品数据
         if (oldItem == null) {
             int res = itemMapper.saveItem(item);
-            System.out.println("登录一件产品:  " + item.getItemCode() + "   时间为 : " + now);
+            long end = System.currentTimeMillis();
+            System.out.println("登录一件产品:    " + item.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
             return res;
         }
         //更新产品数据
@@ -72,7 +79,9 @@ public class ItemServiceImpl implements ItemService {
         }
         //商品情報更新
         itemMapper.updateItem(item);
-        System.out.println("更新一件产品:  " + oldItem.getItemCode() + "   时间为 : " + now);
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("更新一件产品:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
         //为了更新的话不需要更新照片
         return -1;
     }
@@ -128,20 +137,37 @@ public class ItemServiceImpl implements ItemService {
         //删除照片时的条件设置
         List<String> stringList = new ArrayList<>();
         stringList.add(item.getItemCode());
+        //开始时间
+        long start = System.currentTimeMillis();
         //调用删除照片方法
         ItemPhotoCopyUtil.read3(stringList);
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("产品code为: " + item.getItemCode() + " 的产品删除成功    耗时：" + (end - start) + " ms");
         return itemMapper.deleteItem(item);
     }
+
+    @Value("${DETELECSVPATH}")
+    private String deleteCsvPath;
 
     //删除多个产品
     @Override
     public int deleteItems(List<String> itemCodeList) {
         //结果值
         int res = 0;
+        //取得要删除的csv文件
+        List<Item> itemList = itemMapper.findItemByItemCodes(itemCodeList);
         //调用删除多个的
-        itemMapper.deleteItems(itemCodeList);
+        res = itemMapper.deleteItems(itemCodeList);
+        //开始时间
+        long start = System.currentTimeMillis();
         //删除照片
         ItemPhotoCopyUtil.read3(itemCodeList);
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("删除多个产品照片成功    总耗时：" + (end - start) + " ms");
+        //导出删除产品的csv文件
+        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList,deleteCsvPath,"data_del");
         //返回结果
         return res;
     }
@@ -259,7 +285,10 @@ public class ItemServiceImpl implements ItemService {
         List<Item> itemList = new ArrayList<>();
         item.setItemCode(itemCodeList.get(0));
         item = itemMapper.findItemByItemCode(item);
-        itemList.add(item);
+        //検索結果ある時だけ
+        if (item != null) {
+            itemList.add(item);
+        }
         return itemList;
 
     }
@@ -452,6 +481,18 @@ public class ItemServiceImpl implements ItemService {
         return -1;
     }
 
+    @Override
+    public int setItemFlog(List<Item> itemList) {
+        if(itemList.size() > 0){
+            int res = 0;
+            for (Item item : itemList) {
+                res += itemMapper.setItemFlog(item);
+            }
+            return res;
+        }
+        return -1;
+    }
+
 
 //---------------------------------------------------------------------------------------------------------
 
@@ -535,7 +576,6 @@ public class ItemServiceImpl implements ItemService {
                     itemMapper.updateItem(item);
                     System.out.println(count++ + "  件完成  产品ID为     " + item.getItemCode() + "   option4为空");
                 }
-
             }
         }
         System.out.println("完成");

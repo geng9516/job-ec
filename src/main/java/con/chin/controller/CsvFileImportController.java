@@ -83,21 +83,25 @@ public class CsvFileImportController {
         int counts = 0;
 
         List<Item> itemList = ImportCsvUtil.readItemInfoCSV(csvFile.getPath());
-
-        int count = 0;
+        //开始时间
+        long start1 = System.currentTimeMillis();
         for (Item item : itemList) {
-            long start = System.currentTimeMillis();
-            count = fileImportService.savaItem(item);
+            //开始时间
+            long start2 = System.currentTimeMillis();
+            int count = fileImportService.savaItem(item);
             if (count > 0) {
                 saveSuccessCount += count;
             } else {
                 updateSuccessCount += count;
             }
-            counts += count;
+            counts = saveSuccessCount + Math.abs(updateSuccessCount);
+            //结束时间
             long end = System.currentTimeMillis();
-            System.out.println("从CSV文件中保存了产品ID为:  " + item.getItemCode() + "     " + counts + "件完成     耗时：" + (end - start) + " ms");
+            System.out.println("从CSV文件中保存了产品ID为:  " + item.getItemCode() + "     " + counts + "件完成     耗时：" + (end - start2) + " ms");
         }
-        System.out.println("从CSV文件中保存完成");
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("从CSV文件导入产品数据,保存完成    耗时：" + (end - start1)/1000 + " 秒");
         //前端传消息
         redirectAttributes.addFlashAttribute("message", saveSuccessCount + "件データアップロード," + Math.abs(updateSuccessCount) + "件アップデート成功しました。");
         //刷新order数据界面

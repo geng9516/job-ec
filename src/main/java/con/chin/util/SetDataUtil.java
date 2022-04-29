@@ -74,16 +74,29 @@ public class SetDataUtil {
         return set;
     }
 
+    //str长度控制
+    public static String setStrLength(String str,int strLength){
+        str = str.substring(0,strLength);
+        str = str.substring(0,str.lastIndexOf(" "));
+        return str;
+    }
 
-    //产品名字长度控制
-    public static String setItemName(String itemName){
-        itemName = itemName.replaceAll("　"," ");
-        itemName = itemName.substring(0,70);
-        if(!itemName.contains(" ")){
-            return itemName;
+
+    //去重并保留原来的顺序
+    public static String[] distinctByArr(String[] arr){
+        if(arr != null && arr.length > 0){
+            SetList<String> setList = new SetList<>();
+            for(String str : arr){
+                setList.add(str);
+            }
+            String[] arr_new = new String[setList.size()];
+            for(int i=0;i<setList.size(); i++){
+                arr_new[i] = setList.get(i);
+            }
+            return arr_new;
+        }else{
+            return arr;
         }
-        itemName = itemName.substring(0,itemName.lastIndexOf(" "));
-        return itemName;
     }
 
 

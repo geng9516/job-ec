@@ -294,6 +294,12 @@
         where itemcode = #{itemCode}
     </update>
 
+    <update id="setItemFlog">
+        update t_item
+        set flog=#{flog}
+        where itemCode = #{itemCode}
+    </update>
+
     <!--    ###################数据错误时修改用########################-->
 
     <select id="findAll" resultType="con.chin.pojo.Item">

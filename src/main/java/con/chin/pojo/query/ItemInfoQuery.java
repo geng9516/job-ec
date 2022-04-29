@@ -17,5 +17,9 @@ public class ItemInfoQuery {
 
     private String shopName;
 
+    private String startDate;
+
+    private String endDate;
+
     private Integer flog;
 }

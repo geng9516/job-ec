@@ -34,7 +34,6 @@ public class ItemPhotoToZipUtil {
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
         //从propertied文件中照片读取地址取得
         String itemphotoPath = bundle.getString("ZIPPHNTOFLEPATH");
-
         //zip文件保存地址
         String zipPath = bundle.getString("ZIPPHNTOFLEPATHTO");
         //产品照片保存的文件对象获取
@@ -61,23 +60,26 @@ public class ItemPhotoToZipUtil {
                     //把照片放入集合(这行不在这里会发生数据丢失)
                     fileList.add(photoFile);
                     //每24mb输出zip文件
-                    if(picLength > 24 * 1024 * 1024){
+                    if (picLength > 48 * 1024 * 1024) {
                         //现在时间作为文件名(线程安全的)
                         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                         //zip文件夹名
                         now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
                         //创建zip文件夹
-                        File file1 = new File(zipPath + File.separator + now + ".zip");
+                        File file1 = new File(zipPath + File.separator + "img" + now + ".zip");
                         //输出流
                         fileOutputStream = new FileOutputStream(file1);
+                        //开始时间
+                        long start = System.currentTimeMillis();
                         //输出zip文件
-                        toZip(fileList,fileOutputStream);
+                        toZip(fileList, fileOutputStream);
+                        //结束时间
+                        long end = System.currentTimeMillis();
+                        System.out.println("输出产品照片ZIP文件" + count++ + "件    耗时：" + (end - start) / 1000 + " 秒");
                         //集合清空
                         fileList.clear();
                         //照片大小清空
                         picLength = 0;
-                        //计数
-                        System.out.println("输出产品照片ZIP文件" + count++ + "件");
                     }
                     //如果是文件夹略过
                 } else {
@@ -90,19 +92,22 @@ public class ItemPhotoToZipUtil {
             //zip文件夹名
             now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
             //创建zip文件夹
-            File file1 = new File(zipPath + File.separator + now + ".zip");
+            File file1 = new File(zipPath + File.separator + "img" + now + ".zip");
             //输出流
             fileOutputStream = new FileOutputStream(file1);
+            //开始时间
+            long start = System.currentTimeMillis();
             //输出zip文件
-            toZip(fileList,fileOutputStream);
-            System.out.println("输出产品照片ZIP文件" + count++ + "件");
+            toZip(fileList, fileOutputStream);
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println("输出产品照片ZIP文件" + count++ + "件    耗时：" + (end - start) / 1000 + " 秒");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
 
     /**
@@ -138,7 +143,7 @@ public class ItemPhotoToZipUtil {
      * @throws RuntimeException 压缩失败会抛出运行时异常
      */
     public static void toZip(List<File> srcFiles, OutputStream out) throws RuntimeException {
-        long start = System.currentTimeMillis();
+
         ZipOutputStream zos = null;
         try {
             zos = new ZipOutputStream(out);
@@ -153,8 +158,6 @@ public class ItemPhotoToZipUtil {
                 zos.closeEntry();
                 in.close();
             }
-            long end = System.currentTimeMillis();
-            System.out.println("压缩完成，耗时：" + (end - start) + " ms");
         } catch (Exception e) {
             throw new RuntimeException("zip error from ZipUtils", e);
         } finally {
