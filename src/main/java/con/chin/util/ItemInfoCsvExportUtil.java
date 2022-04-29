@@ -277,16 +277,16 @@ public class ItemInfoCsvExportUtil {
                 //value2以" "分割成各个选项参数(颜色/尺码)
                 String values = item.getValue2();
                 if (values != null && !"".equals(values) && item.getOption2() != null && !"".equals(item.getOption2()) && item.getOption2().length() < 6) {
-                    String[] values2 = values.split(" ");
+//                    String[] values2 = values.split(" ");
                     //value1和value2做特定格式拼接
-                    for (String value1 : values1) {
-                        for (String value2 : values2) {
-                            //カラー:ホワイト#サイズ:S=t00106s&カラー:ホワイト#サイズ:M=t00106m&カラー:ホワイト#サイズ:L=t00106l&カラー:グレー#サイズ:S=t001061s&カラー:グレー#サイズ:M=t001061m&カラー:グレー#サイズ:L=t001061l
-                            subCode += item.getOption1() + ":" + value1 + "#" + item.getOption2() + ":" + value2 + "=" + item.getItemCode() + (i <= 500 ? i++ : 0) + "&";
-                        }
-                    }
-                    //把最后的"&"去除
-                    subCode = subCode.substring(0, subCode.lastIndexOf("&"));
+//                    for (String value1 : values1) {
+//                        for (String value2 : values2) {
+//                            //カラー:ホワイト#サイズ:S=t00106s&カラー:ホワイト#サイズ:M=t00106m&カラー:ホワイト#サイズ:L=t00106l&カラー:グレー#サイズ:S=t001061s&カラー:グレー#サイズ:M=t001061m&カラー:グレー#サイズ:L=t001061l
+//                            subCode += item.getOption1() + ":" + value1 + "#" + item.getOption2() + ":" + value2 + "=" + item.getItemCode() + (i <= 500 ? i++ : 0) + "&";
+//                        }
+//                    }
+//                    //把最后的"&"去除
+//                    subCode = subCode.substring(0, subCode.lastIndexOf("&"));
                 } else {
                     //個別商品コード(sub-code) 选项只有一个的时候
                     for (String value1 : values1) {
@@ -315,7 +315,8 @@ public class ItemInfoCsvExportUtil {
                 string[0] = item.getItemPath();//商品ページのストア内カテゴリパス path
                 string[1] = itemName;//商品名 name
                 string[2] = itemCode; //商品コード code
-                string[3] = subCode;      //個別商品コード sub-code
+//                string[3] = subCode;      //個別商品コード sub-code 暂时不用
+                string[3] = "";      //個別商品コード sub-code
                 string[4] = String.valueOf(price);     //通常販売価格 price
                 string[5] = options;     //オプション options
                 string[6] = item.getHeadline();      //キャッチコピー headline
@@ -347,10 +348,10 @@ public class ItemInfoCsvExportUtil {
                 i = 1;
                 //输出次数
                 writeLine.add(string);
-//                System.out.println("这是输出的: 第" + count++ + "件了");
+                System.out.println(fileName + " 产品CSV, 输出的: 第" + count++ + "行了");
             }
             writer.write(writeLine);
-            System.out.println("总共输出了: " + (count - 1));
+            System.out.println(fileName + "产品CSV, 总共输出了: " + (count - 1) + "行数据");
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {

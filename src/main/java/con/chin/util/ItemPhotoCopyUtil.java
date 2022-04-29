@@ -199,9 +199,6 @@ public class ItemPhotoCopyUtil {
 
         //循环要要拷贝的照片名文件夹
         for (String itemCode : itemCodeList) {
-//            //开始时间
-//            long start = System.currentTimeMillis();
-
             for (File fileItemPhoto : fileItemPhotos) {
 
                 if (itemCode.equals(fileItemPhoto.getName())) {
@@ -218,10 +215,6 @@ public class ItemPhotoCopyUtil {
                     fileItemIMG.delete();
                 }
             }
-
-//            //结束时间
-//            long end = System.currentTimeMillis();
-//            System.out.println("产品code为: " + itemCode + " 的产品删除成功    耗时：" + (end - start) + " ms");
         }
     }
 
