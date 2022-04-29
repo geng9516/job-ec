@@ -26,10 +26,7 @@ public class ItemPhotoCopyUtil {
         //从propertied文件中照片读取地址取得
         String itemphotoPath = bundle.getString("ITEMPHOTOCOPY");
         File file = new File(itemphotoPath);
-        //循环要要拷贝的照片名文件夹
-//        for (Item item : itemCodeList) {
-//            checkFileExitst(file.getAbsolutePath(), item.getItemCode());
-//        }
+
         findCopyPhoto(file, itemCodeList);
     }
 
@@ -47,39 +44,6 @@ public class ItemPhotoCopyUtil {
         }
     }
 
-
-//    //判断itemCode的文件价存在
-//    public static void checkFileExitst(String filePath, String fileName) {
-//        //把文件路径的文件价抽象化
-//        File file = new File(filePath);
-//        if (file.exists()) {
-//            File[] files = file.listFiles();
-//            if (files.length == 0) {
-////                System.out.println("ファイルが存在しません。");
-//            } else {
-//                //文件夹下存在文件时
-//                for (File file1 : files) {
-//                    //是一个文件夹
-//                    if (file1.isDirectory()) {
-//                        //文件夹名叫 .DS_Store 时跳过
-//                        if (".DS_Store".equals(file1.getName())) {
-//                            continue;
-//                            //文件名和itemCode一致时
-//                        } else if (fileName.equals(file1.getName())) {
-//                            //调用拷贝方法 传入filepath
-//                            copyItemPhoto(file1.getAbsolutePath(), file1.getName());
-//                            //不一致时递归
-//                        } else {
-//                            checkFileExitst(file1.getAbsolutePath(), fileName);
-//                        }
-//                    }
-//                }
-//            }
-//        } else {
-//            System.out.println("文件路径不存在!");
-//        }
-//    }
-
     //照片拷贝方法
     public static void copyItemPhoto(String filePath, String folderName) {
         //开始时间
@@ -95,7 +59,8 @@ public class ItemPhotoCopyUtil {
         //照片拷贝地址
         File file = new File(filePath);
         //拷贝后的地址加文件名
-        File file2 = new File(newPath + File.separator + folderName);
+//        File file2 = new File(newPath + File.separator + folderName);
+        File file2 = new File(newPath);
         //拷贝源中的所以文件
         File[] files = file.listFiles();
         try {

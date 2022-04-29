@@ -26,11 +26,6 @@ public class ItemPhotoToZipUtil {
     //public List<String> fileZipSave(List<String> newVo, String filePath, String zipPath)  throws Exception{
     public static void fileZipSave() {
 
-        //创建输入流
-        FileInputStream fileInputStream = null;
-        //创建输出流
-        FileOutputStream fileOutputStream = null;
-
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
         //从propertied文件中照片读取地址取得
         String itemphotoPath = bundle.getString("ZIPPHNTOFLEPATH");
@@ -42,6 +37,17 @@ public class ItemPhotoToZipUtil {
         File[] photoFiles = file.listFiles();
         //每23mb大小的产品照片保存用的集合
         List<File> fileList = new ArrayList<>();
+
+        findPhoto(photoFiles,fileList,zipPath);
+
+
+    }
+
+    private static void findPhoto(File[] photoFiles, List<File> fileList,String filePath) {
+        //创建输入流
+        FileInputStream fileInputStream = null;
+        //创建输出流
+        FileOutputStream fileOutputStream = null;
         //判断是否到达24mb的
         long picLength = 0;
         //计数
@@ -66,7 +72,7 @@ public class ItemPhotoToZipUtil {
                         //zip文件夹名
                         now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
                         //创建zip文件夹
-                        File file1 = new File(zipPath + File.separator + "img" + now + ".zip");
+                        File file1 = new File(filePath + File.separator + "img" + now + ".zip");
                         //输出流
                         fileOutputStream = new FileOutputStream(file1);
                         //开始时间
@@ -92,7 +98,7 @@ public class ItemPhotoToZipUtil {
             //zip文件夹名
             now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
             //创建zip文件夹
-            File file1 = new File(zipPath + File.separator + "img" + now + ".zip");
+            File file1 = new File(filePath + File.separator + "img" + now + ".zip");
             //输出流
             fileOutputStream = new FileOutputStream(file1);
             //开始时间
@@ -107,6 +113,7 @@ public class ItemPhotoToZipUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 
