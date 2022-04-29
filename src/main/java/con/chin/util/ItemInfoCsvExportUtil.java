@@ -213,6 +213,8 @@ public class ItemInfoCsvExportUtil {
 
     //yahooショップ商品のcsvファイルダウンロード
     public static void exportYahooItemInfoToCsv(List<Item> itemList, String filePath, String fileName) {
+        //开始时间
+        long start = System.currentTimeMillis();
 
         //properties文件的名字取得
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
@@ -351,7 +353,9 @@ public class ItemInfoCsvExportUtil {
                 System.out.println(fileName + " 产品CSV, 输出的: 第" + count++ + "行了");
             }
             writer.write(writeLine);
-            System.out.println(fileName + "产品CSV, 总共输出了: " + (count - 1) + "行数据");
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println(fileName + "产品CSV, 总共输出了: " + (count - 1) + "行数据    耗时：" + (end - start) + " ms");
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
