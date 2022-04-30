@@ -323,7 +323,8 @@ public class ItemInfoCsvExportUtil {
                 string[5] = options;     //オプション options
                 string[6] = item.getHeadline();      //キャッチコピー headline
                 string[7] = (item.getCaption() != null ? item.getCaption() : "");//商品の説明文 caption
-                string[8] = item.getExplanation();     //商品情報 explanation
+//                string[8] = item.getExplanation();     //商品情報 explanation 暂时不用
+                string[8] = "";
                 string[9] = (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "");      //おすすめ商品 relevant-links
                 string[10] = "1";      //課税対象 taxable
                 string[11] = "1";     //ポイント倍率 point-code
@@ -336,7 +337,8 @@ public class ItemInfoCsvExportUtil {
                 string[18] = "1";      //ページの公開/非公開 display
                 string[19] = "1";      //旧：商品表示順序 sort
                 string[20] = "";      //商品表示優先度 sort_priority
-                string[21] = (item.getCaption() != null && !"".equals(item.getCaption()) ? item.getCaption() : "");      //スマートフォン用商品の補足説明を入力。 sp-additional
+//                string[21] = (item.getCaption() != null && !"".equals(item.getCaption()) ? item.getCaption() : "");  //スマートフォン用商品の補足説明を入力。 sp-additional 暂时不用
+                string[21] = "";
                 string[22] = "1";      //発送日情報 lead-time-instock
                 string[23] = "4000";      //発送日情報 lead-time-outstock
                 string[24] = "1";      //購入者キャンセル在庫取り扱い keep-stock
@@ -364,7 +366,6 @@ public class ItemInfoCsvExportUtil {
             }
         }
     }
-
 
     //auショップ商品のcsvファイルダウンロード
     public static void exportItemInfoToCsv(List<Item> itemList, String filePath) {

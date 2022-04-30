@@ -26,10 +26,10 @@ public class ItemPhotoCopyUtil {
         //从propertied文件中照片读取地址取得
         String itemphotoPath = bundle.getString("ITEMPHOTOCOPY");
         File file = new File(itemphotoPath);
-
         findCopyPhoto(file, itemCodeList);
     }
 
+    //读取photo文件
     private static void findCopyPhoto(File itemphotoPath, List<String> itemCodeList) {
 
         File[] fileItemPhotos = itemphotoPath.listFiles();
@@ -123,7 +123,7 @@ public class ItemPhotoCopyUtil {
         File file = new File(itemphotoPath);
         List<String> stringList = new ArrayList<>();
         //循环要要拷贝的照片名文件夹
-        stringList = checkFileExitst2(file.getAbsolutePath());
+        checkFileExitst2(file.getAbsolutePath());
         return stringList2;
     }
 
@@ -167,9 +167,7 @@ public class ItemPhotoCopyUtil {
         //IMG照片下载地址取得
         String itemIMGPath = bundle.getString("ITEM-IMG");
         File file1 = new File(itemIMGPath);
-
         findPhotoFile(file, file1, itemCodeList);
-
     }
 
     public static void findPhotoFile(File itemphotoPath, File itemIMGPath, List<String> itemCodeList) {

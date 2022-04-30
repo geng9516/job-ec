@@ -181,7 +181,7 @@ public class CrawlerController {
 
     //创建ZIP文件
     @GetMapping("/photoToZip")
-    public String photoToZip() {
+    public String photoToZip(Model model) {
         //开始时间
         long start = System.currentTimeMillis();
         //调用创建ZIP文件方法
@@ -189,6 +189,7 @@ public class CrawlerController {
         //结束时间
         long end = System.currentTimeMillis();
         System.out.println("创建ZIP文件!    总耗时：" + (end - start) + " ms");
+        model.addAttribute("message","写真を圧縮完了しました。");
         return "index";
     }
 
