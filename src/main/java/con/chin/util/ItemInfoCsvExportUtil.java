@@ -322,9 +322,9 @@ public class ItemInfoCsvExportUtil {
                 string[4] = String.valueOf(price);     //通常販売価格 price
                 string[5] = options;     //オプション options
                 string[6] = item.getHeadline();      //キャッチコピー headline
-                string[7] = (item.getCaption() != null ? item.getCaption() : "");//商品の説明文 caption
-//                string[8] = item.getExplanation();     //商品情報 explanation 暂时不用
-                string[8] = "";
+//                string[7] = (item.getCaption() != null ? item.getCaption() : "");//商品の説明文 caption
+                string[7] = "";
+                string[8] = item.getExplanation();     //商品情報 explanation 暂时不用
                 string[9] = (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "");      //おすすめ商品 relevant-links
                 string[10] = "1";      //課税対象 taxable
                 string[11] = "1";     //ポイント倍率 point-code
