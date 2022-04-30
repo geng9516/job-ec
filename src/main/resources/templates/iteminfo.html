@@ -101,11 +101,11 @@
                         <form action="" method="" id="findEditedIteminfo" onchange="findEditedIteminfo()">
                             <select class="ui dropdown" name="flog">
                                 <option value="">編集ステータス</option>
-                                <option value="0">CSVダウンロード待ち</option>
-                                <option value="1">未編集</option>
-                                <option value="2">編集済</option>
+                                <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち</option>
+                                <option value="1" th:selected="${editFlogSelect} eq '1'">未編集</option>
+                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>
 <!--                                <option value="3">ダウンロード済</option>-->
-                                <option value="3">削除待ち状態</option>
+                                <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
                             </select>
                         </form>
                     </td>
