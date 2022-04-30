@@ -67,7 +67,7 @@ public class ItemInfoController {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
         } else {
             httpSession.setAttribute("flog", String.valueOf(0));
-            itemInfoQuery.setFlog(0);
+            itemInfoQuery.setFlog(1);
         }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
@@ -106,7 +106,7 @@ public class ItemInfoController {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
         } else {
             httpSession.setAttribute("flog", String.valueOf(0));
-            itemInfoQuery.setFlog(0);
+            itemInfoQuery.setFlog(1);
         }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
