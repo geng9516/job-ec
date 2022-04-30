@@ -169,7 +169,7 @@ public class ItemInfoController {
                         itemList1.add(item);
                     }
                 }
-                itemService.setItemFlogs(itemList1);
+                itemService.setItemFlog(itemList1);
                 //导出CSV文件
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
                 break;
@@ -194,7 +194,7 @@ public class ItemInfoController {
                         itemList1.add(item);
                     }
                 }
-                itemService.setItemFlogs(itemList1);
+                itemService.setItemFlog(itemList1);
                 //导出CSV文件
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
                 //编辑状态

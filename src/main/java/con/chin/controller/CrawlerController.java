@@ -122,7 +122,7 @@ public class CrawlerController {
                         itemList1.add(item);
                     }
                 }
-                itemService.setItemFlogs(itemList1);
+                itemService.setItemFlog(itemList1);
                 //开始时间
                 long start = System.currentTimeMillis();
                 //调用下载方法
