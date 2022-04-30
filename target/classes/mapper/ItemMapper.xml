@@ -121,6 +121,8 @@
 
     </update>
 
+
+
     <!--    已编辑并且没有失效的产品-->
     <select id="findAllItem" resultType="con.chin.pojo.Item">
 
@@ -298,6 +300,14 @@
         update t_item
         set flog=#{flog}
         where itemCode = #{itemCode}
+    </update>
+
+    <update id="setItemFlogs">
+        update t_item
+        set flog=#{flog}
+        <foreach collection="list" item="itemCode" open="(" close=")" separator=",">
+            #{itemCode}
+        </foreach>
     </update>
 
     <!--    ###################数据错误时修改用########################-->

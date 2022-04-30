@@ -67,9 +67,6 @@ public class YahooItemInfoUtil {
         String option = html.css("div.elHeaderMain p.elHeaderCaption", "text").toString();
         String text = html.css("div.elHeaderMain p.elHeaderNote", "text").toString();
         if (optionNodes.size() > 0 && (option.contains("×") || "以下の一覧からご希望の商品を選択してください".equals(text))) {
-//            //选择项不同
-//            String option = html.css("div.elHeaderMain p.elHeaderCaption", "text").toString();
-//            String text = html.css("div.elHeaderMain p.elHeaderNote", "text").toString();
             //value模块
             String elTableInne = html.css("div.elTableInner").toString();
             //value1
@@ -210,7 +207,7 @@ public class YahooItemInfoUtil {
         //获取带前页的URL
         item.setUrl5(page.getUrl().nodes().get(0).toString());
         item.setImage("/images/itemphoto/" + item.getItemCode() + ".jpg");
-        //是否编辑(0:否,1:是)
+        //未下载
         item.setFlog(0);
         //创建时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

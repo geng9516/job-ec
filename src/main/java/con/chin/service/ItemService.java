@@ -61,6 +61,9 @@ public interface ItemService {
     //修改itemflog值
     int setItemFlog(List<Item> itemList);
 
+    //修改多个itemflog值
+    int setItemFlogs(List<Item> itemList);
+
     //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用

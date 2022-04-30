@@ -157,10 +157,19 @@ public class ItemInfoController {
         Gson gson = new Gson();
         String flog = null;
         List<Item> itemList = new ArrayList<>();
+        List<Item> itemList1 = new ArrayList<>();
         switch (checkFlog) {
             case "0":
                 //检索下载iteminfo
                 itemList = itemService.findItemByItemCodes(itemCodeList);
+                itemList1 = new ArrayList<>();
+                for (Item item : itemList) {
+                    if (item.getFlog() == 0) {
+                        item.setFlog(1);
+                        itemList1.add(item);
+                    }
+                }
+                itemService.setItemFlogs(itemList1);
                 //导出CSV文件
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
                 break;
@@ -178,6 +187,14 @@ public class ItemInfoController {
             case "2":
                 //检索下载iteminfo
                 itemList = itemService.findItemByItemCodes(itemCodeList);
+                itemList1 = new ArrayList<>();
+                for (Item item : itemList) {
+                    if (item.getFlog() == 0) {
+                        item.setFlog(1);
+                        itemList1.add(item);
+                    }
+                }
+                itemService.setItemFlogs(itemList1);
                 //导出CSV文件
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
                 //编辑状态

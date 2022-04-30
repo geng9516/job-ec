@@ -115,12 +115,20 @@ public class CrawlerController {
             }
             //item信息不为空时
             if (itemList.size() > 0) {
+                List<Item> itemList1 = new ArrayList<>();
+                for (Item item : itemList) {
+                    if (item.getFlog() == 0) {
+                        item.setFlog(1);
+                        itemList1.add(item);
+                    }
+                }
+                itemService.setItemFlogs(itemList1);
                 //开始时间
                 long start = System.currentTimeMillis();
                 //调用下载方法
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                 long end = System.currentTimeMillis();
-                System.out.println("照片拷贝完成!    总耗时：" + (end - start)  + " ms");
+                System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
                 //完成输出信息
                 redirectAttributes.addFlashAttribute("message", "アイテム情報が " + itemList.size() + " 件出力されました。");
             } else {
@@ -134,7 +142,7 @@ public class CrawlerController {
                 long start = System.currentTimeMillis();
                 itemService.deleteItems(stringList);
                 long end = System.currentTimeMillis();
-                System.out.println("产品删除完成!    总耗时：" + (end - start)  + " ms");
+                System.out.println("产品删除完成!    总耗时：" + (end - start) + " ms");
                 redirectAttributes.addFlashAttribute("message", "アイテム削除完了しました");
             } else {
                 redirectAttributes.addFlashAttribute("message", "削除対象アイテムコードを入力してください！");
@@ -189,7 +197,7 @@ public class CrawlerController {
         //结束时间
         long end = System.currentTimeMillis();
         System.out.println("创建ZIP文件!    总耗时：" + (end - start) + " ms");
-        model.addAttribute("message","写真を圧縮完了しました。");
+        model.addAttribute("message", "写真を圧縮完了しました。");
         return "index";
     }
 
@@ -228,13 +236,13 @@ public class CrawlerController {
             int flog = 0;
             for (String s : itemCodeList) {
 
-                if(item.getItemCode().equals(s)){
-                    flog=1;
+                if (item.getItemCode().equals(s)) {
+                    flog = 1;
                     continue;
                 }
 
             }
-            if(flog == 0){
+            if (flog == 0) {
                 itemCodeList1.add(item.getItemCode());
             }
         }

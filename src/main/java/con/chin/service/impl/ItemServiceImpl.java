@@ -234,7 +234,7 @@ public class ItemServiceImpl implements ItemService {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         //如果是flog>=10并且产品还未失效的话就属于编辑完成  产品是否属于编辑
         if (flog >= 5 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
-            oldItem.setFlog(1);
+            oldItem.setFlog(2);
             oldItem.setUpdatetime(now);
             return itemMapper.setItemSalePrice(oldItem);
         } else {
@@ -491,6 +491,11 @@ public class ItemServiceImpl implements ItemService {
             return res;
         }
         return -1;
+    }
+
+    @Override
+    public int setItemFlogs(List<Item> itemList) {
+        return itemMapper.setItemFlogs(itemList);
     }
 
 
