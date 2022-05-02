@@ -85,7 +85,7 @@ public class ItemInfoController {
     public String findIteminfo(Model model, ItemInfoQuery itemInfoQuery, HttpSession httpSession) {
 
         //没有输入查询条件时把session中的值删掉
-        if (itemInfoQuery.getSearchConditions() == null || itemInfoQuery.getSearchConditions() == "") {
+        if (itemInfoQuery.getSearchConditions() == null || "".equals(itemInfoQuery.getSearchConditions())) {
             httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("pageSize");
             httpSession.removeAttribute("flog");
