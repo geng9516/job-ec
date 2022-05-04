@@ -498,6 +498,12 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.setItemFlogs(itemList);
     }
 
+    //获取新爬取的产品
+    @Override
+    public List<Item> findNewDownloaded(Integer flog) {
+        return itemMapper.findNewDownloaded(flog);
+    }
+
 
 //---------------------------------------------------------------------------------------------------------
 

@@ -27,10 +27,12 @@ public class YahooItemInfoUtil {
 
         //店铺名
         String storeName = html.css("div.mdBreadCrumb a").nodes().get(0).css("span", "text").toString();
-        //サイト名
-        item.setSiteName("yahoo");
-        //ショップ名
-        item.setShopName(storeName);
+        if(storeName != null || !"".equals(storeName)){
+            //サイト名
+            item.setSiteName("yahoo");
+            //ショップ名
+            item.setShopName(storeName);
+        }
         //新商品code
         String itemCode = UUID.randomUUID().toString();
         String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
@@ -52,14 +54,19 @@ public class YahooItemInfoUtil {
         String headlin = html.css("div.mdItemName p.elCatchCopy", "text").toString();
         //把「"」去除
         headlin = headlin.replaceAll("\"", "").replaceAll("”", "");
-        item.setHeadline(headlin);
+        if(headlin != null || !"".equals(headlin)){
+            headlin = headlin.replaceAll("\"", "").replaceAll("”", "");
+            item.setHeadline(headlin);
+        }
         //产品价格
         item.setPrice(Integer.parseInt(html.css("span.elPriceNumber", "text").nodes().get(0).toString().replace(",", "").replace("円", "").trim()));
         //产品详情说明文
         String mdItemDescription = html.css("div.mdItemDescription p").toString().replaceAll("<br>", "\n");
-        //把不要的文字删除
-        mdItemDescription = mdItemDescription.replace("<p>", "").replace("</p>", "").replaceAll("\"", "");
-        item.setExplanation(mdItemDescription);
+        if(mdItemDescription != null || !"".equals(mdItemDescription)){
+            //把不要的文字删除
+            mdItemDescription = mdItemDescription.replace("<p>", "").replace("</p>", "").replaceAll("\"", "");
+            item.setExplanation(mdItemDescription);
+        }
         //option选项有没有判断
         List<Selectable> optionNodes = html.css("div.elTableInner thead.elTableHeader th").nodes();
         List<Selectable> options = html.css("div.mdOrderOptions li").nodes();

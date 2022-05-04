@@ -101,11 +101,11 @@
                         <form action="" method="" id="findEditedIteminfo" onchange="findEditedIteminfo()">
                             <select class="ui dropdown" name="flog">
                                 <option value="">編集ステータス</option>
-                                <option value="0" th:selected="${shopSiteSelect} eq '0'">CSVダウンロード待ち</option>
-                                <option value="1" th:selected="${shopSiteSelect} eq '1'">未編集</option>
-                                <option value="2" th:selected="${shopSiteSelect} eq '2'">編集済</option>
-<!--                                <option value="3">ダウンロード済</option>-->
-                                <option value="3" th:selected="${shopSiteSelect} eq '3'">削除待ち状態</option>
+                                <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち</option>
+                                <option value="1" th:selected="${editFlogSelect} eq '1'">未編集</option>
+                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>
+                                <!--<option value="3">ダウンロード済</option>-->
+                                <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
                             </select>
                         </form>
                     </td>
@@ -194,9 +194,12 @@
                         </select>
                     </span>
                     <span th:switch="${deleteFlog}">
+                        <span th:case="${0}">
+                            &emsp;<button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
+                                <a th:href="@{/selectItemByNewDownloaded}"><button class="ui button mini ui-corner-left red">未ダウンロード分</button></a>
+                        </span>
                         <span th:case="${3}">
-                            &emsp;<button class="ui button mini ui-corner-left teal"
-                                          onclick="setItemsFlogToEdit()">一括戻す</button>
+                            &emsp;<button class="ui button mini ui-corner-left teal" onclick="setItemsFlogToEdit()">一括戻す</button>
                             <button class="ui button mini ui-corner-left red" onclick="deleteItems()">一括削除</button>
                         </span>
                         <span th:case="*">
@@ -211,6 +214,7 @@
                             <option value="20">20</option>
                             <option value="50">50</option>
                             <option value="500">500</option>
+                            <option value="1000">1000</option>
                         </select>
                     </form>
                 </td>

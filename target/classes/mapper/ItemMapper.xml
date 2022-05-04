@@ -208,6 +208,15 @@
 
     </select>
 
+    <!--    获取新爬取的产品-->
+    <select id="findNewDownloaded" resultType="string">
+
+        select *
+        from t_item
+        where flog = #{flog}
+
+    </select>
+
     <!--一个删除-->
     <delete id="deleteItem">
         delete

@@ -64,6 +64,9 @@ public interface ItemService {
     //修改多个itemflog值
     int setItemFlogs(List<Item> itemList);
 
+    //获取新爬取的产品
+    List<Item> findNewDownloaded(Integer flog);
+
     //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用

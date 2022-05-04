@@ -154,7 +154,6 @@ public class ItemInfoController {
     @PostMapping("/setPageSize")
     public String setPageNum(Model model, HttpSession httpSession, ItemInfoQuery itemInfoQuery) {
 
-
         //如果siteShop不为空的话的设定查询条件
         String siteShop = (String) httpSession.getAttribute("siteShop");
         if (siteShop != null && !"".equals(siteShop)) {
@@ -411,7 +410,7 @@ public class ItemInfoController {
     //削除多个
     @ResponseBody
     @PostMapping("/deleteItems")
-    public String setDeleteItemsz(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
+    public String deleteItems(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
 
         Gson gson = new Gson();
         itemService.deleteItems(itemCodeList);
@@ -420,6 +419,28 @@ public class ItemInfoController {
             return gson.toJson(pageNum);
         }
         return gson.toJson(1);
+    }
+
+    //下载未被下载的新爬取产品
+    @GetMapping("/selectItemByNewDownloaded")
+    public String selectItemByNewDownloaded( HttpSession httpSession,RedirectAttributes redirectAttributes) {
+
+        List<Item> newDownloadedItems = itemService.findNewDownloaded(0);
+        //开始时间
+        long start = System.currentTimeMillis();
+        //调用下载方法
+        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(newDownloadedItems, itemCsvPath, "data_spy");
+        long end = System.currentTimeMillis();
+        System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
+        //完成输出信息
+        redirectAttributes.addFlashAttribute("message", "アイテム情報が " + newDownloadedItems.size() + " 件出力されました。");
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
     }
 
     //修改值
