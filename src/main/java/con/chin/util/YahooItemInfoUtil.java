@@ -52,19 +52,18 @@ public class YahooItemInfoUtil {
         item.setItemName(productName);
         //标题
         String headlin = html.css("div.mdItemName p.elCatchCopy", "text").toString();
-        //把「"」去除
-        headlin = headlin.replaceAll("\"", "").replaceAll("”", "");
-        if(headlin != null || !"".equals(headlin)){
+        if(headlin != null && !"".equals(headlin)){
+            //把「"」去除
             headlin = headlin.replaceAll("\"", "").replaceAll("”", "");
             item.setHeadline(headlin);
         }
         //产品价格
         item.setPrice(Integer.parseInt(html.css("span.elPriceNumber", "text").nodes().get(0).toString().replace(",", "").replace("円", "").trim()));
         //产品详情说明文
-        String mdItemDescription = html.css("div.mdItemDescription p").toString().replaceAll("<br>", "\n");
-        if(mdItemDescription != null || !"".equals(mdItemDescription)){
+        String mdItemDescription = html.css("div.mdItemDescription p").toString();
+        if(mdItemDescription != null && !"".equals(mdItemDescription)){
             //把不要的文字删除
-            mdItemDescription = mdItemDescription.replace("<p>", "").replace("</p>", "").replaceAll("\"", "");
+            mdItemDescription = mdItemDescription.replaceAll("<br>", "\n").replaceAll("<p>", "").replace("</p>", "").replaceAll("\"", "");
             item.setExplanation(mdItemDescription);
         }
         //option选项有没有判断

@@ -209,7 +209,7 @@
     </select>
 
     <!--    获取新爬取的产品-->
-    <select id="findNewDownloaded" resultType="string">
+    <select id="findNewDownloaded" resultType="con.chin.pojo.Item">
 
         select *
         from t_item

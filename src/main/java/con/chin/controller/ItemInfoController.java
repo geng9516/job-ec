@@ -60,6 +60,7 @@ public class ItemInfoController {
         String pageSize = (String) httpSession.getAttribute("pageSize");
         if (pageSize != null && !"".equals(pageSize)) {
             itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
+            model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
         }
         //编辑状态
         String flog = (String) httpSession.getAttribute("flog");
@@ -110,6 +111,7 @@ public class ItemInfoController {
         }
         //前端使用
         model.addAttribute("editFlogSelect",itemInfoQuery.getFlog());
+        model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -140,6 +142,7 @@ public class ItemInfoController {
         //前端使用
         model.addAttribute("editFlogSelect",itemInfoQuery.getFlog());
         model.addAttribute("siteShop",itemInfoQuery.getFlog());
+        model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -171,6 +174,7 @@ public class ItemInfoController {
         }
         //前端使用
         model.addAttribute("editFlogSelect",itemInfoQuery.getFlog());
+        model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -213,6 +217,7 @@ public class ItemInfoController {
         model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         //前端使用
         model.addAttribute("editFlogSelect",itemInfoQuery.getFlog());
+        model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
