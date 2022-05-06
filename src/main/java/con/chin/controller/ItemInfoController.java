@@ -451,6 +451,8 @@ public class ItemInfoController {
             itemCodeList.add(item.getItemCode());
         }
         DataExportUtil.exportItemStockCsv(itemCodeList,itemCsvPath,"quantity");
+        //导出optionCSV文件
+        DataExportUtil.exportItemOptionCsv(newDownloadedItems,itemCsvPath,"option_add");
         long end = System.currentTimeMillis();
         System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
         //完成输出信息
