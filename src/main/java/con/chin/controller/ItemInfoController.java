@@ -68,7 +68,7 @@ public class ItemInfoController {
         if (flog != null && !"".equals(flog)) {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
         } else {
-            httpSession.setAttribute("flog", String.valueOf(0));
+            httpSession.setAttribute("flog", String.valueOf(1));
             itemInfoQuery.setFlog(1);
         }
         //取得送料设定值
@@ -107,7 +107,7 @@ public class ItemInfoController {
         if (flog != null && !"".equals(flog)) {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
         } else {
-            httpSession.setAttribute("flog", String.valueOf(0));
+            httpSession.setAttribute("flog", String.valueOf(1));
             itemInfoQuery.setFlog(1);
         }
         //前端使用
@@ -454,7 +454,7 @@ public class ItemInfoController {
         //导出optionCSV文件
         DataExportUtil.exportItemOptionCsv(newDownloadedItems,itemCsvPath,"option_add");
         long end = System.currentTimeMillis();
-        System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
+        System.out.println("产品数据导出完成!    总耗时：" + (end - start) + " ms");
         //完成输出信息
         redirectAttributes.addFlashAttribute("message", "アイテム情報が " + newDownloadedItems.size() + " 件出力されました。");
         //从session中把pageNum取得
