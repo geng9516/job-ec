@@ -253,6 +253,7 @@ public class ItemInfoCsvExportUtil {
             String subCode = "";
             //遍历item集合下载每一件产品信息
             for (Item item : itemList) {
+                //保存每一列的数据使用
                 String[] string = new String[29];
                 //option1时空值是不下载给itemdeflog赋值0(代表还需编辑)
                 if (item.getOption1() == null || "".equals(item.getOption1())) {

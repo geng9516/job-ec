@@ -9,6 +9,7 @@ import con.chin.pojo.query.ItemInfoQuery;
 import con.chin.service.ConfigService;
 import con.chin.service.ItemService;
 import con.chin.service.SiteShopService;
+import con.chin.util.DataExportUtil;
 import con.chin.util.ItemPhotoCopyUtil;
 import con.chin.util.ItemInfoCsvExportUtil;
 import org.apache.ibatis.annotations.Param;
@@ -253,6 +254,10 @@ public class ItemInfoController {
                 itemService.setItemFlog(itemList1);
                 //导出CSV文件
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
+                //导出库存CSV文件
+                DataExportUtil.exportItemStockCsv(itemCodeList,itemCsvPath,"quantity");
+                //导出optionCSV文件
+                DataExportUtil.exportItemOptionCsv(itemList,itemCsvPath,"option_add");
                 break;
             case "1":
                 //编辑状态
@@ -435,6 +440,13 @@ public class ItemInfoController {
         long start = System.currentTimeMillis();
         //调用下载方法
         ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(newDownloadedItems, itemCsvPath, "data_spy");
+        //导出库存CSV文件
+        List<String> itemCodeList = new ArrayList<>();
+        //把itemcode取出
+        for (Item item : newDownloadedItems) {
+            itemCodeList.add(item.getItemCode());
+        }
+        DataExportUtil.exportItemStockCsv(itemCodeList,itemCsvPath,"quantity");
         long end = System.currentTimeMillis();
         System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
         //完成输出信息

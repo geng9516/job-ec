@@ -127,6 +127,8 @@ public class CrawlerController {
                 long start = System.currentTimeMillis();
                 //调用下载方法
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
+                //导出库存CSV文件
+                DataExportUtil.exportItemStockCsv(stringList,itemCsvPath,"quantity");
                 long end = System.currentTimeMillis();
                 System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
                 //完成输出信息

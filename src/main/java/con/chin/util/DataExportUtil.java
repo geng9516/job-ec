@@ -3,6 +3,7 @@ package con.chin.util;
 import cn.hutool.core.text.csv.CsvUtil;
 import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
+import con.chin.pojo.Item;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -35,9 +36,8 @@ public class DataExportUtil {
 
         CsvWriter writer = null;
         try {
-            writer = CsvUtil.getWriter(itemCsvPath  + File.separator + fileName + "_itemcode" + ".txt", Charset.forName("Shift-JIS"));
+            writer = CsvUtil.getWriter(itemCsvPath + File.separator + fileName + "_itemcode" + ".txt", Charset.forName("Shift-JIS"));
             writer.write(itemCodeList);
-
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -46,22 +46,233 @@ public class DataExportUtil {
                 writer.close();
             }
         }
-
-
     }
 
-    //yahooショップ商品のcsvファイルダウンロード
-    public static void exportOptionCsv(List<String> itemCodeList) {
-
+    //库存csv导出
+    public static void exportItemStockCsv(List<String> itemCodeList, String filePath, String fileName) {
+        //开始时间
+        long start = System.currentTimeMillis();
         //现在时间作为文件名(线程安全的)
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
-        //properties文件的名字取得
-        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
-        //IMG照片下载地址取得
-        String itemCsvPath = bundle.getString("ITEMCSVPATH");
-        //创建输出流
 
+        CsvWriter writer = null;
+        try {
+            writer = CsvUtil.getWriter(filePath + File.separator + fileName + now + ".csv", Charset.forName("Shift-JIS"));
+            //csv内容保存
+            List<String[]> writeLine = new ArrayList<>();
+            //设置csv文件表头
+            String[] strings = {"code", "sub-code", "quantity", "allow-overdraft", "stock-close"};
+            writeLine.add(strings);
+            for (String itemCode : itemCodeList) {
+                //保存每一列的数据使用
+                String[] column = new String[5];
+                column[0] = itemCode;
+                column[1] = "";
+                column[2] = "999";
+                column[3] = "1";
+                column[4] = "";
+                writeLine.add(column);
+            }
+            writer.write(writeLine);
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println(fileName + "库存CSV, 总共输出了: " + itemCodeList.size() + " 行数据    耗时：" + (end - start) + " ms");
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+    }
+
+    //option csv导出
+    public static void exportItemOptionCsv(List<Item> itemList, String filePath, String fileName) {
+        //开始时间
+        long start = System.currentTimeMillis();
+        //现在时间作为文件名(线程安全的)
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
+
+        CsvWriter writer = null;
+        try {
+            writer = CsvUtil.getWriter(filePath + File.separator + fileName + now + ".csv", Charset.forName("Shift-JIS"));
+            //csv内容保存
+            List<String[]> writeLine = new ArrayList<>();
+            //设置csv文件表头
+            String[] strings = {"code","sub-code","name","option-name-1","option-value-1","unselectable-1","spec-id-1","spec-value-id-1","option-charge-1","option-name-2","option-value-2","spec-id-2","spec-value-id-2","etc-options","lead-time-instock","lead-time-outstock","sub-code-img1","main-flag","exist-flag","pick-and-delivery-code","yamato-ff-flag"};
+            writeLine.add(strings);
+            for (Item item : itemList) {
+
+                //option1不为空时
+                if(item.getOption1() != null && !"".equals(item.getOption1())){
+                    String[] value1 = item.getValue1().split(" ");
+                    for (String optionValue : value1) {
+                        //保存每一列的数据使用
+                        String[] column = new String[21];
+                        column[0] = item.getItemCode(); //itemcode
+                        column[1] = ""; //sub-code
+                        column[2] = item.getItemName(); //name
+                        column[3] = item.getOption1();  //option1名
+                        column[4] = optionValue; //option-value-1
+                        column[5] = "0"; //unselectable-1
+                        column[6] = ""; //spec-id-1
+                        column[7] = ""; //spec-value-id-1
+                        column[8] = ""; //option-charge-1
+                        column[9] = ""; //option-name-2
+                        column[10] = ""; //option-value-2
+                        column[11] = ""; //spec-id-2
+                        column[12] = ""; //spec-value-id-2
+                        column[13] = ""; //etc-options
+                        column[14] = ""; //lead-time-instock
+                        column[15] = ""; //lead-time-outstock
+                        column[16] = ""; //sub-code-img1
+                        column[17] = ""; //main-flag
+                        column[18] = ""; //exist-flag
+                        column[19] = ""; //pick-and-delivery-code
+                        column[20] = ""; //yamato-ff-flag
+                        //一行数据
+                        writeLine.add(column);
+                    }
+                }
+                //option2不为空时
+                if(item.getOption2() != null && !"".equals(item.getOption2())){
+                    String[] value2 = item.getValue2().split(" ");
+                    for (String optionValue : value2) {
+                        //保存每一列的数据使用
+                        String[] column = new String[21];
+                        column[0] = item.getItemCode(); //itemcode
+                        column[1] = ""; //sub-code
+                        column[2] = item.getItemName(); //name
+                        column[3] = item.getOption2();  //option1名
+                        column[4] = optionValue; //option-value-1
+                        column[5] = "0"; //unselectable-1
+                        column[6] = ""; //spec-id-1
+                        column[7] = ""; //spec-value-id-1
+                        column[8] = ""; //option-charge-1
+                        column[9] = ""; //option-name-2
+                        column[10] = ""; //option-value-2
+                        column[11] = ""; //spec-id-2
+                        column[12] = ""; //spec-value-id-2
+                        column[13] = ""; //etc-options
+                        column[14] = ""; //lead-time-instock
+                        column[15] = ""; //lead-time-outstock
+                        column[16] = ""; //sub-code-img1
+                        column[17] = ""; //main-flag
+                        column[18] = ""; //exist-flag
+                        column[19] = ""; //pick-and-delivery-code
+                        column[20] = ""; //yamato-ff-flag
+                        //一行数据
+                        writeLine.add(column);
+                    }
+                }
+                //option3不为空时
+                if(item.getOption3() != null && !"".equals(item.getOption3())){
+                    String[] value3 = item.getValue3().split(" ");
+                    for (String optionValue : value3) {
+                        //保存每一列的数据使用
+                        String[] column = new String[21];
+                        column[0] = item.getItemCode(); //itemcode
+                        column[1] = ""; //sub-code
+                        column[2] = item.getItemName(); //name
+                        column[3] = item.getOption3();  //option1名
+                        column[4] = optionValue; //option-value-1
+                        column[5] = "0"; //unselectable-1
+                        column[6] = ""; //spec-id-1
+                        column[7] = ""; //spec-value-id-1
+                        column[8] = ""; //option-charge-1
+                        column[9] = ""; //option-name-2
+                        column[10] = ""; //option-value-2
+                        column[11] = ""; //spec-id-2
+                        column[12] = ""; //spec-value-id-2
+                        column[13] = ""; //etc-options
+                        column[14] = ""; //lead-time-instock
+                        column[15] = ""; //lead-time-outstock
+                        column[16] = ""; //sub-code-img1
+                        column[17] = ""; //main-flag
+                        column[18] = ""; //exist-flag
+                        column[19] = ""; //pick-and-delivery-code
+                        column[20] = ""; //yamato-ff-flag
+                        //一行数据
+                        writeLine.add(column);
+                    }
+                }
+                //option4不为空时
+                if(item.getOption4() != null && !"".equals(item.getOption4())){
+                    String[] value4 = item.getValue4().split(" ");
+                    for (String optionValue : value4) {
+                        //保存每一列的数据使用
+                        String[] column = new String[21];
+                        column[0] = item.getItemCode(); //itemcode
+                        column[1] = ""; //sub-code
+                        column[2] = item.getItemName(); //name
+                        column[3] = item.getOption4();  //option1名
+                        column[4] = optionValue; //option-value-1
+                        column[5] = "0"; //unselectable-1
+                        column[6] = ""; //spec-id-1
+                        column[7] = ""; //spec-value-id-1
+                        column[8] = ""; //option-charge-1
+                        column[9] = ""; //option-name-2
+                        column[10] = ""; //option-value-2
+                        column[11] = ""; //spec-id-2
+                        column[12] = ""; //spec-value-id-2
+                        column[13] = ""; //etc-options
+                        column[14] = ""; //lead-time-instock
+                        column[15] = ""; //lead-time-outstock
+                        column[16] = ""; //sub-code-img1
+                        column[17] = ""; //main-flag
+                        column[18] = ""; //exist-flag
+                        column[19] = ""; //pick-and-delivery-code
+                        column[20] = ""; //yamato-ff-flag
+                        //一行数据
+                        writeLine.add(column);
+                    }
+                }
+                //option4不为空时
+                if(item.getOption5() != null && !"".equals(item.getOption5())){
+                    String[] value5 = item.getValue5().split(" ");
+                    for (String optionValue : value5) {
+                        //保存每一列的数据使用
+                        String[] column = new String[21];
+                        column[0] = item.getItemCode(); //itemcode
+                        column[1] = ""; //sub-code
+                        column[2] = item.getItemName(); //name
+                        column[3] = item.getOption5();  //option1名
+                        column[4] = optionValue; //option-value-1
+                        column[5] = "0"; //unselectable-1
+                        column[6] = ""; //spec-id-1
+                        column[7] = ""; //spec-value-id-1
+                        column[8] = ""; //option-charge-1
+                        column[9] = ""; //option-name-2
+                        column[10] = ""; //option-value-2
+                        column[11] = ""; //spec-id-2
+                        column[12] = ""; //spec-value-id-2
+                        column[13] = ""; //etc-options
+                        column[14] = ""; //lead-time-instock
+                        column[15] = ""; //lead-time-outstock
+                        column[16] = ""; //sub-code-img1
+                        column[17] = ""; //main-flag
+                        column[18] = ""; //exist-flag
+                        column[19] = ""; //pick-and-delivery-code
+                        column[20] = ""; //yamato-ff-flag
+                        //一行数据
+                        writeLine.add(column);
+                    }
+                }
+            }
+            writer.write(writeLine);
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println(fileName + "option CSV, 总共输出了: " + itemList.size() + " 行数据    耗时：" + (end - start) + " ms");
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
     }
 }
