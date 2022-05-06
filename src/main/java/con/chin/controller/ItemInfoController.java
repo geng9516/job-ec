@@ -61,7 +61,7 @@ public class ItemInfoController {
         String pageSize = (String) httpSession.getAttribute("pageSize");
         if (pageSize != null && !"".equals(pageSize)) {
             itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
-            model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
+            model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         }
         //编辑状态
         String flog = (String) httpSession.getAttribute("flog");
@@ -111,8 +111,8 @@ public class ItemInfoController {
             itemInfoQuery.setFlog(1);
         }
         //前端使用
-        model.addAttribute("editFlogSelect",itemInfoQuery.getFlog());
-        model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
+        model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
+        model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -141,9 +141,9 @@ public class ItemInfoController {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
         }
         //前端使用
-        model.addAttribute("editFlogSelect",itemInfoQuery.getFlog());
-        model.addAttribute("siteShop",itemInfoQuery.getFlog());
-        model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
+        model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
+        model.addAttribute("siteShop", itemInfoQuery.getFlog());
+        model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -154,6 +154,7 @@ public class ItemInfoController {
         model.addAttribute("page", itemList);
         return "iteminfo";
     }
+
     //一页显示数设定
     @PostMapping("/setPageSize")
     public String setPageNum(Model model, HttpSession httpSession, ItemInfoQuery itemInfoQuery) {
@@ -174,8 +175,8 @@ public class ItemInfoController {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
         }
         //前端使用
-        model.addAttribute("editFlogSelect",itemInfoQuery.getFlog());
-        model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
+        model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
+        model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -217,8 +218,8 @@ public class ItemInfoController {
         httpSession.setAttribute("flog", String.valueOf(itemInfoQuery.getFlog()));
         model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         //前端使用
-        model.addAttribute("editFlogSelect",itemInfoQuery.getFlog());
-        model.addAttribute("setPageSize",itemInfoQuery.getPageSize());
+        model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
+        model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
@@ -241,6 +242,7 @@ public class ItemInfoController {
         List<Item> itemList = new ArrayList<>();
         List<Item> itemList1 = new ArrayList<>();
         switch (checkFlog) {
+            //选中的产品导出产品CSV文件
             case "0":
                 //检索下载iteminfo
                 itemList = itemService.findItemByItemCodes(itemCodeList);
@@ -253,12 +255,13 @@ public class ItemInfoController {
                 }
                 itemService.setItemFlog(itemList1);
                 //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                 //导出库存CSV文件
-                DataExportUtil.exportItemStockCsv(itemCodeList,itemCsvPath,"quantity");
+                DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
                 //导出optionCSV文件
-                DataExportUtil.exportItemOptionCsv(itemList,itemCsvPath,"option_add");
+                DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                 break;
+            //选中的产品下载照片
             case "1":
                 //编辑状态
                 flog = (String) httpSession.getAttribute("flog");
@@ -270,6 +273,7 @@ public class ItemInfoController {
                 ItemPhotoCopyUtil.read(itemCodeList);
                 System.out.println("照片拷贝执行结束");
                 break;
+            //选中的产品导出产品CSV和照片
             case "2":
                 //检索下载iteminfo
                 itemList = itemService.findItemByItemCodes(itemCodeList);
@@ -282,11 +286,11 @@ public class ItemInfoController {
                 }
                 itemService.setItemFlog(itemList1);
                 //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                 //导出库存CSV文件
-                DataExportUtil.exportItemStockCsv(itemCodeList,itemCsvPath,"quantity");
+                DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
                 //导出optionCSV文件
-                DataExportUtil.exportItemOptionCsv(itemList,itemCsvPath,"option_add");
+                DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                 //编辑状态
                 flog = (String) httpSession.getAttribute("flog");
                 if (flog != null && "2".equals(flog)) {
@@ -300,6 +304,18 @@ public class ItemInfoController {
                 //结束时间
                 long end = System.currentTimeMillis();
                 System.out.println("照片拷贝完成!    总耗时：" + (end - start) / 1000 + " 秒");
+                break;
+            //选中的产品导出optionCSV文件
+            case "3":
+                //检索下载iteminfo
+                itemList = itemService.findItemByItemCodes(itemCodeList);
+                //导出optionCSV文件
+                DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                break;
+            //选中的产品导出库存CSV文件
+            case "4":
+                //导出库存CSV文件
+                DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
                 break;
         }
 
@@ -437,22 +453,22 @@ public class ItemInfoController {
 
     //下载未被下载的新爬取产品
     @GetMapping("/selectItemByNewDownloaded")
-    public String selectItemByNewDownloaded( HttpSession httpSession,RedirectAttributes redirectAttributes) {
+    public String selectItemByNewDownloaded(HttpSession httpSession, RedirectAttributes redirectAttributes) {
 
         List<Item> newDownloadedItems = itemService.findNewDownloaded(0);
         //开始时间
         long start = System.currentTimeMillis();
         //调用下载方法
         ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(newDownloadedItems, itemCsvPath, "data_spy");
-        //导出库存CSV文件
+        //把itemcode单独取出
         List<String> itemCodeList = new ArrayList<>();
-        //把itemcode取出
         for (Item item : newDownloadedItems) {
             itemCodeList.add(item.getItemCode());
         }
-        DataExportUtil.exportItemStockCsv(itemCodeList,itemCsvPath,"quantity");
+        //导出库存CSV文件
+        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
         //导出optionCSV文件
-        DataExportUtil.exportItemOptionCsv(newDownloadedItems,itemCsvPath,"option_add");
+        DataExportUtil.exportItemOptionCsv(newDownloadedItems, itemCsvPath, "option_add");
         long end = System.currentTimeMillis();
         System.out.println("产品数据导出完成!    总耗时：" + (end - start) + " ms");
         //完成输出信息

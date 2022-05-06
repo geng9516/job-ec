@@ -102,14 +102,21 @@ public class DataExportUtil {
             //csv内容保存
             List<String[]> writeLine = new ArrayList<>();
             //设置csv文件表头
-            String[] strings = {"code","sub-code","name","option-name-1","option-value-1","unselectable-1","spec-id-1","spec-value-id-1","option-charge-1","option-name-2","option-value-2","spec-id-2","spec-value-id-2","etc-options","lead-time-instock","lead-time-outstock","sub-code-img1","main-flag","exist-flag","pick-and-delivery-code","yamato-ff-flag"};
+            String[] strings = {"code", "sub-code", "name", "option-name-1", "option-value-1", "unselectable-1", "spec-id-1", "spec-value-id-1", "option-charge-1", "option-name-2", "option-value-2", "spec-id-2", "spec-value-id-2", "etc-options", "lead-time-instock", "lead-time-outstock", "sub-code-img1", "main-flag", "exist-flag", "pick-and-delivery-code", "yamato-ff-flag"};
             writeLine.add(strings);
             for (Item item : itemList) {
 
                 //option1不为空时
-                if(item.getOption1() != null && !"".equals(item.getOption1())){
+                if (item.getOption1() != null && !"".equals(item.getOption1())) {
                     String[] value1 = item.getValue1().split(" ");
                     for (String optionValue : value1) {
+                        //追加金保存用
+                        String optionCharge = null;
+                        //追加金有的话
+                        if (optionValue.contains("+")) {
+                            optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
+                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                        }
                         //保存每一列的数据使用
                         String[] column = new String[21];
                         column[0] = item.getItemCode(); //itemcode
@@ -120,7 +127,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = ""; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2
@@ -138,9 +145,16 @@ public class DataExportUtil {
                     }
                 }
                 //option2不为空时
-                if(item.getOption2() != null && !"".equals(item.getOption2())){
+                if (item.getOption2() != null && !"".equals(item.getOption2())) {
                     String[] value2 = item.getValue2().split(" ");
                     for (String optionValue : value2) {
+                        //追加金保存用
+                        String optionCharge = null;
+                        //追加金有的话
+                        if (optionValue.contains("+")) {
+                            optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
+                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                        }
                         //保存每一列的数据使用
                         String[] column = new String[21];
                         column[0] = item.getItemCode(); //itemcode
@@ -151,7 +165,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = ""; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2
@@ -169,9 +183,16 @@ public class DataExportUtil {
                     }
                 }
                 //option3不为空时
-                if(item.getOption3() != null && !"".equals(item.getOption3())){
+                if (item.getOption3() != null && !"".equals(item.getOption3())) {
                     String[] value3 = item.getValue3().split(" ");
                     for (String optionValue : value3) {
+                        //追加金保存用
+                        String optionCharge = null;
+                        //追加金有的话
+                        if (optionValue.contains("+")) {
+                            optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
+                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                        }
                         //保存每一列的数据使用
                         String[] column = new String[21];
                         column[0] = item.getItemCode(); //itemcode
@@ -182,7 +203,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = ""; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2
@@ -200,9 +221,16 @@ public class DataExportUtil {
                     }
                 }
                 //option4不为空时
-                if(item.getOption4() != null && !"".equals(item.getOption4())){
+                if (item.getOption4() != null && !"".equals(item.getOption4())) {
                     String[] value4 = item.getValue4().split(" ");
                     for (String optionValue : value4) {
+                        //追加金保存用
+                        String optionCharge = null;
+                        //追加金有的话
+                        if (optionValue.contains("+")) {
+                            optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
+                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                        }
                         //保存每一列的数据使用
                         String[] column = new String[21];
                         column[0] = item.getItemCode(); //itemcode
@@ -213,7 +241,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = ""; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2
@@ -231,9 +259,16 @@ public class DataExportUtil {
                     }
                 }
                 //option4不为空时
-                if(item.getOption5() != null && !"".equals(item.getOption5())){
+                if (item.getOption5() != null && !"".equals(item.getOption5())) {
                     String[] value5 = item.getValue5().split(" ");
                     for (String optionValue : value5) {
+                        //追加金保存用
+                        String optionCharge = null;
+                        //追加金有的话
+                        if (optionValue.contains("+")) {
+                            optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
+                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                        }
                         //保存每一列的数据使用
                         String[] column = new String[21];
                         column[0] = item.getItemCode(); //itemcode
@@ -244,7 +279,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = ""; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2

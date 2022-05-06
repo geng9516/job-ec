@@ -127,9 +127,9 @@ public class CrawlerController {
                 //调用下载方法
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                 //导出库存CSV文件
-                DataExportUtil.exportItemStockCsv(stringList,itemCsvPath,"quantity");
+                DataExportUtil.exportItemStockCsv(stringList, itemCsvPath, "quantity");
                 //导出optionCSV文件
-                DataExportUtil.exportItemOptionCsv(itemList,itemCsvPath,"option_add");
+                DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                 long end = System.currentTimeMillis();
                 System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
                 //完成输出信息
@@ -166,7 +166,7 @@ public class CrawlerController {
             } else {
                 redirectAttributes.addFlashAttribute("message", "ダウンロード対象のアイテムコードを入力してください！");
             }
-
+            //照片删除
         } else if ("3".equals(frequency)) {
 
             if (itemCodes != null && itemCodes != "") {
@@ -183,6 +183,44 @@ public class CrawlerController {
             } else {
                 redirectAttributes.addFlashAttribute("message", "ダウンロード対象のアイテムコードを入力してください！");
             }
+            //オプションCSVダウンロード
+        } else if ("4".equals(frequency)) {
+            //开始时间
+            long start = System.currentTimeMillis();
+            List<Item> itemList = new ArrayList<>();
+            //取得所有已编辑并且没有失效的产品
+            if (itemCodes != null && itemCodes != "") {
+                itemList = itemService.findItemByItemCodeAll(stringList);
+            } else {
+                itemList = itemService.findAll();
+            }
+            //导出optionCSV文件
+            DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println("导出optionCSV文件完成!  导出总件数为" + itemList.size() + "   总耗时：" + (end - start) / 1000 + " 秒");
+            //在庫CSVダウンロード
+        } else if ("5".equals(frequency)) {
+            //开始时间
+            long start = System.currentTimeMillis();
+            List<Item> itemList = new ArrayList<>();
+            //取得所有已编辑并且没有失效的产品
+            if (itemCodes != null && itemCodes != "") {
+                itemList = itemService.findItemByItemCodeAll(stringList);
+            } else {
+                itemList = itemService.findAll();
+            }
+            //把itemcode单独取出
+            List<String> itemCodeList = new ArrayList<>();
+            //把itemcode取出
+            for (Item item : itemList) {
+                itemCodeList.add(item.getItemCode());
+            }
+            //导出库存CSV文件
+            DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println("导出库存CSV文件完成!  导出总件数为" + itemList.size() + "   总耗时：" + (end - start) / 1000 + " 秒");
         }
         //刷新主页
         return "redirect:/";
