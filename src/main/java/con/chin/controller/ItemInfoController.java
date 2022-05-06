@@ -283,6 +283,10 @@ public class ItemInfoController {
                 itemService.setItemFlog(itemList1);
                 //导出CSV文件
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath,"data_spy");
+                //导出库存CSV文件
+                DataExportUtil.exportItemStockCsv(itemCodeList,itemCsvPath,"quantity");
+                //导出optionCSV文件
+                DataExportUtil.exportItemOptionCsv(itemList,itemCsvPath,"option_add");
                 //编辑状态
                 flog = (String) httpSession.getAttribute("flog");
                 if (flog != null && "2".equals(flog)) {

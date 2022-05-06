@@ -78,7 +78,6 @@ public class CrawlerController {
                         .run();
             }
         }
-
         //成功信息
         redirectAttributes.addFlashAttribute("message", "全部抓取完成");
         System.out.println("全部抓取完成");
@@ -129,6 +128,8 @@ public class CrawlerController {
                 ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                 //导出库存CSV文件
                 DataExportUtil.exportItemStockCsv(stringList,itemCsvPath,"quantity");
+                //导出optionCSV文件
+                DataExportUtil.exportItemOptionCsv(itemList,itemCsvPath,"option_add");
                 long end = System.currentTimeMillis();
                 System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
                 //完成输出信息
@@ -153,8 +154,6 @@ public class CrawlerController {
         } else if ("2".equals(frequency)) {
 
             if (itemCodes != null && itemCodes != "") {
-//                List<Item> itemList = new ArrayList<>();
-//                itemList = itemService.findItemByItemCodeAll(stringList);
                 //开始时间
                 long start = System.currentTimeMillis();
                 //产品照片拷贝
