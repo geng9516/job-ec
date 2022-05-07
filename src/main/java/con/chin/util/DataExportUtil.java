@@ -113,7 +113,7 @@ public class DataExportUtil {
                         //追加金保存用
                         String optionCharge = null;
                         //追加金有的话
-                        if (optionValue.contains("+")) {
+                        if (optionValue.contains("（+")) {
                             optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
                             optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                         }
@@ -151,7 +151,7 @@ public class DataExportUtil {
                         //追加金保存用
                         String optionCharge = null;
                         //追加金有的话
-                        if (optionValue.contains("+")) {
+                        if (optionValue.contains("（+")) {
                             optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
                             optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                         }
@@ -189,7 +189,7 @@ public class DataExportUtil {
                         //追加金保存用
                         String optionCharge = null;
                         //追加金有的话
-                        if (optionValue.contains("+")) {
+                        if (optionValue.contains("（+")) {
                             optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
                             optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                         }
@@ -227,7 +227,7 @@ public class DataExportUtil {
                         //追加金保存用
                         String optionCharge = null;
                         //追加金有的话
-                        if (optionValue.contains("+")) {
+                        if (optionValue.contains("（+")) {
                             optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
                             optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                         }
@@ -265,7 +265,7 @@ public class DataExportUtil {
                         //追加金保存用
                         String optionCharge = null;
                         //追加金有的话
-                        if (optionValue.contains("+")) {
+                        if (optionValue.contains("（+")) {
                             optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
                             optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                         }
