@@ -574,6 +574,20 @@ public class ItemInfoController {
         return "redirect:/iteminfo?pageNum=" + 1;
     }
 
+    @PostMapping("/setFlogToEdit")
+    public String setFlogToEdit(HttpSession httpSession) {
+
+        List<Item> newDownloadedList = itemService.findNewDownloaded(0);
+        itemService.setItemFlog(newDownloadedList);
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
 
     //削除option
     @ResponseBody

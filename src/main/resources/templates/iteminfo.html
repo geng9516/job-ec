@@ -109,13 +109,6 @@
                             </select>
                         </form>
                     </td>
-                    <!--                    <td>-->
-                    <!--                        <form action="" method="" id="seachByDate">-->
-                    <!--                            <div class="ui icon input">-->
-                    <!--                                <input type="date" name="startDate" id="startDate">　〜　<input type="date" name="endDate" onchange="seachByDate()">-->
-                    <!--                            </div>-->
-                    <!--                        </form>-->
-                    <!--                    </td>-->
                     <td>
                         <!--csv文件上传-->
                         <form action="" method="" id="dataimpott">
@@ -198,10 +191,16 @@
                     <span th:switch="${deleteFlog}">
                         <span th:case="${0}">
                             &emsp;<button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
-                                <a th:href="@{/selectItemByNewDownloaded}"><button class="ui button mini ui-corner-left blue">未ダウンロード分</button></a>
+                                <a th:href="@{/selectItemByNewDownloaded}"><button
+                                        class="ui button mini ui-corner-left blue">未ダウンロード分</button></a>
+                            <form action="" id="setFlogToEdit">
+                                <button class="ui button mini ui-corner-left red"
+                                        onclick="setFlogToEdit()">全チェック</button>
+                            </form>
                         </span>
                         <span th:case="${3}">
-                            &emsp;<button class="ui button mini ui-corner-left teal" onclick="setItemsFlogToEdit()">一括戻す</button>
+                            &emsp;<button class="ui button mini ui-corner-left teal"
+                                          onclick="setItemsFlogToEdit()">一括戻す</button>
                             <button class="ui button mini ui-corner-left red" onclick="deleteItems()">一括削除</button>
                         </span>
                         <span th:case="*">
@@ -387,10 +386,10 @@
                                             <tr>
                                                 <div class="ui form">
                                                     <div class="field">
-<!--                                                <textarea rows="3" cols=50-->
-<!--                                                          onpropertychange="this.style.posHeight=this.scrollHeight "-->
-<!--                                                          th:text="${item.getItemName()}" name="itemName">-->
-<!--                                                </textarea>-->
+                                                        <!--                                                <textarea rows="3" cols=50-->
+                                                        <!--                                                          onpropertychange="this.style.posHeight=this.scrollHeight "-->
+                                                        <!--                                                          th:text="${item.getItemName()}" name="itemName">-->
+                                                        <!--                                                </textarea>-->
                                                     </div>
                                                 </div>
                                             </tr>
