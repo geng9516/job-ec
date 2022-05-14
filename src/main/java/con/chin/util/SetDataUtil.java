@@ -163,12 +163,10 @@ public class SetDataUtil {
                     kind1 += kindSplits[i] + " ";
                 }
                 oldItemName = kind1 + "メンズ" + " " + oldItemName;
-                System.out.printf(oldItemName);
             } else {
                 //把itemname中的关键字去掉
                 oldItemName = oldItemName.replaceAll(kind + " ", "");
                 oldItemName = kind + " " + "メンズ" + " " + oldItemName;
-                System.out.printf(oldItemName);
             }
         }
         return oldItemName;

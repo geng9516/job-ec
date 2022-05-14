@@ -267,10 +267,13 @@ public class ItemInfoCsvExportUtil {
                 //产品名修改
                 String itemName = item.getItemName();
                 //把产品名字中的全角空格去除
-                itemName = itemName.replaceAll("　", " ");
-                if (itemName.length() > 70 && itemName.contains(" ")) {
-                    //把产品名称的长度调整
-                    itemName = SetDataUtil.setStrLength(itemName, 70);
+                if (itemName != null) {
+                    itemName = itemName.replaceAll("　", " ");
+
+                    if (itemName.length() > 70 && itemName.contains(" ")) {
+                        //把产品名称的长度调整
+                        itemName = SetDataUtil.setStrLength(itemName, 70);
+                    }
                 }
                 //おすすめ商品 relevant-links
                 item.setRelevantLinks(SetDataUtil.getRelevantLinks(item.getItemPath()));
