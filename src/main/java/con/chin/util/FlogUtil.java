@@ -16,4 +16,20 @@ public class FlogUtil {
         return pattern.matcher(str).matches();
 
     }
+
+
+    //判断是哪个网站
+    public static Integer getUri(String url){
+        //yahoo
+        if(url.contains("store.shopping.yahoo.co.jp")){
+            return 1;
+            //搜款网
+        } else if(url.contains("www.vvic.com")){
+            return 2;
+        } else if(url.contains("gz.17zwd.com")) {
+            return 3;
+        }else {
+            return 0;
+        }
+    }
 }

@@ -181,6 +181,13 @@ public class ItemServiceImpl implements ItemService {
         //判断编辑层次
         int flog = 0;
         //item不为空的时候做更新
+        //headline
+        if (item.getHeadline() != null && item.getHeadline() != "") {
+            oldItem.setHeadline(item.getHeadline());
+            flog++;
+        } else if (oldItem.getHeadline() != null && oldItem.getHeadline() != "") {
+            flog++;
+        }
         //itemName不为空时
         if (item.getItemName() != null && item.getItemName() != "") {
             oldItem.setItemName(item.getItemName());
@@ -233,7 +240,7 @@ public class ItemServiceImpl implements ItemService {
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         //如果是flog>=10并且产品还未失效的话就属于编辑完成  产品是否属于编辑
-        if (flog >= 5 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
+        if (flog >= 6 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
             oldItem.setFlog(2);
             oldItem.setUpdatetime(now);
             return itemMapper.setItemSalePrice(oldItem);

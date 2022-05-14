@@ -223,14 +223,6 @@
             </tr>
         </table>
         <div>
-            <!--            <colgroup>-->
-            <!--                <col style="width: 5%;">-->
-            <!--                <col style="width: 30%;">-->
-            <!--                <col style="width: 20%;">-->
-            <!--                <col style="width: 20%;">-->
-            <!--                <col style="width: 20%;">-->
-            <!--                <col style="width: 20%;">-->
-            <!--            </colgroup>-->
             <table class="ui celled table scroll-box" id="wTable">
                 <thead>
                 <tr class="_sticky">
@@ -300,6 +292,10 @@
                                         <!--<p th:text="${item.getItemName()}">-->
                                         <div class="ui form">
                                             <div class="field">
+                                                <textarea rows="1" cols=50
+                                                          onpropertychange="this.style.posHeight=this.scrollHeight "
+                                                          th:text="${item.getHeadline()}" name="headline">
+                                                </textarea>
                                                 <textarea rows="5" cols=50
                                                           onpropertychange="this.style.posHeight=this.scrollHeight "
                                                           th:text="${item.getItemName()}" name="itemName">
@@ -391,10 +387,10 @@
                                             <tr>
                                                 <div class="ui form">
                                                     <div class="field">
-                                                <textarea rows="3" cols=50
-                                                          onpropertychange="this.style.posHeight=this.scrollHeight "
-                                                          th:text="${item.getItemName()}" name="itemName">
-                                                </textarea>
+<!--                                                <textarea rows="3" cols=50-->
+<!--                                                          onpropertychange="this.style.posHeight=this.scrollHeight "-->
+<!--                                                          th:text="${item.getItemName()}" name="itemName">-->
+<!--                                                </textarea>-->
                                                     </div>
                                                 </div>
                                             </tr>
@@ -454,7 +450,7 @@
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
-                                                    <input rows="1" name="option1"></input>
+                                                    <input rows="1" name="option1">
                                                 </div>
                                             </div>
                                         </td>
@@ -482,7 +478,7 @@
                                             <div class="ui form">
                                                 <div class="field">
                                                     <textarea rows="1" name="value1" class="fontSize"
-                                                              th:text="${item.getValue1().replaceAll(' ','、')}"></textarea>
+                                                              th:text="${item.getValue1().replaceAll(' ', '、')}"></textarea>
                                                 </div>
                                             </div>
                                         </td>

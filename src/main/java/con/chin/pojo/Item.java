@@ -23,7 +23,7 @@ public class Item implements Serializable {
     private Integer price;//商品価格
     private Integer purchasePrice;//仕入れ価格
     private Integer salePrice;//販売価格
-    private Integer delivery;//送料
+    private Integer delivery;//国际送料
     private String option1;//オプション1　サイズかカラー
     private String value1;//オプション2　サイズかカラー
     private String option2;//その他オプション3

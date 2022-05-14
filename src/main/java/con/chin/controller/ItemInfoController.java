@@ -485,6 +485,7 @@ public class ItemInfoController {
     //修改值
     @PostMapping("/setItemInfo")
     public String setItemInfo(
+            @RequestParam("headline") String headline,
             @RequestParam("itemName") String itemName,
             @RequestParam("salePrice") String salePrice,
             @RequestParam("delivery") Long deliveryId,
@@ -504,7 +505,13 @@ public class ItemInfoController {
         //条件设置
         Config config = new Config();
         //调用查询送料方法
-        //如果itemname有值的话
+        //如果headline有值的话
+        if (headline != "") {
+            //把大写的空格改为小写的
+            headline = headline.replaceAll("　", " ");
+            item.setHeadline(headline);
+            flog++;
+        }
         if (itemName != "") {
             //把大写的空格改为小写的
             itemName = itemName.replaceAll("　", " ");

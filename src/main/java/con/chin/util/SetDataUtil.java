@@ -59,7 +59,7 @@ public class SetDataUtil {
             }
         }
         //返回结果
-        return relevantLinks.substring(0, relevantLinks.length()-1);
+        return relevantLinks.substring(0, relevantLinks.length() - 1);
     }
 
     //随机到set中去重后个数不满20的话
@@ -75,30 +75,104 @@ public class SetDataUtil {
     }
 
     //str长度控制
-    public static String setStrLength(String str,int strLength){
-        str = str.substring(0,strLength);
-        str = str.substring(0,str.lastIndexOf(" "));
+    public static String setStrLength(String str, int strLength) {
+        str = str.substring(0, strLength);
+        str = str.substring(0, str.lastIndexOf(" "));
         return str;
     }
 
 
     //去重并保留原来的顺序
-    public static String[] distinctByArr(String[] arr){
-        if(arr != null && arr.length > 0){
+    public static String[] distinctByArr(String[] arr) {
+        if (arr != null && arr.length > 0) {
             SetList<String> setList = new SetList<>();
-            for(String str : arr){
+            for (String str : arr) {
                 setList.add(str);
             }
             String[] arr_new = new String[setList.size()];
-            for(int i=0;i<setList.size(); i++){
+            for (int i = 0; i < setList.size(); i++) {
                 arr_new[i] = setList.get(i);
             }
             return arr_new;
-        }else{
+        } else {
             return arr;
         }
     }
 
+    //修改item名
+
+    /**
+     * @param oldItemName 爬取初期的名字
+     * @param itemKinds   产品的类别
+     * @return
+     */
+    public static String setItemName(String oldItemName, String itemKinds) {
+
+        //把符号去除
+        oldItemName = oldItemName
+                .replaceAll("【", "").replaceAll("】", "")
+                .replaceAll("！", "").replaceAll("＜", "")
+                .replaceAll("＞", "").replaceAll("送料無料 ", "");
+        //判断是否时女装
+        if (itemKinds.contains("レディースファッション")) {
+            //把itemname中的关键字去掉
+            oldItemName = oldItemName.replaceAll("レディース ", "");
+
+            //从类别中取得类别名
+            String kind = itemKinds.substring(itemKinds.lastIndexOf(":") + 1, itemKinds.length());
+            //如果有「、」分割的话
+            if (kind.contains("、")) {
+                String kind1 = "";
+                String[] kindSplits = kind.split("、");
+                for (String kindSplit : kindSplits) {
+                    oldItemName = oldItemName.replaceAll(kindSplit + " ", "");
+                }
+                for (int i = 0; i < kindSplits.length; i++) {
+                    //包含"その他"跳过
+                    if (kindSplits[i].contains("その他")) {
+                        continue;
+                    }
+                    kind1 += kindSplits[i] + " ";
+                }
+                oldItemName = kind1 + "レディース" + " " + oldItemName;
+                System.out.printf(oldItemName);
+            } else {
+                //把itemname中的关键字去掉
+                oldItemName = oldItemName.replaceAll(kind, "");
+                oldItemName = kind + " " + "レディース" + " " + oldItemName;
+                System.out.printf(oldItemName);
+            }
+
+        } else if (itemKinds.contains("メンズファッション")) {
+            //把itemname中的关键字去掉
+            oldItemName = oldItemName.replaceAll("メンズ ", "");
+            //从类别中取得类别名
+            String kind = itemKinds.substring(itemKinds.lastIndexOf(":") + 1, itemKinds.length());
+            //如果有「、」分割的话
+            if (kind.contains("、")) {
+                String kind1 = "";
+                String[] kindSplits = kind.split("、");
+                for (String kindSplit : kindSplits) {
+                    oldItemName = oldItemName.replaceAll(kindSplit + " ", "");
+                }
+                for (int i = 0; i < kindSplits.length; i++) {
+                    //包含"その他"跳过
+                    if (kindSplits[i].contains("その他")) {
+                        continue;
+                    }
+                    kind1 += kindSplits[i] + " ";
+                }
+                oldItemName = kind1 + "メンズ" + " " + oldItemName;
+                System.out.printf(oldItemName);
+            } else {
+                //把itemname中的关键字去掉
+                oldItemName = oldItemName.replaceAll(kind + " ", "");
+                oldItemName = kind + " " + "メンズ" + " " + oldItemName;
+                System.out.printf(oldItemName);
+            }
+        }
+        return oldItemName;
+    }
 
 
 }

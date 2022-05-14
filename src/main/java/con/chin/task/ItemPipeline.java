@@ -52,7 +52,7 @@ public class ItemPipeline implements Pipeline {
         Map<String, Object> map = resultItems.get("photoDownload");
         if (map != null && res != -1) {
 
-            PhotoDownloadUtil.download((List) map.get("photoAll"), (String) map.get("itemCode"), (String) map.get("itemPath"));
+            PhotoDownloadUtil.download((List) map.get("photoAll"), (String) map.get("itemCode"), null);
             long end = System.currentTimeMillis();
             System.out.println("itemcode为:  " + item.getItemCode() + " 的产品照片下载完成");
             System.out.println("登录一件产品并下载照片:    " + "    耗时：" + (end - start) + " ms");

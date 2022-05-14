@@ -122,7 +122,6 @@
     </update>
 
 
-
     <!--    已编辑并且没有失效的产品-->
     <select id="findAllItem" resultType="con.chin.pojo.Item">
 
@@ -236,7 +235,8 @@
 
     <update id="setItemSalePrice">
         update t_item
-        set itemname=#{itemName},
+        set headline=#{headline},
+            itemname=#{itemName},
             purchaseprice=#{purchasePrice},
             delivery=#{delivery},
             saleprice=#{salePrice},
