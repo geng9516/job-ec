@@ -185,8 +185,8 @@
         from t_item
         <where>
 
-            <if test="searchConditions != null and searchConditions != ''">
-                and shopname like concat('%',#{searchConditions},'%')
+            <if test="shopName != null and shopName != ''">
+                and shopname like concat('%',#{shopName},'%')
             </if>
             <if test="flog != null">
                 and flog = #{flog}
@@ -196,6 +196,14 @@
 
         order by updatetime desc
 
+    </select>
+
+    <!--    SiteShop查询-->
+    <select id="downloadFindItemBySiteShop" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+        where shopname = #{siteShop}
     </select>
 
     <!--    获取产品code-->
