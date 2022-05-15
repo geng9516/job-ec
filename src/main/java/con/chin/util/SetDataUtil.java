@@ -40,7 +40,7 @@ public class SetDataUtil {
         if (relevantLinksList.size() <= 20) {
             for (String s : relevantLinksList) {
                 //推荐产品的itemcode多个拼接保存
-                relevantLinks += s;
+                relevantLinks += s + " ";
             }
         } else {
             //数据库中一个种类的产品超过20个的时候,随机取出20个放到set集合里
@@ -49,9 +49,9 @@ public class SetDataUtil {
                 set.add(relevantLinksList.get(rand.nextInt(relevantLinksList.size())) + " ");
             }
             //随机到set中去重后个数不满20的话
-            for (int i = set.size(); i <= 20; i++) {
+//            for (int i = set.size(); i <= 20; i++) {
                 set = addRelevantLinks(relevantLinksList, set);
-            }
+//            }
             //Set集合遍历拼接
             for (String s : set) {
                 //推荐产品的itemcode多个拼接保存

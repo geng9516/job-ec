@@ -334,8 +334,6 @@ public class AddItemInfoUtil {
                 Elements title = Jsoup.parse(value1Node.toString()).getElementsByAttributeStarting("title");
                 //有照片的情况
                 value1 += title.get(0).attr("title") + " ";
-
-                System.out.println(value1);
             }
             //只有文字时
         } else {

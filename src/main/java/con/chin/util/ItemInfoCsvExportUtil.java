@@ -278,7 +278,8 @@ public class ItemInfoCsvExportUtil {
                     }
                 }
                 //おすすめ商品 relevant-links
-                item.setRelevantLinks(SetDataUtil.getRelevantLinks(item.getItemPath()));
+                String relevantLinks = SetDataUtil.getRelevantLinks(item.getItemPath());
+                item.setRelevantLinks(relevantLinks);
                 //個別商品コード(sub-code)
                 //value1以" "分割成各个选项参数(颜色/尺码)
                 String[] values1 = item.getValue1().split(" ");
