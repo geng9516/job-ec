@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
@@ -317,7 +318,8 @@ public class ItemInfoCsvExportUtil {
 //                    price = item.getSalePrice();
 //                } else {
                 price = item.getPrice();
-                Double memberPrice = new BigDecimal(price * 0.99).setScale(0, BigDecimal.ROUND_UP).doubleValue();
+                Double a = new BigDecimal(price * 0.99).setScale(0, BigDecimal.ROUND_UP).doubleValue();
+                Integer memberPrice = a.intValue();
 //                }
                 //csv文件写出
                 string[0] = item.getItemPath();//商品ページのストア内カテゴリパス path
