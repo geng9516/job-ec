@@ -66,7 +66,7 @@ public class SetDataUtil {
     public static Set<String> addRelevantLinks(List<String> relevantLinksList, Set<String> set) {
         Random rand = new Random();
         //Set集合不到20个的空缺的进行填充,最多20个
-        for (int i = set.size(); i <= 20; i++) {
+        for (int i = set.size(); i <= 19; i++) {
             //List中的元素随机添加
             set.add(relevantLinksList.get(rand.nextInt(relevantLinksList.size())) + " ");
         }
