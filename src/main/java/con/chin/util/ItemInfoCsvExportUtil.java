@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -245,7 +246,7 @@ public class ItemInfoCsvExportUtil {
             List<String[]> writeLine = new ArrayList<>();
 
             //设置csv文件表头
-            String[] strings = {"path", "name", "code", "sub-code", "price", "options", "headline", "caption", "explanation", "relevant-links", "taxable", "point-code", "template", "sale-limit", "delivery", "astk-code", "condition", "product-category", "display", "sort", "sort_priority", "sp-additional", "lead-time-instock", "lead-time-outstock", "keep-stock", "postage-set", "taxrate-type", "item-tag", "pick-and-delivery-transport-rule-type"};
+            String[] strings = {"path", "name", "code", "sub-code", "price", "member-price", "options", "headline", "caption", "explanation", "relevant-links", "taxable", "point-code", "template", "sale-limit", "delivery", "astk-code", "condition", "product-category", "display", "sort", "sort_priority", "sp-additional", "lead-time-instock", "lead-time-outstock", "keep-stock", "postage-set", "taxrate-type", "item-tag", "pick-and-delivery-transport-rule-type"};
             writeLine.add(strings);
             //设置個別商品コード尾数初始值
             int i = 11;
@@ -254,7 +255,7 @@ public class ItemInfoCsvExportUtil {
             //遍历item集合下载每一件产品信息
             for (Item item : itemList) {
                 //保存每一列的数据使用
-                String[] string = new String[29];
+                String[] string = new String[30];
                 //option1时空值是不下载给itemdeflog赋值0(代表还需编辑)
                 if (item.getOption1() == null || "".equals(item.getOption1())) {
                     //数据库中的flog字段赋值0
@@ -316,6 +317,7 @@ public class ItemInfoCsvExportUtil {
 //                    price = item.getSalePrice();
 //                } else {
                 price = item.getPrice();
+                Double memberPrice = new BigDecimal(price * 0.99).setScale(0, BigDecimal.ROUND_UP).doubleValue();
 //                }
                 //csv文件写出
                 string[0] = item.getItemPath();//商品ページのストア内カテゴリパス path
@@ -324,32 +326,33 @@ public class ItemInfoCsvExportUtil {
 //                string[3] = subCode;      //個別商品コード sub-code 暂时不用
                 string[3] = "";      //個別商品コード sub-code
                 string[4] = String.valueOf(price);     //通常販売価格 price
-                string[5] = options;     //オプション options
-                string[6] = item.getHeadline();      //キャッチコピー headline
+                string[5] = String.valueOf(memberPrice);    //プレミアム価格
+                string[6] = options;     //オプション options
+                string[7] = item.getHeadline();      //キャッチコピー headline
 //                string[7] = (item.getCaption() != null ? item.getCaption() : "");//商品の説明文 caption
-                string[7] = "";
-                string[8] = item.getExplanation();     //商品情報 explanation 暂时不用
-                string[9] = (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "");      //おすすめ商品 relevant-links
-                string[10] = "1";      //課税対象 taxable
-                string[11] = "1";     //ポイント倍率 point-code
-                string[12] = "IT01";      //使用中のテンプレート template
-                string[13] = "";     //購入数制限 sale-limit
-                string[14] = "0";      //送料無料の設定 delivery
-                string[15] = "0";      //旧：きょうつく、あすつく astk-code
-                string[16] = "0";      //商品の状態 condition
-                string[17] = String.valueOf(item.getItemCategoryCode());      //プロダクトカテゴリ product-category
-                string[18] = "1";      //ページの公開/非公開 display
-                string[19] = "1";      //旧：商品表示順序 sort
-                string[20] = "";      //商品表示優先度 sort_priority
+                string[8] = "";
+                string[9] = item.getExplanation();     //商品情報 explanation 暂时不用
+                string[10] = (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "");      //おすすめ商品 relevant-links
+                string[11] = "1";      //課税対象 taxable
+                string[12] = "1";     //ポイント倍率 point-code
+                string[13] = "IT01";      //使用中のテンプレート template
+                string[14] = "";     //購入数制限 sale-limit
+                string[15] = "0";      //送料無料の設定 delivery
+                string[16] = "0";      //旧：きょうつく、あすつく astk-code
+                string[17] = "0";      //商品の状態 condition
+                string[18] = String.valueOf(item.getItemCategoryCode());      //プロダクトカテゴリ product-category
+                string[19] = "1";      //ページの公開/非公開 display
+                string[20] = "1";      //旧：商品表示順序 sort
+                string[21] = "";      //商品表示優先度 sort_priority
 //                string[21] = (item.getCaption() != null && !"".equals(item.getCaption()) ? item.getCaption() : "");  //スマートフォン用商品の補足説明を入力。 sp-additional 暂时不用
-                string[21] = "";
-                string[22] = "1";      //発送日情報 lead-time-instock
-                string[23] = "4000";      //発送日情報 lead-time-outstock
-                string[24] = "1";      //購入者キャンセル在庫取り扱い keep-stock
-                string[25] = "1";      //配送グループ postage-set
-                string[26] = "0.1";      //軽減税率コード taxrate-type
-                string[27] = "";     //商品タグ item-tag
-                string[28] = "0";            //荷扱い情報 pick-and-delivery-transport-rule-type
+                string[22] = "";
+                string[23] = "1";      //発送日情報 lead-time-instock
+                string[24] = "4000";      //発送日情報 lead-time-outstock
+                string[25] = "1";      //購入者キャンセル在庫取り扱い keep-stock
+                string[26] = "1";      //配送グループ postage-set
+                string[27] = "0.1";      //軽減税率コード taxrate-type
+                string[28] = "";     //商品タグ item-tag
+                string[29] = "0";            //荷扱い情報 pick-and-delivery-transport-rule-type
                 //個別商品コード值去除
                 subCode = "";
                 //個別商品コード尾数初始值归1
