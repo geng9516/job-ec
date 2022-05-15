@@ -312,11 +312,11 @@ public class ItemInfoCsvExportUtil {
                 itemCode = item.getItemCode();
                 //価格
                 Integer price = null;
-                if (item.getSalePrice() != null || "".equals(item.getSalePrice())) {
-                    price = item.getSalePrice();
-                } else {
-                    price = item.getPrice();
-                }
+//                if (item.getSalePrice() != null || "".equals(item.getSalePrice())) {
+//                    price = item.getSalePrice();
+//                } else {
+                price = item.getPrice();
+//                }
                 //csv文件写出
                 string[0] = item.getItemPath();//商品ページのストア内カテゴリパス path
                 string[1] = itemName;//商品名 name

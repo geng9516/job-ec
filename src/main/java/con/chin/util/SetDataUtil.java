@@ -135,12 +135,10 @@ public class SetDataUtil {
                     kind1 += kindSplits[i] + " ";
                 }
                 oldItemName = kind1 + "レディース" + " " + oldItemName;
-                System.out.printf(oldItemName);
             } else {
                 //把itemname中的关键字去掉
                 oldItemName = oldItemName.replaceAll(kind, "");
                 oldItemName = kind + " " + "レディース" + " " + oldItemName;
-                System.out.printf(oldItemName);
             }
 
         } else if (itemKinds.contains("メンズファッション")) {

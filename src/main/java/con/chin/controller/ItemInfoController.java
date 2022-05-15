@@ -129,7 +129,7 @@ public class ItemInfoController {
     public String findIteminfoBySiteShop(Model model, ItemInfoQuery itemInfoQuery, HttpSession httpSession) {
 
         //把siteShop值放到全局变量中
-        httpSession.setAttribute("siteShop", itemInfoQuery.getSearchConditions());
+        httpSession.setAttribute("siteShop", itemInfoQuery.getShopName());
         //如果表示页数有修改的话,进行设定
         String pageSize = (String) httpSession.getAttribute("pageSize");
         if (pageSize != null && !"".equals(pageSize)) {
@@ -142,7 +142,7 @@ public class ItemInfoController {
         }
         //前端使用
         model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
-        model.addAttribute("siteShop", itemInfoQuery.getFlog());
+        model.addAttribute("siteShop", itemInfoQuery.getShopName());
         model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
@@ -481,6 +481,39 @@ public class ItemInfoController {
 
         return "redirect:/iteminfo?pageNum=" + 1;
     }
+
+    //下载ショップ商品一括
+    @GetMapping("/downloadSiteShopAll")
+    public String downloadSiteShopAll(@RequestParam("siteShop") String siteShop, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+
+        List<Item> downloadedShopItems = itemService.downloadFindItemBySiteShop(siteShop);
+        //开始时间
+        long start = System.currentTimeMillis();
+        //调用下载方法
+        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(downloadedShopItems, itemCsvPath, "data_spy");
+        //把itemcode单独取出
+        List<String> itemCodeList = new ArrayList<>();
+        for (Item item : downloadedShopItems) {
+            itemCodeList.add(item.getItemCode());
+        }
+        //导出库存CSV文件
+        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+        //导出optionCSV文件
+        DataExportUtil.exportItemOptionCsv(downloadedShopItems, itemCsvPath, "option_add");
+        long end = System.currentTimeMillis();
+        System.out.println("产品数据导出完成!    总耗时：" + (end - start) + " ms");
+        //完成输出信息
+        redirectAttributes.addFlashAttribute("message", "アイテム情報が " + downloadedShopItems.size() + " 件出力されました。");
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
+
 
     //修改值
     @PostMapping("/setItemInfo")

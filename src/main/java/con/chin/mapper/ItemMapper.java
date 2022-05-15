@@ -30,6 +30,9 @@ public interface ItemMapper {
     //SiteShop查询
     List<Item> findItemBySiteShop(ItemInfoQuery itemInfoQuery);
 
+    //SiteShop查询并下载
+    List<Item> downloadFindItemBySiteShop(String siteShop);
+
     //获取产品code
     List<String> findItemCodeByPath(String path);
 

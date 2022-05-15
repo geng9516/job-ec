@@ -120,6 +120,12 @@ public class ItemServiceImpl implements ItemService {
         return new PageInfo<Item>(itemMapper.findItemBySearchConditions(itemInfoQuery));
     }
 
+    //SiteShop查询并下载
+    @Override
+    public List<Item> downloadFindItemBySiteShop(String siteShop) {
+        return itemMapper.downloadFindItemBySiteShop(siteShop);
+    }
+
     //获取产品code
     @Override
     public List<String> findItemCodeByPath(String path) {

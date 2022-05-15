@@ -39,13 +39,6 @@ function csvImport() {
     $("#dataimpott").submit();
 }
 
-//把未ダウンロード分全修改为未编辑
-function setFlogToEdit() {
-    $("#setFlogToEdit").removeAttr("action");
-    $("#setFlogToEdit").attr("method", "post");
-    $("#setFlogToEdit").attr('action', "/setFlogToEdit");
-    $("#setFlogToEdit").submit();
-}
 
 //相间时间检索
 function seachByDate() {

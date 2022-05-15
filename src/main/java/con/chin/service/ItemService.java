@@ -26,6 +26,9 @@ public interface ItemService {
     //SiteShop查询
     PageInfo<Item> findItemBySiteShop(ItemInfoQuery itemInfoQuery);
 
+    //SiteShop查询并下载
+    List<Item> downloadFindItemBySiteShop(String siteShop);
+
     //获取产品code
     List<String> findItemCodeByPath(String path);
 
