@@ -471,7 +471,9 @@ public class ImportCsvUtil {
         //IMG照片下载地址取得
         String itemCsvPath = bundle.getString("EDITCSVPATH");
         //调用itemcodecsv下载
-        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList1, itemCsvPath, "edit");
+        if (itemList1.size() > 0) {
+            ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList1, itemCsvPath, "edit");
+        }
         //返回list
         return itemList;
 
