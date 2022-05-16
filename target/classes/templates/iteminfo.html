@@ -91,7 +91,7 @@
                             <select class="ui dropdown" id='shopName'
                                     name="shopName">
                                 <option value="">ショップを選択</option>
-                                <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
+                                <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}" th:selected="*{siteShop} == ${shop.getShopName()}"
                                         th:text="${shop.getShopName()}">
                                 </option>
                             </select>

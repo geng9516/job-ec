@@ -459,7 +459,7 @@ public class ImportCsvUtil {
                 }
             }
             //商品说明的长度过长
-            if (item.getExplanation().length() > 1000) {
+            if (item.getExplanation().length() > 550) {
                 item.setExplanation("字数 " + item.getExplanation().length() + " 商品説明の長さが500を超えています。\n\n" + item.getExplanation());
                 itemList1.add(item);
             } else {
