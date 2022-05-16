@@ -29,21 +29,30 @@ public class ItemPhotoToZipUtil {
         ResourceBundle bundle = ResourceBundle.getBundle(fileName);
         //从propertied文件中照片读取地址取得
         String itemphotoPath = bundle.getString("ZIPPHNTOFLEPATH");
+        String itemphotoPath1 = bundle.getString("ITEMPHOTOCOPY1");
         //zip文件保存地址
         String zipPath = bundle.getString("ZIPPHNTOFLEPATHTO");
         //产品照片保存的文件对象获取
         File file = new File(itemphotoPath);
+        File file1 = new File(itemphotoPath1);
         //产品照片保存的文件所有文件
         File[] photoFiles = file.listFiles();
-        //每23mb大小的产品照片保存用的集合
-        List<File> fileList = new ArrayList<>();
+        File[] photoFiles1 = file1.listFiles();
+        if (photoFiles.length > 1) {
+            //每23mb大小的产品照片保存用的集合
+            List<File> fileList = new ArrayList<>();
 
-        findPhoto(photoFiles,fileList,zipPath);
+            findPhoto(photoFiles, fileList, zipPath);
+        } else if (photoFiles1.length > 1) {
+            //每23mb大小的产品照片保存用的集合
+            List<File> fileList = new ArrayList<>();
 
+            findPhoto(photoFiles1, fileList, zipPath);
+        }
 
     }
 
-    private static void findPhoto(File[] photoFiles, List<File> fileList,String filePath) {
+    private static void findPhoto(File[] photoFiles, List<File> fileList, String filePath) {
         //创建输入流
         FileInputStream fileInputStream = null;
         //创建输出流
