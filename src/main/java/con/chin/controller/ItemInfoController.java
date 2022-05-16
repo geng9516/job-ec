@@ -214,11 +214,11 @@ public class ItemInfoController {
             model.addAttribute("siteShop", itemInfoQuery.getShopName());
         }
         //如果searchConditions不为空的话的设定查询条件
-        String searchConditions = (String) httpSession.getAttribute("searchConditions");
-        if (searchConditions != null && !"".equals(searchConditions)) {
-            itemInfoQuery.setSearchConditions(searchConditions);
-            httpSession.removeAttribute("searchConditions");
-        }
+//        String searchConditions = (String) httpSession.getAttribute("searchConditions");
+//        if (searchConditions != null && !"".equals(searchConditions)) {
+//            itemInfoQuery.setSearchConditions(searchConditions);
+//            httpSession.removeAttribute("searchConditions");
+//        }
         //如果表示页数有修改的话,进行设定
         String pageSize = (String) httpSession.getAttribute("pageSize");
         if (pageSize != null && !"".equals(pageSize)) {
