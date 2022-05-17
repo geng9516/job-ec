@@ -66,7 +66,14 @@ public class AddItemInfoUtil {
             item.setHeadline(headlin);
         }
         //产品价格
-        item.setPrice(Integer.parseInt(html.css("span.elPriceNumber", "text").nodes().get(0).toString().replace(",", "").replace("円", "").trim()));
+        Integer price = Integer.parseInt(html.css("span.elPriceNumber", "text").nodes().get(0).toString().replace(",", "").replace("円", "").trim());
+        if(price != null){
+            //原本价格
+            item.setPrice(price);
+            //售卖价格
+            item.setSalePrice(price);
+        }
+
         //产品详情说明文
         String mdItemDescription = html.css("div.mdItemDescription p").toString();
         if (mdItemDescription != null && !"".equals(mdItemDescription)) {
