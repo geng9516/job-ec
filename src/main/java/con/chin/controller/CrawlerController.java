@@ -262,35 +262,22 @@ public class CrawlerController {
     //数据错误时做更新使用
     @GetMapping("/setDate")
     public String setDate() {
-        List<String> itemCodeList = new ArrayList<>();
-        List<String> itemCodeList1 = new ArrayList<>();
+        List<Item> itemList1 = new ArrayList<>();
         List<Item> itemList = new ArrayList<>();
-        itemCodeList = ItemPhotoCopyUtil.read2();
         itemList = itemService.findAll();
 
 
+        //开始时间
+        long start = System.currentTimeMillis();
         for (Item item : itemList) {
-            int flog = 0;
-            for (String s : itemCodeList) {
-
-                if (item.getItemCode().equals(s)) {
-                    flog = 1;
-                    continue;
-                }
-
-            }
-            if (flog == 0) {
-                itemCodeList1.add(item.getItemCode());
-            }
+            item.setSalePrice(item.getPrice());
+            itemList1.add(item);
+            itemService.setItemSalePrice(item);
+            System.out.println("アイテムコード " + item.getItemCode() + " 更新完了");
         }
-        //现在时间作为文件名(线程安全的)
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
-        System.out.println("写入itemCodeCSV开始");
-        DataExportUtil.exportItemCodeCsv(itemCodeList1, now);
-        System.out.println("写入itemCodeCSV结束");
-
-
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("更新アイテムインフォ!    总耗时：" + (end - start) + " ms");
         return "index";
     }
 
