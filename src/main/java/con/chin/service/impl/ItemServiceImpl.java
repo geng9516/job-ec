@@ -499,7 +499,12 @@ public class ItemServiceImpl implements ItemService {
         if(itemList.size() > 0){
             int res = 0;
             for (Item item : itemList) {
+                //开始时间
+                long start = System.currentTimeMillis();
                 res += itemMapper.setItemFlog(item);
+                //结束时间
+                long end = System.currentTimeMillis();
+                System.out.println("更改产品状态    总耗时：" + (end - start) + " ms");
             }
             return res;
         }
