@@ -454,7 +454,11 @@ public class ImportCsvUtil {
                         item.setRelevantLinks(rawList.get(stringMap.get(key)));
                         break;
                     case "product-category":
-                        item.setItemCategoryCode(Integer.parseInt(rawList.get(stringMap.get(key))));
+                        String productCategory = rawList.get(stringMap.get(key));
+                        if (productCategory == "null") {
+                            productCategory = "";
+                        }
+                        item.setItemCategoryCode(Integer.parseInt(productCategory));
                         break;
                 }
             }
