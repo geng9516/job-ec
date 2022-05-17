@@ -75,6 +75,7 @@
         set shopname=#{shopName},
             itemname=#{itemName},
             price=#{price},
+            saleprice=#{salePrice},
             option1=#{option1},
             value1=#{value1},
             option2=#{option2},
