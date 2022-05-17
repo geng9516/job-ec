@@ -318,7 +318,7 @@ public class ItemInfoCsvExportUtil {
 //                if (item.getSalePrice() != null || "".equals(item.getSalePrice())) {
 //                    price = item.getSalePrice();
 //                } else {
-                price = item.getPrice();
+                price = item.getSalePrice();
                 Double a = new BigDecimal(price * 0.99).setScale(0, BigDecimal.ROUND_UP).doubleValue();
                 Integer memberPrice = a.intValue();
 //                }
