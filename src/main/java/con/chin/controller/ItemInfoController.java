@@ -349,6 +349,7 @@ public class ItemInfoController {
         itemList.add(item);
         //调用修改flog方法
         int res = itemService.setItemFlog(itemList);
+        System.out.println("状态修改完成");
         if (res == 1) {
             redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を未編集に戻しました。");
         } else {
