@@ -67,8 +67,8 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                     //没有数据时
                 } else {
                     //中文名称保存
-                    optionValue = purchasingItem.getOption1();
-                    sizeAndOption.setOptionNameChinese(optionValue);
+                    String optionName1 = purchasingItem.getOption1();
+                    sizeAndOption.setOptionNameChinese(optionName1);
                     //中文名称保存
                     sizeAndOption.setOptionValueChinese(Value);
                     //保存SizeAndOption
@@ -127,7 +127,8 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                     //没有数据时
                 } else {
                     //中文名称保存
-                    sizeAndOption.setOptionNameChinese(purchasingItem.getOption2());
+                    String optionName2 = purchasingItem.getOption2();
+                    sizeAndOption.setOptionNameChinese(optionName2);
                     //中文名称保存
                     sizeAndOption.setOptionValueChinese(purchasingItem.getValue2());
                     //保存SizeAndOption
