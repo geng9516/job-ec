@@ -130,7 +130,7 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                     String optionName2 = purchasingItem.getOption2();
                     sizeAndOption.setOptionNameChinese(optionName2);
                     //中文名称保存
-                    sizeAndOption.setOptionValueChinese(purchasingItem.getValue2());
+                    sizeAndOption.setOptionValueChinese(Value);
                     //保存SizeAndOption
                     sizeAndOptionMapper.saveSizeAndOption(sizeAndOption);
                 }
