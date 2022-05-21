@@ -67,9 +67,10 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                     //没有数据时
                 } else {
                     //中文名称保存
-                    sizeAndOption.setOptionNameChinese(purchasingItem.getOption1());
+                    optionValue = purchasingItem.getOption1();
+                    sizeAndOption.setOptionNameChinese(optionValue);
                     //中文名称保存
-                    sizeAndOption.setOptionValueChinese(purchasingItem.getValue1());
+                    sizeAndOption.setOptionValueChinese(Value);
                     //保存SizeAndOption
                     sizeAndOptionMapper.saveSizeAndOption(sizeAndOption);
                 }
