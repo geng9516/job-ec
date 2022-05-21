@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="con.chin.mapper.SizeAndOptionMapper">
+
+    <!--Option登录-->
+    <insert id="saveSizeAndOption">
+
+        insert into t_SizeAndOption (optionNameChinese,
+                                     optionValueChinese,
+                                     optionNameJapanese,
+                                     optionValueJapanese,
+                                     optionNameEnglish,
+                                     optionValueEnglish)
+        values (#{optionNameChinese},
+                #{optionValueChinese},
+                #{optionNameJapanese},
+                #{optionValueJapanese},
+                #{optionNameEnglish},
+                #{optionValueEnglish})
+
+    </insert>
+
+    <update id="updateSizeAndOption">
+        update t_SizeAndOption
+        set optionNameJapanese=#{optionNameJapanese},
+            optionValueJapanese=#{optionValueJapanese},
+            optionNameEnglish=#{optionNameEnglish},
+            optionValueEnglish=#{optionValueEnglish}
+        where optionValueChinese = #{optionValueChinese}
+    </update>
+
+    <!--条件查找Option-->
+    <select id="findSizeAndOtionByOptionValue" resultType="con.chin.pojo.SizeAndOption">
+
+        select *
+        from t_SizeAndOption
+        where optionValueChinese = #{optionValue}
+
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

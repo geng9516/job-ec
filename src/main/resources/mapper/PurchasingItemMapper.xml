@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="con.chin.mapper.PurchasingItemMapper">
+
+    <!--    新产品登录-->
+    <insert id="savePurchasingItem">
+
+        insert into t_purchasingItem (sitename,
+                                      shopname,
+                                      itemcode,
+                                      olditemcode,
+                                      itemname,
+                                      purchaseprice1,
+                                      purchaseprice2,
+                                      purchaseprice3,
+                                      option1,
+                                      value1,
+                                      option2,
+                                      value2,
+                                      option3,
+                                      value3,
+                                      option4,
+                                      value4,
+                                      option5,
+                                      value5,
+                                      url,
+                                      explanation,
+                                      image,
+                                      flog,
+                                      created,
+                                      updatetime)
+        values (#{siteName},
+                #{shopName},
+                #{itemCode},
+                #{oldItemCode},
+                #{itemName},
+                #{purchasePrice1},
+                #{purchasePrice2},
+                #{purchasePrice3},
+                #{option1},
+                #{value1},
+                #{option2},
+                #{value2},
+                #{option3},
+                #{value3},
+                #{option4},
+                #{value4},
+                #{option5},
+                #{value5},
+                #{url},
+                #{explanation},
+                #{image},
+                #{flog},
+                #{created},
+                #{updatetime})
+
+    </insert>
+
+    <!--    产品更新-->
+    <update id="updatePurchasingItem">
+
+        update t_purchasingItem
+        set itemname=#{itemName},
+            purchaseprice1=#{purchasePrice1},
+            purchaseprice2=#{purchasePrice2},
+            purchaseprice3=#{purchasePrice3},
+            option1=#{option1},
+            value1=#{value1},
+            option2=#{option2},
+            value2=#{value2},
+            option3=#{option3},
+            value3=#{value3},
+            option4=#{option4},
+            value4=#{value4},
+            option5=#{option5},
+            value5=#{value5},
+            url=#{url},
+            explanation=#{explanation},
+            image=#{image},
+            flog=#{flog},
+            updatetime=#{updatetime}
+        where oldItemCode = #{oldItemCode}
+
+    </update>
+
+    <!--    旧产品code检索-->
+    <select id="findPurchasingItem" resultType="con.chin.pojo.PurchasingItem">
+
+        select *
+        from t_purchasingItem
+        where olditemcode = #{OldpurchasingItemCode}
+
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

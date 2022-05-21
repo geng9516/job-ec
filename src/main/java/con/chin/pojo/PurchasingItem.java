@@ -17,7 +17,9 @@ public class PurchasingItem {
     private String itemCode;//アイテムコード
     private String oldItemCode;//古いアイテムコード
     private String itemName;//商品名
-    private Integer purchasePrice;//仕入れ価格
+    private Integer purchasePrice1;//仕入れ価格
+    private Integer purchasePrice2;//仕入れ価格
+    private Integer purchasePrice3;//仕入れ価格
     private String option1;//オプション1　サイズかカラー
     private String value1;//オプション2　サイズかカラー
     private String option2;//その他オプション3
@@ -28,7 +30,7 @@ public class PurchasingItem {
     private String value4;//その他オプション8
     private String option5;//その他オプション9
     private String value5;//その他オプション１0
-    private String url1;//产品url
+    private String url;//产品url
     private String explanation;//商品説明
     private Integer flog;//有効か失効
     private String image;//照片

@@ -28,12 +28,10 @@ public class PhotoDownloadUtil {
 
         //产品表示照片下载
         imageInput(urlList.get(0), itemCode);
-        //照片保存文件等  不用
-//        path = path.replace(":", "/");
         //properties文件的名字取得
-        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
-        //照片下载地址取得
-        String itemphoto = bundle.getString("ITEMPHOTO");
+//        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
+//        //照片下载地址取得
+//        String itemphoto = bundle.getString("ITEMPHOTO");
         //创建流
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -54,7 +52,7 @@ public class PhotoDownloadUtil {
 
                 int len;
 
-                File file = new File(itemphoto + File.separator + itemCode);
+                File file = new File(path + File.separator + itemCode);
 
                 if (!file.exists()) {
                     file.mkdirs();
