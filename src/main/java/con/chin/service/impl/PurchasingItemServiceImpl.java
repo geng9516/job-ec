@@ -52,18 +52,17 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                     //optionName还为空时 为了之赋值一次
                     if (optionName == "") {
                         //每一个的value是否有日文翻译 相当于已经存在
-                        if (sizeAndOtionByOptionValue.getOptionNameJapanese() != null && sizeAndOtionByOptionValue.getOptionNameJapanese() != "") {
+                        if (sizeAndOtionByOptionValue.getOptionNameJapanese() != null && !"".equals(sizeAndOtionByOptionValue.getOptionNameJapanese())) {
                             optionName = sizeAndOtionByOptionValue.getOptionNameJapanese();
                         }
                     }
                     //有日文翻译
-                    if (sizeAndOtionByOptionValue.getOptionValueJapanese() != null && sizeAndOtionByOptionValue.getOptionValueJapanese() != "") {
+                    String s = sizeAndOtionByOptionValue.getOptionValueJapanese();
+                    if (sizeAndOtionByOptionValue.getOptionValueJapanese() != null && !"".equals(sizeAndOtionByOptionValue.getOptionValueJapanese())) {
                         optionValue += sizeAndOtionByOptionValue.getOptionValueJapanese() + " ";
                     } else {
                         optionValue += Value + " ";
                     }
-                    //更新
-//                    sizeAndOptionMapper.updateSizeAndOption(sizeAndOption);
                     //没有数据时
                 } else {
                     //中文名称保存
@@ -73,8 +72,8 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                     sizeAndOption.setOptionValueChinese(Value);
                     //保存SizeAndOption
                     sizeAndOptionMapper.saveSizeAndOption(sizeAndOption);
+                    optionValue += Value + " ";
                 }
-
             }
             //保存
             //optionName 不为空时
@@ -82,10 +81,10 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                 purchasingItem.setOption1(optionName);
             }
             //把最后的空格去掉
-            if(optionValue != null && optionValue != ""){
+            if (optionValue != null && optionValue != "") {
                 optionValue = optionValue.substring(0, optionValue.lastIndexOf(" "));
                 purchasingItem.setValue1(optionValue);
-            }else {
+            } else {
                 optionValue = purchasingItem.getValue1();
                 optionValue = optionValue.substring(0, optionValue.lastIndexOf(" "));
                 purchasingItem.setValue1(optionValue);
@@ -112,18 +111,16 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                     //optionName还为空时 为了之赋值一次
                     if (optionName == "") {
                         //每一个的value是否有日文翻译 相当于已经存在
-                        if (sizeAndOtionByOptionValue.getOptionNameJapanese() != null && sizeAndOtionByOptionValue.getOptionNameJapanese() != "") {
+                        if (sizeAndOtionByOptionValue.getOptionNameJapanese() != null && !"".equals(sizeAndOtionByOptionValue.getOptionNameJapanese())) {
                             optionName = sizeAndOtionByOptionValue.getOptionNameJapanese();
                         }
                     }
                     //有日文翻译
-                    if (sizeAndOtionByOptionValue.getOptionValueJapanese() != null && sizeAndOtionByOptionValue.getOptionValueJapanese() != "") {
+                    if (sizeAndOtionByOptionValue.getOptionValueJapanese() != null && !"".equals(sizeAndOtionByOptionValue.getOptionValueJapanese())) {
                         optionValue += sizeAndOtionByOptionValue.getOptionValueJapanese() + " ";
                     } else {
-                        optionValue += Value + " ";
+//                        optionValue += Value + " ";
                     }
-                    //更新
-//                    sizeAndOptionMapper.updateSizeAndOption(sizeAndOption);
                     //没有数据时
                 } else {
                     //中文名称保存
@@ -133,6 +130,7 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                     sizeAndOption.setOptionValueChinese(Value);
                     //保存SizeAndOption
                     sizeAndOptionMapper.saveSizeAndOption(sizeAndOption);
+                    optionValue += Value + " ";
                 }
 
             }
@@ -142,10 +140,10 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
                 purchasingItem.setOption2(optionName);
             }
             //把最后的空格去掉
-            if(optionValue != null && optionValue != ""){
+            if (optionValue != null && optionValue != "") {
                 optionValue = optionValue.substring(0, optionValue.lastIndexOf(" "));
                 purchasingItem.setValue2(optionValue);
-            }else {
+            } else {
                 optionValue = purchasingItem.getValue2();
                 optionValue = optionValue.substring(0, optionValue.lastIndexOf(" "));
                 purchasingItem.setValue2(optionValue);
