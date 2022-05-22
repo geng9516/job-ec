@@ -164,7 +164,7 @@ public class ItemInfoCsvExportUtil {
                 string[4] = String.valueOf(price);     //通常販売価格 price
                 string[5] = String.valueOf(memberPrice);    //プレミアム価格
                 string[6] = options;     //オプション options
-                string[7] = item.getHeadline();      //キャッチコピー headline
+                string[7] = (item.getHeadline() == null || item.getHeadline() == "" ? "" : item.getHeadline());      //キャッチコピー headline
 //                string[7] = (item.getCaption() != null ? item.getCaption() : "");//商品の説明文 caption
                 string[8] = "";
                 string[9] = item.getExplanation();     //商品情報 explanation 暂时不用
