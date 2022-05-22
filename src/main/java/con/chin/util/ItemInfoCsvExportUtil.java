@@ -174,7 +174,7 @@ public class ItemInfoCsvExportUtil {
                 string[13] = itemName;//meta-desc META descriptionには、商品ページに関連するストアのキーワードや説明文を、全角80文字（半角160文字）以内で入力します。HTMLは使用できません。この項目に入力した文言は、さまざまな検索サイトでの検索結果の表示に使用されます。
                 string[14] = "IT02";      //使用中のテンプレート template
                 string[15] = "";     //購入数制限 sale-limit
-                string[16] = "0";      //送料無料の設定 delivery
+                string[16] = "3";      //送料無料の設定 delivery
                 string[17] = "0";      //旧：きょうつく、あすつく astk-code
                 string[18] = "0";      //商品の状態 condition
                 string[19] = String.valueOf(item.getItemCategoryCode());      //プロダクトカテゴリ product-category
