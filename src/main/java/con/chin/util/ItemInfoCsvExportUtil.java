@@ -40,179 +40,6 @@ public class ItemInfoCsvExportUtil {
         this.FILENAME = FILENAME;
     }
 
-
-////    //yahooショップ商品のcsvファイルダウンロード
-//    public static void exportYahooItemInfoToCsv(List<Item> itemList, String filePath, String fileName) {
-//
-//        //properties文件的名字取得
-//        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
-//        //IMG照片下载地址取得
-//        String itemCsvPath = bundle.getString("ITEMCSVPATH");
-//        //现在时间作为文件名(线程安全的)
-//        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
-//        PrintWriter printWriter = null;
-//        //产品option数据有问题时保存
-//        List<Item> itemList1 = new ArrayList<>();
-//        //数次数使用
-//        int count = 1;
-//        //商品コード 为了在下面读值
-//        String itemCode = null;
-//        try {
-//            //文件路径(项目指定更新)
-//            File file = new File(filePath + File.separator + fileName + now + ".csv");
-//
-//            //文件不存在时创建
-//            if (file == null) {
-//                file.mkdir();
-//            }
-//            //创建csv文件
-//            printWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file.getPath()), "Shift-JIS")));
-//
-//            //设置csv文件表头
-//            printWriter.write("path,name,code,sub-code,price,options,headline,caption,explanation,relevant-links,taxable,point-code,template,sale-limit,delivery,astk-code,condition,product-category,display,sort,sort_priority,sp-additional,lead-time-instock,lead-time-outstock,keep-stock,postage-set,taxrate-type,item-tag,pick-and-delivery-transport-rule-type\n");
-//            //设置個別商品コード尾数初始值
-//            int i = 11;
-//            //设置個別商品コード初始变量
-//            String subCode = "";
-//            //遍历item集合下载每一件产品信息
-//            for (Item item : itemList) {
-//                //option1时空值是不下载给itemdeflog赋值0(代表还需编辑)
-//                if (item.getOption1() == null || "".equals(item.getOption1())) {
-//                    //数据库中的flog字段赋值0
-//                    item.setFlog(0);
-//                    exportItemInfoCsvUtil.itemService.updateItem(item);
-//                    item.setOption1("修正する必要があります。");
-//                    //保存数据有问题的item
-//                    itemList1.add(item);
-//                }
-//                //产品名修改
-//                String itemName = item.getItemName();
-//                //把产品名字中的全角空格去除
-//                itemName = itemName.replaceAll("　", " ");
-//                if (itemName.length() > 70 && itemName.contains(" ")) {
-//                    //把产品名称的长度调整
-//                    itemName = SetDataUtil.setStrLength(itemName, 70);
-//                }
-//                //おすすめ商品 relevant-links
-//                item.setRelevantLinks(SetDataUtil.getRelevantLinks(item.getItemPath()));
-//                //個別商品コード(sub-code)
-//                //value1以" "分割成各个选项参数(颜色/尺码)
-//                String[] values1 = item.getValue1().split(" ");
-//                //value2以" "分割成各个选项参数(颜色/尺码)
-//                String values = item.getValue2();
-//                if (values != null && !"".equals(values) && item.getOption2() != null && !"".equals(item.getOption2()) && item.getOption2().length() < 6) {
-//                    String[] values2 = values.split(" ");
-//                    //value1和value2做特定格式拼接
-//                    for (String value1 : values1) {
-//                        for (String value2 : values2) {
-//                            //カラー:ホワイト#サイズ:S=t00106s&カラー:ホワイト#サイズ:M=t00106m&カラー:ホワイト#サイズ:L=t00106l&カラー:グレー#サイズ:S=t001061s&カラー:グレー#サイズ:M=t001061m&カラー:グレー#サイズ:L=t001061l
-//                            subCode += item.getOption1() + ":" + value1 + "#" + item.getOption2() + ":" + value2 + "=" + item.getItemCode() + (i <= 500 ? i++ : 0) + "&";
-//                        }
-//                    }
-//                    //把最后的"&"去除
-//                    subCode = subCode.substring(0, subCode.lastIndexOf("&"));
-//                } else {
-//                    //個別商品コード(sub-code) 选项只有一个的时候
-//                    for (String value1 : values1) {
-//                        subCode += item.getOption1() + ":" + value1 + "=" + item.getItemCode() + (i <= 500 ? i++ : 0) + "&";
-//                    }
-//                    //把最后的"&"去除
-//                    subCode = subCode.substring(0, subCode.lastIndexOf("&"));
-//                }
-//                //オプション(options)
-//                String options =
-//                        (!"".equals(item.getOption1()) && item.getOption1() != null ? item.getOption1() + " " : "") + (item.getValue1() != "" && item.getValue1() != null ? item.getValue1() : "") +
-//                                (!"".equals(item.getOption2()) && item.getOption2() != null ? "\n" + "\n" + item.getOption2() + " " : "") + (item.getValue2() != "" && item.getValue2() != null ? item.getValue2() : "") +
-//                                (!"".equals(item.getOption3()) && item.getOption3() != null ? "\n" + "\n" + item.getOption3() + " " : "") + (item.getValue3() != "" && item.getValue3() != null ? item.getValue3() : "") +
-//                                (!"".equals(item.getOption4()) && item.getOption4() != null ? "\n" + "\n" + item.getOption4() + " " : "") + (item.getValue4() != "" && item.getValue4() != null ? item.getValue4() : "") +
-//                                (!"".equals(item.getOption5()) && item.getOption5() != null ? "\n" + "\n" + item.getOption5() + " " : "") + (item.getValue5() != "" && item.getValue5() != null ? item.getValue5() : "");
-//                //商品コード code
-//                itemCode = item.getItemCode();
-//                //価格
-//                Integer price = null;
-//                if (item.getSalePrice() != null || "".equals(item.getSalePrice())) {
-//                    price = item.getSalePrice();
-//                } else {
-//                    price = item.getPrice();
-//                }
-//                //csv文件写出
-//                printWriter.print("\"" + item.getItemPath() + "\"");//商品ページのストア内カテゴリパス path
-//                printWriter.print(",");
-//                printWriter.print("\"" + itemName + "\"");//商品名 name
-//                printWriter.print(",");
-//                printWriter.print("\"" + itemCode + "\""); //商品コード code
-//                printWriter.print(",");
-//                printWriter.print("\"" + subCode + "\"");      //個別商品コード sub-code
-//                printWriter.print(",");
-//                printWriter.print("\"" + price + "\"");     //通常販売価格 price
-//                printWriter.print(",");
-//                printWriter.print("\"" + options + "\"");     //オプション options
-//                printWriter.print(",");
-//                printWriter.print("\"" + item.getHeadline() + "\"");      //キャッチコピー headline
-//                printWriter.print(",");
-//                printWriter.print("\"" + (item.getCaption() != null ? item.getCaption() : "") + "\"");//商品の説明文 caption
-//                printWriter.print(",");
-//                printWriter.print("\"" + item.getExplanation() + "\"");     //商品情報 explanation
-//                printWriter.print(",");
-//                printWriter.print("\"" + (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "") + "\"");      //おすすめ商品 relevant-links
-//                printWriter.print(",");
-//                printWriter.print("\"" + "1" + "\"");      //課税対象 taxable
-//                printWriter.print(",");
-//                printWriter.print("\"" + "1" + "\"");     //ポイント倍率 point-code
-//                printWriter.print(",");
-//                printWriter.print("\"" + "IT01" + "\"");      //使用中のテンプレート template
-//                printWriter.print(",");
-//                printWriter.print("\"" + "" + "\"");     //購入数制限 sale-limit
-//                printWriter.print(",");
-//                printWriter.print("\"" + "0" + "\"");      //送料無料の設定 delivery
-//                printWriter.print(",");
-//                printWriter.print("\"" + "0" + "\"");      //旧：きょうつく、あすつく astk-code
-//                printWriter.print(",");
-//                printWriter.print("\"" + "0" + "\"");      //商品の状態 condition
-//                printWriter.print(",");
-//                printWriter.print("\"" + item.getItemCategoryCode() + "\"");      //プロダクトカテゴリ product-category
-//                printWriter.print(",");
-//                printWriter.print("\"" + "1" + "\"");      //ページの公開/非公開 display
-//                printWriter.print(",");
-//                printWriter.print("\"" + "1" + "\"");      //旧：商品表示順序 sort
-//                printWriter.print(",");
-//                printWriter.print("\"" + "" + "\"");      //商品表示優先度 sort_priority
-//                printWriter.print(",");
-//                printWriter.print("\"" + (item.getCaption() != null && !"".equals(item.getCaption()) ? item.getCaption() : "") + "\"");      //スマートフォン用商品の補足説明を入力。 sp-additional
-//                printWriter.print(",");
-//                printWriter.print("\"" + "1" + "\"");      //発送日情報 lead-time-instock
-//                printWriter.print(",");
-//                printWriter.print("\"" + "4000" + "\"");      //発送日情報 lead-time-outstock
-//                printWriter.print(",");
-//                printWriter.print("\"" + "1" + "\"");      //購入者キャンセル在庫取り扱い keep-stock
-//                printWriter.print(",");
-//                printWriter.print("\"" + "1" + "\"");      //配送グループ postage-set
-//                printWriter.print(",");
-//                printWriter.print("\"" + "0.1" + "\"");      //軽減税率コード taxrate-type
-//                printWriter.print(",");
-//                printWriter.print("\"" + "" + "\"");     //商品タグ item-tag
-//                printWriter.print(",");
-//                printWriter.print("\"" + "0" + "\"");            //荷扱い情報 pick-and-delivery-transport-rule-type
-//                printWriter.println();
-//                //個別商品コード值去除
-//                subCode = "";
-//                //個別商品コード尾数初始值归1
-//                i = 1;
-//                //输出次数
-//                System.out.println("这是输出的: 第" + count++ + "件了");
-//            }
-//            System.out.println("总共输出了: " + (count - 1));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            //文件流关闭
-//            if (printWriter != null) {
-//                printWriter.close();
-//            }
-//        }
-//    }
-
     //yahooショップ商品のcsvファイルダウンロード
     public static void exportYahooItemInfoToCsv(List<Item> itemList, String filePath, String fileName) {
         //开始时间
@@ -247,7 +74,7 @@ public class ItemInfoCsvExportUtil {
             List<String[]> writeLine = new ArrayList<>();
 
             //设置csv文件表头
-            String[] strings = {"path", "name", "code", "sub-code", "price", "member-price", "options", "headline", "caption", "explanation", "relevant-links", "taxable", "point-code", "template", "sale-limit", "delivery", "astk-code", "condition", "product-category", "display", "sort", "sort_priority", "sp-additional", "lead-time-instock", "lead-time-outstock", "keep-stock", "postage-set", "taxrate-type", "item-tag", "pick-and-delivery-transport-rule-type"};
+            String[] strings = {"path", "name", "code", "sub-code", "price", "member-price", "options", "headline", "caption", "explanation", "relevant-links", "taxable", "point-code", "meta-desc", "template", "sale-limit", "delivery", "astk-code", "condition", "product-category", "display", "sort", "sort_priority", "sp-additional", "lead-time-instock", "lead-time-outstock", "keep-stock", "postage-set", "taxrate-type", "item-tag", "pick-and-delivery-transport-rule-type"};
             writeLine.add(strings);
             //设置個別商品コード尾数初始值
             int i = 11;
@@ -256,7 +83,7 @@ public class ItemInfoCsvExportUtil {
             //遍历item集合下载每一件产品信息
             for (Item item : itemList) {
                 //保存每一列的数据使用
-                String[] string = new String[30];
+                String[] string = new String[31];
                 //option1时空值是不下载给itemdeflog赋值0(代表还需编辑)
                 if (item.getOption1() == null || "".equals(item.getOption1())) {
                     //数据库中的flog字段赋值0
@@ -341,24 +168,25 @@ public class ItemInfoCsvExportUtil {
                 string[10] = (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "");      //おすすめ商品 relevant-links
                 string[11] = "1";      //課税対象 taxable
                 string[12] = "1";     //ポイント倍率 point-code
-                string[13] = "IT01";      //使用中のテンプレート template
-                string[14] = "";     //購入数制限 sale-limit
-                string[15] = "0";      //送料無料の設定 delivery
-                string[16] = "0";      //旧：きょうつく、あすつく astk-code
-                string[17] = "0";      //商品の状態 condition
-                string[18] = String.valueOf(item.getItemCategoryCode());      //プロダクトカテゴリ product-category
-                string[19] = "1";      //ページの公開/非公開 display
-                string[20] = "1";      //旧：商品表示順序 sort
-                string[21] = "";      //商品表示優先度 sort_priority
+                string[13] = itemName;//meta-desc META descriptionには、商品ページに関連するストアのキーワードや説明文を、全角80文字（半角160文字）以内で入力します。HTMLは使用できません。この項目に入力した文言は、さまざまな検索サイトでの検索結果の表示に使用されます。
+                string[14] = "IT02";      //使用中のテンプレート template
+                string[15] = "";     //購入数制限 sale-limit
+                string[16] = "0";      //送料無料の設定 delivery
+                string[17] = "0";      //旧：きょうつく、あすつく astk-code
+                string[18] = "0";      //商品の状態 condition
+                string[19] = String.valueOf(item.getItemCategoryCode());      //プロダクトカテゴリ product-category
+                string[20] = "1";      //ページの公開/非公開 display
+                string[21] = "1";      //旧：商品表示順序 sort
+                string[22] = "";      //商品表示優先度 sort_priority
 //                string[21] = (item.getCaption() != null && !"".equals(item.getCaption()) ? item.getCaption() : "");  //スマートフォン用商品の補足説明を入力。 sp-additional 暂时不用
-                string[22] = "";
-                string[23] = "1";      //発送日情報 lead-time-instock
-                string[24] = "4000";      //発送日情報 lead-time-outstock
-                string[25] = "1";      //購入者キャンセル在庫取り扱い keep-stock
-                string[26] = "1";      //配送グループ postage-set
-                string[27] = "0.1";      //軽減税率コード taxrate-type
-                string[28] = "";     //商品タグ item-tag
-                string[29] = "0";            //荷扱い情報 pick-and-delivery-transport-rule-type
+                string[23] = "";
+                string[24] = "1";      //発送日情報 lead-time-instock
+                string[25] = "4000";      //発送日情報 lead-time-outstock
+                string[26] = "1";      //購入者キャンセル在庫取り扱い keep-stock
+                string[27] = "1";      //配送グループ postage-set
+                string[28] = "0.1";      //軽減税率コード taxrate-type
+                string[29] = "";     //商品タグ item-tag
+                string[30] = "0";            //荷扱い情報 pick-and-delivery-transport-rule-type
                 //個別商品コード值去除
                 subCode = "";
                 //個別商品コード尾数初始值归1
