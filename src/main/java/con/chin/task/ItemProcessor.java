@@ -111,8 +111,7 @@ public class ItemProcessor implements PageProcessor {
             if (listUrl.size() > 0) {
                 for (String url1 : listUrl) {
                     //把商品详情页加入任务
-//                    page.addTargetRequest(url1);
-                    System.out.println(22222);
+                    page.addTargetRequest(url1);
 //                    return;
                 }
                 //下页
@@ -129,12 +128,10 @@ public class ItemProcessor implements PageProcessor {
                         return;
                     }
                     url1 = url.substring(0, url.indexOf("=") + 1) + pageNanber;
-                    System.out.println(11111);
 
                 } else {
                     pageNanber = 2;
                     url1 = url + "?page=" + pageNanber;
-                    System.out.println(11111);
                 }
                 //判断页码
 //                for (int i = pageNanber; i <= ; i++) {
