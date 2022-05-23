@@ -522,6 +522,12 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findNewDownloaded(flog);
     }
 
+    //下载查询结果集
+    @Override
+    public List<Item> downloadFindItemBysearchConditions(String searchConditions) {
+        return itemMapper.downloadFindItemBysearchConditions(searchConditions);
+    }
+
 
 //---------------------------------------------------------------------------------------------------------
 
@@ -609,4 +615,6 @@ public class ItemServiceImpl implements ItemService {
         }
         System.out.println("完成");
     }
+
+
 }

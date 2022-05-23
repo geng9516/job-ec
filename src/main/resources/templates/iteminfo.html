@@ -91,7 +91,8 @@
                             <select class="ui dropdown" id='shopName'
                                     name="shopName">
                                 <option value="">ショップを選択</option>
-                                <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}" th:selected="*{siteShop} == ${shop.getShopName()}"
+                                <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
+                                        th:selected="*{siteShop} == ${shop.getShopName()}"
                                         th:text="${shop.getShopName()}">
                                 </option>
                             </select>
@@ -212,7 +213,17 @@
                         </span>
                         <span th:case="*">
                             <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
-                                    class="ui button mini ui-corner-left red">ショップ商品一括</button></a>
+                                    class="ui button mini ui-corner-left red">ショップ商品一括ダウンロード</button></a>
+                        </span>
+                    </span>
+                    <span th:switch="${searchConditions}">
+                        <span th:case="null">
+                        </span>
+                        <span th:case="''">
+                        </span>
+                        <span th:case="*">
+                            <a th:href="@{/downloadsearchConditionsAll}"><button
+                                    class="ui button mini ui-corner-left red">検索結果一括ダウンロード</button></a>
                         </span>
                     </span>
                 </td>

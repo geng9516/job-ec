@@ -121,6 +121,7 @@ public class ItemInfoController {
         //前端使用
         model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
         model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
+        model.addAttribute("searchConditions", itemInfoQuery.getSearchConditions());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -521,6 +522,39 @@ public class ItemInfoController {
         System.out.println("产品数据导出完成!    总耗时：" + (end - start) + " ms");
         //完成输出信息
         redirectAttributes.addFlashAttribute("message", "アイテム情報が " + downloadedShopItems.size() + " 件出力されました。");
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
+    //下载检索结果商品一览
+    @GetMapping("/downloadsearchConditionsAll")
+    public String downloadsearchConditionsAll(HttpSession httpSession, RedirectAttributes redirectAttributes) {
+
+        //如果searchConditions不为空的话的设定查询条件
+        String searchConditions = (String) httpSession.getAttribute("searchConditions");
+        List<Item> downloadsearchConditionsAll = itemService.downloadFindItemBysearchConditions(searchConditions);
+        //开始时间
+        long start = System.currentTimeMillis();
+        //调用下载方法
+        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(downloadsearchConditionsAll, itemCsvPath, "iteminfo");
+        //把itemcode单独取出
+        List<String> itemCodeList = new ArrayList<>();
+        for (Item item : downloadsearchConditionsAll) {
+            itemCodeList.add(item.getItemCode());
+        }
+        //导出库存CSV文件
+//        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+//        //导出optionCSV文件
+//        DataExportUtil.exportItemOptionCsv(downloadsearchConditionsAll, itemCsvPath, "option_add");
+        long end = System.currentTimeMillis();
+        System.out.println("产品数据导出完成!    总耗时：" + (end - start) + " ms");
+        //完成输出信息
+        redirectAttributes.addFlashAttribute("message", "アイテム情報が " + downloadsearchConditionsAll.size() + " 件出力されました。");
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
         if (pageNum != null && pageNum != "") {

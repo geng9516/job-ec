@@ -22,10 +22,12 @@
     <select id="findAllOrderInfo" resultMap="order">
 
         select *
-
         from t_orderinfo a1
-                 LEFT JOIN t_orderiteminfo a2 on a1.orderid = a2.orderId
+                 left outer join t_orderiteminfo a2
+                           on a1.orderid = a2.orderid
                  LEFT JOIN t_item a3 on a2.itemid = a3.itemcode
+        order by a1.orderid, a2.itemId asc
+--                  LEFT JOIN t_item a3 on a2.itemid = a3.itemcode
 
     </select>
 
@@ -60,34 +62,34 @@
         <result column="deviceType" property="deviceType"/>
         <collection property="orderItemInfoList" ofType="con.chin.pojo.OrderItemInfo">
             <id column="id" property="id"></id>
-            <result column="rderId" property="rderId"/>
-            <result column="ineId" property="ineId"/>
-            <result column="uantity" property="uantity"/>
-            <result column="temId" property="temId"/>
-            <result column="ubCode" property="ubCode"/>
-            <result column="itle" property="itle"/>
-            <result column="temOptionName" property="temOptionName"/>
-            <result column="temOptionValue" property="temOptionValue"/>
-            <result column="temOptionPrice" property="temOptionPrice"/>
-            <result column="ubCodeOption" property="ubCodeOption"/>
-            <result column="nscriptionName" property="nscriptionName"/>
-            <result column="nscriptionValue" property="nscriptionValue"/>
-            <result column="nitPrice" property="nitPrice"/>
-            <result column="riceType" property="riceType"/>
-            <result column="nitGetPoint" property="nitGetPoint"/>
-            <result column="ineSubTotal" property="ineSubTotal"/>
-            <result column="ineGetPoint" property="ineGetPoint"/>
-            <result column="ointFspCode" property="ointFspCode"/>
-            <result column="ouponId" property="ouponId"/>
-            <result column="ouponDiscount" property="ouponDiscount"/>
-            <result column="riginalPrice" property="riginalPrice"/>
-            <result column="sGetPointFix" property="sGetPointFix"/>
-            <result column="etPointFixDate" property="etPointFixDate"/>
-            <result column="etPointType" property="etPointType"/>
-            <result column="ineGetPointChargedToStore" property="ineGetPointChargedToStore"/>
-            <result column="eadTimeStart" property="eadTimeStart"/>
-            <result column="eadTimeEnd" property="eadTimeEnd"/>
-            <result column="eadTimeText" property="eadTimeText"/>
+            <result column="orderId" property="orderId"/>
+            <result column="lineId" property="lineId"/>
+            <result column="quantity" property="quantity"/>
+            <result column="itemId" property="itemId"/>
+            <result column="subCode" property="subCode"/>
+            <result column="title" property="title"/>
+            <result column="itemOptionName" property="itemOptionName"/>
+            <result column="itemOptionValue" property="itemOptionValue"/>
+            <result column="itemOptionPrice" property="itemOptionPrice"/>
+            <result column="subCodeOption" property="subCodeOption"/>
+            <result column="inscriptionName" property="inscriptionName"/>
+            <result column="inscriptionValue" property="inscriptionValue"/>
+            <result column="unitPrice" property="unitPrice"/>
+            <result column="priceType" property="priceType"/>
+            <result column="unitGetPoint" property="unitGetPoint"/>
+            <result column="lineSubTotal" property="lineSubTotal"/>
+            <result column="lineGetPoint" property="lineGetPoint"/>
+            <result column="pointFspCode" property="pointFspCode"/>
+            <result column="couponId" property="couponId"/>
+            <result column="couponDiscount" property="couponDiscount"/>
+            <result column="originalPrice" property="originalPrice"/>
+            <result column="isGetPointFix" property="isGetPointFix"/>
+            <result column="getPointFixDate" property="getPointFixDate"/>
+            <result column="getPointType" property="getPointType"/>
+            <result column="lineGetPointChargedToStore" property="lineGetPointChargedToStore"/>
+            <result column="leadTimeStart" property="leadTimeStart"/>
+            <result column="leadTimeEnd" property="leadTimeEnd"/>
+            <result column="leadTimeText" property="leadTimeText"/>
             <collection property="itemList" ofType="con.chin.pojo.Item">
                 <id column="id" property="id"></id>
                 <result column="siteName" property="siteName"/>

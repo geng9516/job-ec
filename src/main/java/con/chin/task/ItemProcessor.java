@@ -1,11 +1,7 @@
 package con.chin.task;
 
-import con.chin.util.ChromeDriverUtil;
 import con.chin.util.FlogUtil;
 import con.chin.util.AddItemInfoUtil;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -13,7 +9,6 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -116,29 +111,40 @@ public class ItemProcessor implements PageProcessor {
             if (listUrl.size() > 0) {
                 for (String url1 : listUrl) {
                     //把商品详情页加入任务
-                    page.addTargetRequest(url1);
+//                    page.addTargetRequest(url1);
+                    System.out.println(22222);
 //                    return;
                 }
                 //下页
                 Html html = page.getHtml();
                 String totolItems = html.css("div.index-tip-RPRxwO5K9IL8IArkh7mGZ span", "text").toString();
+                Integer pageNanber = null;
                 //现在页的页码
                 String url1 = "";
-                if (url.contains("page")) {
-                    url1 = url.substring(url.indexOf("="), url.indexOf("=") + 1);
-                } else {
-                    url1 = url + "?page=";
-                }
-
                 Double s = Double.parseDouble(totolItems);
                 Double a = new BigDecimal(s / 80).setScale(0, BigDecimal.ROUND_UP).doubleValue();
-                //判断页码
-                for (int i = 1; i <= a.intValue(); i++) {
-                    url1 = url1 + i;
-                    //添加任务
-                    page.addTargetRequest(url1);
-                }
+                if (url.contains("page")) {
+                    pageNanber = Integer.parseInt(url.substring(url.indexOf("=") + 1, url.indexOf("=") + 2)) + 1;
+                    if (pageNanber == a.intValue()) {
+                        return;
+                    }
+                    url1 = url.substring(0, url.indexOf("=") + 1) + pageNanber;
+                    System.out.println(11111);
 
+                } else {
+                    pageNanber = 2;
+                    url1 = url + "?page=" + pageNanber;
+                    System.out.println(11111);
+                }
+                //判断页码
+//                for (int i = pageNanber; i <= ; i++) {
+//                    url1 = url1 + i;
+//
+//
+//                }
+//                url1 = url1.substring(0, url.indexOf("=") + 1);
+                //添加任务
+                page.addTargetRequest(url1);
                 //商品详情页
             } else {
                 //搜款网

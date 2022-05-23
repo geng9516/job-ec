@@ -70,8 +70,13 @@ public interface ItemService {
     //获取新爬取的产品
     List<Item> findNewDownloaded(Integer flog);
 
+    //下载查询结果集
+    List<Item> downloadFindItemBysearchConditions(String searchConditions);
+
     //---------------------------------------------------------------------------------------------------------
 
     //数据错误时做更新使用
     void setdate();
+
+
 }

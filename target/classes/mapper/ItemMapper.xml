@@ -330,6 +330,35 @@
         </foreach>
     </update>
 
+    <!--    下载查询结果集-->
+    <select id="downloadFindItemBysearchConditions" resultType="con.chin.pojo.Item">
+
+        select *
+        from t_item
+        <where>
+
+            <if test="searchConditions != null and searchConditions != ''">
+                itemcode like concat('%',#{searchConditions},'%')
+            </if>
+            <if test="searchConditions != null and searchConditions != ''">
+                or itempath like '%' #{searchConditions} '%'
+            </if>
+            <if test="searchConditions != null and searchConditions != ''">
+                or itemname like concat('%',#{searchConditions},'%')
+            </if>
+            <if test="searchConditions != null and searchConditions != ''">
+                or shopname like concat('%',#{searchConditions},'%')
+            </if>
+            <if test="searchConditions != null and searchConditions != ''">
+                or olditemcode like concat('%',#{searchConditions},'%')
+            </if>
+
+        </where>
+
+        order by updatetime desc
+
+    </select>
+
     <!--    ###################数据错误时修改用########################-->
 
     <select id="findAll" resultType="con.chin.pojo.Item">

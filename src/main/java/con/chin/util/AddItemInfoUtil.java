@@ -287,7 +287,7 @@ public class AddItemInfoUtil {
              * WebDriver自带了一个智能等待的方法。 dr.manage().timeouts().implicitlyWait(arg0, arg1）；
              * Arg0：等待的时间长度，int 类型 ； Arg1：等待时间的单位 TimeUnit.SECONDS 一般用秒作为单位。
              */
-            driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -303,6 +303,9 @@ public class AddItemInfoUtil {
 
         //拿到整个页面
         String pageSource = driver.getPageSource();
+        // 退出浏览器
+        driver.quit();
+
         Document jsoup = Jsoup.parse(pageSource);
         //商品详情对象
         PurchasingItem purchasingItem = new PurchasingItem();
@@ -416,9 +419,6 @@ public class AddItemInfoUtil {
         map.put("photoAll", photoAll);
         map.put("itemCode", purchasingItem.getItemCode());
         page.putField("purchasingItemhotPDownload", map);
-
-        // 退出浏览器
-        driver.quit();
 
     }
 

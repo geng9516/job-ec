@@ -107,7 +107,7 @@ public class DataExportUtil {
             for (Item item : itemList) {
 
                 //option1不为空时
-                if (item.getOption1() != null && !"".equals(item.getOption1())) {
+                if (item.getOption1() != null || !"".equals(item.getOption1())) {
                     String[] value1 = item.getValue1().split(" ");
                     for (String optionValue : value1) {
                         //追加金保存用
