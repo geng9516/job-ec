@@ -295,7 +295,7 @@ public class AddItemInfoUtil {
         ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,document.body.scrollHeight)");
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(8000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -419,6 +419,11 @@ public class AddItemInfoUtil {
         map.put("photoAll", photoAll);
         map.put("itemCode", purchasingItem.getItemCode());
         page.putField("purchasingItemhotPDownload", map);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
