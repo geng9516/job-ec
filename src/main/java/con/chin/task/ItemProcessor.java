@@ -114,25 +114,25 @@ public class ItemProcessor implements PageProcessor {
                     page.addTargetRequest(url1);
 //                    return;
                 }
-                //下页
-                Html html = page.getHtml();
-                String totolItems = html.css("div.index-tip-RPRxwO5K9IL8IArkh7mGZ span", "text").toString();
-                Integer pageNanber = null;
-                //现在页的页码
-                String url1 = "";
-                Double s = Double.parseDouble(totolItems);
-                Double a = new BigDecimal(s / 80).setScale(0, BigDecimal.ROUND_UP).doubleValue();
-                if (url.contains("page")) {
-                    pageNanber = Integer.parseInt(url.substring(url.indexOf("=") + 1, url.indexOf("=") + 2)) + 1;
-                    if (pageNanber == a.intValue()) {
-                        return;
-                    }
-                    url1 = url.substring(0, url.indexOf("=") + 1) + pageNanber;
-
-                } else {
-                    pageNanber = 2;
-                    url1 = url + "?page=" + pageNanber;
-                }
+//                //下页
+//                Html html = page.getHtml();
+//                String totolItems = html.css("div.index-tip-RPRxwO5K9IL8IArkh7mGZ span", "text").toString();
+//                Integer pageNanber = null;
+//                //现在页的页码
+//                String url1 = "";
+//                Double s = Double.parseDouble(totolItems);
+//                Double a = new BigDecimal(s / 80).setScale(0, BigDecimal.ROUND_UP).doubleValue();
+//                if (url.contains("page")) {
+//                    pageNanber = Integer.parseInt(url.substring(url.indexOf("=") + 1, url.indexOf("=") + 2)) + 1;
+//                    if (pageNanber == a.intValue()) {
+//                        return;
+//                    }
+//                    url1 = url.substring(0, url.indexOf("=") + 1) + pageNanber;
+//
+//                } else {
+//                    pageNanber = 2;
+//                    url1 = url + "?page=" + pageNanber;
+//                }
                 //判断页码
 //                for (int i = pageNanber; i <= ; i++) {
 //                    url1 = url1 + i;
@@ -141,7 +141,7 @@ public class ItemProcessor implements PageProcessor {
 //                }
 //                url1 = url1.substring(0, url.indexOf("=") + 1);
                 //添加任务
-                page.addTargetRequest(url1);
+//                page.addTargetRequest(url1);
                 //商品详情页
             } else {
                 //搜款网
