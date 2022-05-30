@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 @Service
@@ -175,5 +176,11 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
         System.out.println("更新一件产品:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
         //为了更新的话不需要更新照片
         return -1;
+    }
+
+    //把flog为0的全部查到
+    @Override
+    public List<PurchasingItem> findPurchasingItemByFlog0() {
+        return purchasingItemMapper.findPurchasingItemByFlog0();
     }
 }

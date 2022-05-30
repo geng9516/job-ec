@@ -5,6 +5,8 @@ import con.chin.pojo.PurchasingItem;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface PurchasingItemMapper {
@@ -17,4 +19,7 @@ public interface PurchasingItemMapper {
 
     //旧code检索
     PurchasingItem findPurchasingItem(String OldpurchasingItemCode);
+
+    //把flog为0的全部查到
+    List<PurchasingItem> findPurchasingItemByFlog0();
 }

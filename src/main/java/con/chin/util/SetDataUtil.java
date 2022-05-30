@@ -1,5 +1,7 @@
 package con.chin.util;
 
+import con.chin.pojo.Item;
+import con.chin.pojo.PurchasingItem;
 import con.chin.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,9 @@ public class SetDataUtil {
     //推荐产品的itemcode追加
     public static String getRelevantLinks(String path) {
 
+        if(path == null || path == ""){
+            return "";
+        }
         //数据库中一个种类的产品code全拿出来
         List<String> relevantLinksList = randomGet.itemService.findItemCodeByPath(path);
         //种类的产品code只有一个的话直接返回null
@@ -168,6 +173,11 @@ public class SetDataUtil {
             }
         }
         return oldItemName;
+    }
+
+    //把中问产品暂时转为日文的格式
+    public static List<Item> setPurchasingItemToItemInfo(List<PurchasingItem> purchasingItemList){
+        return null;
     }
 
 

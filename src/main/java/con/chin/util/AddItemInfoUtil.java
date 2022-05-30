@@ -40,7 +40,7 @@ public class AddItemInfoUtil {
         //新商品code
         String itemCode = UUID.randomUUID().toString();
         String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-        item.setItemCode("E" + itemCode1);
+        item.setItemCode("e" + itemCode1);
         //旧商品code
         List<Selectable> nodes = html.css("div#itm_cat li").nodes();
         Selectable selectable1 = nodes.get(nodes.size() - 1);
@@ -322,7 +322,7 @@ public class AddItemInfoUtil {
         //新商品code
         String itemCode = UUID.randomUUID().toString();
         String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-        purchasingItem.setItemCode("Z" + itemCode1);
+        purchasingItem.setItemCode("z" + itemCode1);
         //旧商品code
         String oldItemCode = jsoup.select("div.index-properiesValue-31gHDGZJNZoaAcprhVh_VL").first().text();
         purchasingItem.setOldItemCode(storeName + "-" + oldItemCode);

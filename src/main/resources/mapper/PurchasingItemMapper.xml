@@ -96,6 +96,15 @@
 
     </select>
 
+    <!--    把flog为0的全部查到-->
+    <select id="findPurchasingItemByFlog0" resultType="con.chin.pojo.PurchasingItem">
+
+        select *
+        from t_purchasingItem
+        where flog = 0
+
+    </select>
+
 
 </mapper>
 

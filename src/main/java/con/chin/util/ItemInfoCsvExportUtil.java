@@ -59,7 +59,12 @@ public class ItemInfoCsvExportUtil {
         int count = 1;
         CsvWriter writer = null;
         try {
-            writer = CsvUtil.getWriter(filePath + File.separator + fileName + now + ".csv", Charset.forName("Shift-JIS"));
+            if(fileName.equals("chineseEdit")){
+                writer = CsvUtil.getWriter(filePath + File.separator + fileName + now + ".csv", Charset.forName("UTF-8"));
+            }else {
+
+                writer = CsvUtil.getWriter(filePath + File.separator + fileName + now + ".csv", Charset.forName("Shift-JIS"));
+            }
             //商品コード 为了在下面读值
             String itemCode = null;
             //文件路径(项目指定更新)
@@ -155,6 +160,10 @@ public class ItemInfoCsvExportUtil {
                 Double a = new BigDecimal(price * 0.99).setScale(0, BigDecimal.ROUND_UP).doubleValue();
                 Integer memberPrice = a.intValue();
 //                }
+                Integer itemCategoryCode = item.getItemCategoryCode();
+                if (itemCategoryCode == null) {
+                    itemCategoryCode = 0;
+                }
                 //csv文件写出
                 string[0] = item.getItemPath();//商品ページのストア内カテゴリパス path
                 string[1] = itemName;//商品名 name
@@ -177,7 +186,7 @@ public class ItemInfoCsvExportUtil {
                 string[16] = "3";      //送料無料の設定 delivery
                 string[17] = "0";      //旧：きょうつく、あすつく astk-code
                 string[18] = "0";      //商品の状態 condition
-                string[19] = String.valueOf(item.getItemCategoryCode());      //プロダクトカテゴリ product-category
+                string[19] = String.valueOf(itemCategoryCode);      //プロダクトカテゴリ product-category
                 string[20] = "1";      //ページの公開/非公開 display
                 string[21] = "1";      //旧：商品表示順序 sort
                 string[22] = "";      //商品表示優先度 sort_priority
