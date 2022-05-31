@@ -385,10 +385,10 @@ public class ImportCsvUtil {
                         for (int t = 0; t < stringList.size(); t++) {
                             String optionAndValue = stringList.get(t);
                             String option = "";
-                            try{
+                            try {
 
-                                 option = optionAndValue.substring(0, optionAndValue.indexOf(" "));
-                            }catch (StringIndexOutOfBoundsException e){
+                                option = optionAndValue.substring(0, optionAndValue.indexOf(" "));
+                            } catch (StringIndexOutOfBoundsException e) {
                                 System.out.println(rawList.get(stringMap.get(key)));
                             }
                             option = option.replaceAll(" ", "").replaceAll("　", "");
@@ -469,12 +469,12 @@ public class ImportCsvUtil {
                 }
             }
             //商品说明的长度过长
-            if (item.getExplanation().length() > 700) {
-                item.setExplanation("字数 " + item.getExplanation().length() + " 商品説明の長さが500を超えています。\n\n" + item.getExplanation());
-                itemList1.add(item);
-            } else {
-                itemList.add(item);
-            }
+//            if (item.getExplanation().length() > 700) {
+//                item.setExplanation("字数 " + item.getExplanation().length() + " 商品説明の長さが500を超えています。\n\n" + item.getExplanation());
+//                itemList1.add(item);
+//            } else {
+            itemList.add(item);
+//            }
         }
         //properties文件的名字取得
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
