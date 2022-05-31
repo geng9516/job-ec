@@ -371,8 +371,8 @@
 
     <update id="setdate">
         update t_item
-        set caption = #{caption}
-        where itemcode = #{itemCode}
+        set itemCode = #{itemCode}
+        where id = #{id}
     </update>
 
 
