@@ -1,10 +1,13 @@
 package con.chin.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import con.chin.mapper.PurchasingItemMapper;
 import con.chin.mapper.SizeAndOptionMapper;
 import con.chin.pojo.Item;
 import con.chin.pojo.PurchasingItem;
 import con.chin.pojo.SizeAndOption;
+import con.chin.pojo.query.PurchasingItemQuery;
 import con.chin.service.PurchasingItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -182,5 +185,13 @@ public class PurchasingItemServiceImpl implements PurchasingItemService {
     @Override
     public List<PurchasingItem> findPurchasingItemByFlog0() {
         return purchasingItemMapper.findPurchasingItemByFlog0();
+    }
+
+    //产品id,产品path,产品名,店铺名模糊查询
+    @Override
+    public PageInfo<PurchasingItem> findPurchasingItemQueryBySearchConditions(PurchasingItemQuery purchasingItemQuery) {
+        //启动PageInfo
+        PageHelper.startPage(purchasingItemQuery.getPageNum(), purchasingItemQuery.getPageSize());
+        return  new PageInfo<PurchasingItem>(purchasingItemMapper.findPurchasingItemQueryBySearchConditions(purchasingItemQuery));
     }
 }

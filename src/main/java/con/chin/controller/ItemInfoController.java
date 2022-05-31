@@ -571,8 +571,8 @@ public class ItemInfoController {
             @RequestParam("headline") String headline,
             @RequestParam("itemName") String itemName,
             @RequestParam("salePrice") String salePrice,
-            @RequestParam("delivery") Long deliveryId,
-            @RequestParam("purchase-price") String purchasePrice,
+            @RequestParam("itemPath") String itemPath,
+            @RequestParam("explanation") String explanation,
             @RequestParam("itemCode") String intemCode,
             @RequestParam("url1") String url1,
             @RequestParam("url2") String url2,
@@ -601,18 +601,14 @@ public class ItemInfoController {
             item.setItemName(itemName);
             flog++;
         }
-        //进货价
-        if (purchasePrice != "" && salePrice != "") {
-            item.setPurchasePrice(Integer.parseInt(purchasePrice));
+        //商品情報
+        if (explanation != "") {
+            item.setExplanation(explanation);
             flog++;
         }
         //如果送料有修改的话
-        if (deliveryId != null && salePrice != "") {
-            //保存结果
-            Config resConfig = new Config();
-            config.setId(deliveryId);
-            resConfig = configService.findDeliveryValue(config);
-            item.setDelivery(Integer.parseInt(resConfig.getValue2()));
+        if (itemPath != null && itemPath != "") {
+            item.setItemPath(itemPath);
             flog++;
         }
         //如果卖价有修改的话

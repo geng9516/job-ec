@@ -2,6 +2,7 @@ package con.chin.util;
 
 import cn.hutool.core.text.csv.CsvUtil;
 import cn.hutool.core.text.csv.CsvWriter;
+import cn.hutool.core.util.CharsetUtil;
 import con.chin.pojo.Item;
 import con.chin.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +58,9 @@ public class ItemInfoCsvExportUtil {
         List<Item> itemList1 = new ArrayList<>();
         //数次数使用
         int count = 1;
+        FileOutputStream fos = null;
         CsvWriter writer = null;
         try {
-            if(fileName.equals("chineseEdit")){
-                writer = CsvUtil.getWriter(filePath + File.separator + fileName + now + ".csv", Charset.forName("UTF-8"));
-            }else {
-
-                writer = CsvUtil.getWriter(filePath + File.separator + fileName + now + ".csv", Charset.forName("Shift-JIS"));
-            }
-            //商品コード 为了在下面读值
-            String itemCode = null;
             //文件路径(项目指定更新)
             File file = new File(filePath + File.separator + fileName + now + ".csv");
 
@@ -74,13 +68,25 @@ public class ItemInfoCsvExportUtil {
             if (file == null) {
                 file.mkdir();
             }
+            if(fileName.equals("chineseEdit")){
+                writer = CsvUtil.getWriter(file, CharsetUtil.CHARSET_UTF_8, true);
+            }else {
+
+                writer = CsvUtil.getWriter(file, Charset.forName("Shift-JIS"));
+            }
+            //商品コード 为了在下面读值
+            String itemCode = null;
+
             //创建csv文件
 
             List<String[]> writeLine = new ArrayList<>();
-
+            byte[] uft8bom = {(byte) 0xef, (byte) 0xbb, (byte) 0xbf};
+            fos = new FileOutputStream(file, true);
+            fos.write(uft8bom);
             //设置csv文件表头
             String[] strings = {"path", "name", "code", "sub-code", "price", "member-price", "options", "headline", "caption", "explanation", "relevant-links", "taxable", "point-code", "meta-desc", "template", "sale-limit", "delivery", "astk-code", "condition", "product-category", "display", "sort", "sort_priority", "sp-additional", "lead-time-instock", "lead-time-outstock", "keep-stock", "postage-set", "taxrate-type", "item-tag", "pick-and-delivery-transport-rule-type"};
             writeLine.add(strings);
+
             //设置個別商品コード尾数初始值
             int i = 11;
             //设置個別商品コード初始变量
@@ -97,6 +103,7 @@ public class ItemInfoCsvExportUtil {
                     item.setOption1("修正する必要があります。");
                     //保存数据有问题的item
                     itemList1.add(item);
+                    continue;
                 }
                 //产品名修改
                 String itemName = item.getItemName();

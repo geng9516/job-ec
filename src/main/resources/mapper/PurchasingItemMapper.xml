@@ -105,6 +105,41 @@
 
     </select>
 
+    <!--    产品id,产品path,产品名,店铺名模糊查询-->
+    <select id="findPurchasingItemQueryBySearchConditions" resultType="con.chin.pojo.PurchasingItem">
+
+        select *
+        from t_item
+        <where>
+
+            <if test="searchConditions != null and searchConditions != ''">
+                and ( itemcode like concat('%',#{searchConditions},'%')
+            </if>
+            <if test="searchConditions != null and searchConditions != ''">
+                or itempath like '%' #{searchConditions} '%'
+            </if>
+            <if test="searchConditions != null and searchConditions != ''">
+                or itemname like concat('%',#{searchConditions},'%')
+            </if>
+            <if test="searchConditions != null and searchConditions != ''">
+                or shopname like concat('%',#{searchConditions},'%')
+            </if>
+            <if test="searchConditions != null and searchConditions != ''">
+                or olditemcode like concat('%',#{searchConditions},'%') )
+            </if>
+            <if test="shopName != null and shopName != ''">
+                and shopname = #{shopName}
+            </if>
+            <if test="flog != null">
+                and flog = #{flog}
+            </if>
+
+        </where>
+
+        order by updatetime desc
+
+    </select>
+
 
 </mapper>
 

@@ -10,6 +10,7 @@ import con.chin.pojo.OrderItemInfo;
 import con.chin.pojo.query.ItemInfoQuery;
 import con.chin.util.ItemInfoCsvExportUtil;
 import con.chin.util.ItemPhotoCopyUtil;
+import con.chin.util.SetDataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,12 +50,18 @@ public class ItemServiceImpl implements ItemService {
         long start = System.currentTimeMillis();
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        //设置产品种类番号(条件はpathとサイト名)
-        Map<String, String> map = new HashMap<>();
-        map.put("itempath", item.getItemPath());
-        map.put("shopName", item.getSiteName());
-        Integer itemCategorCode = itemCategoryMapper.findItemCategoryByPath(map);
-        item.setItemCategoryCode(itemCategorCode);
+
+        if(item.getItemPath() != null){
+            //设置产品种类番号(条件はpathとサイト名)
+            Map<String, String> map = new HashMap<>();
+            map.put("itempath", item.getItemPath());
+            map.put("shopName", item.getSiteName());
+            Integer itemCategorCode = itemCategoryMapper.findItemCategoryByPath(map);
+            item.setItemCategoryCode(itemCategorCode);
+        }else {
+            item = SetDataUtil.setOptionAndValue(item);
+        }
+
 
         //设置检索条件
         Item item1 = new Item();
@@ -202,15 +209,15 @@ public class ItemServiceImpl implements ItemService {
             flog++;
         }
         //进货价
-        if (item.getPurchasePrice() != null) {
-            oldItem.setPurchasePrice(item.getPurchasePrice());
+        if (item.getItemPath() != null) {
+            oldItem.setItemPath(item.getItemPath());
             flog++;
         } else if (oldItem.getPurchasePrice() != null) {
             flog++;
         }
         //送料
-        if (item.getDelivery() != null) {
-            oldItem.setDelivery(item.getDelivery());
+        if (item.getExplanation() != null) {
+            oldItem.setExplanation(item.getExplanation());
             flog++;
         } else if (oldItem.getDelivery() != null) {
             flog++;
@@ -246,7 +253,7 @@ public class ItemServiceImpl implements ItemService {
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         //如果是flog>=10并且产品还未失效的话就属于编辑完成  产品是否属于编辑
-        if (flog >= 6 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
+        if (flog >= 4 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
             oldItem.setFlog(2);
             oldItem.setUpdatetime(now);
             return itemMapper.setItemSalePrice(oldItem);

@@ -262,22 +262,29 @@ public class CrawlerController {
     //数据错误时做更新使用
     @GetMapping("/setDate")
     public String setDate() {
-        List<Item> itemList1 = new ArrayList<>();
+//        List<Item> itemList1 = new ArrayList<>();
         List<Item> itemList = new ArrayList<>();
         itemList = itemService.findAll();
-
-
-        //开始时间
-        long start = System.currentTimeMillis();
+//
+//
+//        //开始时间
+//        long start = System.currentTimeMillis();
+//        for (Item item : itemList) {
+//            item.setSalePrice(item.getPrice());
+//            itemList1.add(item);
+//            itemService.setItemSalePrice(item);
+//            System.out.println("アイテムコード " + item.getItemCode() + " 更新完了");
+//        }
+//        //结束时间
+//        long end = System.currentTimeMillis();
+//        System.out.println("更新アイテムインフォ!    总耗时：" + (end - start) + " ms");
+//        return "index";
+        List<String> stringList = new ArrayList<>();
         for (Item item : itemList) {
-            item.setSalePrice(item.getPrice());
-            itemList1.add(item);
-            itemService.setItemSalePrice(item);
-            System.out.println("アイテムコード " + item.getItemCode() + " 更新完了");
+            String itemcode = item.getItemCode();
+            stringList.add(itemcode);
         }
-        //结束时间
-        long end = System.currentTimeMillis();
-        System.out.println("更新アイテムインフォ!    总耗时：" + (end - start) + " ms");
+        ItemPhotoCopyUtil.read(stringList);
         return "index";
     }
 

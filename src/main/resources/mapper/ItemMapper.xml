@@ -152,7 +152,6 @@
         from t_item
         <where>
 
-
             <if test="searchConditions != null and searchConditions != ''">
                 and ( itemcode like concat('%',#{searchConditions},'%')
             </if>
@@ -251,6 +250,8 @@
             purchaseprice=#{purchasePrice},
             delivery=#{delivery},
             saleprice=#{salePrice},
+            itempath=#{itemPath},
+            explanation=#{explanation},
             url1=#{url1},
             url2=#{url2},
             url3=#{url3},

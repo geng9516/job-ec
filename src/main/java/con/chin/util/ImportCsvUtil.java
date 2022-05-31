@@ -384,7 +384,13 @@ public class ImportCsvUtil {
                         }
                         for (int t = 0; t < stringList.size(); t++) {
                             String optionAndValue = stringList.get(t);
-                            String option = optionAndValue.substring(0, optionAndValue.indexOf(" "));
+                            String option = "";
+                            try{
+
+                                 option = optionAndValue.substring(0, optionAndValue.indexOf(" "));
+                            }catch (StringIndexOutOfBoundsException e){
+                                System.out.println(rawList.get(stringMap.get(key)));
+                            }
                             option = option.replaceAll(" ", "").replaceAll("　", "");
                             String value = optionAndValue.substring(optionAndValue.indexOf(" ") + 1).trim();
                             if (value == null || "".equals(value)) {

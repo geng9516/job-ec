@@ -1,7 +1,9 @@
 package con.chin.util;
 
+import con.chin.mapper.SizeAndOptionMapper;
 import con.chin.pojo.Item;
 import con.chin.pojo.PurchasingItem;
+import con.chin.pojo.SizeAndOption;
 import con.chin.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,10 +25,14 @@ public class SetDataUtil {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private SizeAndOptionMapper sizeAndOptionMapper;
+
+
     //推荐产品的itemcode追加
     public static String getRelevantLinks(String path) {
 
-        if(path == null || path == ""){
+        if (path == null || path == "") {
             return "";
         }
         //数据库中一个种类的产品code全拿出来
@@ -55,7 +61,7 @@ public class SetDataUtil {
             }
             //随机到set中去重后个数不满20的话
 //            for (int i = set.size(); i <= 20; i++) {
-                set = addRelevantLinks(relevantLinksList, set);
+            set = addRelevantLinks(relevantLinksList, set);
 //            }
             //Set集合遍历拼接
             for (String s : set) {
@@ -176,8 +182,131 @@ public class SetDataUtil {
     }
 
     //把中问产品暂时转为日文的格式
-    public static List<Item> setPurchasingItemToItemInfo(List<PurchasingItem> purchasingItemList){
+    public static List<Item> setPurchasingItemToItemInfo(List<PurchasingItem> purchasingItemList) {
         return null;
+    }
+
+    public static Item setOptionAndValue(Item item) {
+        //option1有数据时
+        if (item.getOption1() != null && item.getOption1() != "") {
+            //以空格分装成数组
+            String[] Values = item.getValue1().split(" ");
+            //用来存储optionname
+            String optionName = "";
+            //用来存储optionValue
+            String optionValue = "";
+            //SizeAndOption保存用
+            //遍历数组
+            for (String Value : Values) {
+                //SizeAndOption保存
+                SizeAndOption sizeAndOption = new SizeAndOption();
+
+                //检索中文名称是否有数据
+                SizeAndOption sizeAndOtionByOptionValue = randomGet.sizeAndOptionMapper.findSizeAndOtionByOptionValue(Value);
+                //有数据
+                if (sizeAndOtionByOptionValue != null) {
+                    //optionName还为空时 为了之赋值一次
+                    if (optionName == "") {
+                        //每一个的value是否有日文翻译 相当于已经存在
+                        if (sizeAndOtionByOptionValue.getOptionNameJapanese() != null && !"".equals(sizeAndOtionByOptionValue.getOptionNameJapanese())) {
+                            optionName = sizeAndOtionByOptionValue.getOptionNameJapanese();
+                        }
+                    }
+                    //有日文翻译
+                    String s = sizeAndOtionByOptionValue.getOptionValueJapanese();
+                    if (sizeAndOtionByOptionValue.getOptionValueJapanese() != null && !"".equals(sizeAndOtionByOptionValue.getOptionValueJapanese())) {
+                        optionValue += sizeAndOtionByOptionValue.getOptionValueJapanese() + " ";
+                    } else {
+                        optionValue += Value + " ";
+                    }
+                    //没有数据时
+                } else {
+                    //中文名称保存
+                    String optionName1 = item.getOption1();
+                    sizeAndOption.setOptionNameChinese(optionName1);
+                    //中文名称保存
+                    sizeAndOption.setOptionValueChinese(Value);
+                    //保存SizeAndOption
+                    randomGet.sizeAndOptionMapper.saveSizeAndOption(sizeAndOption);
+                    optionValue += Value + " ";
+                }
+            }
+            //保存
+            //optionName 不为空时
+            if (optionName != null && optionName != "") {
+                item.setOption1(optionName);
+            }
+            //把最后的空格去掉
+            if (optionValue != null && optionValue != "") {
+                optionValue = optionValue.substring(0, optionValue.lastIndexOf(" "));
+                item.setValue1(optionValue);
+            } else {
+                optionValue = item.getValue1();
+                optionValue = optionValue.substring(0, optionValue.lastIndexOf(" "));
+                item.setValue1(optionValue);
+            }
+        }
+        //option2有数据时
+        if (item.getOption2() != null && item.getOption2() != "") {
+            //以空格分装成数组
+            String[] Values = item.getValue2().split(" ");
+            //用来存储optionname
+            String optionName = "";
+            //用来存储optionValue
+            String optionValue = "";
+            //SizeAndOption保存用
+            //遍历数组
+            for (String Value : Values) {
+                //SizeAndOption保存
+                SizeAndOption sizeAndOption = new SizeAndOption();
+
+                //检索中文名称是否有数据
+                SizeAndOption sizeAndOtionByOptionValue = randomGet.sizeAndOptionMapper.findSizeAndOtionByOptionValue(Value);
+                //有数据
+                if (sizeAndOtionByOptionValue != null) {
+                    //optionName还为空时 为了之赋值一次
+                    if (optionName == "") {
+                        //每一个的value是否有日文翻译 相当于已经存在
+                        if (sizeAndOtionByOptionValue.getOptionNameJapanese() != null && !"".equals(sizeAndOtionByOptionValue.getOptionNameJapanese())) {
+                            optionName = sizeAndOtionByOptionValue.getOptionNameJapanese();
+                        }
+                    }
+                    //有日文翻译
+                    if (sizeAndOtionByOptionValue.getOptionValueJapanese() != null && !"".equals(sizeAndOtionByOptionValue.getOptionValueJapanese())) {
+                        optionValue += sizeAndOtionByOptionValue.getOptionValueJapanese() + " ";
+                    } else {
+//                        optionValue += Value + " ";
+                    }
+                    //没有数据时
+                } else {
+                    //中文名称保存
+                    String optionName2 = item.getOption2();
+                    sizeAndOption.setOptionNameChinese(optionName2);
+                    //中文名称保存
+                    sizeAndOption.setOptionValueChinese(Value);
+                    //保存SizeAndOption
+                    randomGet.sizeAndOptionMapper.saveSizeAndOption(sizeAndOption);
+                    optionValue += Value + " ";
+                }
+
+            }
+            //保存
+            //optionName 不为空时
+            if (optionName != null && optionName != "") {
+                item.setOption2(optionName);
+            }
+            //把最后的空格去掉
+            if (optionValue != null && optionValue != "") {
+                optionValue = optionValue.substring(0, optionValue.lastIndexOf(" "));
+                item.setValue2(optionValue);
+            } else {
+                optionValue = item.getValue2();
+                optionValue = optionValue.substring(0, optionValue.lastIndexOf(" "));
+                item.setValue2(optionValue);
+            }
+        }
+        return item;
+
     }
 
 

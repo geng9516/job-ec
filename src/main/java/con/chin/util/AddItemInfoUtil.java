@@ -2,15 +2,12 @@ package con.chin.util;
 
 import con.chin.pojo.Item;
 import con.chin.pojo.ItemKeyword;
-import con.chin.pojo.PurchasingItem;
 import con.chin.pojo.SiteShop;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
@@ -277,6 +274,7 @@ public class AddItemInfoUtil {
      * 17网
      *
      * @param page
+     * @param
      */
     public static void save17zwdItemInfo(Page page) {
         //获取chromeDriver
@@ -307,38 +305,30 @@ public class AddItemInfoUtil {
         driver.quit();
 
         Document jsoup = Jsoup.parse(pageSource);
+        Item item = new Item();
         //商品详情对象
-        PurchasingItem purchasingItem = new PurchasingItem();
         //サイト名
-        purchasingItem.setSiteName("17网");
+        item.setSiteName("17网");
         //店铺名
         Elements select = jsoup.select("div.index-shopHeadName-1-4ltjAR80CMhuNF_gszTO span");
         String storeName = select.text();
         //店铺名不为空
         if (storeName != null || !"".equals(storeName)) {
             //ショップ名
-            purchasingItem.setShopName(storeName);
+            item.setShopName(storeName);
         }
         //新商品code
         String itemCode = UUID.randomUUID().toString();
         String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-        purchasingItem.setItemCode("z" + itemCode1);
+        item.setItemCode("z" + itemCode1);
         //旧商品code
         String oldItemCode = jsoup.select("div.index-properiesValue-31gHDGZJNZoaAcprhVh_VL").first().text();
-        purchasingItem.setOldItemCode(storeName + "-" + oldItemCode);
+        item.setOldItemCode(storeName + "-" + oldItemCode);
         //产品名称
         String productName = jsoup.select("div.index-titleBox-25FtwMm1mlJ1I5-D4fNk4A span").text();
         //把「"」去除
         productName = productName.replaceAll("\"", "").replaceAll("”", "");
-        purchasingItem.setItemName(productName);
-        //产品详情
-        String explanation = "";
-        Elements explanations = jsoup.select("div.index-label-2CoA0zl4u3q99XtnCaBNNX");
-        for (Element explanationElement : explanations) {
-            explanation += explanationElement.select("div").text();
-            explanation = explanation + "\n";
-        }
-        purchasingItem.setExplanation(explanation);
+        item.setItemName(productName);
         //产品价格
         String purchasePrice1 = "";
         String purchasePrice2 = "";
@@ -350,13 +340,17 @@ public class AddItemInfoUtil {
         } else {
             purchasePrice1 = price.substring(price.lastIndexOf("：") + 1, price.lastIndexOf(".")).trim();
         }
-        purchasingItem.setPurchasePrice1(Integer.parseInt(purchasePrice1));
+
         if (purchasePrice2 != "") {
-            purchasingItem.setPurchasePrice2(Integer.parseInt(purchasePrice2));
+            item.setPurchasePrice(Integer.parseInt(purchasePrice2));
+            item.setPrice(Integer.parseInt(purchasePrice2));
+            item.setSalePrice(Integer.parseInt(purchasePrice2));
+        }else {
+            item.setPurchasePrice(Integer.parseInt(purchasePrice1));
+            item.setPrice(Integer.parseInt(purchasePrice1));
+            item.setSalePrice(Integer.parseInt(purchasePrice1));
         }
-        if (purchasePrice3 != "") {
-            purchasingItem.setPurchasePrice3(Integer.parseInt(purchasePrice3));
-        }
+
         //option1和value1选项
         String optionName1 = jsoup.select("div.index-skuContainer-3zeTJNpf3KMb13z5qHXs-3 div.index-detailLabel-2eygBLosYtq2jUH88CzmrH").first().text();
         String value1 = "";
@@ -380,8 +374,8 @@ public class AddItemInfoUtil {
         }
         //把最后的空格去除
 //        value1 = value1.substring(0, value1.lastIndexOf(" "));
-        purchasingItem.setOption1(optionName1);
-        purchasingItem.setValue1(value1);
+        item.setOption1(optionName1);
+        item.setValue1(value1);
         //option2和value2选项
         String optionName2 = jsoup.select("div.index-skuContainer-3zeTJNpf3KMb13z5qHXs-3 div.index-detailLabel-2eygBLosYtq2jUH88CzmrH").last().text();
         String value2 = "";
@@ -393,20 +387,46 @@ public class AddItemInfoUtil {
         //把最后的空格去除 尺码为均码时改为[F]符号
 //        value2 = value2.substring(0, value2.lastIndexOf(" "));
         value2 = value2.replaceAll("均码", "F");
-        purchasingItem.setOption2(optionName2);
-        purchasingItem.setValue2(value2);
+        item.setOption2(optionName2);
+        item.setValue2(value2);
+        //产品详情
+        String explanation = "";
+        Elements explanations = jsoup.select("div.index-label-2CoA0zl4u3q99XtnCaBNNX");
+        for (Element explanationElement : explanations) {
+            String explanation1 = explanationElement.select("div").text();
+            if (explanation1.contains("材质成分")) {
+                explanation += explanation1;
+                explanation = explanation + "\n";
+            }
+            if (explanation1.contains("面料")) {
+                explanation += explanation1;
+                explanation = explanation + "\n";
+            }
+
+        }
+        explanation = explanation +
+                "品番　:" + item.getItemCode() + "\n" + "\n" +
+                "素材　:" + "\n" + "\n" +
+                "原産国:中国" + "\n" + "\n" +
+                "カラー：" + value1 + "\n" + "\n" +
+                "サイズ(cm)：" + value2 + "\n" +
+                "☆詳細なサイズは写真のサイズ表を参考ください。" + "\n" + "\n" +
+                "※PC環境や撮影状況などの違いにより実際のお色とは若干異なる場合がございます。";
+
+        item.setExplanation(explanation);
         //获取带前页的URL
-        purchasingItem.setUrl(page.getUrl().nodes().get(0).toString());
-        purchasingItem.setImage("/images/itemphoto/" + purchasingItem.getItemCode() + ".jpg");
+        item.setUrl1(page.getUrl().nodes().get(0).toString());
+        item.setUrl5(page.getUrl().nodes().get(0).toString());
+        item.setImage("/images/itemphoto/" + item.getItemCode() + ".jpg");
         //未下载
-        purchasingItem.setFlog(0);
+        item.setFlog(5);
         //创建时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        purchasingItem.setCreated(now);
+        item.setCreated(now);
         //アップデート時間
-        purchasingItem.setUpdatetime(now);
+        item.setUpdatetime(now);
         //产品数据保存
-        page.putField("purchasingItem", purchasingItem);
+        page.putField("item", item);
         //主照片
         List<String> photoAll = new ArrayList<>();
         Elements imgs = jsoup.select("div.index-root-18be6rFhXn87nebHWkNwG1 img");
@@ -417,8 +437,12 @@ public class AddItemInfoUtil {
         //照片下载
         Map<String, Object> map = new HashMap<>();
         map.put("photoAll", photoAll);
-        map.put("itemCode", purchasingItem.getItemCode());
-        page.putField("purchasingItemhotPDownload", map);
+        map.put("itemCode", item.getItemCode());
+        page.putField("photoDownload", map);
+        //siteshopinfo保存
+        SiteShop siteShop = new SiteShop();
+        siteShop.setShopName(storeName);
+        page.putField("siteShop", siteShop);
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {

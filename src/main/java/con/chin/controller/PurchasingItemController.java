@@ -1,12 +1,15 @@
 package con.chin.controller;
 
+import com.github.pagehelper.PageInfo;
 import con.chin.pojo.Item;
 import con.chin.pojo.PurchasingItem;
+import con.chin.pojo.query.PurchasingItemQuery;
 import con.chin.service.PurchasingItemService;
 import con.chin.util.ItemInfoCsvExportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
@@ -19,8 +22,9 @@ public class PurchasingItemController {
     private PurchasingItemService purchasingItemService;
 
     @GetMapping("/showPurchasingItem")
-    public String showPurchasingItem() {
-
+    public String showPurchasingItem(Model model, PurchasingItemQuery purchasingItemQuery) {
+        PageInfo<PurchasingItem> purchasingItemQueryBySearchConditions = purchasingItemService.findPurchasingItemQueryBySearchConditions(purchasingItemQuery);
+        model.addAttribute("page",purchasingItemQueryBySearchConditions);
         return "purchasingItemInfo";
     }
 
@@ -37,16 +41,16 @@ public class PurchasingItemController {
             item.setItemName(purchasingItem.getItemName());
             item.setOption1(purchasingItem.getOption1());
             item.setValue1(purchasingItem.getValue1());
-            item.setOption1(purchasingItem.getOption2());
-            item.setValue1(purchasingItem.getValue2());
-            item.setOption1(purchasingItem.getOption3());
-            item.setValue1(purchasingItem.getValue3());
-            item.setOption1(purchasingItem.getOption4());
-            item.setValue1(purchasingItem.getValue4());
-            item.setOption1(purchasingItem.getOption5());
-            item.setValue1(purchasingItem.getValue5());
+            item.setOption2(purchasingItem.getOption2());
+            item.setValue2(purchasingItem.getValue2());
+            item.setOption3(purchasingItem.getOption3());
+            item.setValue3(purchasingItem.getValue3());
+            item.setOption4(purchasingItem.getOption4());
+            item.setValue4(purchasingItem.getValue4());
+            item.setOption5(purchasingItem.getOption5());
+            item.setValue5(purchasingItem.getValue5());
             item.setExplanation(purchasingItem.getExplanation());
-            item.setPurchasePrice(purchasingItem.getPurchasePrice1());
+            item.setSalePrice(purchasingItem.getPurchasePrice1());
             item.setHeadline(String.valueOf(purchasingItem.getPurchasePrice2()));
             itemList.add(item);
         }
@@ -57,6 +61,6 @@ public class PurchasingItemController {
         //结束时间
         long end = System.currentTimeMillis();
         System.out.println("中文产品导出!    总耗时：" + (end - start) + " ms");
-        return "iteminfo";
+        return "index";
     }
 }

@@ -1,5 +1,6 @@
 package con.chin.task;
 
+import con.chin.pojo.Item;
 import con.chin.util.FlogUtil;
 import con.chin.util.AddItemInfoUtil;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,6 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
