@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 @Component
@@ -61,8 +60,7 @@ public class ItemPhotoCopyUtil {
         File file = new File(filePath);
         //拷贝后的地址加文件名
 //        File file2 = new File(newPath + File.separator + folderName);
-        folderName = folderName.toLowerCase();
-        File file2 = new File("/Users/geng9516/Documents/EC関連/21_写真保存1/" + folderName);
+        File file2 = new File(newPath);
         //拷贝源中的所以文件
         File[] files = file.listFiles();
         try {
@@ -75,10 +73,8 @@ public class ItemPhotoCopyUtil {
                     if (!file2.exists()) {
                         file2.mkdir();
                     }
-
-                    String filename = file1.getName().toLowerCase();
                     //拷贝后的地址输出流
-                    fileOutputStream = new FileOutputStream(file2.getPath() + File.separator + filename);
+                    fileOutputStream = new FileOutputStream(file2.getPath() + File.separator + file1.getName());
                     // 一次复制1MB 设定
                     byte[] bytes = new byte[1024 * 1024];
                     int readCount = 0;
