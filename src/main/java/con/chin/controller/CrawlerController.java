@@ -263,9 +263,9 @@ public class CrawlerController {
     @GetMapping("/setDate")
     public String setDate() {
 //        List<Item> itemList1 = new ArrayList<>();
-        List<Item> itemList = new ArrayList<>();
-        itemList = itemService.findAll();
-//
+//        List<Item> itemList = new ArrayList<>();
+//        itemList = itemService.findAll();
+////
 //
 //        //开始时间
 //        long start = System.currentTimeMillis();
@@ -279,12 +279,13 @@ public class CrawlerController {
 //        long end = System.currentTimeMillis();
 //        System.out.println("更新アイテムインフォ!    总耗时：" + (end - start) + " ms");
 //        return "index";
-        List<String> stringList = new ArrayList<>();
-        for (Item item : itemList) {
-            String itemcode = item.getItemCode();
-            stringList.add(itemcode);
-        }
-        ItemPhotoCopyUtil.read(stringList);
+//        List<String> stringList = new ArrayList<>();
+//        for (Item item : itemList) {
+//            String itemcode = item.getItemCode();
+//            stringList.add(itemcode);
+//        }
+        List<String> stringList1 = ItemPhotoCopyUtil.read2();
+        DataExportUtil.exportItemCodeCsv(stringList1,"itemAll");
         return "index";
     }
 
