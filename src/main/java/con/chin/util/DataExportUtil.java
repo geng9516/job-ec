@@ -165,7 +165,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2
@@ -203,7 +203,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2
@@ -241,7 +241,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2
@@ -279,7 +279,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2
