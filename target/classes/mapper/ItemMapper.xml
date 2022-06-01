@@ -100,7 +100,8 @@
     <update id="updateItemByCsv">
 
         update t_item
-        set shopname=#{shopName},
+        set itempath   = #{itemPath},
+            shopname=#{shopName},
             itemname=#{itemName},
             price=#{price},
             salePrice=#{salePrice},
@@ -170,7 +171,7 @@
             <if test="shopName != null and shopName != ''">
                 and shopname = #{shopName}
             </if>
-            <if test="flog != null">
+            <if test="flog != null and flog != ''">
                 and flog = #{flog}
             </if>
 

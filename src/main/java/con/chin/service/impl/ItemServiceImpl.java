@@ -21,10 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,14 +48,14 @@ public class ItemServiceImpl implements ItemService {
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        if(item.getItemPath() != null){
+        if (item.getItemPath() != null) {
             //设置产品种类番号(条件はpathとサイト名)
             Map<String, String> map = new HashMap<>();
             map.put("itempath", item.getItemPath());
             map.put("shopName", item.getSiteName());
             Integer itemCategorCode = itemCategoryMapper.findItemCategoryByPath(map);
             item.setItemCategoryCode(itemCategorCode);
-        }else {
+        } else {
             item = SetDataUtil.setOptionAndValue(item);
         }
 
@@ -180,7 +177,7 @@ public class ItemServiceImpl implements ItemService {
         long end = System.currentTimeMillis();
         System.out.println("删除多个产品照片成功    总耗时：" + (end - start) + " ms");
         //导出删除产品的csv文件
-        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList,deleteCsvPath,"data_del");
+        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, deleteCsvPath, "data_del");
         //返回结果
         return res;
     }
@@ -387,13 +384,15 @@ public class ItemServiceImpl implements ItemService {
     //csv文件更新数据或追加数据
     @Override
     public int updateItemByCsv(Item item) {
+
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Item oldItem = itemMapper.findItemByItemCode(item);
         if (oldItem == null) {
             item.setUpdatetime(now);
-            String oldItemCode = now.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
-            item.setOldItemCode("E" + oldItemCode);
+            String itemCode = UUID.randomUUID().toString();
+            String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
+            item.setItemCode("l" + itemCode1);
             item.setFlog(0);
             item.setCreated(now);
             item.setEndDate("2099-12-31 23:59:59");
@@ -413,10 +412,6 @@ public class ItemServiceImpl implements ItemService {
         if (item.getItemCode() != null && !"".equals(item.getItemCode())) {
             oldItem.setItemCode(item.getItemCode());
         }
-
-//        if (item.getPrice() != null) {
-//            oldItem.setPrice(item.getPrice());
-//        }
 
         if (item.getSalePrice() != null) {
             oldItem.setSalePrice(item.getSalePrice());
@@ -503,7 +498,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public int setItemFlog(List<Item> itemList) {
-        if(itemList.size() > 0){
+        if (itemList.size() > 0) {
             int res = 0;
             for (Item item : itemList) {
                 //开始时间
@@ -534,8 +529,6 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> downloadFindItemBysearchConditions(String searchConditions) {
         return itemMapper.downloadFindItemBysearchConditions(searchConditions);
     }
-
-
 
 
 //---------------------------------------------------------------------------------------------------------

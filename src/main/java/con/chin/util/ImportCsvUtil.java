@@ -22,6 +22,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -338,11 +340,12 @@ public class ImportCsvUtil {
         List<Item> itemList1 = new ArrayList<>();
         List<String> itemCodoList = new ArrayList<>();
         for (int i = 1; i < rows.size(); i++) {
-
+            //为了判断是否数据有问题
+            Integer flog = null;
             Item item = new Item();
-
             List<String> rawList = rows.get(i).getRawList();
             for (String key : stringMap.keySet()) {
+
                 switch (key) {
                     case "path":
                         item.setItemPath(rawList.get(stringMap.get(key)));
@@ -363,7 +366,6 @@ public class ImportCsvUtil {
                         if (price == null || !FlogUtil.isInteger(price)) {
                             price = "0";
                         }
-                        item.setPrice(Integer.parseInt(price));
                         item.setSalePrice(Integer.parseInt(price));
                         break;
                     case "options":
@@ -384,6 +386,11 @@ public class ImportCsvUtil {
                         }
                         for (int t = 0; t < stringList.size(); t++) {
                             String optionAndValue = stringList.get(t);
+                            //数据有问题 没有[ ]时
+                            if (!optionAndValue.contains(" ")) {
+                                optionAndValue += " データに異常あり";
+                                flog = 0;
+                            }
                             String option = "";
                             try {
 
@@ -468,13 +475,13 @@ public class ImportCsvUtil {
                         break;
                 }
             }
-            //商品说明的长度过长
-//            if (item.getExplanation().length() > 700) {
-//                item.setExplanation("字数 " + item.getExplanation().length() + " 商品説明の長さが500を超えています。\n\n" + item.getExplanation());
-//                itemList1.add(item);
-//            } else {
-            itemList.add(item);
-//            }
+//            商品说明的长度过长
+            if (flog != null && flog == 0) {
+                item.setExplanation("字数 " + item.getExplanation().length() + " 商品説明の長さが500を超えています。\n\n" + item.getExplanation());
+                itemList1.add(item);
+            } else {
+                itemList.add(item);
+            }
         }
         //properties文件的名字取得
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);

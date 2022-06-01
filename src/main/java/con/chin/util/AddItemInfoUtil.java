@@ -46,6 +46,9 @@ public class AddItemInfoUtil {
         //path取得
         String path = Jsoup.parse(html.css("div.mdItemSubInformation div.elRowData li.elListItem").nodes().get(1).css("ul").toString()).text();
         path = path.replace(" ", ":");
+        if(path.contains("ベビー、キッズ、マタニティ:マタニティウエア:パンツ:、デニム")){
+            path = "ベビー、キッズ、マタニティ:マタニティウエア:パンツ、デニム";
+        }
         item.setItemPath(path);
         //产品名称
         String productName = html.css("div.mdItemName p.elName", "text").toString();

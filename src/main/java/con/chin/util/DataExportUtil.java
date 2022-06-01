@@ -114,7 +114,7 @@ public class DataExportUtil {
                         String optionCharge = null;
                         //追加金有的话
                         if (optionValue.contains("（+")) {
-                            optionCharge = optionValue.substring(optionValue.indexOf("+") + 1, optionValue.length() - 2);
+                            optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
                             optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                         }
                         //保存每一列的数据使用
@@ -127,7 +127,7 @@ public class DataExportUtil {
                         column[5] = "0"; //unselectable-1
                         column[6] = ""; //spec-id-1
                         column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge; //option-charge-1
+                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",",""); //option-charge-1
                         column[9] = ""; //option-name-2
                         column[10] = ""; //option-value-2
                         column[11] = ""; //spec-id-2

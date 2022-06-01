@@ -184,6 +184,7 @@ public class ItemInfoController {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
             //前端使用
             model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
+            model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
@@ -220,6 +221,12 @@ public class ItemInfoController {
 //            itemInfoQuery.setSearchConditions(searchConditions);
 //            httpSession.removeAttribute("searchConditions");
 //        }
+
+        //搜索关键字还存在时删除
+        String searchConditions = (String) httpSession.getAttribute("searchConditions");
+        if (searchConditions != null && searchConditions != "") {
+            httpSession.removeAttribute("searchConditions");
+        }
         //如果表示页数有修改的话,进行设定
         String pageSize = (String) httpSession.getAttribute("pageSize");
         if (pageSize != null && !"".equals(pageSize)) {
