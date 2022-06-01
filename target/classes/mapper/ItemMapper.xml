@@ -118,7 +118,8 @@
             value5=#{value5},
             headline=#{headline},
             url5=#{url5},
-            explanation=#{explanation},
+            url5=#{url5},
+            itemCategoryCode=#{itemCategoryCode},
             updatetime=#{updatetime},
             flog=#{flog}
         where itemCode = #{itemCode}
