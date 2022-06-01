@@ -468,8 +468,8 @@ public class ImportCsvUtil {
                         break;
                     case "product-category":
                         String productCategory = rawList.get(stringMap.get(key));
-                        if (productCategory == "null") {
-                            productCategory = "";
+                        if (productCategory == "null" || productCategory == "") {
+                            productCategory = "0";
                         }
                         item.setItemCategoryCode(Integer.parseInt(productCategory));
                         break;
