@@ -393,7 +393,7 @@ public class ItemServiceImpl implements ItemService {
             String itemCode = UUID.randomUUID().toString();
             String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
             item.setItemCode("l" + itemCode1);
-            item.setFlog(0);
+            item.setFlog(1);
             item.setCreated(now);
             item.setEndDate("2099-12-31 23:59:59");
             return itemMapper.saveItem(item);
