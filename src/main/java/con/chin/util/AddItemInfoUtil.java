@@ -46,7 +46,7 @@ public class AddItemInfoUtil {
         //path取得
         String path = Jsoup.parse(html.css("div.mdItemSubInformation div.elRowData li.elListItem").nodes().get(1).css("ul").toString()).text();
         path = path.replace(" ", ":");
-        if(path.contains("ベビー、キッズ、マタニティ:マタニティウエア:パンツ:、デニム")){
+        if (path.contains("ベビー、キッズ、マタニティ:マタニティウエア:パンツ:、デニム")) {
             path = "ベビー、キッズ、マタニティ:マタニティウエア:パンツ、デニム";
         }
         item.setItemPath(path);
@@ -289,18 +289,69 @@ public class AddItemInfoUtil {
              * Arg0：等待的时间长度，int 类型 ； Arg1：等待时间的单位 TimeUnit.SECONDS 一般用秒作为单位。
              */
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // 使用JavaScript的scrollTo方法和document.body.scrollHeight参数，将页面的滚动条华东到页面的最下方
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,document.body.scrollHeight)");
 
+        //下拉到页面1000位置
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
         try {
-            Thread.sleep(8000);
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //下拉到页面1000位置
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //下拉到页面1000位置
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //下拉到页面1000位置
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //下拉到页面1000位置
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //下拉到页面1000位置
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //下拉到页面1000位置
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
+        try {
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        // 使用JavaScript的scrollTo方法和document.body.scrollHeight参数，将页面的滚动条华东到页面的最下方
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(5000,document.body.scrollHeight)");
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //拿到整个页面
         String pageSource = driver.getPageSource();
@@ -348,7 +399,7 @@ public class AddItemInfoUtil {
             item.setPurchasePrice(Integer.parseInt(purchasePrice2));
             item.setPrice(Integer.parseInt(purchasePrice2));
             item.setSalePrice(Integer.parseInt(purchasePrice2));
-        }else {
+        } else {
             item.setPurchasePrice(Integer.parseInt(purchasePrice1));
             item.setPrice(Integer.parseInt(purchasePrice1));
             item.setSalePrice(Integer.parseInt(purchasePrice1));
@@ -408,12 +459,11 @@ public class AddItemInfoUtil {
 
         }
         explanation = explanation +
-                "品番　:" + item.getItemCode() + "\n" + "\n" +
                 "素材　:" + "\n" + "\n" +
                 "原産国:中国" + "\n" + "\n" +
                 "カラー：" + value1 + "\n" + "\n" +
-                "サイズ(cm)：" + value2 + "\n" +
-                "☆詳細なサイズは写真のサイズ表を参考ください。" + "\n" + "\n" +
+                "サイズ(cm)：" + value2 + "\n" + "\n" +
+                "☆詳細なサイズは写真のサイズ表を参考ください。" + "\n" +
                 "※PC環境や撮影状況などの違いにより実際のお色とは若干異なる場合がございます。";
 
         item.setExplanation(explanation);
@@ -441,295 +491,18 @@ public class AddItemInfoUtil {
         Map<String, Object> map = new HashMap<>();
         map.put("photoAll", photoAll);
         map.put("itemCode", item.getItemCode());
-        page.putField("photoDownload", map);
+        page.putField("purchasingItemhotPDownload", map);
         //siteshopinfo保存
         SiteShop siteShop = new SiteShop();
         siteShop.setShopName(storeName);
         page.putField("siteShop", siteShop);
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
     }
-
-    public static void saveVVICItemInfo(Page page) {
-
-        //获取chromeDriver
-//        WebDriver chromeDriver = ChromeDriverUtil.getFirefoxDriver();
-//        chromeDriver.get(page.getUrl().nodes().get(0).toString());
-//        try {
-//            /**
-//             * WebDriver自带了一个智能等待的方法。 dr.manage().timeouts().implicitlyWait(arg0, arg1）；
-//             * Arg0：等待的时间长度，int 类型 ； Arg1：等待时间的单位 TimeUnit.SECONDS 一般用秒作为单位。
-//             */
-//            chromeDriver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        // 新建一个action
-//        Actions action = new Actions(chromeDriver);
-//
-//        WebElement nc_1_n1z = chromeDriver.findElement(By.id("nc_1_n1z"));
-//        System.out.println(nc_1_n1z.toString());
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-////        action.clickAndHold(nc_1_n1z).perform();
-//
-//        action.dragAndDropBy(nc_1_n1z,338,0 ).perform();
-//
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
-        //获取内嵌div的位置 并设置滚动条移动的值
-//        WebElement waf_nc_wrapper = chromeDriver.findElement(By.id("WAF_NC_WRAPPER"));
-//        // 调用js方法
-//        ChromeDriverUtil.scrollTo(waf_nc_wrapper,chromeDriver);
-
-
-//        chromeDriver.quit();// 退出浏览器
-
-
-//        //解析页面
-//        Html html = page.getHtml();
-//
-//        //商品详情对象
-//        PurchasingItem purchasingItem = new PurchasingItem();
-//
-//        //サイト名
-//        purchasingItem.setSiteName("搜款网");
-//        //店铺名
-//        String storeName = "";
-//        List<Selectable> storeNameNodes = html.css("div.slzz-stall-head-name a").nodes();
-//        //店铺为实力制造
-//        if (storeNameNodes.size() > 0) {
-//            storeName = storeNameNodes.get(0).css("h1", "text").toString();
-//            //店铺为其他
-//        } else {
-//            storeNameNodes = html.css("div.stall-head-name a").nodes();
-//            storeName = storeNameNodes.get(0).css("h1", "text").toString();
-//        }
-//        //店铺名不为空
-//        if (storeName != null || !"".equals(storeName)) {
-//            //ショップ名
-//            purchasingItem.setShopName(storeName);
-//        }
-//        //新商品code
-//        String itemCode = UUID.randomUUID().toString();
-//        String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-//        purchasingItem.setItemCode("V" + itemCode1);
-//        //旧商品code
-//        String oldItemCode = html.css("div.detail-info div.detail-info-line").nodes().get(0).css("dd", "text").toString();
-//        purchasingItem.setOldItemCode(storeName + "-" + oldItemCode);
-//        //产品名称
-//        String productName = html.css("div.detail div.detail-name").css("h1", "text").toString();
-//        //把「"」去除
-//        productName = productName.replaceAll("\"", "").replaceAll("”", "");
-//        purchasingItem.setItemName(productName);
-//        //产品详情
-//        String explanation = "";
-//        List<Selectable> explanationNodes = html.css("div.right-side div.tab-content ul.attrs li").nodes();
-//        for (Selectable explanationNode : explanationNodes) {
-//            explanation += explanationNode.css("li", "text").toString();
-//            explanation = explanation + "\n";
-//        }
-//        //产品详情说明文
-//        List<Selectable> captionNodes = html.css("div.detail-desc").nodes();
-//        purchasingItem.setExplanation(explanation);
-//        //产品价格
-//        String purchasePrice = "";
-//        String price = html.css("div.detail-price dd", "text").nodes().get(0).toString();
-//        if (price.contains("-")) {
-//            purchasePrice = price.substring(price.indexOf("-") + 1, price.lastIndexOf(".")).trim();
-//        } else {
-//            purchasePrice = price.substring(0, price.lastIndexOf(".")).trim();
-//        }
-//        purchasingItem.setPurchasePrice(Integer.parseInt(purchasePrice));
-//        //option1和value1选项
-//        List<Selectable> option1Nodes = html.css("div.detail-info-line dl dt").nodes();
-//        String optionName1 = option1Nodes.get(2).css("dt", "text").toString();
-//        String value1 = "";
-//        List<Selectable> value1Nodes = html.css("div.detail-info-line dd.choice li").nodes();
-//        for (Selectable value1Node : value1Nodes) {
-//            //临时存储变量
-//            String value = "";
-//            // 追加料金ある場合
-//            if (price.contains("-")) {
-//                value = value1Node.css("a").toString();
-//                value1 += value.substring(value.lastIndexOf("=") + 2, value.lastIndexOf("\"")) + "追加料金あり" + " ";
-//                //ない場合
-//            } else {
-//                value1 += value1Node.css("a", "text").toString() + " ";
-//            }
-//        }
-//        //把最后的空格去除
-//        value1 = value1.substring(0, value1.lastIndexOf(" "));
-//        purchasingItem.setOption1(optionName1);
-//        purchasingItem.setValue1(value1);
-//        //option2和value2选项
-//        List<Selectable> option2Nodes = html.css("div.detail-info-row dl dt").nodes();
-//        String optionName2 = option2Nodes.get(0).css("dt", "text").toString();
-//        String value2 = "";
-//        for (Selectable explanationNode : explanationNodes) {
-//            //临时存储变量
-//            String value = "";
-//            value += explanationNode.css("li", "text").toString();
-//            if (value.contains("尺码") || value.contains("尺寸")) {
-//                value2 += value.substring(value.indexOf(":") + 1, value.length()) + " ";
-//            }
-//        }
-//        //把最后的空格去除 尺码为均码时改为[F]符号
-//        value2 = value2.substring(0, value2.lastIndexOf(" ")).replaceAll("均码","F");
-//        purchasingItem.setOption1(optionName2);
-//        purchasingItem.setValue1(value2);
-//
-//        //获取带前页的URL
-//        purchasingItem.setUrl1(page.getUrl().nodes().get(0).toString());
-//        purchasingItem.setImage("/images/itemphoto/" + purchasingItem.getItemCode() + ".jpg");
-//        //未下载
-//        purchasingItem.setFlog(0);
-//        //创建时间
-//        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        purchasingItem.setCreated(now);
-//        //アップデート時間
-//        purchasingItem.setUpdatetime(now);
-//        //产品数据保存
-//        page.putField("purchasingItem", purchasingItem);
-//        //主照片
-//        List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
-        //照片下载
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("photoAll", photoAll);
-//        map.put("itemCode", purchasingItem.getItemCode());
-//        page.putField("photoDownload", map);
-
-    }
-
-    //搜款网
-//    public static void saveVVICItemInfo(Page page) {
-//        //解析页面
-//        Html html = page.getHtml();
-//
-//        //商品详情对象
-//        PurchasingItem purchasingItem = new PurchasingItem();
-//
-//        //サイト名
-//        purchasingItem.setSiteName("搜款网");
-//        //店铺名
-//        String storeName = "";
-//        List<Selectable> storeNameNodes = html.css("div.slzz-stall-head-name a").nodes();
-//        //店铺为实力制造
-//        if (storeNameNodes.size() > 0) {
-//            storeName = storeNameNodes.get(0).css("h1", "text").toString();
-//            //店铺为其他
-//        } else {
-//            storeNameNodes = html.css("div.stall-head-name a").nodes();
-//            storeName = storeNameNodes.get(0).css("h1", "text").toString();
-//        }
-//        //店铺名不为空
-//        if (storeName != null || !"".equals(storeName)) {
-//            //ショップ名
-//            purchasingItem.setShopName(storeName);
-//        }
-//        //新商品code
-//        String itemCode = UUID.randomUUID().toString();
-//        String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-//        purchasingItem.setItemCode("V" + itemCode1);
-//        //旧商品code
-//        String oldItemCode = html.css("div.detail-info div.detail-info-line").nodes().get(0).css("dd", "text").toString();
-//        purchasingItem.setOldItemCode(storeName + "-" + oldItemCode);
-//        //产品名称
-//        String productName = html.css("div.detail div.detail-name").css("h1", "text").toString();
-//        //把「"」去除
-//        productName = productName.replaceAll("\"", "").replaceAll("”", "");
-//        purchasingItem.setItemName(productName);
-//        //产品详情
-//        String explanation = "";
-//        List<Selectable> explanationNodes = html.css("div.right-side div.tab-content ul.attrs li").nodes();
-//        for (Selectable explanationNode : explanationNodes) {
-//            explanation += explanationNode.css("li", "text").toString();
-//            explanation = explanation + "\n";
-//        }
-//        //产品详情说明文
-//        List<Selectable> captionNodes = html.css("div.detail-desc").nodes();
-//        purchasingItem.setExplanation(explanation);
-//        //产品价格
-//        String purchasePrice = "";
-//        String price = html.css("div.detail-price dd", "text").nodes().get(0).toString();
-//        if (price.contains("-")) {
-//            purchasePrice = price.substring(price.indexOf("-") + 1, price.lastIndexOf(".")).trim();
-//        } else {
-//            purchasePrice = price.substring(0, price.lastIndexOf(".")).trim();
-//        }
-//        purchasingItem.setPurchasePrice(Integer.parseInt(purchasePrice));
-//        //option1和value1选项
-//        List<Selectable> option1Nodes = html.css("div.detail-info-line dl dt").nodes();
-//        String optionName1 = option1Nodes.get(2).css("dt", "text").toString();
-//        String value1 = "";
-//        List<Selectable> value1Nodes = html.css("div.detail-info-line dd.choice li").nodes();
-//        for (Selectable value1Node : value1Nodes) {
-//            //临时存储变量
-//            String value = "";
-//            // 追加料金ある場合
-//            if (price.contains("-")) {
-//                value = value1Node.css("a").toString();
-//                value1 += value.substring(value.lastIndexOf("=") + 2, value.lastIndexOf("\"")) + "追加料金あり" + " ";
-//                //ない場合
-//            } else {
-//                value1 += value1Node.css("a", "text").toString() + " ";
-//            }
-//        }
-//        //把最后的空格去除
-//        value1 = value1.substring(0, value1.lastIndexOf(" "));
-//        purchasingItem.setOption1(optionName1);
-//        purchasingItem.setValue1(value1);
-//        //option2和value2选项
-//        List<Selectable> option2Nodes = html.css("div.detail-info-row dl dt").nodes();
-//        String optionName2 = option2Nodes.get(0).css("dt", "text").toString();
-//        String value2 = "";
-//        for (Selectable explanationNode : explanationNodes) {
-//            //临时存储变量
-//            String value = "";
-//            value += explanationNode.css("li", "text").toString();
-//            if (value.contains("尺码") || value.contains("尺寸")) {
-//                value2 += value.substring(value.indexOf(":") + 1, value.length()) + " ";
-//            }
-//        }
-//        //把最后的空格去除 尺码为均码时改为[F]符号
-//        value2 = value2.substring(0, value2.lastIndexOf(" ")).replaceAll("均码","F");
-//        purchasingItem.setOption1(optionName2);
-//        purchasingItem.setValue1(value2);
-//
-//        //获取带前页的URL
-//        purchasingItem.setUrl1(page.getUrl().nodes().get(0).toString());
-//        purchasingItem.setImage("/images/itemphoto/" + purchasingItem.getItemCode() + ".jpg");
-//        //未下载
-//        purchasingItem.setFlog(0);
-//        //创建时间
-//        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        purchasingItem.setCreated(now);
-//        //アップデート時間
-//        purchasingItem.setUpdatetime(now);
-//        //产品数据保存
-//        page.putField("purchasingItem", purchasingItem);
-//        //主照片
-//        List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
-//        //照片下载
-////        Map<String, Object> map = new HashMap<>();
-////        map.put("photoAll", photoAll);
-////        map.put("itemCode", purchasingItem.getItemCode());
-////        page.putField("photoDownload", map);
-//
-//    }
-
 
 }
 

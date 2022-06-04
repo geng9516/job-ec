@@ -73,7 +73,7 @@ public class ItemInfoController {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
         } else {
             httpSession.setAttribute("flog", String.valueOf(1));
-            itemInfoQuery.setFlog(1);
+//            itemInfoQuery.setFlog(1);
         }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
@@ -664,7 +664,7 @@ public class ItemInfoController {
     public String setFlogToEdit(HttpSession httpSession) {
 
         List<Item> itemList = new ArrayList<>();
-        List<Item> newDownloadedList = itemService.findNewDownloaded(0);
+        List<Item> newDownloadedList = itemService.findNewDownloaded(2);
         for (Item item : newDownloadedList) {
             item.setFlog(1);
             itemList.add(item);

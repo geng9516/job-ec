@@ -172,8 +172,11 @@
             <if test="shopName != null and shopName != ''">
                 and shopname = #{shopName}
             </if>
-            <if test="flog != null and flog != ''">
+            <if test="flog != null">
                 and flog = #{flog}
+            </if>
+            <if test="flog == null">
+                and flog != 3
             </if>
 
         </where>

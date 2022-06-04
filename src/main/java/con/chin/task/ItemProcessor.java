@@ -100,7 +100,7 @@ public class ItemProcessor implements PageProcessor {
                 //商品详情页
             } else {
                 //搜款网
-                AddItemInfoUtil.saveVVICItemInfo(page);
+//                AddItemInfoUtil.saveVVICItemInfo(page);
             }
 
         } else if (flog == 3) {
