@@ -135,18 +135,19 @@ public class ItemPhotoCopyUtil {
         if (file.exists()) {
             File[] files = file.listFiles();
             if (files.length == 0) {
-//                System.out.println("ファイルが存在しません。");
+                System.out.println("ファイルが存在しません。");
             } else {
                 //文件夹下存在文件时
                 for (File file1 : files) {
                     //是一个文件夹
                     if (file1.isDirectory()) {
-                        checkFileExitst2(file1.getAbsolutePath());
+//                        checkFileExitst2(file1.getAbsolutePath());
+                        stringList2.add(file1.getName().replaceAll(".jpg", ""));
                     } else {
                         if (file1.getName().contains("_")) {
                             continue;
                         } else {
-                            stringList2.add(file1.getName().replaceAll(".jpg", ""));
+//                            stringList2.add(file1.getName().replaceAll(".jpg", ""));
                         }
                     }
                 }
@@ -204,11 +205,17 @@ public class ItemPhotoCopyUtil {
         //把文件路径的文件价抽象化
         File file = new File(filePath);
         //调用拷贝方法 传入filepath
-        for (File listFile : file.listFiles()) {
-            if (listFile.isFile()) {
-                listFile.delete();
+        File[] files = file.listFiles();
+        if (files == null) {
+            System.out.println("产品ID为  " + file.getName() + "  没有照片");
+        } else {
+            for (File listFile : file.listFiles()) {
+                if (listFile.isFile()) {
+                    listFile.delete();
+                }
             }
         }
+
         file.delete();
         //结束时间
         long end = System.currentTimeMillis();
