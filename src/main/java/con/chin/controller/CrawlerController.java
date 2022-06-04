@@ -273,15 +273,16 @@ public class CrawlerController {
         long start = System.currentTimeMillis();
         List<String> stringList = new ArrayList<>();
         int i = 0;
-        for (Item item : itemList) {
-            for (String s : stringList1) {
-                int flog = 0;
+        int flog = 0;
+        for (String s : stringList1) {
+            for (Item item : itemList) {
                 if (item.getItemCode().equalsIgnoreCase(s)) {
-                    flog = 1;
+                    flog += 1;
+                    continue;
                 }
-                if(flog == 0){
-                    stringList.add(s);
-                }
+            }
+            if (flog == 0) {
+                stringList.add(s);
             }
             System.out.println(i++ + " 件比較完了");
         }
