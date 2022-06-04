@@ -8,6 +8,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
@@ -283,6 +285,7 @@ public class AddItemInfoUtil {
         //获取chromeDriver
         WebDriver driver = ChromeDriverUtil.getChromeDriver();
         driver.get(page.getUrl().nodes().get(0).toString());
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         try {
             /**
              * WebDriver自带了一个智能等待的方法。 dr.manage().timeouts().implicitlyWait(arg0, arg1）；
@@ -293,62 +296,32 @@ public class AddItemInfoUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //下拉到页面1000位置
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //下拉到页面1000位置
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //下拉到页面1000位置
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //下拉到页面1000位置
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //下拉到页面1000位置
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //下拉到页面1000位置
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //下拉到页面1000位置
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,500)");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i =0;i<=10;i++){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //下拉到页面1000位置
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,1000000)");
         }
 
         // 使用JavaScript的scrollTo方法和document.body.scrollHeight参数，将页面的滚动条华东到页面的最下方
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(5000,document.body.scrollHeight)");
+//        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,document.body.scrollHeight)");
+
+//        Long last_height = (Long) ((JavascriptExecutor) driver).executeScript("return document.documentElement.scrollHeight");
+//        long height = last_height / 10;
+//        for (int i = 0; i < 10; i++) {
+//            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + height + ")");
+////            Long new_height = (Long) ((JavascriptExecutor) driver).executeScript("return document.documentElement.scrollHeight");
+////            if(new_height == last_height){
+////                break;
+////            }
+//
+//        }
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -456,6 +429,10 @@ public class AddItemInfoUtil {
                 explanation += explanation1;
                 explanation = explanation + "\n";
             }
+            if (explanation1.contains("材质")) {
+                explanation += explanation1;
+                explanation = explanation + "\n";
+            }
 
         }
         explanation = explanation +
@@ -496,11 +473,7 @@ public class AddItemInfoUtil {
         SiteShop siteShop = new SiteShop();
         siteShop.setShopName(storeName);
         page.putField("siteShop", siteShop);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
     }
 

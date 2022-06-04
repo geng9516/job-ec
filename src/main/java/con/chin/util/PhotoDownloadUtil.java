@@ -94,6 +94,9 @@ public class PhotoDownloadUtil {
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
         //IMG照片下载地址取得
         String itemIMG = bundle.getString("ITEM-IMG");
+        if("".equals(itemIMG)){
+            return;
+        }
 
         InputStream inputStream = null;
         OutputStream outputStream = null;

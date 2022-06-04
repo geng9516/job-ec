@@ -350,11 +350,25 @@ public class ItemInfoController {
     @GetMapping("/setItemFlogToEdit")
     public String setItemFlogToEdit(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 
+        //编辑状态
+        String flog = (String) httpSession.getAttribute("flog");
+
         List<Item> itemList = new ArrayList<>();
-        Item item = new Item();
-        item.setItemCode(itemCode);
-        item.setFlog(0);
-        itemList.add(item);
+        if (flog != null && !"".equals(flog)) {
+            if(flog == "3"){
+                Item item = new Item();
+                item.setItemCode(itemCode);
+                item.setFlog(1);
+                itemList.add(item);
+            }else if(flog == "5"){
+                Item item = new Item();
+                item.setItemCode(itemCode);
+                item.setFlog(0);
+                itemList.add(item);
+            }
+
+        }
+
         //调用修改flog方法
         int res = itemService.setItemFlog(itemList);
         System.out.println("状态修改完成");
@@ -571,7 +585,6 @@ public class ItemInfoController {
         return "redirect:/iteminfo?pageNum=" + 1;
     }
 
-
     //修改值
     @PostMapping("/setItemInfo")
     public String setItemInfo(
@@ -661,13 +674,20 @@ public class ItemInfoController {
     }
 
     @GetMapping("/setFlogToEdit")
-    public String setFlogToEdit(HttpSession httpSession) {
+    public String setFlogToEdit(HttpSession httpSession, @RequestParam("editFlog") Integer flog) {
 
         List<Item> itemList = new ArrayList<>();
-        List<Item> newDownloadedList = itemService.findNewDownloaded(2);
+        List<Item> newDownloadedList = itemService.findNewDownloaded(flog);
         for (Item item : newDownloadedList) {
-            item.setFlog(1);
-            itemList.add(item);
+            //需要修改的是为下载的产品时
+            if (flog == 0) {
+                item.setFlog(1);
+                itemList.add(item);
+                //需要修改的是为中文的产品时
+            } else if (flog == 5) {
+                item.setFlog(0);
+                itemList.add(item);
+            }
         }
         itemService.setItemFlog(itemList);
         //从session中把pageNum取得
@@ -789,7 +809,6 @@ public class ItemInfoController {
 
         return "redirect:/iteminfo?pageNum=" + 1;
     }
-
 
 
 }

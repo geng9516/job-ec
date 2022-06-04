@@ -196,13 +196,17 @@
                                              onclick="setDeleteItems()">削除準備</button>
                                 <a th:href="@{/selectItemByNewDownloaded}"><button
                                         class="ui button mini ui-corner-left blue">未ダウンロード分</button></a>
-                                <a th:href="@{/setFlogToEdit}"><button
+                                <a th:href="@{/setFlogToEdit(editFlog=${0})}"><button
                                         class="ui button mini ui-corner-left red">全チェック</button></a>
                         </span>
                         <span th:case="${3}">
                             &emsp;<button class="ui button mini ui-corner-left teal"
                                           onclick="setItemsFlogToEdit()">一括戻す</button>
                             <button class="ui button mini ui-corner-left red" onclick="deleteItems()">一括削除</button>
+                        </span>
+                        <span th:case="${5}">
+                            <button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
+                            <a th:href="@{/setFlogToEdit(editFlog=${5})}"><button class="ui button mini ui-corner-left red">編集済</button></a>
                         </span>
                          <span th:case="*">
                             &emsp;<button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
@@ -275,6 +279,11 @@
                             <span th:case="3">
                                 <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()})}"
                                    class="ui button mini teal">戻す
+                                </a>
+                            </span>
+                            <span th:case="5">
+                                <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()})}"
+                                   class="ui button mini teal">未ダウンロードへ
                                 </a>
                             </span>
                             <span th:case="*">

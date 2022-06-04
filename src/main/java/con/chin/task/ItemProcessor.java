@@ -144,7 +144,7 @@ public class ItemProcessor implements PageProcessor {
 //                page.addTargetRequest(url1);
                 //商品详情页
             } else {
-                //搜款网
+                //17网
                 AddItemInfoUtil.save17zwdItemInfo(page);
             }
         } else {
