@@ -281,6 +281,7 @@ public class CrawlerController {
                     continue;
                 }
             }
+
             if (flog == 0) {
                 stringList.add(s);
             }
