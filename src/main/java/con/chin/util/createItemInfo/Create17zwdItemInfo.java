@@ -97,7 +97,7 @@ public class Create17zwdItemInfo {
         //产品名称
         String productName = jsoup.select("div.index-titleBox-25FtwMm1mlJ1I5-D4fNk4A span").text();
         //把「"」去除
-        productName = productName.replaceAll("\"", "").replaceAll("”", "");
+        productName = productName.replaceAll("\"", "").replaceAll("”", "").replaceAll(" ","").replaceAll("　","");
         item.setItemName(productName);
         //产品价格
         String purchasePrice1 = "";

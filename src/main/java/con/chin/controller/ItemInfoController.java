@@ -11,6 +11,7 @@ import con.chin.service.*;
 import con.chin.util.DataExportUtil;
 import con.chin.util.ItemPhotoCopyUtil;
 import con.chin.util.ItemInfoCsvExportUtil;
+import con.chin.util.SetDataUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -626,22 +627,8 @@ public class ItemInfoController {
 
         //条件设置
         Config config = new Config();
-        //调用查询送料方法
-        //如果headline有值的话
-        if (headline != "") {
-            //把大写的空格改为小写的
-            headline = headline.replaceAll("　", " ");
-            item.setHeadline(headline);
-            flog++;
-        }
-        if (itemName != "") {
-            //把大写的空格改为小写的
-            itemName = itemName.replaceAll("　", " ");
-            item.setItemName(itemName);
-            flog++;
-        }
-
         //编辑状态
+        String explanationKeyword = "";
         String itemFlog = (String) httpSession.getAttribute("flog");
         if (itemFlog != null && !"".equals(itemFlog) && "5".equals(itemFlog) && itemPath != null && itemPath != "") {
             //设置产品种类番号(条件はpathとサイト名)
@@ -653,15 +640,42 @@ public class ItemInfoController {
             ItemKeyword itemKeyword = new ItemKeyword();
             itemKeyword.setProductCategory(itemPath);
             List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
-            String explanationKeyword = "";
             for (ItemKeyword keyword : itemKeyword1) {
                 explanationKeyword += keyword.getKeyword() + " ";
             }
-            if(!explanation.contains("関連キーワード")){
+            if (!explanation.contains("関連キーワード")) {
                 explanation = explanation + "\n" + "\n" +
                         "■関連キーワード：" + "\n" +
                         explanationKeyword;
             }
+        }
+        //产品名字
+        if (itemName != "" && !itemName.contains(" ")) {
+            itemName = explanationKeyword;
+            //把大写的空格改为小写的
+            itemName = itemName.replaceAll("　", " ");
+            item.setItemName(itemName);
+            flog++;
+        } else if (itemName != "") {
+            //把大写的空格改为小写的
+            itemName = itemName.replaceAll("　", " ");
+            item.setItemName(itemName);
+            flog++;
+        }
+        //如果headline有值的话
+        if (headline != "") {
+            //把大写的空格改为小写的
+            headline = headline.replaceAll("　", " ");
+            item.setHeadline(headline);
+            flog++;
+        }else {
+            headline = explanationKeyword.replaceAll("　", " ");
+
+            if (headline.length() > 30 && headline.contains(" ")) {
+                //把产品名称的长度调整
+                headline = SetDataUtil.setStrLength(headline, 30);
+            }
+            item.setHeadline(headline);
         }
         //商品情報
         if (explanation != "") {

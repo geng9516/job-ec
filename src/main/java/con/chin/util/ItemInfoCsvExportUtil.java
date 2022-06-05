@@ -4,6 +4,8 @@ import cn.hutool.core.text.csv.CsvUtil;
 import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
 import con.chin.pojo.Item;
+import con.chin.pojo.ItemKeyword;
+import con.chin.service.ItemKeywordService;
 import con.chin.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +35,9 @@ public class ItemInfoCsvExportUtil {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private ItemKeywordService itemKeywordService;
 
     private static String FILENAME;
 
@@ -68,9 +73,9 @@ public class ItemInfoCsvExportUtil {
             if (file == null) {
                 file.mkdir();
             }
-            if(fileName.equals("chineseEdit")){
+            if (fileName.equals("chineseEdit")) {
                 writer = CsvUtil.getWriter(file, CharsetUtil.CHARSET_UTF_8, true);
-            }else {
+            } else {
 
                 writer = CsvUtil.getWriter(file, Charset.forName("Shift-JIS"));
             }
@@ -105,16 +110,54 @@ public class ItemInfoCsvExportUtil {
                     itemList1.add(item);
                     continue;
                 }
+
+                //metaDesc
+                ItemKeyword itemKeyword = new ItemKeyword();
+                itemKeyword.setProductCategory(item.getItemPath());
+                List<ItemKeyword> itemKeyword1 = exportItemInfoCsvUtil.itemKeywordService.findGoodItemKeyword(itemKeyword);
+                String metaDesc = "";
+                for (ItemKeyword keyword : itemKeyword1) {
+                    metaDesc += keyword.getKeyword() + " ";
+                }
+                if (metaDesc != null) {
+                    metaDesc = metaDesc.replaceAll("　", " ");
+
+                    if (metaDesc.length() > 80 && metaDesc.contains(" ")) {
+                        //把产品名称的长度调整
+                        metaDesc = SetDataUtil.setStrLength(metaDesc, 80);
+                    }
+                } else {
+                    metaDesc = item.getItemName();
+                }
                 //产品名修改
                 String itemName = item.getItemName();
                 //把产品名字中的全角空格去除
-                if (itemName != null) {
+                if (itemName != null && !itemName.contains(" ")) {
+                    itemName = metaDesc.replaceAll("　", " ");
+
+                    if (itemName.length() > 70 && itemName.contains(" ")) {
+                        //把产品名称的长度调整
+                        itemName = SetDataUtil.setStrLength(itemName, 70);
+                    }
+                } else if (itemName != null) {
                     itemName = itemName.replaceAll("　", " ");
 
                     if (itemName.length() > 70 && itemName.contains(" ")) {
                         //把产品名称的长度调整
                         itemName = SetDataUtil.setStrLength(itemName, 70);
                     }
+                }
+                //headline
+                String headline = "";
+                if (item.getHeadline() == null || item.getHeadline() == "") {
+                    headline = metaDesc.replaceAll("　", " ");
+
+                    if (headline.length() > 30 && headline.contains(" ")) {
+                        //把产品名称的长度调整
+                        headline = SetDataUtil.setStrLength(headline, 30);
+                    }
+                } else {
+                    headline = item.getHeadline();
                 }
                 //おすすめ商品 relevant-links
                 String relevantLinks = SetDataUtil.getRelevantLinks(item.getItemPath());
@@ -180,14 +223,14 @@ public class ItemInfoCsvExportUtil {
                 string[4] = String.valueOf(price);     //通常販売価格 price
                 string[5] = String.valueOf(memberPrice);    //プレミアム価格
                 string[6] = options;     //オプション options
-                string[7] = (item.getHeadline() == null || item.getHeadline() == "" ? "" : item.getHeadline());      //キャッチコピー headline
+                string[7] = headline;      //キャッチコピー headline
 //                string[7] = (item.getCaption() != null ? item.getCaption() : "");//商品の説明文 caption
                 string[8] = "";
                 string[9] = item.getExplanation();     //商品情報 explanation 暂时不用
                 string[10] = (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "");      //おすすめ商品 relevant-links
                 string[11] = "1";      //課税対象 taxable
                 string[12] = "1";     //ポイント倍率 point-code
-                string[13] = itemName;//meta-desc META descriptionには、商品ページに関連するストアのキーワードや説明文を、全角80文字（半角160文字）以内で入力します。HTMLは使用できません。この項目に入力した文言は、さまざまな検索サイトでの検索結果の表示に使用されます。
+                string[13] = metaDesc;//meta-desc META descriptionには、商品ページに関連するストアのキーワードや説明文を、全角80文字（半角160文字）以内で入力します。HTMLは使用できません。この項目に入力した文言は、さまざまな検索サイトでの検索結果の表示に使用されます。
                 string[14] = "IT02";      //使用中のテンプレート template
                 string[15] = "";     //購入数制限 sale-limit
                 string[16] = "3";      //送料無料の設定 delivery
