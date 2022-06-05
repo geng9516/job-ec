@@ -160,12 +160,12 @@ public class ItemPhotoCopyUtil {
     }
 
     //产品照片删除
-    public static void read3(List<String> itemCodeList) {
+    public static void read3(List<String> itemCodeList, String filePath) {
 
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
         //从propertied文件中照片读取地址取得
-        String itemphotoPath = bundle.getString("ITEMPHOTO");
-        File file = new File(itemphotoPath);
+//        String itemphotoPath = bundle.getString("ITEMPHOTO");
+        File file = new File(filePath);
         //IMG照片下载地址取得
         String itemIMGPath = bundle.getString("ITEM-IMG");
         File file1 = new File(itemIMGPath);
@@ -187,13 +187,16 @@ public class ItemPhotoCopyUtil {
                     deleteItemPhotos(fileItemPhoto.getPath(), itemCode);
                 }
             }
-
-            for (File fileItemIMG : fileItemIMGs) {
-                String imgName = fileItemIMG.getName();
-                imgName = imgName.replaceAll(".jpg", "");
-                if (itemCode.equals(imgName)) {
-                    //删除itemIMG
-                    fileItemIMG.delete();
+            if (fileItemIMGs == null || fileItemIMGs.length < 0) {
+                continue;
+            } else {
+                for (File fileItemIMG : fileItemIMGs) {
+                    String imgName = fileItemIMG.getName();
+                    imgName = imgName.replaceAll(".jpg", "");
+                    if (itemCode.equals(imgName)) {
+                        //删除itemIMG
+                        fileItemIMG.delete();
+                    }
                 }
             }
         }

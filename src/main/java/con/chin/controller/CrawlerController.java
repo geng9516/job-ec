@@ -84,14 +84,24 @@ public class CrawlerController {
         return "redirect:/";
     }
 
+    //csv保存パス
     @Value("${ITEMCSVPATH}")
     private String itemCsvPath;
+
+    //写真保存パス
+    @Value("${ITEMPHOTO}")
+    private String itemPhoto;
+
+    //中国語写真保存パス
+    @Value("${ITEMPHOTO2}")
+    private String itemPhoto2;
 
     //根据产品ID下载csv 和删除
     @PostMapping("/putItemInfo")
     public String putItemInfo(RedirectAttributes redirectAttributes,
                               @RequestParam("itemCodes") String itemCodes,
-                              @RequestParam("frequency") String frequency
+                              @RequestParam("frequency") String frequency,
+                              HttpSession httpSession
 
     ) {
         List<String> stringList = new ArrayList<>();
@@ -173,7 +183,7 @@ public class CrawlerController {
                 long start = System.currentTimeMillis();
                 //产品照片拷贝
                 System.out.println("照片删除执行开始");
-                ItemPhotoCopyUtil.read3(stringList);
+                ItemPhotoCopyUtil.read3(stringList, itemPhoto);
                 System.out.println("照片删除执行结束");
                 //结束时间
                 long end = System.currentTimeMillis();
@@ -244,7 +254,7 @@ public class CrawlerController {
 
     //把制作好的照片的产品ID取得
     @PostMapping("/filePath")
-    public String filePath(Model model) {
+    public String filePath(Model model, HttpSession httpSession) {
 
         List<String> itemCodeList = new ArrayList<>();
 
@@ -287,7 +297,7 @@ public class CrawlerController {
             }
             System.out.println(i++ + " 件比較完了");
         }
-        ItemPhotoCopyUtil.read3(stringList);
+        ItemPhotoCopyUtil.read3(stringList, itemPhoto);
 //        DataExportUtil.exportItemCodeCsv(stringList,"not");
 //        DataExportUtil.exportItemCodeCsv(stringList1, "itemAll");
         //结束时间

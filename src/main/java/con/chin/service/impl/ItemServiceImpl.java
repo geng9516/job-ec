@@ -39,6 +39,9 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private OrderItemInfoMapper orderItemInfoMapper;
 
+    @Autowired
+    private HttpSession httpSession;
+
     //保存产品和更新
     @Override
     public int saveItem(Item item) {
@@ -141,6 +144,14 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.findAll();
     }
 
+    //写真保存パス
+    @Value("${ITEMPHOTO}")
+    private String itemPhoto;
+
+    //中国語写真保存パス
+    @Value("${ITEMPHOTO2}")
+    private String itemPhoto2;
+
     //删除产品
     @Override
     public int deleteItem(Item item) {
@@ -150,7 +161,7 @@ public class ItemServiceImpl implements ItemService {
         //开始时间
         long start = System.currentTimeMillis();
         //调用删除照片方法
-        ItemPhotoCopyUtil.read3(stringList);
+        ItemPhotoCopyUtil.read3(stringList, itemPhoto);
         //结束时间
         long end = System.currentTimeMillis();
         System.out.println("产品code为: " + item.getItemCode() + " 的产品删除成功    耗时：" + (end - start) + " ms");
@@ -172,7 +183,9 @@ public class ItemServiceImpl implements ItemService {
         //开始时间
         long start = System.currentTimeMillis();
         //删除照片
-        ItemPhotoCopyUtil.read3(itemCodeList);
+        //调用删除照片方法
+        ItemPhotoCopyUtil.read3(itemCodeList, itemPhoto);
+//        ItemPhotoCopyUtil.read3(itemCodeList);
         //结束时间
         long end = System.currentTimeMillis();
         System.out.println("删除多个产品照片成功    总耗时：" + (end - start) + " ms");
