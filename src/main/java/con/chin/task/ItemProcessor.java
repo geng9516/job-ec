@@ -3,6 +3,9 @@ package con.chin.task;
 import con.chin.pojo.Item;
 import con.chin.util.FlogUtil;
 import con.chin.util.AddItemInfoUtil;
+import con.chin.util.createItemInfo.Create17zwdItemInfo;
+import con.chin.util.createItemInfo.CreateBao66ItemInfo;
+import con.chin.util.createItemInfo.CreateYahooItemInfo;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -53,21 +56,8 @@ public class ItemProcessor implements PageProcessor {
                     page.addTargetRequest(elNext);
                     //商品详情页
                 } else {
-//                Html html = page.getHtml();
-//                String ss = html.css(".mdReviewSummary a.elReviewLink span.elReviewCount").nodes().get(0).css("span","text").toString();
-//
-//                Pattern p = Pattern.compile("[^\\d]+([\\d]+)[^\\d]+.*");
-//                Matcher m = p.matcher(ss);
-//                boolean result = m.find();
-//                String find_result = null;
-//                if (result) {
-//                    find_result = m.group(1);  index-root-3VyZeKiLpbFzvshaPtcspE  index-root-3VyZeKiLpbFzvshaPtcspE
-//                }
-//                String elReviewValue = html.css(".mdReviewSummary a.elReviewLink span.elReviewCount").nodes().get(0).css("span","text").toString();
-//                Integer elReviewCount = Integer.parseInt(find_result);
-//                if(elReviewCount > 0 && elReviewCount != null){
                     //yahoo
-                    AddItemInfoUtil.saveYahooItemInfo(page);
+                    CreateYahooItemInfo.saveYahooItemInfo(page);
 //                }
                 }
             }
@@ -145,10 +135,25 @@ public class ItemProcessor implements PageProcessor {
                 //商品详情页
             } else {
                 //17网
-                AddItemInfoUtil.save17zwdItemInfo(page);
+                Create17zwdItemInfo.save17zwdItemInfo(page);
             }
-        } else {
-            return;
+            //包牛牛
+        } else if (flog == 4) {
+
+//            //获取商品一览URL
+//            List<String> listUrl = page.getHtml().css("div.index-root-DKlVY8VJwC33q3o3t_8eM a").links().all();
+//            //如果是大于0的话就是商品一览
+//            if (listUrl.size() > 0) {
+//                for (String url1 : listUrl) {
+//                    //把商品详情页加入任务
+//                    page.addTargetRequest(url1);
+//                }
+//            } else {
+            //17网
+            CreateBao66ItemInfo.saveBao66ItemInfo(page);
+//            }
+//        } else {
+//            return;
         }
     }
 

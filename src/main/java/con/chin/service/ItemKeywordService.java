@@ -18,5 +18,7 @@ public interface ItemKeywordService {
 
     void updateItemKeywordCount(ItemKeyword itemKeyword);
 
+    List<ItemKeyword> findGoodItemKeyword(ItemKeyword itemKeyword);
+
 
 }

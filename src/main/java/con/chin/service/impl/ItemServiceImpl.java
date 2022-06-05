@@ -205,18 +205,25 @@ public class ItemServiceImpl implements ItemService {
         } else if (oldItem.getItemName() != null && oldItem.getItemName() != "") {
             flog++;
         }
-        //进货价
+        //
         if (item.getItemPath() != null) {
             oldItem.setItemPath(item.getItemPath());
             flog++;
-        } else if (oldItem.getPurchasePrice() != null) {
+        } else if (oldItem.getItemPath() != null) {
             flog++;
         }
-        //送料
+        //
+        if (item.getItemCategoryCode() != null) {
+            oldItem.setItemCategoryCode(item.getItemCategoryCode());
+            flog++;
+        } else if (oldItem.getItemCategoryCode() != null) {
+            flog++;
+        }
+        //
         if (item.getExplanation() != null) {
             oldItem.setExplanation(item.getExplanation());
             flog++;
-        } else if (oldItem.getDelivery() != null) {
+        } else if (oldItem.getExplanation() != null) {
             flog++;
         }
         //卖价
@@ -247,17 +254,37 @@ public class ItemServiceImpl implements ItemService {
         } else if (oldItem.getUrl3() != null && oldItem.getUrl3() != "") {
             flog++;
         }
+        if (item.getOption1() != null && item.getOption1() != "") {
+            oldItem.setOption1(item.getOption1());
+            oldItem.setValue1(item.getValue1());
+        }
+        if (item.getOption2() != null && item.getOption2() != "") {
+            oldItem.setOption2(item.getOption2());
+            oldItem.setValue2(item.getValue2());
+        }
+        if (item.getOption3() != null && item.getOption3() != "") {
+            oldItem.setOption3(item.getOption3());
+            oldItem.setValue3(item.getValue3());
+        }
+        if (item.getOption4() != null && item.getOption4() != "") {
+            oldItem.setOption4(item.getOption4());
+            oldItem.setValue4(item.getValue4());
+        }
+        if (item.getOption5() != null && item.getOption5() != "") {
+            oldItem.setOption5(item.getOption5());
+            oldItem.setValue5(item.getValue5());
+        }
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         //如果是flog>=10并且产品还未失效的话就属于编辑完成  产品是否属于编辑
-        if (flog >= 4 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
-            oldItem.setFlog(2);
-            oldItem.setUpdatetime(now);
-            return itemMapper.setItemSalePrice(oldItem);
-        } else {
-            oldItem.setUpdatetime(now);
-            return itemMapper.setItemSalePrice(oldItem);
-        }
+//        if (flog >= 4 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
+//            oldItem.setFlog(1);
+//            oldItem.setUpdatetime(now);
+//            return itemMapper.setItemSalePrice(oldItem);
+//        } else {
+        oldItem.setUpdatetime(now);
+        return itemMapper.setItemSalePrice(oldItem);
+//        }
     }
 
     //新itemcode查询

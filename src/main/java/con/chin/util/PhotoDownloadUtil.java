@@ -28,10 +28,6 @@ public class PhotoDownloadUtil {
 
         //产品表示照片下载
         imageInput(urlList.get(0), itemCode);
-        //properties文件的名字取得
-//        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
-//        //照片下载地址取得
-//        String itemphoto = bundle.getString("ITEMPHOTO");
         //创建流
         InputStream inputStream = null;
         OutputStream outputStream = null;

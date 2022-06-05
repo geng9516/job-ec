@@ -4,11 +4,10 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import con.chin.pojo.Config;
 import con.chin.pojo.Item;
+import con.chin.pojo.ItemKeyword;
 import con.chin.pojo.SiteShop;
 import con.chin.pojo.query.ItemInfoQuery;
-import con.chin.service.ConfigService;
-import con.chin.service.ItemService;
-import con.chin.service.SiteShopService;
+import con.chin.service.*;
 import con.chin.util.DataExportUtil;
 import con.chin.util.ItemPhotoCopyUtil;
 import con.chin.util.ItemInfoCsvExportUtil;
@@ -22,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ItemInfoController {
@@ -35,6 +36,12 @@ public class ItemInfoController {
 
     @Autowired
     private ConfigService configService;
+
+    @Autowired
+    private ItemCategoryService itemCategoryService;
+
+    @Autowired
+    private ItemKeywordService itemKeywordService;
 
     //产品一览
     @GetMapping("/iteminfo")
@@ -82,6 +89,7 @@ public class ItemInfoController {
         model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
         model.addAttribute("siteShop", itemInfoQuery.getShopName());
         model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
+        model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
@@ -355,12 +363,12 @@ public class ItemInfoController {
 
         List<Item> itemList = new ArrayList<>();
         if (flog != null && !"".equals(flog)) {
-            if(flog == "3"){
+            if (flog == "3") {
                 Item item = new Item();
                 item.setItemCode(itemCode);
                 item.setFlog(1);
                 itemList.add(item);
-            }else if(flog == "5"){
+            } else if (flog == "5") {
                 Item item = new Item();
                 item.setItemCode(itemCode);
                 item.setFlog(0);
@@ -597,6 +605,17 @@ public class ItemInfoController {
             @RequestParam("url1") String url1,
             @RequestParam("url2") String url2,
             @RequestParam("url3") String url3,
+            @RequestParam("itemCode") String itemCode,
+            @RequestParam("option1") String option1,
+            @RequestParam("option2") String option2,
+            @RequestParam("option3") String option3,
+            @RequestParam("option4") String option4,
+            @RequestParam("option5") String option5,
+            @RequestParam("value1") String value1,
+            @RequestParam("value2") String value2,
+            @RequestParam("value3") String value3,
+            @RequestParam("value4") String value4,
+            @RequestParam("value5") String value5,
             RedirectAttributes redirectAttributes, HttpSession httpSession) {
 
         //保存iteminfo更新值
@@ -621,12 +640,35 @@ public class ItemInfoController {
             item.setItemName(itemName);
             flog++;
         }
+
+        //编辑状态
+        String itemFlog = (String) httpSession.getAttribute("flog");
+        if (itemFlog != null && !"".equals(itemFlog) && "5".equals(itemFlog) && itemPath != null && itemPath != "") {
+            //设置产品种类番号(条件はpathとサイト名)
+            Map<String, String> map = new HashMap<>();
+            map.put("itempath", itemPath);
+            map.put("shopName", "yahoo");
+            Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map);
+            item.setItemCategoryCode(itemCategorCode);
+            ItemKeyword itemKeyword = new ItemKeyword();
+            itemKeyword.setProductCategory(itemPath);
+            List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
+            String explanationKeyword = "";
+            for (ItemKeyword keyword : itemKeyword1) {
+                explanationKeyword += keyword.getKeyword() + " ";
+            }
+            if(!explanation.contains("関連キーワード")){
+                explanation = explanation + "\n" + "\n" +
+                        "■関連キーワード：" + "\n" +
+                        explanationKeyword;
+            }
+        }
         //商品情報
         if (explanation != "") {
             item.setExplanation(explanation);
             flog++;
         }
-        //如果送料有修改的话
+        //
         if (itemPath != null && itemPath != "") {
             item.setItemPath(itemPath);
             flog++;
@@ -650,6 +692,47 @@ public class ItemInfoController {
         if (url3 != "") {
             item.setUrl3(url3);
             flog++;
+        }
+        //把option和value的值进行设定
+        if ((option1 != null && option1 != "") && (value1 != null && value1 != "")) {
+            //有全角或半角空格全部去除
+            option1 = option1.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value1 = value1.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            item.setOption1(option1);
+            item.setValue1(value1);
+        }
+        if ((option2 != null && option2 != "") && (value2 != null && value2 != "")) {
+            //有全角或半角空格全部去除
+            option2 = option2.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value2 = value2.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            item.setOption2(option2);
+            item.setValue2(value2);
+        }
+        if ((option3 != null && option3 != "") && (value3 != null && value3 != "")) {
+            //有全角或半角空格全部去除
+            option3 = option3.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value3 = value3.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            item.setOption3(option3);
+            item.setValue3(value3);
+        }
+        if ((option4 != null && option4 != "") && (value4 != null && value4 != "")) {
+            //有全角或半角空格全部去除
+            option4 = option4.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value4 = value4.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            item.setOption4(option4);
+            item.setValue4(value4);
+        }
+        if ((option5 != null && option5 != "") && (value5 != null && value5 != "")) {
+            //有全角或半角空格全部去除
+            option5 = option5.replaceAll("　", "").replaceAll(" ", "");
+            //有全角半角,",","、","/","-"全部去除
+            value5 = value5.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            item.setOption5(option5);
+            item.setValue5(value5);
         }
         //保存返回结果
         int res = 0;

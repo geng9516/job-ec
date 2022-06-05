@@ -104,7 +104,7 @@
                                 <option value="">編集ステータス</option>
                                 <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち</option>
                                 <option value="1" th:selected="${editFlogSelect} eq '1'">未編集</option>
-<!--                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>-->
+                                <!--                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>-->
                                 <!--<option value="3">ダウンロード済</option>-->
                                 <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
                                 <option value="5" th:selected="${editFlogSelect} eq '5'">中国語商品</option>
@@ -206,7 +206,8 @@
                         </span>
                         <span th:case="${5}">
                             <button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
-                            <a th:href="@{/setFlogToEdit(editFlog=${5})}"><button class="ui button mini ui-corner-left red">編集済</button></a>
+                            <a th:href="@{/setFlogToEdit(editFlog=${5})}"><button
+                                    class="ui button mini ui-corner-left red">編集済</button></a>
                         </span>
                          <span th:case="*">
                             &emsp;<button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
@@ -311,8 +312,9 @@
                             </a>
                         </div>
                     </td>
-                    <td valign="top">
-                        <form action="/setItemInfo" method="post" id="operation">
+                    <form action="/setItemInfo" method="post" id="operation">
+                        <td valign="top">
+
                             <input type="hidden" th:value="${page.getPageNum()}" name="pageNum">
                             <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
                             <table>
@@ -441,20 +443,20 @@
                                                 </div>
                                             </tr>
                                             <tr style="">
-                                                <div class="ui input mini blanl">
-                                                    <input type="submit" size="18">
-                                                </div>
+                                                <!--                                                <div class="ui input mini blanl">-->
+                                                <!--                                                    <input type="submit" size="18">-->
+                                                <!--                                                </div>-->
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                             </table>
-                        </form>
-                    </td>
-                    <td valign="top">
-                        <form action="/updateOption" method="post">
+
+                        </td>
+                        <td valign="top">
+                            <!--                        <form action="/updateOption" method="post">-->
                             <table id="top">
-                                <input type="hidden" name="itemCode" class="itemCode"
+                                <input type="hidden" name="itemCode1" class="itemCode1"
                                        th:value="${item.getItemCode()}">
                                 <tr th:switch="${item.getOption1()}">
                                     <div th:case=" null">
@@ -672,21 +674,28 @@
                                         </td>
                                     </div>
                                 </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <div class="ui button mini">
-                                            <button onclick="deleteOption(this)">削除</button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="ui input mini blanl">
-                                            <input type="submit" value="更新">
+                                <tr align="right">
+                                    <!--                                    <td colspan="2">-->
+                                    <!--                                        <div class="ui button mini">-->
+                                    <!--                                            <button onclick="deleteOption(this)">削除</button>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </td>-->
+                                    <!--                                    <td>-->
+                                    <!--                                        <div class="ui input mini blanl">-->
+                                    <!--                                            <input type="submit" value="更新">-->
+                                    <!--                                        </div>-->
+                                    <!--
+                                                                    </td>-->
+                                    <td colspan="3">
+                                        <div class="ui input blank">
+                                            <input type="submit" size="18">
                                         </div>
                                     </td>
                                 </tr>
                             </table>
-                        </form>
-                    </td>
+                            <!--                        </form>-->
+                        </td>
+                    </form>
                     <td valign="top">
                         <div><p>・作成日</p></div>
                         <div><span th:text="${item.getCreated()}"></span></div>

@@ -194,40 +194,11 @@ function deleteItems() {
     })
 }
 
-function selectItemByNewDownloaded() {
-    var checkedValue = $('tbody input:checked');
-    //判断是否项目被选择
-    if (typeof checkedValue.val() === "undefined") {
-        alert("操作項目を選択してください！")
-        return;
-    }
-    //保存选中的item的code
-    var Values = new Array();
-    //遍历
-    checkedValue.each(function () {
-        Values.push($(this).val());
-    })
-    $.ajax({
-        url: '/selectItemByNewDownloaded',
-        type: 'post',
-        data: {"listString": Values},
-        dataType: 'json',
-        success: function (data) {
-            window.location = "/iteminfo?pageNum=" + 1;
-            $("#message").text(data);
-        },
-        error: function (data) {
-            $("#message").val(data);
-        }
-    })
-}
-
 //选中的option削除
 function deleteOption(e) {
     var checkedValue = $('#top input:checked');
     var value = e.parentNode.parentNode.parentNode.parentNode.parentNode;
-    var itemCode = $(value).find("input.itemCode").val();
-    console.log(itemCode)
+    var itemCode = $(value).find("input.itemCode1").val();
     // 判断是否项目被选择
     if (typeof checkedValue.val() === "undefined") {
         alert("操作項目を選択してください！")

@@ -26,8 +26,12 @@ public class FlogUtil {
             //搜款网
         } else if(url.contains("www.vvic.com")){
             return 2;
+            //17
         } else if(url.contains("gz.17zwd.com")) {
             return 3;
+            //包牛牛
+        }else if(url.contains("bao66.cn")) {
+            return 4;
         }else {
             return 0;
         }

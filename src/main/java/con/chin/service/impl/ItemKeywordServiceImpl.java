@@ -54,4 +54,9 @@ public class ItemKeywordServiceImpl implements ItemKeywordService {
         itemKeywordMapper.updateItemKeywordCount(itemKeyword);
 
     }
+
+    @Override
+    public List<ItemKeyword> findGoodItemKeyword(ItemKeyword itemKeyword) {
+        return itemKeywordMapper.findGoodItemKeyword(itemKeyword);
+    }
 }

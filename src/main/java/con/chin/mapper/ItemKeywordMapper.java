@@ -19,4 +19,6 @@ public interface ItemKeywordMapper{
 
     //更新keyword使用次数
     void updateItemKeywordCount(ItemKeyword itemKeyword);
+
+    List<ItemKeyword> findGoodItemKeyword(ItemKeyword itemKeyword);
 }
