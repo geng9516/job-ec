@@ -7,19 +7,14 @@
 <mapper namespace="con.chin.mapper.ItemKeywordMapper">
 
 
+    <insert id="saveKeyword">
 
-    <insert id="saveKeyword" >
-
-        insert into t_itemkeyword (
-            productcategory,
-            keyword,
-            countkeyword
-        )
-        values (
-            #{productCategory},
-            #{keyword},
-            #{countKeyword}
-            )
+        insert into t_itemkeyword (productcategory,
+                                   keyword,
+                                   countkeyword)
+        values (#{productCategory},
+                #{keyword},
+                #{countKeyword})
 
     </insert>
 
@@ -57,7 +52,21 @@
 
     </update>
 
+    <select id="findGoodItemKeyword" resultType="con.chin.pojo.ItemKeyword">
 
+        select b.*
+        from (select a.*
+              from (select *
+                    from t_itemkeyword
+                    WHERE productcategory = #{productCategory}
+                      and keyword not in ('春', '夏', '秋', '冬')
+                    ORDER BY countkeyword desc) a
+              where 1 = 1 limit 30) b
+
+        order by countkeyword desc
+
+
+    </select>
 
 </mapper>
 
