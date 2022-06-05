@@ -364,12 +364,12 @@ public class ItemInfoController {
 
         List<Item> itemList = new ArrayList<>();
         if (flog != null && !"".equals(flog)) {
-            if (flog == "3") {
+            if ("3".equals(flog)) {
                 Item item = new Item();
                 item.setItemCode(itemCode);
                 item.setFlog(1);
                 itemList.add(item);
-            } else if (flog == "5") {
+            } else if ("5".equals(flog)) {
                 Item item = new Item();
                 item.setItemCode(itemCode);
                 item.setFlog(0);
@@ -382,7 +382,11 @@ public class ItemInfoController {
         int res = itemService.setItemFlog(itemList);
         System.out.println("状态修改完成");
         if (res == 1) {
-            redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を未編集に戻しました。");
+            if ("3".equals(flog)) {
+                redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を未編集に戻しました。");
+            } else if ("5".equals(flog)) {
+                redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに戻しました。");
+            }
         } else {
             redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " 未編集に戻せなかった。");
         }
@@ -668,7 +672,7 @@ public class ItemInfoController {
             headline = headline.replaceAll("　", " ");
             item.setHeadline(headline);
             flog++;
-        }else {
+        } else {
             headline = explanationKeyword.replaceAll("　", " ");
 
             if (headline.length() > 30 && headline.contains(" ")) {
