@@ -119,7 +119,7 @@ public class ItemInfoController {
         if (pageSize != null && !"".equals(pageSize)) {
             itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
         }
-//        //编辑状态
+        //编辑状态
 //        String flog = (String) httpSession.getAttribute("flog");
 //        if (flog != null && !"".equals(flog)) {
 //            itemInfoQuery.setFlog(Integer.parseInt(flog));

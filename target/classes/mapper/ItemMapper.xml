@@ -176,7 +176,7 @@
                 and flog = #{flog}
             </if>
             <if test="flog == null">
-                and flog not in (3,5)
+                and flog not in (3)
             </if>
 
         </where>
