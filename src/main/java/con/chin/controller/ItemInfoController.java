@@ -654,13 +654,13 @@ public class ItemInfoController {
             }
         }
         //产品名字
-        if (itemName != "" && !itemName.contains(" ")) {
+        if (!"".equals(itemName) && !itemName.contains(" ")) {
             itemName = explanationKeyword;
             //把大写的空格改为小写的
             itemName = itemName.replaceAll("　", " ");
             item.setItemName(itemName);
             flog++;
-        } else if (itemName != "") {
+        } else if (!"".equals(itemName)) {
             //把大写的空格改为小写的
             itemName = itemName.replaceAll("　", " ");
             item.setItemName(itemName);
