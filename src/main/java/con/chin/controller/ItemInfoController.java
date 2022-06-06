@@ -654,6 +654,7 @@ public class ItemInfoController {
             }
         }
         //产品名字
+        itemName = itemName.replaceAll("　"," ");
         if (!"".equals(itemName) && !itemName.contains(" ")) {
             itemName = explanationKeyword;
             //把大写的空格改为小写的
