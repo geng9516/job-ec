@@ -634,7 +634,7 @@ public class ItemInfoController {
         //编辑状态
         String explanationKeyword = "";
         String itemFlog = (String) httpSession.getAttribute("flog");
-        if (itemFlog != null && !"".equals(itemFlog) && "5".equals(itemFlog) && itemPath != null && itemPath != "") {
+        if (itemFlog != null && !"".equals(itemFlog) && itemPath != null && itemPath != "") {
             //设置产品种类番号(条件はpathとサイト名)
             Map<String, String> map = new HashMap<>();
             map.put("itempath", itemPath);
@@ -647,14 +647,15 @@ public class ItemInfoController {
             for (ItemKeyword keyword : itemKeyword1) {
                 explanationKeyword += keyword.getKeyword() + " ";
             }
-            if (!explanation.contains("関連キーワード")) {
+
+            if (!explanation.contains("関連キーワード") && "5".equals(itemFlog)) {
                 explanation = explanation + "\n" + "\n" +
                         "■関連キーワード：" + "\n" +
                         explanationKeyword;
             }
         }
         //产品名字
-        itemName = itemName.replaceAll("　"," ");
+        itemName = itemName.replaceAll("　", " ");
         if (!"".equals(itemName) && !itemName.contains(" ")) {
             itemName = explanationKeyword;
             //把大写的空格改为小写的
