@@ -9,7 +9,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import us.codecraft.webmagic.Page;
 
 import java.time.LocalDateTime;
@@ -39,7 +38,7 @@ public class Create17zwdItemInfo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i =0;i<=15;i++){
+        for (int i = 0; i <= 15; i++) {
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
@@ -97,7 +96,7 @@ public class Create17zwdItemInfo {
         //产品名称
         String productName = jsoup.select("div.index-titleBox-25FtwMm1mlJ1I5-D4fNk4A span").text();
         //把「"」去除
-        productName = productName.replaceAll("\"", "").replaceAll("”", "").replaceAll(" ","").replaceAll("　","");
+        productName = productName.replaceAll("\"", "").replaceAll("”", "").replaceAll(" ", "").replaceAll("　", "");
         item.setItemName(productName);
         //产品价格
         String purchasePrice1 = "";
@@ -159,6 +158,15 @@ public class Create17zwdItemInfo {
         value2 = value2.replaceAll("均码", "F");
         item.setOption2(optionName2);
         item.setValue2(value2);
+
+        String element = jsoup.select("div.index-root-18be6rFhXn87nebHWkNwG1").select("p").text();
+//        String p1 = "";
+//        for (Element element : elements) {
+//            p1 = element.text();
+//            p1 += p1 + "\n";
+//        }
+
+
         //产品详情
         String explanation = "";
         Elements explanations = jsoup.select("div.index-label-2CoA0zl4u3q99XtnCaBNNX");
@@ -182,6 +190,7 @@ public class Create17zwdItemInfo {
                 "素材　:" + "\n" + "\n" +
                 "カラー：" + value1 + "\n" + "\n" +
                 "サイズ(cm)：" + value2 + "\n" + "\n" +
+                (element == "" ? "" : element) + "\n" +
                 "原産国:中国" + "\n" + "\n" +
                 "☆詳細なサイズは写真のサイズ表を参考ください。" + "\n" +
                 "※PC環境や撮影状況などの違いにより実際のお色とは若干異なる場合がございます。";
