@@ -320,6 +320,7 @@
                             <table>
                                 <tr>
                                     <td colspan="2" style="border-right: none;border-bottom: none">
+                                        <!--<p th:text="${item.getItemName()}">-->
                                         <div class="ui form">
                                             <div class="field">
                                                 <textarea rows="1" cols=50
@@ -362,6 +363,8 @@
                                             <tr>
                                                 販売価格：
                                                 <span class="ui input mini">
+<!--                                                    販売価格：<span style="color: #ea193a" id="salePrice"-->
+                                                    <!--                                                               th:text="${item.getSalePrice()}"></span>-->
                                                     <input style="color: #ea193a" id="salePrice" name="salePrice"
                                                            th:value="${item.getSalePrice()}" size="6">
                                                 </span>
@@ -438,6 +441,11 @@
                                                       </textarea>
                                                     </div>
                                                 </div>
+                                            </tr>
+                                            <tr style="">
+                                                <!--                                                <div class="ui input mini blanl">-->
+                                                <!--                                                    <input type="submit" size="18">-->
+                                                <!--                                                </div>-->
                                             </tr>
                                         </table>
                                     </td>
@@ -679,7 +687,7 @@
                                     <!--
                                                                     </td>-->
                                     <td colspan="3">
-                                        <div class="ui input blank">
+                                        <div class="ui input blanl">
                                             <input type="submit" size="18">
                                         </div>
                                     </td>

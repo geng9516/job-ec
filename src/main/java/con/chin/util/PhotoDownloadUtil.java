@@ -40,7 +40,7 @@ public class PhotoDownloadUtil {
 
                 URLConnection connection = url.openConnection();
 
-                connection.setConnectTimeout(5000);
+                connection.setConnectTimeout(50000);
 
                 inputStream = connection.getInputStream();
 

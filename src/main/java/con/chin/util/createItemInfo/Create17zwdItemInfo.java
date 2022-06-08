@@ -39,7 +39,7 @@ public class Create17zwdItemInfo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i =0;i<=20;i++){
+        for (int i =0;i<=15;i++){
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
