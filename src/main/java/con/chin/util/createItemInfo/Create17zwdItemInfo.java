@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Create17zwdItemInfo {
 
+    public static String ITEMCODE = "";
+
     /**
      * 17网
      *
@@ -87,9 +89,16 @@ public class Create17zwdItemInfo {
             item.setShopName(storeName);
         }
         //新商品code
-        String itemCode = UUID.randomUUID().toString();
-        String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-        item.setItemCode("z" + itemCode1);
+        if (ITEMCODE == "") {
+            String itemCode = UUID.randomUUID().toString();
+            String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
+            item.setItemCode("z" + itemCode1);
+            ITEMCODE = itemCode;
+        } else {
+//            if(ITEMCODE.)
+            ITEMCODE += "-";
+        }
+
         //旧商品code
         String oldItemCode = jsoup.select("div.index-properiesValue-31gHDGZJNZoaAcprhVh_VL").first().text();
         item.setOldItemCode(storeName + "-" + oldItemCode);
