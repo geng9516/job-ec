@@ -290,13 +290,15 @@ public class CrawlerController {
                 item.setEndDate("2099-12-31 23:59:59");
                 itemService.setdate(item);
 
-            } else {
-                if (shopName.contains(" ")) {
-                    shopName = shopName.substring(0, shopName.indexOf(" "));
-                    item.setShopName(shopName);
-                    item.setEndDate("2099-12-31 23:59:59");
-                    itemService.setdate(item);
-                }
+            } else if (shopName.contains(" ")) {
+                shopName = shopName.substring(0, shopName.indexOf(" "));
+                item.setShopName(shopName);
+                item.setEndDate("2099-12-31 23:59:59");
+                itemService.setdate(item);
+
+            }else {
+                item.setEndDate("2099-12-31 23:59:59");
+                itemService.setdate(item);
             }
 
             //结束时间

@@ -100,7 +100,7 @@
     <update id="updateItemByCsv">
 
         update t_item
-        set itempath        = #{itemPath},
+        set itempath= #{itemPath},
             shopname=#{shopName},
             itemname=#{itemName},
             price=#{price},
@@ -390,7 +390,7 @@
         set shopName = #{shopName},
             siteName=#{siteName},
             endDate=#{endDate}
-            where id = #{id}
+        where id = #{id}
     </update>
 
 
