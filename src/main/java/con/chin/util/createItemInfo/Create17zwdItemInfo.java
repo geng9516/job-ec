@@ -151,9 +151,20 @@ public class Create17zwdItemInfo {
         for (int i = 0; i < elements.size(); i++) {
             if (elements.get(i).text() != null && !"".equals(elements.get(i).text())) {
 
-                element += elements.get(i).text() + "\n";
+                element += elements.get(i).text();
+                //サイズ名
+                element = element.replaceAll("衣长", "着長").replaceAll("胸围", "バスト")
+                        .replaceAll("肩宽", "肩幅").replaceAll("袖长", "袖丈")
+                        .replaceAll("高腰围", "ハイウエスト").replaceAll("腰围", "ウエスト")
+                        .replaceAll("裙长", "着長").replaceAll("下摆围", "ヘムライン")
+                        .replaceAll("摆围", "ヘムライン");
+                //サイズ
+                element =element.replaceAll("均码", "F").replaceAll("码", "");
+                //换行
+                element += "\n";
+
             }
-        }
+        }//衣长 前57后67cm 　胸围118cm 　 肩宽 46cm 袖长52cm
         //产品详情
         String explanation = "";
         Elements explanations = jsoup.select("div.index-label-2CoA0zl4u3q99XtnCaBNNX");
