@@ -100,7 +100,7 @@
     <update id="updateItemByCsv">
 
         update t_item
-        set itempath   = #{itemPath},
+        set itempath        = #{itemPath},
             shopname=#{shopName},
             itemname=#{itemName},
             price=#{price},
@@ -262,16 +262,16 @@
             url2=#{url2},
             url3=#{url3},
             flog=#{flog},
-            option1   = #{option1},
-            value1    = #{value1},
-            option2   = #{option2},
-            value2    = #{value2},
-            option3   = #{option3},
-            value3    = #{value3},
-            option4   = #{option4},
-            value4    = #{value4},
-            option5   = #{option5},
-            value5    = #{value5},
+            option1 = #{option1},
+            value1 = #{value1},
+            option2 = #{option2},
+            value2 = #{value2},
+            option3 = #{option3},
+            value3 = #{value3},
+            option4 = #{option4},
+            value4 = #{value4},
+            option5 = #{option5},
+            value5 = #{value5},
             updatetime=#{updatetime}
         where itemcode = #{itemCode}
     </update>
@@ -387,8 +387,10 @@
 
     <update id="setdate">
         update t_item
-        set itemCode = #{itemCode}
-        where id = #{id}
+        set shopName = #{shopName},
+            siteName=#{siteName},
+            endDate=#{endDate}
+            where id = #{id}
     </update>
 
 
