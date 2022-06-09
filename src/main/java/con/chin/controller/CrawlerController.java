@@ -280,25 +280,20 @@ public class CrawlerController {
 
         //开始时间
         long start = System.currentTimeMillis();
+        int i = 0;
         for (Item item : itemList) {
             //开始时间
             long start1 = System.currentTimeMillis();
-            String shopName = item.getShopName();
+            String shopName = item.getOldItemCode();
             if (shopName == null) {
-                item.setSiteName("gengye");
-                item.setShopName("gengye");
-                item.setEndDate("2099-12-31 23:59:59");
+                item.setOldItemCode("gengye-" + i);
                 itemService.setdate(item);
 
             } else if (shopName.contains(" ")) {
-                shopName = shopName.substring(0, shopName.indexOf(" "));
-                item.setShopName(shopName);
-                item.setEndDate("2099-12-31 23:59:59");
+                shopName = shopName.substring(shopName.indexOf(" ")+1,shopName.length());
+                item.setOldItemCode(shopName);
                 itemService.setdate(item);
 
-            }else {
-                item.setEndDate("2099-12-31 23:59:59");
-                itemService.setdate(item);
             }
 
             //结束时间

@@ -381,20 +381,19 @@
     <select id="findAll" resultType="con.chin.pojo.Item">
 
         select *
-        from t_item
+        from t_item where olditemcode like "% %"
 
     </select>
 
     <update id="setdate">
         update t_item
-        set shopName = #{shopName},
-            siteName=#{siteName},
-            endDate=#{endDate}
+        set olditemcode = #{oldItemCode}
         where id = #{id}
     </update>
 
 
 </mapper>
+
 
 
 
