@@ -222,8 +222,24 @@ public class SetDataUtil {
                     //没有数据时
                 } else {
                     //中文名称保存
-                    String optionName1 = item.getOption1();
-                    sizeAndOption.setOptionNameChinese(optionName1);
+                    String optionNameByChinese = item.getOption1();
+                    sizeAndOption.setOptionNameChinese(optionNameByChinese);
+                    //如果包含了[颜]这个字
+                    if (optionNameByChinese.contains("颜")) {
+                        String optionNameByJapanese = "カラー";
+                        //追加日文名称
+                        sizeAndOption.setOptionNameJapanese(optionNameByJapanese);
+                        //产品数据中追加
+                        optionName = optionNameByJapanese;
+                    }
+                    //如果包含了[尺]这个字
+                    if (optionNameByChinese.contains("尺")) {
+                        String optionNameByJapanese = "サイズ";
+                        //追加日文名称
+                        sizeAndOption.setOptionNameJapanese(optionNameByJapanese);
+                        //产品数据中追加
+                        optionName = optionNameByJapanese;
+                    }
                     //中文名称保存
                     sizeAndOption.setOptionValueChinese(Value);
                     //保存SizeAndOption
@@ -280,8 +296,24 @@ public class SetDataUtil {
                     //没有数据时
                 } else {
                     //中文名称保存
-                    String optionName2 = item.getOption2();
-                    sizeAndOption.setOptionNameChinese(optionName2);
+                    String optionNameByChinese = item.getOption2();
+                    sizeAndOption.setOptionNameChinese(optionNameByChinese);
+                    //如果包含了[颜]这个字
+                    if (optionNameByChinese.contains("颜")) {
+                        String optionNameByJapanese = "カラー";
+                        //追加日文名称
+                        sizeAndOption.setOptionNameJapanese(optionNameByJapanese);
+                        //产品数据中追加
+                        optionName = optionNameByJapanese;
+                    }
+                    //如果包含了[尺]这个字
+                    if (optionNameByChinese.contains("尺")) {
+                        String optionNameByJapanese = "サイズ";
+                        //追加日文名称
+                        sizeAndOption.setOptionNameJapanese(optionNameByJapanese);
+                        //产品数据中追加
+                        optionName = optionNameByJapanese;
+                    }
                     //中文名称保存
                     sizeAndOption.setOptionValueChinese(Value);
                     //保存SizeAndOption

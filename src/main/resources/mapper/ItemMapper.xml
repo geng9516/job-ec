@@ -387,7 +387,7 @@
 
     <update id="setdate">
         update t_item
-        set itemCode = #{itemCode}
+        set shopName = #{shopName}
         where id = #{id}
     </update>
 

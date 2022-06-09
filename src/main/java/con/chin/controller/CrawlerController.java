@@ -277,36 +277,29 @@ public class CrawlerController {
         List<Item> itemList = new ArrayList<>();
 
         itemList = itemService.findAll();
-        List<String> stringList1 = ItemPhotoCopyUtil.read2();
 
         //开始时间
         long start = System.currentTimeMillis();
-        List<String> stringList = new ArrayList<>();
-        int i = 0;
-        int flog = 0;
-        for (String s : stringList1) {
-            for (Item item : itemList) {
-                if (item.getItemCode().equalsIgnoreCase(s)) {
-                    flog += 1;
-                    continue;
-                }
+        for (Item item : itemList) {
+            //开始时间
+            long start1 = System.currentTimeMillis();
+            String shopName = item.getShopName();
+            if (shopName.contains(" ")) {
+                shopName = shopName.substring(0, shopName.indexOf(" "));
+                item.setShopName(shopName);
+                itemService.setdate(item);
             }
-
-            if (flog == 0) {
-                stringList.add(s);
-            }
-            System.out.println(i++ + " 件比較完了");
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println("更新产品ID为 " + item.getItemCode() + " アイテム!    耗时：" + (end - start1) + " ms");
         }
-        ItemPhotoCopyUtil.read3(stringList, itemPhoto);
-//        DataExportUtil.exportItemCodeCsv(stringList,"not");
-//        DataExportUtil.exportItemCodeCsv(stringList1, "itemAll");
+
         //结束时间
         long end = System.currentTimeMillis();
-        System.out.println("更新アイテムインフォ!    总耗时：" + (end - start) + " ms");
+        System.out.println("更新アイテム!    总耗时：" + (end - start) + " ms");
 //        return "index";
 
         return "index";
     }
-
 
 }

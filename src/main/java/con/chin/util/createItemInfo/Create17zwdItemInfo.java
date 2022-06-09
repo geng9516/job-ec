@@ -49,21 +49,6 @@ public class Create17zwdItemInfo {
             //下拉到页面1000位置
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,1000000)");
         }
-
-        // 使用JavaScript的scrollTo方法和document.body.scrollHeight参数，将页面的滚动条华东到页面的最下方
-//        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,document.body.scrollHeight)");
-
-//        Long last_height = (Long) ((JavascriptExecutor) driver).executeScript("return document.documentElement.scrollHeight");
-//        long height = last_height / 10;
-//        for (int i = 0; i < 10; i++) {
-//            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + height + ")");
-////            Long new_height = (Long) ((JavascriptExecutor) driver).executeScript("return document.documentElement.scrollHeight");
-////            if(new_height == last_height){
-////                break;
-////            }
-//
-//        }
-
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -81,24 +66,17 @@ public class Create17zwdItemInfo {
         //サイト名
         item.setSiteName("17网");
         //店铺名
-        Elements select = jsoup.select("div.index-shopHeadName-1-4ltjAR80CMhuNF_gszTO span");
-        String storeName = select.text();
+        Elements storeNameElement = jsoup.select("div.index-shopHeadName-1-4ltjAR80CMhuNF_gszTO span");
+        String storeName = storeNameElement.first().text();
         //店铺名不为空
         if (storeName != null || !"".equals(storeName)) {
             //ショップ名
             item.setShopName(storeName);
         }
         //新商品code
-        if (ITEMCODE == "") {
-            String itemCode = UUID.randomUUID().toString();
-            String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-            item.setItemCode("z" + itemCode1);
-            ITEMCODE = itemCode;
-        } else {
-//            if(ITEMCODE.)
-            ITEMCODE += "-";
-        }
-
+        String itemCode = UUID.randomUUID().toString();
+        String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
+        item.setItemCode("z" + itemCode1);
         //旧商品code
         String oldItemCode = jsoup.select("div.index-properiesValue-31gHDGZJNZoaAcprhVh_VL").first().text();
         item.setOldItemCode(storeName + "-" + oldItemCode);
@@ -169,12 +147,6 @@ public class Create17zwdItemInfo {
         item.setValue2(value2);
 
         String element = jsoup.select("div.index-root-18be6rFhXn87nebHWkNwG1").select("p").text();
-//        String p1 = "";
-//        for (Element element : elements) {
-//            p1 = element.text();
-//            p1 += p1 + "\n";
-//        }
-
 
         //产品详情
         String explanation = "";
