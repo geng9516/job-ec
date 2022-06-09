@@ -7,6 +7,7 @@ import con.chin.mapper.ItemCategoryMapper;
 import con.chin.mapper.ItemMapper;
 import con.chin.mapper.OrderItemInfoMapper;
 import con.chin.pojo.OrderItemInfo;
+import con.chin.pojo.SiteShop;
 import con.chin.pojo.query.ItemInfoQuery;
 import con.chin.util.ItemInfoCsvExportUtil;
 import con.chin.util.ItemPhotoCopyUtil;
@@ -436,6 +437,8 @@ public class ItemServiceImpl implements ItemService {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Item oldItem = itemMapper.findItemByItemCode(item);
         if (oldItem == null) {
+            item.setSiteName("gengye");
+            item.setShopName("gengye");
             item.setUpdatetime(now);
             String itemCode = UUID.randomUUID().toString();
             String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);

@@ -284,11 +284,21 @@ public class CrawlerController {
             //开始时间
             long start1 = System.currentTimeMillis();
             String shopName = item.getShopName();
-            if (shopName.contains(" ")) {
-                shopName = shopName.substring(0, shopName.indexOf(" "));
-                item.setShopName(shopName);
+            if (shopName == null) {
+                item.setSiteName("gengye");
+                item.setShopName("gengye");
+                item.setEndDate("2099-12-31 23:59:59");
                 itemService.setdate(item);
+
+            } else {
+                if (shopName.contains(" ")) {
+                    shopName = shopName.substring(0, shopName.indexOf(" "));
+                    item.setShopName(shopName);
+                    item.setEndDate("2099-12-31 23:59:59");
+                    itemService.setdate(item);
+                }
             }
+
             //结束时间
             long end = System.currentTimeMillis();
             System.out.println("更新产品ID为 " + item.getItemCode() + " アイテム!    耗时：" + (end - start1) + " ms");
