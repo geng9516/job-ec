@@ -284,14 +284,13 @@ public class CrawlerController {
         for (Item item : itemList) {
             //开始时间
             long start1 = System.currentTimeMillis();
-            String shopName = item.getOldItemCode();
-            if (shopName == null) {
-                item.setOldItemCode("gengye-" + i);
+            String shopName = item.getShopName();
+            if ("day".equals(shopName)) {
+                item.setShopName("day day shop");
                 itemService.setdate(item);
 
-            } else if (shopName.contains(" ")) {
-                shopName = shopName.substring(shopName.indexOf(" ")+1,shopName.length());
-                item.setOldItemCode(shopName);
+            } else if ("dayday".equals(shopName)) {
+                item.setShopName("dayday shop");
                 itemService.setdate(item);
 
             }
