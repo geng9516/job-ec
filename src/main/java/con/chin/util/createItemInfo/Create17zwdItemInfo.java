@@ -146,8 +146,14 @@ public class Create17zwdItemInfo {
         item.setOption2(optionName2);
         item.setValue2(value2);
 
-        String element = jsoup.select("div.index-root-18be6rFhXn87nebHWkNwG1").select("p").text();
+        Elements elements = jsoup.select("div.index-root-18be6rFhXn87nebHWkNwG1").select("p");
+        String element = "";
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i).text() != null && !"".equals(elements.get(i).text())) {
 
+                element += elements.get(i).text() + "\n";
+            }
+        }
         //产品详情
         String explanation = "";
         Elements explanations = jsoup.select("div.index-label-2CoA0zl4u3q99XtnCaBNNX");
@@ -165,7 +171,6 @@ public class Create17zwdItemInfo {
                 explanation += explanation1;
                 explanation = explanation + "\n";
             }
-
         }
         explanation = explanation +
                 "素材　:" + "\n" + "\n" +
