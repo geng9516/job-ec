@@ -85,10 +85,17 @@ public class ItemServiceImpl implements ItemService {
             item.setUpdatetime(now);
         }
         //商品情報更新
-        itemMapper.updateItem(item);
-        //结束时间
-        long end = System.currentTimeMillis();
-        System.out.println("更新一件产品:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
+        if(oldItem.getFlog() != 0 || oldItem.getFlog()!=5){
+            itemMapper.updateItem(item);
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println("更新一件产品:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
+        }else {
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println("不需要更新:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
+        }
+
         //为了更新的话不需要更新照片
         return -1;
     }
@@ -433,7 +440,7 @@ public class ItemServiceImpl implements ItemService {
             String itemCode = UUID.randomUUID().toString();
             String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
             item.setItemCode("l" + itemCode1);
-            item.setFlog(1);
+//            item.setFlog(1);  不需要修改
             item.setCreated(now);
             item.setEndDate("2099-12-31 23:59:59");
             return itemMapper.saveItem(item);
