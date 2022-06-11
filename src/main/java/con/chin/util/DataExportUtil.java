@@ -32,7 +32,7 @@ public class DataExportUtil {
         //properties文件的名字取得
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
         //IMG照片下载地址取得
-        String itemCsvPath = bundle.getString("ITEMCSVPATH");
+        String itemCsvPath = bundle.getString("URL");
 
         CsvWriter writer = null;
         try {
