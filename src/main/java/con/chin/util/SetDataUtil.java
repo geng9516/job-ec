@@ -344,6 +344,9 @@ public class SetDataUtil {
     //把数据中中文改为日文
     public static String setDatetoJapanese(String str) {
 
+        //: 更改为全角的
+        str = str.replaceAll(":","：");
+
         //转换空格
         str = str.replaceAll("   ", "!").replace("　　　", "!")
                 .replaceAll("  　","!").replaceAll(" 　 ","!")
