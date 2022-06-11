@@ -391,7 +391,7 @@ public class SetDataUtil {
                 .replaceAll("锦纶", "ナイロン").replaceAll("丙纶", "ポリプロピレン")
                 .replaceAll("氨纶", "スパンデックス").replaceAll("交织麻织物", "交織リネン")
                 .replaceAll("薄花呢", "ツイード").replaceAll("长毛绒", "プラッシュ")
-                .replaceAll("牛津布", "オックスフォード生地");
+                .replaceAll("牛津布", "オックスフォード生地").replaceAll("聚脂纤维","ポリエステル");
 
         return str;
     }
