@@ -606,11 +606,10 @@ public class ItemInfoController {
             @RequestParam("salePrice") String salePrice,
             @RequestParam("itemPath") String itemPath,
             @RequestParam("explanation") String explanation,
-            @RequestParam("itemCode") String intemCode,
+            @RequestParam("itemCode") String itemCode,
             @RequestParam("url1") String url1,
             @RequestParam("url2") String url2,
             @RequestParam("url3") String url3,
-            @RequestParam("itemCode") String itemCode,
             @RequestParam("option1") String option1,
             @RequestParam("option2") String option2,
             @RequestParam("option3") String option3,
@@ -625,7 +624,7 @@ public class ItemInfoController {
 
         //保存iteminfo更新值
         Item item = new Item();
-        item.setItemCode(intemCode);
+        item.setItemCode(itemCode);
 
         int flog = 0;
 
@@ -684,6 +683,8 @@ public class ItemInfoController {
         }
         //商品情報
         if (explanation != "") {
+            //把数据中中文改为日文
+            explanation = SetDataUtil.setDatetoJapanese(explanation);
             item.setExplanation(explanation);
             flog++;
         }
@@ -716,40 +717,50 @@ public class ItemInfoController {
         if ((option1 != null && option1 != "") && (value1 != null && value1 != "")) {
             //有全角或半角空格全部去除
             option1 = option1.replaceAll("　", "").replaceAll(" ", "");
+            option1 = SetDataUtil.setDatetoJapanese(option1);
             //有全角半角,",","、","/","-"全部去除
             value1 = value1.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            value1 = SetDataUtil.setDatetoJapanese(value1);
             item.setOption1(option1);
             item.setValue1(value1);
         }
         if ((option2 != null && option2 != "") && (value2 != null && value2 != "")) {
             //有全角或半角空格全部去除
             option2 = option2.replaceAll("　", "").replaceAll(" ", "");
+            option2 = SetDataUtil.setDatetoJapanese(option2);
             //有全角半角,",","、","/","-"全部去除
             value2 = value2.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            value2 = SetDataUtil.setDatetoJapanese(value2);
             item.setOption2(option2);
             item.setValue2(value2);
         }
         if ((option3 != null && option3 != "") && (value3 != null && value3 != "")) {
             //有全角或半角空格全部去除
             option3 = option3.replaceAll("　", "").replaceAll(" ", "");
+            option3 = SetDataUtil.setDatetoJapanese(option3);
             //有全角半角,",","、","/","-"全部去除
             value3 = value3.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            value3 = SetDataUtil.setDatetoJapanese(value3);
             item.setOption3(option3);
             item.setValue3(value3);
         }
         if ((option4 != null && option4 != "") && (value4 != null && value4 != "")) {
             //有全角或半角空格全部去除
             option4 = option4.replaceAll("　", "").replaceAll(" ", "");
+            option4 = SetDataUtil.setDatetoJapanese(option4);
             //有全角半角,",","、","/","-"全部去除
             value4 = value4.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            value4 = SetDataUtil.setDatetoJapanese(value4);
             item.setOption4(option4);
             item.setValue4(value4);
         }
         if ((option5 != null && option5 != "") && (value5 != null && value5 != "")) {
             //有全角或半角空格全部去除
             option5 = option5.replaceAll("　", "").replaceAll(" ", "");
+            option5 = SetDataUtil.setDatetoJapanese(option5);
             //有全角半角,",","、","/","-"全部去除
             value5 = value5.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+            value5 = SetDataUtil.setDatetoJapanese(value5);
             item.setOption5(option5);
             item.setValue5(value5);
         }

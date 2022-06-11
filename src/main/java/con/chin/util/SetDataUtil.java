@@ -341,5 +341,47 @@ public class SetDataUtil {
 
     }
 
+    //把数据中中文改为日文
+    public static String setDatetoJapanese(String str) {
+
+        //尺码名称
+        str = str.replaceAll("衣长", "着長").replaceAll("胸围", "バスト")
+                .replaceAll("肩宽", "肩幅").replaceAll("袖长", "袖丈")
+                .replaceAll("高腰围", "ハイウエスト").replaceAll("腰围", "ウエスト")
+                .replaceAll("裙长", "着長").replaceAll("下摆围", "ヘムライン")
+                .replaceAll("摆围", "ヘムライン").replaceAll("裤长", "着長")
+                .replaceAll("臀围", "ヒップ").replaceAll("裤口", "裾周り")
+                .replaceAll("腿围", "もも周り");
+
+        //サイズ
+        str = str.replaceAll("尺码", "サイズ").replaceAll("均码", "F")
+                .replaceAll("码", "");
+
+        //材质名称
+        str = str.replaceAll("材质成分", "素材").replaceAll("面料", "素材")
+                .replaceAll("材质", "素材");
+
+        //材质
+        str = str.replaceAll("氨纶", "スパンデックス").replaceAll("毛呢", "ツイード")
+                .replaceAll("再生纤维", "再生繊維").replaceAll("聚酯纤维", "ポリエステル")
+                .replaceAll("涤纶", "ポリエステル").replaceAll("粘纤", "ビスコース繊維")
+                .replaceAll("腈纶", "アクリル繊維").replaceAll("灯芯绒", "コーデュロイ")
+                .replaceAll("安哥拉", "アンゴラ").replaceAll("羊绒", "カシミヤ")
+                .replaceAll("丝绸", "シルク").replaceAll("人造丝", "レーヨン")
+                .replaceAll("亚麻布", "リネン").replaceAll("丙烯酸纤维", "アクリル")
+                .replaceAll("天丝", "テンセル").replaceAll("莱赛尔", "テンセル")
+                .replaceAll("天丝绒", "テンセル").replaceAll("华尔缎", "サテン")
+                .replaceAll("天丝棉", "テンセルコットン").replaceAll("金丝绒", "ゴールドベルベット")
+                .replaceAll("仿丝绸", "イミテーションシルク").replaceAll("粘胶", "ビスコース")
+                .replaceAll("棉", "綿").replaceAll("羊毛", "ウール")
+                .replaceAll("桑蚕丝","マルベリーシルク").replaceAll("醋酯纤维","アセテート繊維")
+                .replaceAll("锦纶","ナイロン").replaceAll("丙纶","ポリプロピレン")
+                .replaceAll("氨纶","スパンデックス").replaceAll("交织麻织物","交織リネン")
+                .replaceAll("薄花呢","ツイード").replaceAll("长毛绒","プラッシュ")
+                .replaceAll("牛津布","オックスフォード生地");
+
+        return str;
+    }
+
 
 }

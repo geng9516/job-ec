@@ -381,8 +381,7 @@
     <select id="findAll" resultType="con.chin.pojo.Item">
 
         select *
-        from t_item where shopname in("dayday","day")
-
+        from t_item
     </select>
 
     <update id="setdate">
