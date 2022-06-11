@@ -344,6 +344,16 @@ public class SetDataUtil {
     //把数据中中文改为日文
     public static String setDatetoJapanese(String str) {
 
+        //转换空格
+        str = str.replaceAll("   ", "!").replace("　　　", "!")
+                .replaceAll("  　","!").replaceAll(" 　 ","!")
+                .replaceAll("　  ","!").replaceAll("　　 ","!")
+                .replaceAll("　 　","!").replaceAll(" 　　","!");
+        str = str.replaceAll("!", "　");
+        str = str.replaceAll("  ","!").replaceAll("　　","!")
+                .replaceAll(" 　","!").replaceAll("　 ","!");
+        str = str.replaceAll("!", "　");
+
         //尺码名称
         str = str.replaceAll("衣长", "着長").replaceAll("胸围", "バスト")
                 .replaceAll("肩宽", "肩幅").replaceAll("袖长", "袖丈")

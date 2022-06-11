@@ -1,0 +1,3 @@
+[75250:259:0611/110349.434412:INFO:CONSOLE(0)] "Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: chrome://resources/roboto/roboto-regular.woff2", source: chrome://new-tab-page/ (0)
+[75250:259:0611/110352.015778:INFO:CONSOLE(1)] "[object HTMLImageElement]", source: https://resource.17.shop/item/public/js/chunk/common.ed09ec7a.js (1)
+[75250:259:0611/110420.151862:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
