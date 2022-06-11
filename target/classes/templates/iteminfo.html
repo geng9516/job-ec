@@ -22,15 +22,30 @@
             }, 100)
         });
 
+        $(function () {
+            var height = $("#header").height();
+            $("body").css("margin-top", height + 10);//10pxだけ余裕をもたせる
+        });
     </script>
-    <!--    表头固定-->
-    <style>
 
-        div#meru {
+    <style>
+        /*表头固定*/
+        header {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0px;
+            width: 100%;
+            z-index: 9999;
+            background-color: white;
         }
+
+        footer {
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            z-index: 9999;
+            background-color: white;
+        }
+
 
         #wTable tr td:nth-child(1) {
             width: 30px;
@@ -64,122 +79,122 @@
 </head>
 <body>
 <div>
-    <!--表头-->
-    <div style="width:100%;height:60px" id="meru"></div>
-    <br>
-    <br>
-    <br>
-    <div style="width:90%" class='ui container'>
-        <div class="ui right aligned category search">
-            <table>
-                <tr>
-                    <td>
-                        <!--模糊查询-->
-                        <form th:action="@{/iteminfo}" method="post">
-                            <div class="ui icon input">
-                                <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
-                                <button class="ui icon button" type="submit">
-                                    <i class="search icon"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </td>
-                    <!--ショップ一覧をドロップダウンに入れる-->
-                    <td>
-                        <!--店铺名查询产品一览-->
-                        <form action="" method="" id="findIteminfoBySiteShop" onchange="findIteminfoBySiteShop()">
-                            <select class="ui dropdown" id='shopName'
-                                    name="shopName">
-                                <option value="">ショップを選択</option>
-                                <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
-                                        th:selected="*{siteShop} == ${shop.getShopName()}"
-                                        th:text="${shop.getShopName()}">
-                                </option>
-                            </select>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="" method="" id="findEditedIteminfo" onchange="findEditedIteminfo()">
-                            <select class="ui dropdown" name="flog">
-                                <option value="">編集ステータス</option>
-                                <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち</option>
-                                <option value="1" th:selected="${editFlogSelect} eq '1'">未編集</option>
-                                <!--                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>-->
-                                <!--<option value="3">ダウンロード済</option>-->
-                                <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
-                                <option value="5" th:selected="${editFlogSelect} eq '5'">中国語商品</option>
-                            </select>
-                        </form>
-                    </td>
-                    <td>
-                        <!--csv文件上传-->
-                        <form action="" method="" id="dataimpott">
-                            <div>
-                                <input class="field" type="file" name="import-iteminfocsv" id="import-iteminfocsv"
-                                       required accept=".csv"><br>
-                                <button id="bt-import-csv" onclick="csvImport()">アップロード</button>
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-            <div class='ui container' align="center">
-                <!--/*@thymesVar id="message" type=""*/-->
-                <p style="color: brown" id="message" th:text="${message}"></p>
+    <header id="header">
+        <!--表头-->
+        <div style="width:100%;height:40px" id="meru"></div>
+        <div style="width:90%" class='ui container'>
+            <div class="ui right aligned category search" style="height: 66px">
+                <table>
+                    <tr>
+                        <td>
+                            <!--模糊查询-->
+                            <form th:action="@{/iteminfo}" method="post">
+                                <div class="ui icon input">
+                                    <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
+                                    <button class="ui icon button" type="submit">
+                                        <i class="search icon"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                        <!--ショップ一覧をドロップダウンに入れる-->
+                        <td>
+                            <!--店铺名查询产品一览-->
+                            <form action="" method="" id="findIteminfoBySiteShop"
+                                  onchange="findIteminfoBySiteShop()">
+                                <select class="ui dropdown" id='shopName'
+                                        name="shopName">
+                                    <option value="">ショップを選択</option>
+                                    <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
+                                            th:selected="*{siteShop} == ${shop.getShopName()}"
+                                            th:text="${shop.getShopName()}">
+                                    </option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="" method="" id="findEditedIteminfo" onchange="findEditedIteminfo()">
+                                <select class="ui dropdown" name="flog">
+                                    <option value="">編集ステータス</option>
+                                    <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち</option>
+                                    <option value="1" th:selected="${editFlogSelect} eq '1'">未編集</option>
+                                    <!--                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>-->
+                                    <!--<option value="3">ダウンロード済</option>-->
+                                    <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
+                                    <option value="5" th:selected="${editFlogSelect} eq '5'">中国語商品</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            <!--csv文件上传-->
+                            <form action="" method="" id="dataimpott">
+                                <div>
+                                    <input class="field" type="file" name="import-iteminfocsv"
+                                           id="import-iteminfocsv"
+                                           required accept=".csv"><br>
+                                    <button id="bt-import-csv" onclick="csvImport()">アップロード</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                <div class='ui container' align="center">
+                    <!--/*@thymesVar id="message" type=""*/-->
+                    <p style="color: brown" id="message" th:text="${message}"></p>
+                </div>
+                <div class="results"></div>&emsp;
             </div>
-            <div class="results"></div>&emsp;
-        </div>
-        <!--分页页面顶部-->
-        <div align="center">
-            <table width="800px">
-                <tbody>
-                <tr>
-                    <td>
-                        <a th:href="@{/iteminfo(pageNum=${1})}" class="ui button basic mini"
-                           th:unless="${page.isFirstPage}">最初ページへ
-                        </a>
-                        <a th:href="@{/iteminfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"
-                           th:unless="${page.isFirstPage}">前へ
-                        </a>
-                    </td>
-                    <td>
-                        <h8 th:text="${page.pageNum}">2</h8>
-                        ページ目/全
-                        <h8 th:text="${page.pages}">4</h8>
-                        ページ&emsp;
-                        商品数
-                        <h8 th:text="${page.total}">29</h8>
-                    </td>
-                    <td>
-                        <form name="pageForm" th:action="@{/iteminfo}" method="get">
-                            <div class="ui mini input ">
-                                <input type="text" class="m-bg" name="pageNum" placeholder="何ページ"
-                                       style="width:100px!important;height:30px!important;" required>
-                                <button type="submit"
-                                        style="font-size:11px!important;width:60px!important;height:23px!important;border:none;margin: 5px;padding:0;"
-                                        class="button mini">
-                                    へジャンプ
-                                </button>
-                            </div>
-                        </form>
-                    </td>
-                    <td>&nbsp;</td>
-                    <td style="float:right">
-                        <a th:href="@{/iteminfo(pageNum=${page.pageNum+1})}" class="ui button basic mini"
-                           style="float:right;" th:unless="${page.isLastPage}">次へ
-                        </a>
-                        <a th:href="@{/iteminfo(pageNum=${page.getPages()})}" class="ui button basic mini"
-                           style="float:right;" th:unless="${page.isLastPage}">最終ページへ
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <table style="width: 100%">
-            <tr class="_sticky">
-                <!--一括操作-->
-                <td colspan="2">
+            <!--分页页面顶部-->
+            <div align="center">
+                <table width="800px">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <a th:href="@{/iteminfo(pageNum=${1})}" class="ui button basic mini"
+                               th:unless="${page.isFirstPage}">最初ページへ
+                            </a>
+                            <a th:href="@{/iteminfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"
+                               th:unless="${page.isFirstPage}">前へ
+                            </a>
+                        </td>
+                        <td>
+                            <h8 th:text="${page.pageNum}">2</h8>
+                            ページ目/全
+                            <h8 th:text="${page.pages}">4</h8>
+                            ページ&emsp;
+                            商品数
+                            <h8 th:text="${page.total}">29</h8>
+                        </td>
+                        <td>
+                            <form name="pageForm" th:action="@{/iteminfo}" method="get">
+                                <div class="ui mini input ">
+                                    <input type="text" class="m-bg" name="pageNum" placeholder="何ページ"
+                                           style="width:100px!important;height:30px!important;" required>
+                                    <button type="submit"
+                                            style="font-size:11px!important;width:60px!important;height:23px!important;border:none;margin: 5px;padding:0;"
+                                            class="button mini">
+                                        へジャンプ
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td style="float:right">
+                            <a th:href="@{/iteminfo(pageNum=${page.pageNum+1})}" class="ui button basic mini"
+                               style="float:right;" th:unless="${page.isLastPage}">次へ
+                            </a>
+                            <a th:href="@{/iteminfo(pageNum=${page.getPages()})}" class="ui button basic mini"
+                               style="float:right;" th:unless="${page.isLastPage}">最終ページへ
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <table style="width: 100%;">
+                <tr class="_sticky">
+                    <!--一括操作-->
+                    <td colspan="2">
                     <span>
                         <select class="ui dropdown" id="downloadCsv" name="downloadCsv" onchange="bulkOperation()">
                             <option value="">ダウンロード</option>
@@ -190,7 +205,7 @@
                             <option value="4">在庫CSVのみ</option>
                         </select>
                     </span>
-                    <span th:switch="${deleteFlog}">
+                        <span th:switch="${deleteFlog}">
                         <span th:case="${0}">
                                &emsp;<button class="ui button mini ui-corner-left"
                                              onclick="setDeleteItems()">削除準備</button>
@@ -213,7 +228,7 @@
                             &emsp;<button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
                         </span>
                     </span>
-                    <span th:switch="${siteShop}">
+                        <span th:switch="${siteShop}">
                         <span th:case="null">
 
                         </span>
@@ -222,7 +237,7 @@
                                     class="ui button mini ui-corner-left red">ショップ商品一括ダウンロード</button></a>
                         </span>
                     </span>
-                    <span th:switch="${searchConditions}">
+                        <span th:switch="${searchConditions}">
                         <span th:case="null">
                         </span>
                         <span th:case="''">
@@ -232,61 +247,66 @@
                                     class="ui button mini ui-corner-left red">検索結果一括ダウンロード</button></a>
                         </span>
                     </span>
-                </td>
-                <td align="right">
-                </td>
-               <td>
+                    </td>
+                    <td align="right">
+                    </td>
+                    <td>
 
-               </td>
-            </tr>
-            <tr>
-                <!--                <form action="" id="setItmInfos">-->
-                <td>
-                    <!--                        <div class="ui form">-->
-                    <!--                            <div class="inline fields">-->
-                    <!--                                <label>更新項目を選択</label>-->
-                    <!--                                <div class="field">-->
-                    <!--                                    <div class="ui radio checkbox">-->
-                    <!--                                        <input type="radio" name="frequency" checked="checked" value="0">-->
-                    <!--                                        <label>商品名</label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                                <div class="field">-->
-                    <!--                                    <div class="ui radio checkbox">-->
-                    <!--                                        <input type="radio" name="frequency" value="1">-->
-                    <!--                                        <label>カテゴリー</label>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                </td>
-                <td align="center">
-                    <div class="ui input">
-                        <label>商品名</label>
-                        　<input type="text" name="path" size="50" id="itemName">
-                    </div>
-                    <div class="ui input">
-                        <label>カテゴリー</label>
-                        　<input type="text" name="path" size="50" id="path">
-                        <button class="ui button" onclick="setIteminfos()">Submit</button>
-                    </div>
-                </td>
-                <td align="right">
-                    <form action="" id="setPageSize">
-                        <select class="ui dropdown" id="pageSize" name="pageSize" onchange="setPageSize()">
-                            <option value="">表示件数</option>
-                            <option value="20" th:selected="${setPageSize} eq '20'">20</option>
-                            <option value="50" th:selected="${setPageSize} eq '50'">50</option>
-                            <option value="500" th:selected="${setPageSize} eq '500'">500</option>
-                            <option value="1000" th:selected="${setPageSize} eq '1000'">1000</option>
-                        </select>
-                    </form>
-                </td>
-                <!--                </form>-->
-
-            </tr>
-        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!--                        <div class="ui form">-->
+                        <!--                            <div class="inline fields">-->
+                        <!--                                <label>更新項目を選択</label>-->
+                        <!--                                <div class="field">-->
+                        <!--                                    <div class="ui radio checkbox">-->
+                        <!--                                        <input type="radio" name="frequency" checked="checked" value="0">-->
+                        <!--                                        <label>商品名</label>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <div class="field">-->
+                        <!--                                    <div class="ui radio checkbox">-->
+                        <!--                                        <input type="radio" name="frequency" value="1">-->
+                        <!--                                        <label>カテゴリー</label>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                    </td>
+                    <td align="center">
+                        <div class="ui input">
+                            <label>商品名</label>
+                            　<input type="text" name="path" size="50" id="itemName">
+                        </div>
+                        <div class="ui input">
+                            <label>カテゴリー</label>
+                            　<input type="text" name="path" size="50" id="path">
+                            <button class="ui button" onclick="setIteminfos()">Submit</button>
+                        </div>
+                    </td>
+                    <td align="right">
+                        <form action="" id="setPageSize">
+                            <select class="ui dropdown" id="pageSize" name="pageSize" onchange="setPageSize()">
+                                <option value="">表示件数</option>
+                                <option value="20" th:selected="${setPageSize} eq '20'">20</option>
+                                <option value="50" th:selected="${setPageSize} eq '50'">50</option>
+                                <option value="500" th:selected="${setPageSize} eq '500'">500</option>
+                                <option value="1000" th:selected="${setPageSize} eq '1000'">1000</option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <div>
+            <hr>
+        </div>
+    </header>
+    <main>
+
+
+        <div style="width:90%;" class='ui container' id="main">
             <table class="ui celled table scroll-box" id="wTable">
                 <thead>
                 <tr class="_sticky">
@@ -692,8 +712,11 @@
                                     <td colspan="3">
                                         <input type="hidden" th:value="${page.getPageNum()}" name="pageNum">
                                         <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
-                                        <div class="ui input blanl">
-                                            <input type="submit" size="18">
+                                        <div>
+                                            <!--                                            <input type="submit" size="18">-->
+                                            <button class="ui primary button" type="submit">
+                                                Save
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -712,7 +735,12 @@
             </table>
         </div>
         <br>
-        <!--        分页页面底部-->
+    </main>
+    <!--        分页页面底部-->
+    <footer>
+        <div>
+            <hr>
+        </div>
         <div align="center">
             <table width="800px">
                 <tbody>
@@ -757,10 +785,8 @@
                 </tbody>
             </table>
         </div>
-        <br>
-        <br>
-        <br>
-    </div>
+    </footer>
+    <!--    </div>-->
 </div>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </body>

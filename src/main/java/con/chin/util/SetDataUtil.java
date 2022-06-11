@@ -372,7 +372,7 @@ public class SetDataUtil {
                 .replaceAll("码", "");
 
         //颜色
-        str = str.replaceAll("颜色", "カラー");
+        str = str.replaceAll("颜色", "カラー").replaceAll("图片色","写真参考");
 
         //材质名称
         str = str.replaceAll("材质成分", "素材").replaceAll("面料", "素材")
@@ -396,7 +396,8 @@ public class SetDataUtil {
                 .replaceAll("氨纶", "スパンデックス").replaceAll("交织麻织物", "交織リネン")
                 .replaceAll("薄花呢", "ツイード").replaceAll("长毛绒", "プラッシュ")
                 .replaceAll("牛津布", "オックスフォード生地").replaceAll("聚脂纤维", "ポリエステル")
-                .replaceAll("蕾丝", "レース").replaceAll("雪纺", "シフォン");
+                .replaceAll("蕾丝", "レース").replaceAll("雪纺", "シフォン")
+                .replaceAll("綿类混纺","混紡（ブレンド）生地");
 
         return str;
     }
