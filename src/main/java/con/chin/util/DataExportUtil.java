@@ -36,7 +36,7 @@ public class DataExportUtil {
 
         CsvWriter writer = null;
         try {
-            writer = CsvUtil.getWriter(itemCsvPath + File.separator + fileName + "_itemcode" + ".txt", Charset.forName("Shift-JIS"),true);
+            writer = CsvUtil.getWriter(itemCsvPath + File.separator + fileName + ".txt", Charset.forName("Shift-JIS"),true);
             writer.write(itemCodeList);
 
         } catch (Exception e) {
