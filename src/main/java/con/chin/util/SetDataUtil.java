@@ -374,11 +374,11 @@ public class SetDataUtil {
                 .replaceAll("天丝棉", "テンセルコットン").replaceAll("金丝绒", "ゴールドベルベット")
                 .replaceAll("仿丝绸", "イミテーションシルク").replaceAll("粘胶", "ビスコース")
                 .replaceAll("棉", "綿").replaceAll("羊毛", "ウール")
-                .replaceAll("桑蚕丝","マルベリーシルク").replaceAll("醋酯纤维","アセテート繊維")
-                .replaceAll("锦纶","ナイロン").replaceAll("丙纶","ポリプロピレン")
-                .replaceAll("氨纶","スパンデックス").replaceAll("交织麻织物","交織リネン")
-                .replaceAll("薄花呢","ツイード").replaceAll("长毛绒","プラッシュ")
-                .replaceAll("牛津布","オックスフォード生地");
+                .replaceAll("桑蚕丝", "マルベリーシルク").replaceAll("醋酯纤维", "アセテート繊維")
+                .replaceAll("锦纶", "ナイロン").replaceAll("丙纶", "ポリプロピレン")
+                .replaceAll("氨纶", "スパンデックス").replaceAll("交织麻织物", "交織リネン")
+                .replaceAll("薄花呢", "ツイード").replaceAll("长毛绒", "プラッシュ")
+                .replaceAll("牛津布", "オックスフォード生地");
 
         return str;
     }
