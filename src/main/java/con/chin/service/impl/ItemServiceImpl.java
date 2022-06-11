@@ -458,6 +458,7 @@ public class ItemServiceImpl implements ItemService {
             }
             //修改值
             setItemInfo(item);
+            System.out.println("更新一件产品 ID为   " +  item.getItemCode());
         }
         return 0;
     }
