@@ -286,7 +286,12 @@ public class ItemServiceImpl implements ItemService {
 //------------------------------------------------------------------------
             //变量赋值
             //产品名
-            String itemName = item.getItemName();
+            String itemName = "";
+            if (map.get("itemName") != null && !"".equals(map.get("itemName"))) {
+                itemName = map.get("itemName");
+            } else {
+                item.getItemName();
+            }
             //headline
             String headline = item.getHeadline();
             //卖价
@@ -458,7 +463,7 @@ public class ItemServiceImpl implements ItemService {
             }
             //修改值
             setItemInfo(item);
-            System.out.println("更新一件产品 ID为   " +  item.getItemCode());
+            System.out.println("更新一件产品 ID为   " + item.getItemCode());
         }
         return 0;
     }

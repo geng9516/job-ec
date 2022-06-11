@@ -42,6 +42,7 @@ function csvImport() {
 function setIteminfos() {
     var checkedValue = $('tbody input:checked');
     var path = document.getElementById("path").value;
+    var itemName = document.getElementById("itemName").value;
     //判断是否项目被选择
     if (typeof checkedValue.val() === "undefined") {
         alert("操作項目を選択してください！")
@@ -58,7 +59,7 @@ function setIteminfos() {
     $.ajax({
         url: '/setIteminfos',
         type: 'post',
-        data: {"listString": Values,path},
+        data: {"listString": Values,path,itemName},
         dataType: 'json',
         success: function (data) {
             // window.location.href = "/iteminfo?pageNum=" + 1;

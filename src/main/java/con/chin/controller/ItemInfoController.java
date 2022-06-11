@@ -792,7 +792,8 @@ public class ItemInfoController {
     @PostMapping("/setIteminfos")
     public String setIteminfos(HttpSession httpSession,
                                @RequestParam("listString[]") List<String> itemList,
-                               @RequestParam("path") String path
+                               @RequestParam("path") String path,
+                               @RequestParam("itemName") String itemName
     ) {
 
         //把选中的itemcode的数据取得
@@ -801,6 +802,9 @@ public class ItemInfoController {
         Map<String, String> map = new HashMap<>();
         if (path != null && !"".equals(path)) {
             map.put("itemPath", path);
+        }
+        if(itemName !=null && !"".equals(itemName)){
+            map.put("itemName", itemName);
         }
         //修改值
         itemService.setIteminfos(itemByItemCodes, map);
