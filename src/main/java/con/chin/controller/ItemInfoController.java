@@ -658,7 +658,7 @@ public class ItemInfoController {
             itemName = explanationKeyword;
             //把大写的空格改为小写的
             itemName = itemName.replaceAll("　", " ");
-            item.setItemName(itemName);
+//            item.setItemName(itemName);
             flog++;
         } else if (!"".equals(itemName)) {
             //把大写的空格改为小写的
