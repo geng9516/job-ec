@@ -234,18 +234,9 @@
                     </span>
                 </td>
                 <td align="right">
-<!--                    <form action="" id="setPageSize">-->
-<!--                        <select class="ui dropdown" id="pageSize" name="pageSize" onchange="setPageSize()">-->
-<!--                            <option value="">表示件数</option>-->
-<!--                            <option value="20" th:selected="${setPageSize} eq '20'">20</option>-->
-<!--                            <option value="50" th:selected="${setPageSize} eq '50'">50</option>-->
-<!--                            <option value="500" th:selected="${setPageSize} eq '500'">500</option>-->
-<!--                            <option value="1000" th:selected="${setPageSize} eq '1000'">1000</option>-->
-<!--                        </select>-->
-<!--                    </form>-->
                 </td>
                <td>
-                   
+
                </td>
             </tr>
             <tr>
@@ -271,7 +262,12 @@
                 </td>
                 <td align="center">
                     <div class="ui input">
-                        　<input type="text" name="path" size="100" id="path">
+                        <label>商品名</label>
+                        　<input type="text" name="path" size="50" id="itemName">
+                    </div>
+                    <div class="ui input">
+                        <label>カテゴリー</label>
+                        　<input type="text" name="path" size="50" id="path">
                         <button class="ui button" onclick="setIteminfos()">Submit</button>
                     </div>
                 </td>
