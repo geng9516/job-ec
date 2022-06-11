@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Component
@@ -345,16 +346,16 @@ public class SetDataUtil {
     public static String setDatetoJapanese(String str) {
 
         //: 更改为全角的
-        str = str.replaceAll(":","：");
+        str = str.replaceAll(":", "：");
 
         //转换空格
         str = str.replaceAll("   ", "!").replace("　　　", "!")
-                .replaceAll("  　","!").replaceAll(" 　 ","!")
-                .replaceAll("　  ","!").replaceAll("　　 ","!")
-                .replaceAll("　 　","!").replaceAll(" 　　","!");
+                .replaceAll("  　", "!").replaceAll(" 　 ", "!")
+                .replaceAll("　  ", "!").replaceAll("　　 ", "!")
+                .replaceAll("　 　", "!").replaceAll(" 　　", "!");
         str = str.replaceAll("!", "　");
-        str = str.replaceAll("  ","!").replaceAll("　　","!")
-                .replaceAll(" 　","!").replaceAll("　 ","!");
+        str = str.replaceAll("  ", "!").replaceAll("　　", "!")
+                .replaceAll(" 　", "!").replaceAll("　 ", "!");
         str = str.replaceAll("!", "　");
 
         //尺码名称
@@ -371,7 +372,7 @@ public class SetDataUtil {
                 .replaceAll("码", "");
 
         //颜色
-        str = str.replaceAll("颜色","カラー");
+        str = str.replaceAll("颜色", "カラー");
 
         //材质名称
         str = str.replaceAll("材质成分", "素材").replaceAll("面料", "素材")
@@ -394,10 +395,18 @@ public class SetDataUtil {
                 .replaceAll("锦纶", "ナイロン").replaceAll("丙纶", "ポリプロピレン")
                 .replaceAll("氨纶", "スパンデックス").replaceAll("交织麻织物", "交織リネン")
                 .replaceAll("薄花呢", "ツイード").replaceAll("长毛绒", "プラッシュ")
-                .replaceAll("牛津布", "オックスフォード生地").replaceAll("聚脂纤维","ポリエステル")
-                .replaceAll("蕾丝","レース").replaceAll("雪纺","シフォン");
+                .replaceAll("牛津布", "オックスフォード生地").replaceAll("聚脂纤维", "ポリエステル")
+                .replaceAll("蕾丝", "レース").replaceAll("雪纺", "シフォン");
 
         return str;
+    }
+
+    //计算价格
+    public static Integer setSalePrice(Integer salePrice) {
+
+        Double a = new BigDecimal((((salePrice + 45 + 5) * 20) / 0.7) / 0.7).setScale(0, BigDecimal.ROUND_UP).doubleValue();
+        salePrice = a.intValue();
+        return salePrice;
     }
 
 

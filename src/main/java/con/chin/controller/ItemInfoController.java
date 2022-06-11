@@ -653,7 +653,7 @@ public class ItemInfoController {
             }
         }
         //产品名字
-        itemName = itemName.replaceAll("　"," ");
+        itemName = itemName.replaceAll("　", " ");
         if (!"".equals(itemName) && !itemName.contains(" ")) {
             itemName = explanationKeyword;
             //把大写的空格改为小写的
@@ -695,7 +695,11 @@ public class ItemInfoController {
         }
         //如果卖价有修改的话
         if (salePrice != "") {
-            item.setSalePrice(Integer.parseInt(salePrice));
+            Integer salePrice1 = Integer.parseInt(salePrice);
+            if(salePrice1 < 250){
+                salePrice1 = SetDataUtil.setSalePrice(salePrice1);
+            }
+            item.setSalePrice(salePrice1);
             flog++;
         }
         //如果URL1有修改的话
