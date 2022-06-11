@@ -38,22 +38,40 @@ function csvImport() {
     $("#dataimpott").attr('action', "/itemCsvImport");
     $("#dataimpott").submit();
 }
-
-
-//相间时间检索
-function seachByDate() {
-    var startDate = $("#startDate").val();
-    var endDate = $("#endDate").add();
-    alert("開始時間を入れてください。")
-    if(startDate === null){
-        alert("開始時間を入れてください。")
-    }else {
-        $("#seachByDate").removeAttr("action");
-        $("#seachByDate").attr("method", "post");
-        $("#seachByDate").attr('action', "/seachByDate");
-        $("#seachByDate").submit();
+//
+function setIteminfos() {
+    var checkedValue = $('tbody input:checked');
+    var path = document.getElementById("path").value;
+    //判断是否项目被选择
+    if (typeof checkedValue.val() === "undefined") {
+        alert("操作項目を選択してください！")
+        return;
     }
+    //保存选中的item的code
+    var Values = new Array();
+    //遍历
+    checkedValue.each(function () {
+        Values.push($(this).val());
+    })
+
+
+    $.ajax({
+        url: '/setIteminfos',
+        type: 'post',
+        data: {"listString": Values,path},
+        dataType: 'json',
+        success: function (data) {
+            // window.location.href = "/iteminfo?pageNum=" + 1;
+            location.reload();
+            // $("#message").text(data);
+        },
+        error: function (data) {
+            $("#message").val(data);
+        }
+    })
 }
+
+
 
 //全选和反选
 function selectAll() {

@@ -43,7 +43,7 @@ public interface ItemMapper {
     int deleteItems(List<String> itemCodeList);
 
     //后期修改时,价格,进货url,状态,送料,进货价等等
-    int setItemSalePrice(Item item);
+    int setItemInfo(Item item);
 
     //新itemcode查询
     Item findItemByItemCode(Item item);

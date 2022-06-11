@@ -628,12 +628,10 @@ public class ItemInfoController {
 
         int flog = 0;
 
-        //条件设置
-        Config config = new Config();
         //编辑状态
         String explanationKeyword = "";
         String itemFlog = (String) httpSession.getAttribute("flog");
-        if (itemFlog != null && !"".equals(itemFlog) && "5".equals(itemFlog) && itemPath != null && itemPath != "") {
+        if (itemFlog != null && !"".equals(itemFlog) && "5".equals(itemFlog) && (itemPath != null && !"".equals(itemPath))) {
             //设置产品种类番号(条件はpathとサイト名)
             Map<String, String> map = new HashMap<>();
             map.put("itempath", itemPath);
@@ -654,20 +652,20 @@ public class ItemInfoController {
         }
         //产品名字
         itemName = itemName.replaceAll("　", " ");
-        if (!"".equals(itemName) && !itemName.contains(" ")) {
+        if (itemName != null && !"".equals(itemName) && !itemName.contains(" ")) {
             itemName = explanationKeyword;
             //把大写的空格改为小写的
             itemName = itemName.replaceAll("　", " ");
 //            item.setItemName(itemName);
             flog++;
-        } else if (!"".equals(itemName)) {
+        } else if (itemName != null && !"".equals(itemName)) {
             //把大写的空格改为小写的
             itemName = itemName.replaceAll("　", " ");
             item.setItemName(itemName);
             flog++;
         }
         //如果headline有值的话
-        if (headline != "") {
+        if (headline != null && !"".equals(headline)) {
             //把大写的空格改为小写的
             headline = headline.replaceAll("　", " ");
             item.setHeadline(headline);
@@ -682,43 +680,43 @@ public class ItemInfoController {
             item.setHeadline(headline);
         }
         //商品情報
-        if (explanation != "") {
+        if (explanation != null && !"".equals(explanation)) {
             //把数据中中文改为日文
             explanation = SetDataUtil.setDatetoJapanese(explanation);
             item.setExplanation(explanation);
             flog++;
         }
         //
-        if (itemPath != null && itemPath != "") {
+        if (itemPath != null && !"".equals(itemPath)) {
             item.setItemPath(itemPath);
             flog++;
         }
         //如果卖价有修改的话
-        if (salePrice != "") {
+        if (salePrice != null && !"".equals(salePrice)) {
             Integer salePrice1 = Integer.parseInt(salePrice);
-            if(salePrice1 < 250){
+            if (salePrice1 < 250) {
                 salePrice1 = SetDataUtil.setSalePrice(salePrice1);
             }
             item.setSalePrice(salePrice1);
             flog++;
         }
         //如果URL1有修改的话
-        if (url1 != "") {
+        if (url1 != null && !"".equals(url1)) {
             item.setUrl1(url1);
             flog++;
         }
         //如果URL2有修改的话
-        if (url2 != "") {
+        if (url2 != null && !"".equals(url2)) {
             item.setUrl2(url2);
             flog++;
         }
         //如果URL3有修改的话
-        if (url3 != "") {
+        if (url3 != null && !"".equals(url3)) {
             item.setUrl3(url3);
             flog++;
         }
         //把option和value的值进行设定
-        if ((option1 != null && option1 != "") && (value1 != null && value1 != "")) {
+        if ((option1 != null && !"".equals(option1)) && (value1 != null && !"".equals(value1))) {
             //有全角或半角空格全部去除
             option1 = option1.replaceAll("　", "").replaceAll(" ", "");
             option1 = SetDataUtil.setDatetoJapanese(option1);
@@ -728,7 +726,7 @@ public class ItemInfoController {
             item.setOption1(option1);
             item.setValue1(value1);
         }
-        if ((option2 != null && option2 != "") && (value2 != null && value2 != "")) {
+        if ((option2 != null && !"".equals(option2)) && (value2 != null && !"".equals(value2))) {
             //有全角或半角空格全部去除
             option2 = option2.replaceAll("　", "").replaceAll(" ", "");
             option2 = SetDataUtil.setDatetoJapanese(option2);
@@ -738,7 +736,7 @@ public class ItemInfoController {
             item.setOption2(option2);
             item.setValue2(value2);
         }
-        if ((option3 != null && option3 != "") && (value3 != null && value3 != "")) {
+        if ((option3 != null && !"".equals(option3)) && (value3 != null && !"".equals(value3))) {
             //有全角或半角空格全部去除
             option3 = option3.replaceAll("　", "").replaceAll(" ", "");
             option3 = SetDataUtil.setDatetoJapanese(option3);
@@ -748,7 +746,7 @@ public class ItemInfoController {
             item.setOption3(option3);
             item.setValue3(value3);
         }
-        if ((option4 != null && option4 != "") && (value4 != null && value4 != "")) {
+        if ((option4 != null && !"".equals(option4)) && (value4 != null && !"".equals(value4))) {
             //有全角或半角空格全部去除
             option4 = option4.replaceAll("　", "").replaceAll(" ", "");
             option4 = SetDataUtil.setDatetoJapanese(option4);
@@ -758,7 +756,7 @@ public class ItemInfoController {
             item.setOption4(option4);
             item.setValue4(value4);
         }
-        if ((option5 != null && option5 != "") && (value5 != null && value5 != "")) {
+        if ((option5 != null && !"".equals(option5)) && (value5 != null && !"".equals(value5))) {
             //有全角或半角空格全部去除
             option5 = option5.replaceAll("　", "").replaceAll(" ", "");
             option5 = SetDataUtil.setDatetoJapanese(option5);
@@ -772,7 +770,7 @@ public class ItemInfoController {
         int res = 0;
         //如果条件在1以上的话进行修改
         if (flog > 0) {
-            res = itemService.setItemSalePrice(item);
+            res = itemService.setItemInfo(item);
             //如果没有修改值的话
         } else {
             redirectAttributes.addFlashAttribute("message", "修正内容を入力してください。");
@@ -781,6 +779,33 @@ public class ItemInfoController {
         if (res == 1) {
             redirectAttributes.addFlashAttribute("message", "アイテム情報更新できました。");
         }
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
+    //修改多个值
+    @PostMapping("/setIteminfos")
+    public String setIteminfos(HttpSession httpSession,
+                               @RequestParam("listString[]") List<String> itemList,
+                               @RequestParam("path") String path
+    ) {
+
+        //把选中的itemcode的数据取得
+        List<Item> itemByItemCodes = itemService.findItemByItemCodes(itemList);
+        //条件设置
+        Map<String, String> map = new HashMap<>();
+        if (path != null && !"".equals(path)) {
+            map.put("itemPath", path);
+        }
+        //修改值
+        itemService.setIteminfos(itemByItemCodes, map);
+
+
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
         if (pageNum != null && pageNum != "") {
@@ -877,7 +902,7 @@ public class ItemInfoController {
         //设置itemcode
         item.setItemCode(itemCode);
         //把option和value的值进行设定
-        if ((option1 != null && option1 != "") && (value1 != null && value1 != "")) {
+        if ((option1 != null && !"".equals(option1)) && (value1 != null && !"".equals(value1))) {
             //有全角或半角空格全部去除
             option1 = option1.replaceAll("　", "").replaceAll(" ", "");
             //有全角半角,",","、","/","-"全部去除
@@ -885,7 +910,7 @@ public class ItemInfoController {
             item.setOption1(option1);
             item.setValue1(value1);
         }
-        if ((option2 != null && option2 != "") && (value2 != null && value2 != "")) {
+        if ((option2 != null && !"".equals(option2)) && (value2 != null && !"".equals(value2))) {
             //有全角或半角空格全部去除
             option2 = option2.replaceAll("　", "").replaceAll(" ", "");
             //有全角半角,",","、","/","-"全部去除
@@ -893,7 +918,7 @@ public class ItemInfoController {
             item.setOption2(option2);
             item.setValue2(value2);
         }
-        if ((option3 != null && option3 != "") && (value3 != null && value3 != "")) {
+        if ((option3 != null && !"".equals(option3)) && (value3 != null && !"".equals(value3))) {
             //有全角或半角空格全部去除
             option3 = option3.replaceAll("　", "").replaceAll(" ", "");
             //有全角半角,",","、","/","-"全部去除
@@ -901,7 +926,7 @@ public class ItemInfoController {
             item.setOption3(option3);
             item.setValue3(value3);
         }
-        if ((option4 != null && option4 != "") && (value4 != null && value4 != "")) {
+        if ((option4 != null && !"".equals(option4)) && (value4 != null && !"".equals(value4))) {
             //有全角或半角空格全部去除
             option4 = option4.replaceAll("　", "").replaceAll(" ", "");
             //有全角半角,",","、","/","-"全部去除
@@ -909,7 +934,7 @@ public class ItemInfoController {
             item.setOption4(option4);
             item.setValue4(value4);
         }
-        if ((option5 != null && option5 != "") && (value5 != null && value5 != "")) {
+        if ((option5 != null && !"".equals(option5)) && (value5 != null && !"".equals(value5))) {
             //有全角或半角空格全部去除
             option5 = option5.replaceAll("　", "").replaceAll(" ", "");
             //有全角半角,",","、","/","-"全部去除

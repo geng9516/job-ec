@@ -6,9 +6,12 @@ import com.github.pagehelper.PageInfo;
 import con.chin.mapper.ItemCategoryMapper;
 import con.chin.mapper.ItemMapper;
 import con.chin.mapper.OrderItemInfoMapper;
+import con.chin.pojo.ItemKeyword;
 import con.chin.pojo.OrderItemInfo;
 import con.chin.pojo.SiteShop;
 import con.chin.pojo.query.ItemInfoQuery;
+import con.chin.service.ItemCategoryService;
+import con.chin.service.ItemKeywordService;
 import con.chin.util.ItemInfoCsvExportUtil;
 import con.chin.util.ItemPhotoCopyUtil;
 import con.chin.util.SetDataUtil;
@@ -38,7 +41,10 @@ public class ItemServiceImpl implements ItemService {
     private ItemCategoryMapper itemCategoryMapper;
 
     @Autowired
-    private OrderItemInfoMapper orderItemInfoMapper;
+    private ItemCategoryService itemCategoryService;
+
+    @Autowired
+    private ItemKeywordService itemKeywordService;
 
     @Autowired
     private HttpSession httpSession;
@@ -86,12 +92,12 @@ public class ItemServiceImpl implements ItemService {
             item.setUpdatetime(now);
         }
         //商品情報更新
-        if(oldItem.getFlog() != 0 || oldItem.getFlog()!=5){
+        if (oldItem.getFlog() != 0 || oldItem.getFlog() != 5) {
             itemMapper.updateItem(item);
             //结束时间
             long end = System.currentTimeMillis();
             System.out.println("更新一件产品:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
-        }else {
+        } else {
             //结束时间
             long end = System.currentTimeMillis();
             System.out.println("不需要更新:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
@@ -206,106 +212,254 @@ public class ItemServiceImpl implements ItemService {
     //item情報変更
     @Override
     @Transactional
-    public int setItemSalePrice(Item item) {
+    public int setItemInfo(Item item) {
         Item oldItem = new Item();
         oldItem = this.findItemByItemCode(item);
-        //判断编辑层次
-        int flog = 0;
         //item不为空的时候做更新
         //headline
-        if (item.getHeadline() != null && item.getHeadline() != "") {
+        if (item.getHeadline() != null && !"".equals(item.getHeadline())) {
             oldItem.setHeadline(item.getHeadline());
-            flog++;
-        } else if (oldItem.getHeadline() != null && oldItem.getHeadline() != "") {
-            flog++;
         }
         //itemName不为空时
-        if (item.getItemName() != null && item.getItemName() != "") {
+        if (item.getItemName() != null && !"".equals(item.getItemName())) {
             oldItem.setItemName(item.getItemName());
-            flog++;
-        } else if (oldItem.getItemName() != null && oldItem.getItemName() != "") {
-            flog++;
         }
-        //
-        if (item.getItemPath() != null) {
+        //产品类别
+        if (item.getItemPath() != null && !"".equals(item.getItemPath())) {
             oldItem.setItemPath(item.getItemPath());
-            flog++;
-        } else if (oldItem.getItemPath() != null) {
-            flog++;
         }
-        //
+        //产品类别code
         if (item.getItemCategoryCode() != null) {
             oldItem.setItemCategoryCode(item.getItemCategoryCode());
-            flog++;
-        } else if (oldItem.getItemCategoryCode() != null) {
-            flog++;
         }
-        //
-        if (item.getExplanation() != null) {
+        //产品详细信息
+        if (item.getExplanation() != null && !"".equals(item.getExplanation())) {
             oldItem.setExplanation(item.getExplanation());
-            flog++;
-        } else if (oldItem.getExplanation() != null) {
-            flog++;
         }
         //卖价
         if (item.getSalePrice() != null) {
             oldItem.setSalePrice(item.getSalePrice());
-            flog++;
-        } else if (oldItem.getSalePrice() != null) {
-            flog++;
         }
         //进货url1
-        if (item.getUrl1() != null && item.getUrl1() != "") {
+        if (item.getUrl1() != null && !"".equals(item.getUrl1())) {
             oldItem.setUrl1(item.getUrl1());
-            flog++;
-        } else if (oldItem.getUrl1() != null && oldItem.getUrl1() != "") {
-            flog++;
         }
         //进货url2
-        if (item.getUrl2() != null && item.getUrl2() != "") {
+        if (item.getUrl2() != null && !"".equals(item.getUrl2())) {
             oldItem.setUrl2(item.getUrl2());
-            flog++;
-        } else if (oldItem.getUrl2() != null && oldItem.getUrl2() != "") {
-            flog++;
         }
         //进货url3
-        if (item.getUrl3() != null && item.getUrl3() != "") {
+        if (item.getUrl3() != null && !"".equals(item.getUrl3())) {
             oldItem.setUrl3(item.getUrl3());
-            flog++;
-        } else if (oldItem.getUrl3() != null && oldItem.getUrl3() != "") {
-            flog++;
         }
-        if (item.getOption1() != null && item.getOption1() != "") {
+        if (item.getOption1() != null && !"".equals(item.getOption1())) {
             oldItem.setOption1(item.getOption1());
             oldItem.setValue1(item.getValue1());
         }
-        if (item.getOption2() != null && item.getOption2() != "") {
+        if (item.getOption2() != null && !"".equals(item.getOption2())) {
             oldItem.setOption2(item.getOption2());
             oldItem.setValue2(item.getValue2());
         }
-        if (item.getOption3() != null && item.getOption3() != "") {
+        if (item.getOption3() != null && !"".equals(item.getOption3())) {
             oldItem.setOption3(item.getOption3());
             oldItem.setValue3(item.getValue3());
         }
-        if (item.getOption4() != null && item.getOption4() != "") {
+        if (item.getOption4() != null && !"".equals(item.getOption4())) {
             oldItem.setOption4(item.getOption4());
             oldItem.setValue4(item.getValue4());
         }
-        if (item.getOption5() != null && item.getOption5() != "") {
+        if (item.getOption5() != null && !"".equals(item.getOption5())) {
             oldItem.setOption5(item.getOption5());
             oldItem.setValue5(item.getValue5());
         }
         //当前时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        //如果是flog>=10并且产品还未失效的话就属于编辑完成  产品是否属于编辑
-//        if (flog >= 4 && "2099-12-31 23:59:59".equals(oldItem.getEndDate())) {
-//            oldItem.setFlog(1);
-//            oldItem.setUpdatetime(now);
-//            return itemMapper.setItemSalePrice(oldItem);
-//        } else {
         oldItem.setUpdatetime(now);
-        return itemMapper.setItemSalePrice(oldItem);
-//        }
+        return itemMapper.setItemInfo(oldItem);
+
+    }
+
+    //修改多个值
+    @Override
+    public int setIteminfos(List<Item> itemList, Map<String, String> map) {
+        for (Item item : itemList) {
+//------------------------------------------------------------------------
+            //变量赋值
+            //产品名
+            String itemName = item.getItemName();
+            //headline
+            String headline = item.getHeadline();
+            //卖价
+            Integer salePrice = item.getSalePrice();
+            //url1
+            String url1 = item.getUrl1();
+            //url2
+            String url2 = item.getUrl2();
+            //url3
+            String url3 = item.getUrl3();
+            //option1
+            String option1 = item.getOption1();
+            //option2
+            String option2 = item.getOption2();
+            //option3
+            String option3 = item.getOption3();
+            //option4
+            String option4 = item.getOption4();
+            //option5
+            String option5 = item.getOption5();
+            //value1
+            String value1 = item.getValue1();
+            //value2
+            String value2 = item.getValue2();
+            //value3
+            String value3 = item.getValue3();
+            //value4
+            String value4 = item.getValue4();
+            //value5
+            String value5 = item.getValue5();
+            //编辑状态
+            String explanationKeyword = "";
+            //产品详细信息
+            String explanation = item.getExplanation();
+            //产品状态
+            Integer itemFlog = item.getFlog();
+//------------------------------------------------------------------------
+            //itemPath
+            String itemPath = map.get("itemPath");
+            if (itemPath != null && !"".equals(itemPath)) {
+                if (itemFlog != null && itemFlog == 5 && itemPath != null && !"".equals(itemPath)) {
+                    //设置产品种类番号(条件はpathとサイト名).
+
+                    Map<String, String> map1 = new HashMap<>();
+                    map.put("itempath", itemPath);
+                    map.put("shopName", "yahoo");
+                    Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map1);
+                    item.setItemCategoryCode(itemCategorCode);
+                    ItemKeyword itemKeyword = new ItemKeyword();
+                    itemKeyword.setProductCategory(itemPath);
+                    List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
+                    for (ItemKeyword keyword : itemKeyword1) {
+                        explanationKeyword += keyword.getKeyword() + " ";
+                    }
+                    if (!explanation.contains("関連キーワード")) {
+                        explanation = explanation + "\n" + "\n" +
+                                "■関連キーワード：" + "\n" +
+                                explanationKeyword;
+                    }
+                }
+            }
+
+            //产品名字
+            itemName = itemName.replaceAll("　", " ");
+            if (itemName != null && !"".equals(itemName) && !itemName.contains(" ")) {
+                itemName = explanationKeyword;
+                //把大写的空格改为小写的
+                itemName = itemName.replaceAll("　", " ");
+//            item.setItemName(itemName);
+            } else if (itemName != null && !"".equals(itemName)) {
+                //把大写的空格改为小写的
+                itemName = itemName.replaceAll("　", " ");
+                item.setItemName(itemName);
+            }
+            //如果headline有值的话
+            if (headline != null && !"".equals(headline)) {
+                //把大写的空格改为小写的
+                headline = headline.replaceAll("　", " ");
+                item.setHeadline(headline);
+            } else {
+                headline = explanationKeyword.replaceAll("　", " ");
+
+                if (headline.length() > 30 && headline.contains(" ")) {
+                    //把产品名称的长度调整
+                    headline = SetDataUtil.setStrLength(headline, 30);
+                }
+                item.setHeadline(headline);
+            }
+            //商品情報
+            if (explanation != null && !"".equals(explanation)) {
+                //把数据中中文改为日文
+                explanation = SetDataUtil.setDatetoJapanese(explanation);
+                item.setExplanation(explanation);
+            }
+            //产品类别
+            if (itemPath != null && !"".equals(itemPath)) {
+                item.setItemPath(itemPath);
+            }
+            //如果卖价有修改的话
+            if (salePrice != null) {
+                Integer salePrice1 = salePrice;
+                if (salePrice1 < 250) {
+                    salePrice1 = SetDataUtil.setSalePrice(salePrice1);
+                }
+                item.setSalePrice(salePrice1);
+            }
+            //如果URL1有修改的话
+            if (url1 != null && !"".equals(url1)) {
+                item.setUrl1(url1);
+            }
+            //如果URL2有修改的话
+            if (url2 != null && !"".equals(url2)) {
+                item.setUrl2(url2);
+            }
+            //如果URL3有修改的话
+            if (url3 != null && !"".equals(url3)) {
+                item.setUrl3(url3);
+            }
+            //把option和value的值进行设定
+            if ((option1 != null && !"".equals(option1)) && (value1 != null && !"".equals(value1))) {
+                //有全角或半角空格全部去除
+                option1 = option1.replaceAll("　", "").replaceAll(" ", "");
+                option1 = SetDataUtil.setDatetoJapanese(option1);
+                //有全角半角,",","、","/","-"全部去除
+                value1 = value1.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+                value1 = SetDataUtil.setDatetoJapanese(value1);
+                item.setOption1(option1);
+                item.setValue1(value1);
+            }
+            if ((option2 != null && !"".equals(option2)) && (value2 != null && !"".equals(value2))) {
+                //有全角或半角空格全部去除
+                option2 = option2.replaceAll("　", "").replaceAll(" ", "");
+                option2 = SetDataUtil.setDatetoJapanese(option2);
+                //有全角半角,",","、","/","-"全部去除
+                value2 = value2.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+                value2 = SetDataUtil.setDatetoJapanese(value2);
+                item.setOption2(option2);
+                item.setValue2(value2);
+            }
+            if ((option3 != null && !"".equals(option3)) && (value3 != null && !"".equals(value3))) {
+                //有全角或半角空格全部去除
+                option3 = option3.replaceAll("　", "").replaceAll(" ", "");
+                option3 = SetDataUtil.setDatetoJapanese(option3);
+                //有全角半角,",","、","/","-"全部去除
+                value3 = value3.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+                value3 = SetDataUtil.setDatetoJapanese(value3);
+                item.setOption3(option3);
+                item.setValue3(value3);
+            }
+            if ((option4 != null && !"".equals(option4)) && (value4 != null && !"".equals(value4))) {
+                //有全角或半角空格全部去除
+                option4 = option4.replaceAll("　", "").replaceAll(" ", "");
+                option4 = SetDataUtil.setDatetoJapanese(option4);
+                //有全角半角,",","、","/","-"全部去除
+                value4 = value4.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+                value4 = SetDataUtil.setDatetoJapanese(value4);
+                item.setOption4(option4);
+                item.setValue4(value4);
+            }
+            if ((option5 != null && !"".equals(option5)) && (value5 != null && !"".equals(value5))) {
+                //有全角或半角空格全部去除
+                option5 = option5.replaceAll("　", "").replaceAll(" ", "");
+                option5 = SetDataUtil.setDatetoJapanese(option5);
+                //有全角半角,",","、","/","-"全部去除
+                value5 = value5.replaceAll("　", " ").replaceAll("、", " ").replaceAll(",", " ").replaceAll("/", " ").replaceAll("-", " ");
+                value5 = SetDataUtil.setDatetoJapanese(value5);
+                item.setOption5(option5);
+                item.setValue5(value5);
+            }
+            //修改值
+            setItemInfo(item);
+        }
+        return 0;
     }
 
     //新itemcode查询
@@ -318,23 +472,6 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> findItemByItemCodes(List<String> itemCodeList) {
 
-        //csv下载后状态改为3
-        for (String itemCode : itemCodeList) {
-            //查询条件
-            Item item = new Item();
-            item.setItemCode(itemCode);
-            //检索需要下载的item是否是已编辑的
-            //保存检索到的item
-            Item resItem = new Item();
-            resItem = itemMapper.findItemByItemCode(item);
-            //下载的item的状态不是未编辑的话改为已下载状态
-            if (resItem.getFlog() == 1) {
-                //2 表示已下载
-                resItem.setFlog(2);
-                //把状态改为已下载
-                itemMapper.setItemSalePrice(resItem);
-            }
-        }
         //返回需要下载的iteminfo
         return itemMapper.findItemByItemCodes(itemCodeList);
     }
@@ -367,23 +504,23 @@ public class ItemServiceImpl implements ItemService {
         oldItem = this.findItemByItemCode(item);
 //        oldItem.setUpdatetime(now);
 
-        if (item.getOption1() != null && item.getOption1() != "") {
+        if (item.getOption1() != null && !"".equals(item.getOption1())) {
             oldItem.setOption1(null);
             oldItem.setValue1(null);
         }
-        if (item.getOption2() != null && item.getOption2() != "") {
+        if (item.getOption2() != null && !"".equals(item.getOption2())) {
             oldItem.setOption2(null);
             oldItem.setValue2(null);
         }
-        if (item.getOption3() != null && item.getOption3() != "") {
+        if (item.getOption3() != null && !"".equals(item.getOption3())) {
             oldItem.setOption3(null);
             oldItem.setValue3(null);
         }
-        if (item.getOption4() != null && item.getOption4() != "") {
+        if (item.getOption4() != null && !"".equals(item.getOption4())) {
             oldItem.setOption4(null);
             oldItem.setValue4(null);
         }
-        if (item.getOption5() != null && item.getOption5() != "") {
+        if (item.getOption5() != null && !"".equals(item.getOption5())) {
             oldItem.setOption5(null);
             oldItem.setValue5(null);
         }
@@ -406,23 +543,23 @@ public class ItemServiceImpl implements ItemService {
         oldItem = this.findItemByItemCode(item);
 //        oldItem.setUpdatetime(now);
 
-        if (item.getOption1() != null && item.getOption1() != "") {
+        if (item.getOption1() != null && "".equals(item.getOption1())) {
             oldItem.setOption1(item.getOption1());
             oldItem.setValue1(item.getValue1());
         }
-        if (item.getOption2() != null && item.getOption2() != "") {
+        if (item.getOption2() != null && "".equals(item.getOption2())) {
             oldItem.setOption2(item.getOption2());
             oldItem.setValue2(item.getValue2());
         }
-        if (item.getOption3() != null && item.getOption3() != "") {
+        if (item.getOption3() != null && "".equals(item.getOption3())) {
             oldItem.setOption3(item.getOption3());
             oldItem.setValue3(item.getValue3());
         }
-        if (item.getOption4() != null && item.getOption4() != "") {
+        if (item.getOption4() != null && "".equals(item.getOption4())) {
             oldItem.setOption4(item.getOption4());
             oldItem.setValue4(item.getValue4());
         }
-        if (item.getOption5() != null && item.getOption5() != "") {
+        if (item.getOption5() != null && "".equals(item.getOption5())) {
             oldItem.setOption5(item.getOption5());
             oldItem.setValue5(item.getValue5());
         }

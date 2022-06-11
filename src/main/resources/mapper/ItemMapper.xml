@@ -248,7 +248,7 @@
         </foreach>
     </delete>
 
-    <update id="setItemSalePrice">
+    <update id="setItemInfo">
         update t_item
         set headline=#{headline},
             itemname=#{itemName},

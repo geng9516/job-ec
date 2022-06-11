@@ -5,6 +5,7 @@ import con.chin.pojo.Item;
 import con.chin.pojo.query.ItemInfoQuery;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ItemService {
 
@@ -40,8 +41,11 @@ public interface ItemService {
     //删除多个产品
     int deleteItems(List<String> itemCodeList);
 
-    //価格変更
-    int setItemSalePrice(Item item);
+    //修改值
+    int setItemInfo(Item item);
+
+    //修改多个值
+    int setIteminfos(List<Item> itemList, Map<String, String> map);
 
     //新itemcode查询
     Item findItemByItemCode(Item item);
