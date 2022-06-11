@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import us.codecraft.webmagic.Page;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -169,22 +168,19 @@ public class Create17zwdItemInfo {
                 String explanation1 = explanationElement.select("div").text();
                 if (explanation1.contains("材质成分")) {
                     material += explanation1;
-//                    explanation = explanation + "\n";
                 }
                 if (explanation1.contains("面料")) {
                     material += explanation1;
-//                    explanation = explanation + "\n";
                 }
                 if (explanation1.contains("材质")) {
                     material += explanation1;
-//                    explanation = explanation + "\n";
                 }
             }
             explanation = explanation +
-                    (material == "" ? "" : "素材　:" + material + "\n" + "\n") +
                     "カラー：" + value1 + "\n" + "\n" +
                     "サイズ(cm)：" + value2 + "\n" + "\n" +
                     (element == "" ? "" : element + "\n" + "\n") +
+                    (material == "" ? "" : "素材　:" + material + "\n" + "\n") +
                     "原産国:中国" + "\n" + "\n" +
                     "☆詳細なサイズは写真のサイズ表を参考ください。" + "\n" +
                     "※PC環境や撮影状況などの違いにより実際のお色とは若干異なる場合がございます。" + "\n" +
