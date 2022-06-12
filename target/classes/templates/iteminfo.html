@@ -307,9 +307,9 @@
 
 
         <div style="width:90%;" class='ui container' id="main">
-            <table class="ui celled table scroll-box" id="wTable">
+            <table class="ui celled table scroll-box mini" id="wTable">
                 <thead>
-                <tr class="_sticky">
+                <tr class="_sticky" >
                     <th style="width: 3%">
                         <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
                     </th>
@@ -379,7 +379,7 @@
                                     <div><h5 th:text="${item.getShopName()}"></h5></div>
                                 </tr>
                                 <tr>
-                                    <div><span th:text="${item.getItemCode()}"></span></div>
+                                    <div><span th:text="${item.getItemCode()+'（'+item.getOldItemCode().substring(item.getOldItemCode().indexOf('-')+1,item.getOldItemCode().length())+'）'}"></span></div>
 
                                 </tr>
                                 <tr>
