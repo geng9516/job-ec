@@ -821,6 +821,7 @@ public class ItemInfoController {
     }
 
     //修改多个值
+    @ResponseBody
     @PostMapping("/setIteminfos")
     public String setIteminfos(HttpSession httpSession,
                                @RequestParam("listString[]") List<String> itemList,
@@ -841,14 +842,13 @@ public class ItemInfoController {
         //修改值
         itemService.setIteminfos(itemByItemCodes, map);
 
+        Gson gson = new Gson();
 
-        //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
         if (pageNum != null && pageNum != "") {
-            return "redirect:/iteminfo?pageNum=" + pageNum;
+            return gson.toJson(pageNum);
         }
-
-        return "redirect:/iteminfo?pageNum=" + 1;
+        return gson.toJson(1);
     }
 
     @GetMapping("/setFlogToEdit")

@@ -54,25 +54,21 @@ function setIteminfos() {
     checkedValue.each(function () {
         Values.push($(this).val());
     })
-
-
     $.ajax({
         url: '/setIteminfos',
         type: 'post',
         data: {"listString": Values,path,itemName},
         dataType: 'json',
         success: function (data) {
-            // window.location.href = "/iteminfo?pageNum=" + 1;
-            location.reload();
-            // $("#message").text(data);
+            window.location = "/iteminfo?pageNum=" + 1;
+            // location.reload();
+            $("#message").text(data);
         },
         error: function (data) {
             $("#message").val(data);
         }
     })
 }
-
-
 
 //全选和反选
 function selectAll() {
@@ -141,7 +137,7 @@ function setItemsFlogToEdit() {
         Values.push($(this).val());
     })
     $.ajax({
-        url: '/setItemFlogToEdit',
+        url: '/setItemsFlogToEdit',
         type: 'post',
         data: {"listString": Values},
         dataType: 'json',
