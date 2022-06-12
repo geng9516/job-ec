@@ -213,38 +213,6 @@ function deleteItems() {
     })
 }
 
-//选中的option削除
-function deleteOption(e) {
-    var checkedValue = $('#top input:checked');
-    var value = e.parentNode.parentNode.parentNode.parentNode.parentNode;
-    var itemCode = $(value).find("input.itemCode1").val();
-    // 判断是否项目被选择
-    if (typeof checkedValue.val() === "undefined") {
-        alert("操作項目を選択してください！")
-        return;
-    }
-    // 保存选中的item的code
-    var Values = new Array();
-    //遍历
-    checkedValue.each(function () {
-        Values.push($(this).val());
-    })
-    $.ajax({
-        url: '/deleteOption',
-        type: 'post',
-        data: {"listString": Values, "itemCode": itemCode},
-        dataType: 'json',
-        success: function (data) {
-            window.location = "/iteminfo?pageNum=" + data;
-            // $("#message").text("必要ないオプション項削除完了！");
-        },
-        error: function (data) {
-            $("#message").val(data);
-        }
-    })
-
-}
-
 //计算价格
 function calculation(e) {
     //获取当前节点的父节点的父节点下的第一个子节点下的第一个子节点(送料)
@@ -309,25 +277,5 @@ function calculation(e) {
         var profitability = Number(profit / (salsePrice1 + 850) * 100).toFixed(1);
         profitability += "%";
         $(value3).text(profitability);
-    }
-}
-
-function deliveryAndPriceNotNull(e) {
-    //获取当前节点的父节点的父节点下的第一个子节点下的第一个子节点(送料)
-    var value1 = e.parentNode.parentNode.children[1].children[0];
-    //$(value1) 转为jQuery对象 操作dom
-    var delivery = $(value1).find("option:selected").text();
-    delivery = delivery.substring(delivery.indexOf(">") + 1, delivery.length);
-    //进货价节点
-    var value2 = e.parentNode.parentNode.children[1].children[1];
-    var price = $(value2).val();
-
-    if (delivery == null || delivery == "") {
-        alert("送料を入力してください！")
-        return;
-    }
-    if (price == null || price == "") {
-        alert("仕入れ価格を入力してください！");
-        return;
     }
 }

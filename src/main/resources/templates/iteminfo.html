@@ -145,113 +145,117 @@
                 <div class="results"></div>&emsp;
             </div>
             <!--分页页面顶部-->
-<!--            <div align="center">-->
-<!--                <table width="800px">-->
-<!--                    <tbody>-->
-<!--                    <tr>-->
-<!--                        <td>-->
-<!--                            <a th:href="@{/iteminfo(pageNum=${1})}" class="ui button basic mini"-->
-<!--                               th:unless="${page.isFirstPage}">最初ページへ-->
-<!--                            </a>-->
-<!--                            <a th:href="@{/iteminfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"-->
-<!--                               th:unless="${page.isFirstPage}">前へ-->
-<!--                            </a>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <h8 th:text="${page.pageNum}">2</h8>-->
-<!--                            ページ目/全-->
-<!--                            <h8 th:text="${page.pages}">4</h8>-->
-<!--                            ページ&emsp;-->
-<!--                            商品数-->
-<!--                            <h8 th:text="${page.total}">29</h8>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <form name="pageForm" th:action="@{/iteminfo}" method="get">-->
-<!--                                <div class="ui mini input ">-->
-<!--                                    <input type="text" class="m-bg" name="pageNum" placeholder="何ページ"-->
-<!--                                           style="width:100px!important;height:30px!important;" required>-->
-<!--                                    <button type="submit"-->
-<!--                                            style="font-size:11px!important;width:60px!important;height:23px!important;border:none;margin: 5px;padding:0;"-->
-<!--                                            class="button mini">-->
-<!--                                        へジャンプ-->
-<!--                                    </button>-->
-<!--                                </div>-->
-<!--                            </form>-->
-<!--                        </td>-->
-<!--                        <td>&nbsp;</td>-->
-<!--                        <td style="float:right">-->
-<!--                            <a th:href="@{/iteminfo(pageNum=${page.pageNum+1})}" class="ui button basic mini"-->
-<!--                               style="float:right;" th:unless="${page.isLastPage}">次へ-->
-<!--                            </a>-->
-<!--                            <a th:href="@{/iteminfo(pageNum=${page.getPages()})}" class="ui button basic mini"-->
-<!--                               style="float:right;" th:unless="${page.isLastPage}">最終ページへ-->
-<!--                            </a>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
-<!--            </div>-->
+            <!--            <div align="center">-->
+            <!--                <table width="800px">-->
+            <!--                    <tbody>-->
+            <!--                    <tr>-->
+            <!--                        <td>-->
+            <!--                            <a th:href="@{/iteminfo(pageNum=${1})}" class="ui button basic mini"-->
+            <!--                               th:unless="${page.isFirstPage}">最初ページへ-->
+            <!--                            </a>-->
+            <!--                            <a th:href="@{/iteminfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"-->
+            <!--                               th:unless="${page.isFirstPage}">前へ-->
+            <!--                            </a>-->
+            <!--                        </td>-->
+            <!--                        <td>-->
+            <!--                            <h8 th:text="${page.pageNum}">2</h8>-->
+            <!--                            ページ目/全-->
+            <!--                            <h8 th:text="${page.pages}">4</h8>-->
+            <!--                            ページ&emsp;-->
+            <!--                            商品数-->
+            <!--                            <h8 th:text="${page.total}">29</h8>-->
+            <!--                        </td>-->
+            <!--                        <td>-->
+            <!--                            <form name="pageForm" th:action="@{/iteminfo}" method="get">-->
+            <!--                                <div class="ui mini input ">-->
+            <!--                                    <input type="text" class="m-bg" name="pageNum" placeholder="何ページ"-->
+            <!--                                           style="width:100px!important;height:30px!important;" required>-->
+            <!--                                    <button type="submit"-->
+            <!--                                            style="font-size:11px!important;width:60px!important;height:23px!important;border:none;margin: 5px;padding:0;"-->
+            <!--                                            class="button mini">-->
+            <!--                                        へジャンプ-->
+            <!--                                    </button>-->
+            <!--                                </div>-->
+            <!--                            </form>-->
+            <!--                        </td>-->
+            <!--                        <td>&nbsp;</td>-->
+            <!--                        <td style="float:right">-->
+            <!--                            <a th:href="@{/iteminfo(pageNum=${page.pageNum+1})}" class="ui button basic mini"-->
+            <!--                               style="float:right;" th:unless="${page.isLastPage}">次へ-->
+            <!--                            </a>-->
+            <!--                            <a th:href="@{/iteminfo(pageNum=${page.getPages()})}" class="ui button basic mini"-->
+            <!--                               style="float:right;" th:unless="${page.isLastPage}">最終ページへ-->
+            <!--                            </a>-->
+            <!--                        </td>-->
+            <!--                    </tr>-->
+            <!--                    </tbody>-->
+            <!--                </table>-->
+            <!--            </div>-->
             <table style="width: 100%;">
                 <tr class="_sticky">
                     <!--一括操作-->
                     <td colspan="2">
-                    <span>
-                        <select class="ui dropdown" id="downloadCsv" name="downloadCsv" onchange="bulkOperation()">
-                            <option value="">ダウンロード</option>
-                            <option value="0">アイテムCSVのみ</option>
-                            <option value="1">商品画像のみ</option>
-                            <option value="2">両方</option>
-                            <option value="3">オプションCSVのみ</option>
-                            <option value="4">在庫CSVのみ</option>
-                        </select>
-                    </span>
+                        <span>
+                            <select class="ui dropdown" id="downloadCsv" name="downloadCsv" onchange="bulkOperation()">
+                                <option value="">ダウンロード</option>
+                                <option value="0">アイテムCSVのみ</option>
+                                <option value="1">商品画像のみ</option>
+                                <option value="2">両方</option>
+                                <option value="3">オプションCSVのみ</option>
+                                <option value="4">在庫CSVのみ</option>
+                            </select>
+                        </span>
                         <span th:switch="${deleteFlog}">
-                        <span th:case="${0}">
-                               &emsp;<button class="ui button mini ui-corner-left"
-                                             onclick="setDeleteItems()">削除準備</button>
-                                <a th:href="@{/selectItemByNewDownloaded}"><button
-                                        class="ui button mini ui-corner-left blue">未ダウンロード分</button></a>
-                                <a th:href="@{/setFlogToEdit(editFlog=${0})}"><button
-                                        class="ui button mini ui-corner-left red">全チェック</button></a>
+                            <span th:case="${0}">
+                                   &emsp;<button class="ui button mini ui-corner-left"
+                                                 onclick="setDeleteItems()">削除準備</button>
+                                    <a th:href="@{/selectItemByNewDownloaded}"><button
+                                            class="ui button mini ui-corner-left blue">未ダウンロード分</button></a>
+                                    <a th:href="@{/setFlogToEdit(editFlog=${0})}"><button
+                                            class="ui button mini ui-corner-left red">全チェック</button></a>
+                            </span>
+                            <span th:case="${3}">
+                                &emsp;<button class="ui button mini ui-corner-left teal"
+                                              onclick="setItemsFlogToEdit()">一括戻す</button>
+                                <button class="ui button mini ui-corner-left red" onclick="deleteItems()">一括削除</button>
+                            </span>
+                            <span th:case="${5}">
+                                <button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
+                                <a th:href="@{/setFlogToEdit(editFlog=${5})}"><button
+                                        class="ui button mini ui-corner-left red">編集済</button></a>
+                            </span>
+                             <span th:case="*">
+                                &emsp;<button class="ui button mini ui-corner-left"
+                                              onclick="setDeleteItems()">削除準備</button>
+                            </span>
                         </span>
-                        <span th:case="${3}">
-                            &emsp;<button class="ui button mini ui-corner-left teal"
-                                          onclick="setItemsFlogToEdit()">一括戻す</button>
-                            <button class="ui button mini ui-corner-left red" onclick="deleteItems()">一括削除</button>
-                        </span>
-                        <span th:case="${5}">
-                            <button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
-                            <a th:href="@{/setFlogToEdit(editFlog=${5})}"><button
-                                    class="ui button mini ui-corner-left red">編集済</button></a>
-                        </span>
-                         <span th:case="*">
-                            &emsp;<button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
-                        </span>
-                    </span>
                         <span th:switch="${siteShop}">
-                        <span th:case="null">
+                            <span th:case="null">
 
+                            </span>
+                            <span th:case="*">
+                                <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                        class="ui button mini ui-corner-left red">ショップ商品一括ダウンロード</button></a>
+                            </span>
                         </span>
-                        <span th:case="*">
-                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
-                                    class="ui button mini ui-corner-left red">ショップ商品一括ダウンロード</button></a>
-                        </span>
-                    </span>
                         <span th:switch="${searchConditions}">
-                        <span th:case="null">
+                            <span th:case="null">
+                            </span>
+                            <span th:case="''">
+                            </span>
+                            <span th:case="*">
+                                <a th:href="@{/downloadsearchConditionsAll}"><button
+                                        class="ui button mini ui-corner-left red">検索結果一括ダウンロード</button></a>
+                            </span>
                         </span>
-                        <span th:case="''">
-                        </span>
-                        <span th:case="*">
-                            <a th:href="@{/downloadsearchConditionsAll}"><button
-                                    class="ui button mini ui-corner-left red">検索結果一括ダウンロード</button></a>
-                        </span>
-                    </span>
                     </td>
                     <td align="right">
-                    </td>
-                    <td>
-
+                        <h8 th:text="${page.pageNum}">2</h8>
+                        ページ目/全
+                        <h8 th:text="${page.pages}">4</h8>
+                        ページ&emsp;
+                        商品数
+                        <h8 th:text="${page.total}" style="color: brown">29</h8>
                     </td>
                 </tr>
                 <tr>
@@ -309,7 +313,7 @@
         <div style="width:90%;" class='ui container' id="main">
             <table class="ui celled table scroll-box mini" id="wTable">
                 <thead>
-                <tr class="_sticky" >
+                <tr class="_sticky">
                     <th style="width: 3%">
                         <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
                     </th>
@@ -335,24 +339,31 @@
                     <td valign="top">
                         <input type="checkbox" class="checkbox" th:value="${item.getItemCode()}">
                     </td>
-                    <td valign="top">
-                        <span th:switch="${deleteFlog}">
-                            <span th:case="3">
-                                <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()})}"
-                                   class="ui button mini teal">戻す
-                                </a>
+                    <form action="/setItemInfo" method="post" id="operation">
+                        <td valign="top">
+                            <span th:switch="${deleteFlog}">
+                                <span th:case="3">
+                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()})}"
+                                       class="ui button mini teal">戻す
+                                    </a>
+                                </span>
+                                <span th:case="5">
+                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()})}"
+                                       class="ui button mini teal">未ダウンロードへ
+                                    </a>
+                                    <br><br>
+                                    <button class="ui secondary button mini" type="submit">
+                                        Save
+                                    </button>
+                                </span>
+                                <span th:case="*">
+                                    <button class="ui secondary button mini" type="submit">
+                                        Save
+                                    </button>
+                                </span>
                             </span>
-                            <span th:case="5">
-                                <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()})}"
-                                   class="ui button mini teal">未ダウンロードへ
-                                </a>
-                            </span>
-                            <span th:case="*">
-                                <a th:href="@{/}" class="ui button mini pink">編集</a>
-                            </span>
-                        </span>
-                        <br><br>
-                        <span th:switch="${deleteFlog}">
+                            <br><br>
+                            <span th:switch="${deleteFlog}">
                             <span th:case="3">
                                 <a th:href="@{deleteItem(itemCode=${item.getItemCode()})}"
                                    class="ui button mini red">削除
@@ -364,8 +375,9 @@
                                 </a>
                             </span>
                         </span>
-                    </td>
-                    <form action="/setItemInfo" method="post" id="operation">
+
+                        </td>
+
                         <td valign="top">
                             <table>
                                 <tr>
@@ -379,18 +391,22 @@
                                     <div><h5 th:text="${item.getShopName()}"></h5></div>
                                 </tr>
                                 <tr>
-                                    <div><span th:text="${item.getItemCode()+'（'+item.getOldItemCode().substring(item.getOldItemCode().indexOf('-')+1,item.getOldItemCode().length())+'）'}"></span></div>
+                                    <div><span
+                                            th:text="${item.getItemCode()+'（'+item.getOldItemCode().substring(item.getOldItemCode().indexOf('-')+1,item.getOldItemCode().length())+'）'}"></span>
+                                    </div>
 
                                 </tr>
                                 <tr>
-                                    販売価格：
+                                    販売価格：　　
                                     <span class="ui input mini">
                                         <input style="color: #ea193a" id="salePrice" name="salePrice"
                                                th:value="${item.getSalePrice()}" size="6">
                                     </span>
                                 </tr>
                                 <tr>
-                                    <div>価格：<span th:text="${item.getPrice()}"></span></div>
+                                    <div>価格：　　　　　
+                                        <span th:text="${item.getPrice()}"></span>
+                                    </div>
                                 </tr>
                                 <tr>
                                     <div>元URL：<a th:href="${item.getUrl5()}" th:target="_blank"><i
@@ -488,16 +504,11 @@
                             </div>
                         </td>
                         <td valign="top">
-                            <!--                        <form action="/updateOption" method="post">-->
                             <table id="top">
                                 <input type="hidden" name="itemCode1" class="itemCode1"
                                        th:value="${item.getItemCode()}">
                                 <tr th:switch="${item.getOption1()}">
                                     <div th:case=" null">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input th:if="${item.getOption1()} != null" type="checkbox"-->
-                                        <!--                                                   th:value="${'1:' + item.getOption1()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -514,9 +525,6 @@
                                         </td>
                                     </div>
                                     <div th:case="*">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input type="checkbox" th:value="${'1:' + item.getOption1()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -525,7 +533,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="width: 300px">
+                                        <td style="width: 250px">
                                             <div class="ui form">
                                                 <div class="field">
                                                     <textarea rows="1" name="value1" class="fontSize"
@@ -537,10 +545,6 @@
                                 </tr>
                                 <tr th:switch="${item.getOption2()}">
                                     <div th:case="null">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input th:if="${item.getOption2()} != null" type="checkbox"-->
-                                        <!--                                                   th:value="${'2:' + item.getOption2()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -557,9 +561,6 @@
                                         </td>
                                     </div>
                                     <div th:case="*">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input type="checkbox" th:value="${'2:' + item.getOption2()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -569,7 +570,7 @@
                                             </div>
                                             <br>
                                         </td>
-                                        <td style="width: 300px">
+                                        <td style="width: 250px">
                                             <div class="ui form">
                                                 <div class="field">
                                                     <textarea rows="1" name="value2" class="fontSize"
@@ -581,10 +582,6 @@
                                 </tr>
                                 <tr th:switch="${item.getOption3()}">
                                     <div th:case="null">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input th:if="${item.getOption3()} != null" type="checkbox"-->
-                                        <!--                                                   th:value="${'3:' + item.getOption3()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -601,9 +598,6 @@
                                         </td>
                                     </div>
                                     <div th:case="*">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input type="checkbox" th:value="${'3:' + item.getOption3()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -612,7 +606,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="width: 300px">
+                                        <td style="width: 250px">
                                             <div class="ui form">
                                                 <div class="field">
                                                     <textarea rows="1" name="value3" class="fontSize"
@@ -624,10 +618,6 @@
                                 </tr>
                                 <tr th:switch="${item.getOption4()}">
                                     <div th:case="null">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input th:if="${item.getOption4()} != null" type="checkbox"-->
-                                        <!--                                                   th:value="${'4:' + item.getOption4()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -644,9 +634,6 @@
                                         </td>
                                     </div>
                                     <div th:case="*">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input type="checkbox" th:value="${'4:' + item.getOption4()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -655,7 +642,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="width: 300px">
+                                        <td style="width: 250px">
                                             <div class="ui form">
                                                 <div class="field">
                                                     <textarea rows="1" name="value4" class="fontSize"
@@ -667,10 +654,6 @@
                                 </tr>
                                 <tr th:switch="${item.getOption5()}">
                                     <div th:case="${null}">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input th:if="${item.getOption5()} != null" type="checkbox"-->
-                                        <!--                                                   th:value="${'5:' + item.getOption5()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -687,9 +670,6 @@
                                         </td>
                                     </div>
                                     <div th:case="*">
-                                        <!--                                        <td>-->
-                                        <!--                                            <input type="checkbox" th:value="${'5:' + item.getOption5()}">-->
-                                        <!--                                        </td>-->
                                         <td style="width: 120px">
                                             <div class="ui form">
                                                 <div class="field">
@@ -698,7 +678,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="width: 300px">
+                                        <td style="width: 250px">
                                             <div class="ui form">
                                                 <div class="field">
                                                     <textarea rows="1" name="value5" class="fontSize"
@@ -707,19 +687,19 @@
                                             </div>
                                         </td>
                                     </div>
+                                    <input type="hidden" th:value="${page.getPageNum()}" name="pageNum">
+                                    <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
                                 </tr>
-                                <tr align="right">
-                                    <td colspan="3">
-                                        <input type="hidden" th:value="${page.getPageNum()}" name="pageNum">
-                                        <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
-                                        <div>
-                                            <!--                                            <input type="submit" size="18">-->
-                                            <button class="ui primary button" type="submit">
-                                                Save
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!--                                <tr align="right">-->
+                                <!--                                    <td colspan="3">-->
+                                <!--                                        -->
+                                <!--                                        <div>-->
+                                <!--                                            <button class="ui primary button" type="submit">-->
+                                <!--                                                Save-->
+                                <!--                                            </button>-->
+                                <!--                                        </div>-->
+                                <!--                                    </td>-->
+                                <!--                                </tr>-->
                             </table>
                             <!--                        </form>-->
                         </td>
