@@ -98,6 +98,8 @@ public class ItemInfoCsvExportUtil {
             String subCode = "";
             //遍历item集合下载每一件产品信息
             for (Item item : itemList) {
+                //开始时间
+                long start1 = System.currentTimeMillis();
                 //保存每一列的数据使用
                 String[] string = new String[31];
                 //option1时空值是不下载给itemdeflog赋值0(代表还需编辑)
@@ -255,7 +257,9 @@ public class ItemInfoCsvExportUtil {
                 i = 1;
                 //输出次数
                 writeLine.add(string);
-                System.out.println(fileName + " 产品CSV, 输出的: 第" + count++ + "行了");
+                //结束时间
+                long end = System.currentTimeMillis();
+                System.out.println(fileName + " 产品CSV, 输出的: 第" + count++ + "行了    耗时：" + (end - start1) + " ms");
             }
             writer.write(writeLine);
             //结束时间

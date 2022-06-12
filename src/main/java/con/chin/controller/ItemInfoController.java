@@ -108,32 +108,33 @@ public class ItemInfoController {
             httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("pageSize");
             httpSession.removeAttribute("flog");
+        } else {
+            //如果表示页数有修改的话,进行设定
+            String pageSize = (String) httpSession.getAttribute("pageSize");
+            if (pageSize != null && !"".equals(pageSize)) {
+                itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
+                //前端使用
+                model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
+            }
+            //如果是店铺查询后的模糊查询,并且分页
+            String siteShop = (String) httpSession.getAttribute("siteShop");
+            if (siteShop != null && !"".equals(siteShop)) {
+                itemInfoQuery.setShopName(siteShop);
+                //前端使用
+                model.addAttribute("siteShop", itemInfoQuery.getShopName());
+            }
+            //编辑状态
+            String flog = (String) httpSession.getAttribute("flog");
+            if (flog != null && !"".equals(flog)) {
+                itemInfoQuery.setFlog(Integer.parseInt(flog));
+                //前端使用
+                model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
+            }
+            //为了条件查询后的分页 (有这条会出现编辑状态切换时数据错误)
+            httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
+            //前端使用
+            model.addAttribute("searchConditions", itemInfoQuery.getSearchConditions());
         }
-        //为了条件查询后的分页 (有这条会出现编辑状态切换时数据错误)
-        httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
-        //如果是店铺查询后的模糊查询,并且分页
-//        String siteShop = (String) httpSession.getAttribute("siteShop");
-//        itemInfoQuery.setShopName(siteShop);
-//        //如果表示页数有修改的话,进行设定
-        String pageSize = (String) httpSession.getAttribute("pageSize");
-        if (pageSize != null && !"".equals(pageSize)) {
-            itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
-        }
-        //编辑状态
-//        String flog = (String) httpSession.getAttribute("flog");
-//        if (flog != null && !"".equals(flog)) {
-//            itemInfoQuery.setFlog(Integer.parseInt(flog));
-//        } else {
-//            httpSession.setAttribute("flog", String.valueOf(1));
-//            itemInfoQuery.setFlog(1);
-//        }
-        //前端使用
-        model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
-        model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
-        model.addAttribute("searchConditions", itemInfoQuery.getSearchConditions());
-        //取得送料设定值
-        List<Config> configList = configService.findDeliveryConfig();
-        model.addAttribute("configList", configList);
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
@@ -146,23 +147,64 @@ public class ItemInfoController {
     @PostMapping("/findIteminfoBySiteShop")
     public String findIteminfoBySiteShop(Model model, ItemInfoQuery itemInfoQuery, HttpSession httpSession) {
 
-        //把siteShop值放到全局变量中
-        httpSession.setAttribute("siteShop", itemInfoQuery.getShopName());
-        //如果表示页数有修改的话,进行设定
-        String pageSize = (String) httpSession.getAttribute("pageSize");
-        if (pageSize != null && !"".equals(pageSize)) {
-            itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
+        //
+        String searchConditions = (String) httpSession.getAttribute("searchConditions");
+        //变量另存
+        String siteShop = (String) httpSession.getAttribute("siteShop");
+        if (siteShop != null && !"".equals(siteShop)) {
+            if (searchConditions != null && !"".equals(searchConditions)) {
+                //检索关键字删除
+                httpSession.removeAttribute("searchConditions");
+            }
+            //如果表示页数有修改的话,进行设定
+            String pageSize = (String) httpSession.getAttribute("pageSize");
+            if (pageSize != null && !"".equals(pageSize)) {
+                itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
+                //前端使用
+                model.addAttribute("setPageSize", Integer.parseInt(pageSize));
+            }
+            //编辑状态
+            String flog = (String) httpSession.getAttribute("flog");
+            if (flog != null && !"".equals(flog)) {
+                itemInfoQuery.setFlog(Integer.parseInt(flog));
+                //前端使用
+                model.addAttribute("editFlogSelect", Integer.parseInt(flog));
+                model.addAttribute("deleteFlog", Integer.parseInt(flog));
+            }
+            //把siteShop值放到全局变量中
+            httpSession.setAttribute("siteShop", itemInfoQuery.getShopName());
+            //前端使用
+            model.addAttribute("siteShop", itemInfoQuery.getShopName());
+        } else {
+            //siteshop不为空时
+            if (itemInfoQuery.getShopName() != null && !"".equals(itemInfoQuery.getShopName())) {
+                //把siteShop值放到全局变量中
+                httpSession.setAttribute("siteShop", itemInfoQuery.getShopName());
+                //前端使用
+                model.addAttribute("siteShop", itemInfoQuery.getShopName());
+            }
+            if (searchConditions != null && !"".equals(searchConditions)) {
+                //检索关键字设置为条件
+//                itemInfoQuery.setSearchConditions(searchConditions);
+                //检索关键字删除
+                httpSession.removeAttribute("searchConditions");
+            }
+            //如果表示页数有修改的话,进行设定
+            String pageSize = (String) httpSession.getAttribute("pageSize");
+            if (pageSize != null && !"".equals(pageSize)) {
+                itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
+                //前端使用
+                model.addAttribute("setPageSize", Integer.parseInt(pageSize));
+            }
+            //编辑状态
+            String flog = (String) httpSession.getAttribute("flog");
+            if (flog != null && !"".equals(flog)) {
+                itemInfoQuery.setFlog(Integer.parseInt(flog));
+                //前端使用
+                model.addAttribute("editFlogSelect", Integer.parseInt(flog));
+                model.addAttribute("deleteFlog", Integer.parseInt(flog));
+            }
         }
-        //编辑状态
-        String flog = (String) httpSession.getAttribute("flog");
-        if (flog != null) {
-            itemInfoQuery.setFlog(Integer.parseInt(flog));
-        }
-        //前端使用
-        model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
-        model.addAttribute("siteShop", itemInfoQuery.getShopName());
-        model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
-        model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -170,6 +212,47 @@ public class ItemInfoController {
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
         PageInfo<Item> itemList = itemService.findItemBySiteShop(itemInfoQuery);
+        model.addAttribute("page", itemList);
+        return "iteminfo";
+    }
+
+    //编辑与否检索
+    @PostMapping("/findEditedIteminfo")
+    public String findEditedIteminfo(Model model, HttpSession httpSession, ItemInfoQuery itemInfoQuery) {
+        //搜索关键字还存在时删除
+        String searchConditions = (String) httpSession.getAttribute("searchConditions");
+        if (searchConditions != null && searchConditions != "") {
+            httpSession.removeAttribute("searchConditions");
+        }
+        //如果siteShop不为空的话的设定查询条件
+        String siteShop = (String) httpSession.getAttribute("siteShop");
+        if (siteShop != null && !"".equals(siteShop)) {
+            itemInfoQuery.setShopName(siteShop);
+            //前端使用
+            model.addAttribute("siteShop", itemInfoQuery.getShopName());
+        }
+        //如果表示页数有修改的话,进行设定
+        String pageSize = (String) httpSession.getAttribute("pageSize");
+        if (pageSize != null && !"".equals(pageSize)) {
+            itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
+            //前端使用
+            model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
+        }
+        //编辑状态放到全局变量中
+        if (itemInfoQuery.getFlog() != null) {
+            httpSession.setAttribute("flog", String.valueOf(itemInfoQuery.getFlog()));
+            model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
+            //前端使用
+            model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
+        }
+        //取得送料设定值 后期修改为session
+        List<Config> configList = configService.findDeliveryConfig();
+        model.addAttribute("configList", configList);
+        //siteshop一覧
+        List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
+        model.addAttribute("siteShopList", siteShopList);
+        //一页显示数设定
+        PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemInfoQuery);
         model.addAttribute("page", itemList);
         return "iteminfo";
     }
@@ -196,64 +279,12 @@ public class ItemInfoController {
             model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
             model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         }
-        //取得送料设定值
-        List<Config> configList = configService.findDeliveryConfig();
-        model.addAttribute("configList", configList);
         //一页表示数发到全局变量中
         if (itemInfoQuery.getPageSize() != null) {
             httpSession.setAttribute("pageSize", String.valueOf(itemInfoQuery.getPageSize()));
             //前端使用
             model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         }
-        //siteshop一覧
-        List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
-        model.addAttribute("siteShopList", siteShopList);
-        //一页显示数设定
-        PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemInfoQuery);
-        model.addAttribute("page", itemList);
-        return "iteminfo";
-    }
-
-    //编辑与否检索
-    @PostMapping("/findEditedIteminfo")
-    public String findEditedIteminfo(Model model, HttpSession httpSession, ItemInfoQuery itemInfoQuery) {
-
-        //如果siteShop不为空的话的设定查询条件
-        String siteShop = (String) httpSession.getAttribute("siteShop");
-        if (siteShop != null && !"".equals(siteShop)) {
-            itemInfoQuery.setShopName(siteShop);
-            //前端使用
-            model.addAttribute("siteShop", itemInfoQuery.getShopName());
-        }
-        //如果searchConditions不为空的话的设定查询条件
-//        String searchConditions = (String) httpSession.getAttribute("searchConditions");
-//        if (searchConditions != null && !"".equals(searchConditions)) {
-//            itemInfoQuery.setSearchConditions(searchConditions);
-//            httpSession.removeAttribute("searchConditions");
-//        }
-
-        //搜索关键字还存在时删除
-        String searchConditions = (String) httpSession.getAttribute("searchConditions");
-        if (searchConditions != null && searchConditions != "") {
-            httpSession.removeAttribute("searchConditions");
-        }
-        //如果表示页数有修改的话,进行设定
-        String pageSize = (String) httpSession.getAttribute("pageSize");
-        if (pageSize != null && !"".equals(pageSize)) {
-            itemInfoQuery.setPageSize(Integer.parseInt(pageSize));
-            //前端使用
-            model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
-        }
-        //编辑状态放到全局变量中
-        if (itemInfoQuery.getFlog() != null) {
-            httpSession.setAttribute("flog", String.valueOf(itemInfoQuery.getFlog()));
-            model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
-            //前端使用
-            model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
-        }
-        //取得送料设定值 后期修改为session
-        List<Config> configList = configService.findDeliveryConfig();
-        model.addAttribute("configList", configList);
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
@@ -804,7 +835,7 @@ public class ItemInfoController {
         if (path != null && !"".equals(path)) {
             map.put("itemPath", path);
         }
-        if(itemName !=null && !"".equals(itemName)){
+        if (itemName != null && !"".equals(itemName)) {
             map.put("itemName", itemName);
         }
         //修改值

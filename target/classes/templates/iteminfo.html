@@ -144,53 +144,6 @@
                 </div>
                 <div class="results"></div>&emsp;
             </div>
-            <!--分页页面顶部-->
-            <!--            <div align="center">-->
-            <!--                <table width="800px">-->
-            <!--                    <tbody>-->
-            <!--                    <tr>-->
-            <!--                        <td>-->
-            <!--                            <a th:href="@{/iteminfo(pageNum=${1})}" class="ui button basic mini"-->
-            <!--                               th:unless="${page.isFirstPage}">最初ページへ-->
-            <!--                            </a>-->
-            <!--                            <a th:href="@{/iteminfo(pageNum=${page.pageNum-1})}" class="ui button basic mini"-->
-            <!--                               th:unless="${page.isFirstPage}">前へ-->
-            <!--                            </a>-->
-            <!--                        </td>-->
-            <!--                        <td>-->
-            <!--                            <h8 th:text="${page.pageNum}">2</h8>-->
-            <!--                            ページ目/全-->
-            <!--                            <h8 th:text="${page.pages}">4</h8>-->
-            <!--                            ページ&emsp;-->
-            <!--                            商品数-->
-            <!--                            <h8 th:text="${page.total}">29</h8>-->
-            <!--                        </td>-->
-            <!--                        <td>-->
-            <!--                            <form name="pageForm" th:action="@{/iteminfo}" method="get">-->
-            <!--                                <div class="ui mini input ">-->
-            <!--                                    <input type="text" class="m-bg" name="pageNum" placeholder="何ページ"-->
-            <!--                                           style="width:100px!important;height:30px!important;" required>-->
-            <!--                                    <button type="submit"-->
-            <!--                                            style="font-size:11px!important;width:60px!important;height:23px!important;border:none;margin: 5px;padding:0;"-->
-            <!--                                            class="button mini">-->
-            <!--                                        へジャンプ-->
-            <!--                                    </button>-->
-            <!--                                </div>-->
-            <!--                            </form>-->
-            <!--                        </td>-->
-            <!--                        <td>&nbsp;</td>-->
-            <!--                        <td style="float:right">-->
-            <!--                            <a th:href="@{/iteminfo(pageNum=${page.pageNum+1})}" class="ui button basic mini"-->
-            <!--                               style="float:right;" th:unless="${page.isLastPage}">次へ-->
-            <!--                            </a>-->
-            <!--                            <a th:href="@{/iteminfo(pageNum=${page.getPages()})}" class="ui button basic mini"-->
-            <!--                               style="float:right;" th:unless="${page.isLastPage}">最終ページへ-->
-            <!--                            </a>-->
-            <!--                        </td>-->
-            <!--                    </tr>-->
-            <!--                    </tbody>-->
-            <!--                </table>-->
-            <!--            </div>-->
             <table style="width: 100%;">
                 <tr class="_sticky">
                     <!--一括操作-->
