@@ -162,6 +162,7 @@ public class ItemInfoController {
         model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
         model.addAttribute("siteShop", itemInfoQuery.getShopName());
         model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
+        model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
