@@ -119,10 +119,10 @@ public class ItemInfoCsvExportUtil {
                 for (ItemKeyword keyword : itemKeyword1) {
                     metaDesc += keyword.getKeyword() + " ";
                 }
-                if (metaDesc != null) {
+                if (metaDesc != null && metaDesc.contains(" ")) {
                     metaDesc = metaDesc.replaceAll("　", " ");
 
-                    if (metaDesc.length() > 80 && metaDesc.contains(" ")) {
+                    if (metaDesc.length() >= 80) {
                         //把产品名称的长度调整
                         metaDesc = SetDataUtil.setStrLength(metaDesc, 80);
                     }
@@ -135,7 +135,7 @@ public class ItemInfoCsvExportUtil {
                 if (itemName != null && !itemName.contains(" ")) {
                     itemName = metaDesc.replaceAll("　", " ");
 
-                    if (itemName.length() > 70 && itemName.contains(" ")) {
+                    if (itemName.length() >= 70 && itemName.contains(" ")) {
                         //把产品名称的长度调整
                         itemName = SetDataUtil.setStrLength(itemName, 70);
                     }
@@ -149,10 +149,10 @@ public class ItemInfoCsvExportUtil {
                 }
                 //headline
                 String headline = "";
-                if (item.getHeadline() == null || item.getHeadline() == "") {
+                if (item.getHeadline() == null || !"".equals(item.getHeadline())) {
                     headline = metaDesc.replaceAll("　", " ");
 
-                    if (headline.length() > 30 && headline.contains(" ")) {
+                    if (headline.length() >= 30 && headline.contains(" ")) {
                         //把产品名称的长度调整
                         headline = SetDataUtil.setStrLength(headline, 30);
                     }

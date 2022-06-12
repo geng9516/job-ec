@@ -116,7 +116,7 @@ public class CrawlerController {
         if ("0".equals(frequency)) {
             List<Item> itemList = new ArrayList<>();
             //取得所有已编辑并且没有失效的产品
-            if (itemCodes != null && itemCodes != "") {
+            if (itemCodes != null && !"".equals(itemCodes)) {
                 itemList = itemService.findItemByItemCodeAll(stringList);
             } else {
                 itemList = itemService.findAll();
@@ -130,7 +130,7 @@ public class CrawlerController {
                         itemList1.add(item);
                     }
                 }
-                itemService.setItemFlog(itemList1);
+//                itemService.setItemFlog(itemList1);
                 //开始时间
                 long start = System.currentTimeMillis();
                 //调用下载方法
@@ -140,7 +140,6 @@ public class CrawlerController {
                 //导出optionCSV文件
                 DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                 long end = System.currentTimeMillis();
-                System.out.println("照片拷贝完成!    总耗时：" + (end - start) + " ms");
                 //完成输出信息
                 redirectAttributes.addFlashAttribute("message", "アイテム情報が " + itemList.size() + " 件出力されました。");
             } else {
@@ -149,7 +148,7 @@ public class CrawlerController {
             }
             //删除产品资料
         } else if ("1".equals(frequency)) {
-            if (itemCodes != null && itemCodes != "") {
+            if (itemCodes != null && !"".equals(itemCodes)) {
                 //开始时间
                 long start = System.currentTimeMillis();
                 itemService.deleteItems(stringList);
@@ -162,7 +161,7 @@ public class CrawlerController {
             //产品照片拷贝
         } else if ("2".equals(frequency)) {
 
-            if (itemCodes != null && itemCodes != "") {
+            if (itemCodes != null && !"".equals(itemCodes)) {
                 //开始时间
                 long start = System.currentTimeMillis();
                 //产品照片拷贝
@@ -178,7 +177,7 @@ public class CrawlerController {
             //照片删除
         } else if ("3".equals(frequency)) {
 
-            if (itemCodes != null && itemCodes != "") {
+            if (itemCodes != null && !"".equals(itemCodes)) {
                 //开始时间
                 long start = System.currentTimeMillis();
                 //产品照片拷贝

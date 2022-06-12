@@ -89,7 +89,9 @@ public class SetDataUtil {
     //str长度控制
     public static String setStrLength(String str, int strLength) {
         str = str.substring(0, strLength);
-        str = str.substring(0, str.lastIndexOf(" "));
+        if (str.contains(" ")) {
+            str = str.substring(0, str.lastIndexOf(" "));
+        }
         return str;
     }
 
@@ -109,7 +111,7 @@ public class SetDataUtil {
         } else {
             return arr;
         }
-    }
+    }//新サイズ追加 ズボン 収納ケース パンツ収納 タンス収納 レギンス収納 Ｔシャツ収納 シャツ 収納ボックス ケース 仕切り 7ポケット 収納ボックス ジーンズ 衣類
 
     //修改item名
 
@@ -372,7 +374,7 @@ public class SetDataUtil {
                 .replaceAll("码", "");
 
         //颜色
-        str = str.replaceAll("颜色", "カラー").replaceAll("图片色","写真参考");
+        str = str.replaceAll("颜色", "カラー").replaceAll("图片色", "写真参考");
 
         //材质名称
         str = str.replaceAll("材质成分", "素材").replaceAll("面料", "素材")
@@ -397,7 +399,7 @@ public class SetDataUtil {
                 .replaceAll("薄花呢", "ツイード").replaceAll("长毛绒", "プラッシュ")
                 .replaceAll("牛津布", "オックスフォード生地").replaceAll("聚脂纤维", "ポリエステル")
                 .replaceAll("蕾丝", "レース").replaceAll("雪纺", "シフォン")
-                .replaceAll("綿类混纺","混紡（ブレンド）生地");
+                .replaceAll("綿类混纺", "混紡（ブレンド）生地");
 
         return str;
     }
