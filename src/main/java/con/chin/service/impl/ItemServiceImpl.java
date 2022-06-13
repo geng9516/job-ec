@@ -463,10 +463,10 @@ public class ItemServiceImpl implements ItemService {
                 item.setValue5(value5);
             }
             //修改值
-            res += setItemInfo(item);
+            setItemInfo(item);
             System.out.println("更新一件产品 ID为   " + item.getItemCode());
         }
-        return res;
+        return 0;
     }
 
     //新itemcode查询
