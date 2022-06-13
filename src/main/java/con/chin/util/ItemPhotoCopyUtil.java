@@ -49,7 +49,7 @@ public class ItemPhotoCopyUtil {
             long end = System.currentTimeMillis();
             System.out.println(count++ + " 件产品照片拷贝完成!  照片文件价名为 -->  " + itemCode + "    耗时：" + (end - start) + " ms");
         }
-        System.out.println("总共 " + count + " 件产品照片拷贝完成!");
+        System.out.println("总共 " + count-- + " 件产品照片拷贝完成!");
     }
 
     //照片拷贝方法
