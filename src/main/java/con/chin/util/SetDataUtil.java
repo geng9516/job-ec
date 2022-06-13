@@ -399,7 +399,7 @@ public class SetDataUtil {
                 .replaceAll("薄花呢", "ツイード").replaceAll("长毛绒", "プラッシュ")
                 .replaceAll("牛津布", "オックスフォード生地").replaceAll("聚脂纤维", "ポリエステル")
                 .replaceAll("蕾丝", "レース").replaceAll("雪纺", "シフォン")
-                .replaceAll("綿类混纺", "混紡（ブレンド）生地");
+                .replaceAll("綿类混纺", "混紡（ブレンド）生地").replaceAll("针织","ニット");
 
         return str;
     }

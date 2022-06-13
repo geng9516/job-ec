@@ -34,21 +34,28 @@ public class ItemPhotoCopyUtil {
     private static void findCopyPhoto(File itemphotoPath, List<String> itemCodeList) {
 
         File[] fileItemPhotos = itemphotoPath.listFiles();
+        int count = 1;
         //循环要要拷贝的照片名文件夹
         for (String itemCode : itemCodeList) {
+            //开始时间
+            long start = System.currentTimeMillis();
             for (File fileItemPhoto : fileItemPhotos) {
+
                 if (itemCode.equals(fileItemPhoto.getName())) {
                     //调用拷贝方法
                     copyItemPhoto(fileItemPhoto.getPath(), itemCode);
                 }
             }
+            long end = System.currentTimeMillis();
+            System.out.println(count++ + " 件产品照片拷贝完成!  照片文件价名为 -->  " + itemCode + "    耗时：" + (end - start) + " ms");
         }
+        System.out.println("总共 " + count + " 件产品照片拷贝完成!");
     }
 
     //照片拷贝方法
     public static void copyItemPhoto(String filePath, String folderName) {
-        //开始时间
-        long start = System.currentTimeMillis();
+//        //开始时间
+//        long start = System.currentTimeMillis();
         //创建输入流
         FileInputStream fileInputStream = null;
         //创建输出流
@@ -107,8 +114,8 @@ public class ItemPhotoCopyUtil {
                 }
             }
         }
-        long end = System.currentTimeMillis();
-        System.out.println("照片拷贝完成!  照片文件价名为 -->  " + folderName + "    耗时：" + (end - start) + " ms");
+//        long end = System.currentTimeMillis();
+//        System.out.println("照片拷贝完成!  照片文件价名为 -->  " + folderName + "    耗时：" + (end - start) + " ms");
         return;
     }
 
