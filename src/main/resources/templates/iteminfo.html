@@ -213,6 +213,13 @@
                 </tr>
                 <tr>
                     <td>
+
+<!--                        <div style="width:100%;height:20px;">-->
+<!--                            全てを選択-->
+<!--                            <input type="checkbox" id="allchecked" value="" onclick="selectAll()"-->
+<!--                                   style="width:100%;height:100%;">&emsp;-->
+<!--                        </div>-->
+
                         <!--                        <div class="ui form">-->
                         <!--                            <div class="inline fields">-->
                         <!--                                <label>更新項目を選択</label>-->
@@ -270,7 +277,10 @@
                 <thead>
                 <tr class="_sticky">
                     <th style="width: 3%">
-                        <input type="checkbox" id="allchecked" value="" onclick="selectAll()">&emsp;
+                        <div style="width:100%;height:30px;">
+                            <input type="checkbox" id="allchecked" value="" onclick="selectAll()"
+                                   style="width:100%;height:100%;">&emsp;
+                        </div>
                     </th>
                     <th style="width: 5%">
                         <div class="title">操作</div>
@@ -291,8 +301,11 @@
                 </thead>
                 <tbody>
                 <tr th:each="item : ${page.list}" class="sticky">
-                    <td valign="top">
-                        <input type="checkbox" class="checkbox" th:value="${item.getItemCode()}">
+                    <td valign="top" align="top">
+                        <div style="width:100%;height:400px;">
+                            <input type="checkbox" class="checkbox" th:value="${item.getItemCode()}"
+                                   style="width:100%;height:100%;">
+                        </div>
                     </td>
                     <form action="/setItemInfo" method="post" id="operation">
                         <td valign="top">

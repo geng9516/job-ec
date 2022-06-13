@@ -367,7 +367,7 @@ public class SetDataUtil {
                 .replaceAll("裙长", "着長").replaceAll("下摆围", "ヘムライン")
                 .replaceAll("摆围", "ヘムライン").replaceAll("裤长", "着長")
                 .replaceAll("臀围", "ヒップ").replaceAll("裤口", "裾周り")
-                .replaceAll("腿围", "もも周り");
+                .replaceAll("腿围", "もも周り").replaceAll("下摆", "ヘムライン");
 
         //サイズ
         str = str.replaceAll("尺码", "サイズ").replaceAll("均码", "F")
