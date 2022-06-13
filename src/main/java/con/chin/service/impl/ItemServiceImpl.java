@@ -276,12 +276,13 @@ public class ItemServiceImpl implements ItemService {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         oldItem.setUpdatetime(now);
         return itemMapper.setItemInfo(oldItem);
-
     }
 
     //修改多个值
     @Override
-    public int setIteminfos(List<Item> itemList, Map<String, String> map) {
+    public Integer setIteminfos(List<Item> itemList, Map<String, String> map) {
+        //保存结果
+        Integer res = null;
         for (Item item : itemList) {
 //------------------------------------------------------------------------
             //变量赋值
@@ -462,10 +463,10 @@ public class ItemServiceImpl implements ItemService {
                 item.setValue5(value5);
             }
             //修改值
-            setItemInfo(item);
+            res += setItemInfo(item);
             System.out.println("更新一件产品 ID为   " + item.getItemCode());
         }
-        return 0;
+        return res;
     }
 
     //新itemcode查询

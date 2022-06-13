@@ -45,7 +45,7 @@ public interface ItemService {
     int setItemInfo(Item item);
 
     //修改多个值
-    int setIteminfos(List<Item> itemList, Map<String, String> map);
+    Integer setIteminfos(List<Item> itemList, Map<String, String> map);
 
     //新itemcode查询
     Item findItemByItemCode(Item item);
