@@ -11,11 +11,11 @@ public class ChromeDriverUtil {
 
     public static ChromeDriver getChromeDriver(){
         System.getProperties().setProperty("webdriver.chrome.driver","/Users/geng9516/Documents/EC関連/99_クローラー/開発ツール/chromedriver");
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--user-data-dir=/Users/geng9516/Documents/EC関連/99_クローラー/data");
-        chromeOptions.addArguments("--profile-directory=Profile1");
-        chromeOptions.addArguments("--lang=en");
-        ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
+//        ChromeOptions chromeOptions = new ChromeOptions();
+//        chromeOptions.addArguments("--user-data-dir=/Users/geng9516/Documents/EC関連/99_クローラー/data");
+//        chromeOptions.addArguments("--profile-directory=Profile1");
+//        chromeOptions.addArguments("--lang=en");
+        ChromeDriver chromeDriver = new ChromeDriver();
         return chromeDriver;
     }
 
@@ -24,5 +24,4 @@ public class ChromeDriverUtil {
         WebDriver driver = new FirefoxDriver();
         return driver;
     }
-
 }
