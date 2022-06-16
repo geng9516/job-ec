@@ -32,7 +32,7 @@ public class PhotoDownloadUtil {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         Integer urls = urlList.size();
-        urls = urls > 21 ? 21 : urls;
+//        urls = urls > 21 ? 21 : urls;
         //遍历照片集合
         for (int i = 0; i < urls; i++) {
             try {
