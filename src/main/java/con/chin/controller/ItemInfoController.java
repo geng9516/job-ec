@@ -732,7 +732,7 @@ public class ItemInfoController {
                 Item item1 = new Item();
                 item1.setItemCode(itemCode);
                 Item item2 = itemService.findItemByItemCode(item1);
-                salePrice1 = SetDataUtil.setSalePrice(item2.getPurchasePrice());
+                salePrice1 = SetDataUtil.setSalePrice(item2.getPrice());
             }
             item.setSalePrice(salePrice1);
             flog++;
