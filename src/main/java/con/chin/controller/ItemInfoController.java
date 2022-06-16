@@ -728,6 +728,11 @@ public class ItemInfoController {
             Integer salePrice1 = Integer.parseInt(salePrice);
             if (salePrice1 < 250) {
                 salePrice1 = SetDataUtil.setSalePrice(salePrice1);
+            }else{
+                Item item1 = new Item();
+                item1.setItemCode(itemCode);
+                Item item2 = itemService.findItemByItemCode(item1);
+                salePrice1 = SetDataUtil.setSalePrice(item2.getPurchasePrice());
             }
             item.setSalePrice(salePrice1);
             flog++;
