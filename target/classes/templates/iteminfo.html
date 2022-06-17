@@ -84,60 +84,76 @@
         <div style="width:100%;height:40px" id="meru"></div>
         <div style="width:90%" class='ui container'>
             <div class="ui right aligned category search" style="height: 66px">
-                <table>
+                <table  width="100%">
                     <tr>
                         <td>
-                            <!--模糊查询-->
-                            <form th:action="@{/iteminfo}" method="post">
-                                <div class="ui icon input">
-                                    <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
-                                    <button class="ui icon button" type="submit">
-                                        <i class="search icon"></i>
-                                    </button>
-                                </div>
-                            </form>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <!--模糊查询-->
+                                        <form th:action="@{/iteminfo}" method="post">
+                                            <div class="ui icon input">
+                                                <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
+                                                <button class="ui icon button" type="submit">
+                                                    <i class="search icon"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <!--ショップ一覧をドロップダウンに入れる-->
+                                    <td>
+                                        <!--店铺名查询产品一览-->
+                                        <form action="" method="" id="findIteminfoBySiteShop"
+                                              onchange="findIteminfoBySiteShop()">
+                                            <select class="ui dropdown" id='shopName'
+                                                    name="shopName">
+                                                <option value="">ショップを選択</option>
+                                                <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
+                                                        th:selected="*{siteShop} == ${shop.getShopName()}"
+                                                        th:text="${shop.getShopName()}">
+                                                </option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="" method="" id="findEditedIteminfo" onchange="findEditedIteminfo()">
+                                            <select class="ui dropdown" name="flog">
+                                                <option value="">編集ステータス</option>
+                                                <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち</option>
+                                                <option value="1" th:selected="${editFlogSelect} eq '1'">未編集</option>
+                                                <!--                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>-->
+                                                <!--<option value="3">ダウンロード済</option>-->
+                                                <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
+                                                <option value="5" th:selected="${editFlogSelect} eq '5'">中国語商品</option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <!--csv文件上传-->
+                                        <form action="" method="" id="dataimpott">
+                                            <div>
+                                                <input class="field" type="file" name="import-iteminfocsv"
+                                                       id="import-iteminfocsv"
+                                                       required accept=".csv"><br>
+                                                <button id="bt-import-csv" onclick="csvImport()">アップロード</button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
-                        <!--ショップ一覧をドロップダウンに入れる-->
-                        <td>
-                            <!--店铺名查询产品一览-->
-                            <form action="" method="" id="findIteminfoBySiteShop"
-                                  onchange="findIteminfoBySiteShop()">
-                                <select class="ui dropdown" id='shopName'
-                                        name="shopName">
-                                    <option value="">ショップを選択</option>
-                                    <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
-                                            th:selected="*{siteShop} == ${shop.getShopName()}"
-                                            th:text="${shop.getShopName()}">
-                                    </option>
+                        <td align="right">
+                            <form action="" method="" id="setEcSite" onchange="setEcSite()">
+                                <select class="ui dropdown" name="ecSite">
+                                    <option value="">ECサイト</option>
+                                    <option value="yahoo" th:selected="${ecSite} eq 'yahoo'">yahoo</option>
+                                    <option value="au" th:selected="${ecSite} eq 'au'">au</option>
                                 </select>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="" method="" id="findEditedIteminfo" onchange="findEditedIteminfo()">
-                                <select class="ui dropdown" name="flog">
-                                    <option value="">編集ステータス</option>
-                                    <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち</option>
-                                    <option value="1" th:selected="${editFlogSelect} eq '1'">未編集</option>
-                                    <!--                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>-->
-                                    <!--<option value="3">ダウンロード済</option>-->
-                                    <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
-                                    <option value="5" th:selected="${editFlogSelect} eq '5'">中国語商品</option>
-                                </select>
-                            </form>
-                        </td>
-                        <td>
-                            <!--csv文件上传-->
-                            <form action="" method="" id="dataimpott">
-                                <div>
-                                    <input class="field" type="file" name="import-iteminfocsv"
-                                           id="import-iteminfocsv"
-                                           required accept=".csv"><br>
-                                    <button id="bt-import-csv" onclick="csvImport()">アップロード</button>
-                                </div>
                             </form>
                         </td>
                     </tr>
                 </table>
+
                 <div class='ui container' align="center">
                     <!--/*@thymesVar id="message" type=""*/-->
                     <p style="color: brown" id="message" th:text="${message}"></p>
@@ -214,11 +230,11 @@
                 <tr>
                     <td>
 
-<!--                        <div style="width:100%;height:20px;">-->
-<!--                            全てを選択-->
-<!--                            <input type="checkbox" id="allchecked" value="" onclick="selectAll()"-->
-<!--                                   style="width:100%;height:100%;">&emsp;-->
-<!--                        </div>-->
+                        <!--                        <div style="width:100%;height:20px;">-->
+                        <!--                            全てを選択-->
+                        <!--                            <input type="checkbox" id="allchecked" value="" onclick="selectAll()"-->
+                        <!--                                   style="width:100%;height:100%;">&emsp;-->
+                        <!--                        </div>-->
 
                         <!--                        <div class="ui form">-->
                         <!--                            <div class="inline fields">-->
