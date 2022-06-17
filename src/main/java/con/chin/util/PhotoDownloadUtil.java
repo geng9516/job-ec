@@ -27,7 +27,11 @@ public class PhotoDownloadUtil {
     public static void download(List<String> urlList, String itemCode, String path) {
 
         //产品表示照片下载
-        imageInput(urlList.get(0), itemCode);
+        String imgUrl = urlList.get(0);
+        if (!imgUrl.contains("https:")) {
+            imgUrl = "https:" + urlList.get(0);
+        }
+        imageInput(imgUrl, itemCode);
         //创建流
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -37,7 +41,7 @@ public class PhotoDownloadUtil {
         for (int i = 0; i < urls; i++) {
             try {
                 String urlString = urlList.get(i);
-                if (!urlString.contains("url")) {
+                if (!urlString.contains("https:")) {
                     urlString = "https:" + urlString;
                 }
                 URL url = new URL(urlString);
