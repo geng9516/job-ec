@@ -101,9 +101,10 @@ public class CrawlerController {
     public String putItemInfo(RedirectAttributes redirectAttributes,
                               @RequestParam("itemCodes") String itemCodes,
                               @RequestParam("frequency") String frequency,
-                              HttpSession httpSession
+                              HttpSession httpSession) {
 
-    ) {
+        //ecsite
+        String ecSite = (String) httpSession.getAttribute("ecSite");
         List<String> stringList = new ArrayList<>();
         //把按照换行进行分割
         if (itemCodes != null || !"".equals(itemCodes)) {
@@ -130,15 +131,34 @@ public class CrawlerController {
                         itemList1.add(item);
                     }
                 }
-//                itemService.setItemFlog(itemList1);
+                //存在值时
+                if (itemList1.size() > 0) {
+                    itemService.setItemFlog(itemList1);
+                }
                 //开始时间
                 long start = System.currentTimeMillis();
-                //调用下载方法
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
-                //导出库存CSV文件
-                DataExportUtil.exportItemStockCsv(stringList, itemCsvPath, "quantity");
-                //导出optionCSV文件
-                DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                //ecSite已经在全局变量中存在时
+                if (ecSite != null && !"".equals(ecSite)) {
+                    if (ecSite.equals("yahoo")) {
+                        //导出yahooCSV文件
+                        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
+                        //导出库存CSV文件
+                        DataExportUtil.exportItemStockCsv(stringList, itemCsvPath, "quantity");
+                        //导出optionCSV文件
+                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                    } else if (ecSite.equals("au")) {
+                        //导出auCSV文件
+                        ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "au");
+                    }
+                    //不存在值时默认
+                } else {
+                    //导出CSV文件
+                    ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
+                    //导出库存CSV文件
+                    DataExportUtil.exportItemStockCsv(stringList, itemCsvPath, "quantity");
+                    //导出optionCSV文件
+                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                }
                 long end = System.currentTimeMillis();
                 //完成输出信息
                 redirectAttributes.addFlashAttribute("message", "アイテム情報が " + itemList.size() + " 件出力されました。");

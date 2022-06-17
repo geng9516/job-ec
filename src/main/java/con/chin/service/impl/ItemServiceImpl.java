@@ -188,6 +188,8 @@ public class ItemServiceImpl implements ItemService {
     //删除多个产品
     @Override
     public int deleteItems(List<String> itemCodeList) {
+        //ecsite
+        String ecSite = (String) httpSession.getAttribute("ecSite");
         //结果值
         int res = 0;
         //取得要删除的csv文件
@@ -203,8 +205,20 @@ public class ItemServiceImpl implements ItemService {
         //结束时间
         long end = System.currentTimeMillis();
         System.out.println("删除多个产品照片成功    总耗时：" + (end - start) + " ms");
-        //导出删除产品的csv文件
-        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, deleteCsvPath, "data_del");
+        //ecSite已经在全局变量中存在时
+        if (ecSite != null && !"".equals(ecSite)) {
+            if (ecSite.equals("yahoo")) {
+                //导出删除产品的csv文件
+                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, deleteCsvPath, "data_del");
+            } else if (ecSite.equals("au")) {
+                //导出auCSV文件
+                ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, deleteCsvPath, "au");
+            }
+            //不存在值时默认
+        }else {
+            //导出删除产品的csv文件
+            ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, deleteCsvPath, "data_del");
+        }
         //返回结果
         return res;
     }

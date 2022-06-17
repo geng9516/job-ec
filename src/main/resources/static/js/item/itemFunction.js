@@ -39,6 +39,13 @@ function csvImport() {
     $("#dataimpott").submit();
 }
 //
+function setEcSite() {
+    $("#setEcSite").removeAttr("action");
+    $("#setEcSite").attr("method", "post");
+    $("#setEcSite").attr('action', "/setEcSite");
+    $("#setEcSite").submit();
+}
+//
 function setIteminfos() {
     var checkedValue = $('tbody input:checked');
     var path = document.getElementById("path").value;
@@ -113,8 +120,8 @@ function bulkOperation() {
         data: {"listString": Values, "checkFlog": checkFlog},
         dataType: 'json',
         success: function (data) {
-            $("#message").text(data);
             window.location = "/iteminfo?pageNum=" + 1;
+            $("#message").text(data);
         },
         error: function (data) {
             $("#message").val(data);

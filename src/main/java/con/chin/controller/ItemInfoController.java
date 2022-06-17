@@ -83,6 +83,18 @@ public class ItemInfoController {
             httpSession.setAttribute("flog", String.valueOf(1));
 //            itemInfoQuery.setFlog(1);
         }
+        //ecsite
+        String ecSite = (String) httpSession.getAttribute("ecSite");
+        //ecSite已经在全局变量中存在时
+        if (ecSite != null && !"".equals(ecSite)) {
+            //前端使用
+            model.addAttribute("ecSite", ecSite);
+        }else {
+            //ecSite设定到全局变量中
+            httpSession.setAttribute("ecSite", "yahoo");
+            //前端使用
+            model.addAttribute("ecSite", "yahoo");
+        }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -302,6 +314,8 @@ public class ItemInfoController {
     @PostMapping("/bulkOperation")
     public String bulkOperation(@RequestParam("listString[]") List<String> itemCodeList, @RequestParam("checkFlog") String checkFlog, HttpSession httpSession) {
 
+        //ecsite
+        String ecSite = (String) httpSession.getAttribute("ecSite");
         Gson gson = new Gson();
         String flog = null;
         List<Item> itemList = new ArrayList<>();
@@ -313,26 +327,46 @@ public class ItemInfoController {
                 itemList = itemService.findItemByItemCodes(itemCodeList);
                 itemList1 = new ArrayList<>();
                 for (Item item : itemList) {
+                    //flog为CSVダウンロード待ち时修改
                     if (item.getFlog() == 0) {
                         item.setFlog(1);
                         itemList1.add(item);
                     }
                 }
-                itemService.setItemFlog(itemList1);
-                //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
-                //导出库存CSV文件
-                DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
-                //导出optionCSV文件
-                DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                //存在值时
+                if(itemList1.size() >0){
+                    itemService.setItemFlog(itemList1);
+                }
+                //ecSite已经在全局变量中存在时
+                if (ecSite != null && !"".equals(ecSite)) {
+                    if(ecSite.equals("yahoo")){
+                        //导出CSV文件
+                        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
+                        //导出库存CSV文件
+                        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+                        //导出optionCSV文件
+                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                    }else if (ecSite.equals("au")){
+                        //导出auCSV文件
+                        ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "au");
+                    }
+                    //不存在值时默认
+                }else {
+                    //导出CSV文件
+                    ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
+                    //导出库存CSV文件
+                    DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+                    //导出optionCSV文件
+                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                }
                 break;
             //选中的产品下载照片
             case "1":
                 //编辑状态
-                flog = (String) httpSession.getAttribute("flog");
-                if (flog != null && "2".equals(flog)) {
-                    return gson.toJson("照片已下载!");
-                }
+//                flog = (String) httpSession.getAttribute("flog");
+//                if (flog != null && "2".equals(flog)) {
+//                    return gson.toJson("照片已下载!");
+//                }
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
                 ItemPhotoCopyUtil.read(itemCodeList);
@@ -349,18 +383,37 @@ public class ItemInfoController {
                         itemList1.add(item);
                     }
                 }
-                itemService.setItemFlog(itemList1);
-                //导出CSV文件
-                ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
-                //导出库存CSV文件
-                DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
-                //导出optionCSV文件
-                DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
-                //编辑状态
-                flog = (String) httpSession.getAttribute("flog");
-                if (flog != null && "2".equals(flog)) {
-                    return gson.toJson("照片已下载!");
+                //存在值时
+                if(itemList1.size() >0){
+                    itemService.setItemFlog(itemList1);
                 }
+                //ecSite已经在全局变量中存在时
+                if (ecSite != null && !"".equals(ecSite)) {
+                    if(ecSite.equals("yahoo")){
+                        //导出CSV文件
+                        ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
+                        //导出库存CSV文件
+                        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+                        //导出optionCSV文件
+                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                    }else if (ecSite.equals("au")){
+                        //导出auCSV文件
+                        ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "au");
+                    }
+                    //不存在值时默认
+                }else {
+                    //导出CSV文件
+                    ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
+                    //导出库存CSV文件
+                    DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+                    //导出optionCSV文件
+                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+                }
+                //编辑状态
+//                flog = (String) httpSession.getAttribute("flog");
+//                if (flog != null && "2".equals(flog)) {
+//                    return gson.toJson("照片已下载!");
+//                }
                 //开始时间
                 long start = System.currentTimeMillis();
                 //产品照片拷贝
@@ -412,7 +465,7 @@ public class ItemInfoController {
 
         //调用修改flog方法
         int res = itemService.setItemFlog(itemList);
-        System.out.println("产品ID为  " +itemCode + "  的状态修改完成");
+        System.out.println("产品ID为  " + itemCode + "  的状态修改完成");
         if (res == 1) {
             if ("3".equals(flog)) {
                 redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を未編集に戻しました。");
@@ -984,6 +1037,26 @@ public class ItemInfoController {
             item.setValue5(value5);
         }
         itemService.updateOption(item);
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        }
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
+    @PostMapping("/setEcSite")
+    public String setEcSite(HttpSession httpSession, @RequestParam("ecSite") String ecSite) {
+
+        String ecSite1 = (String) httpSession.getAttribute("ecSite");
+        //ecSite已经在全局变量中存在时
+        if (ecSite1 != null && !"".equals(ecSite1)) {
+            //删除
+            httpSession.removeAttribute("ecSite");
+        }
+        //把ecsite放到全局变量中
+        httpSession.setAttribute("ecSite", ecSite);
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
         if (pageNum != null && pageNum != "") {

@@ -89,7 +89,12 @@ public class ItemInfoCsvExportUtil {
             fos = new FileOutputStream(file, true);
             fos.write(uft8bom);
             //设置csv文件表头
-            String[] strings = {"path", "name", "code", "sub-code", "price", "member-price", "options", "headline", "caption", "explanation", "relevant-links", "taxable", "point-code", "meta-desc", "template", "sale-limit", "delivery", "astk-code", "condition", "product-category", "display", "sort", "sort_priority", "sp-additional", "lead-time-instock", "lead-time-outstock", "keep-stock", "postage-set", "taxrate-type", "item-tag", "pick-and-delivery-transport-rule-type"};
+            String[] strings = {"path", "name", "code", "sub-code", "price", "member-price", "options",
+                    "headline", "caption", "explanation", "relevant-links", "taxable", "point-code",
+                    "meta-desc", "template", "sale-limit", "delivery", "astk-code", "condition",
+                    "product-category", "display", "sort", "sort_priority", "sp-additional",
+                    "lead-time-instock", "lead-time-outstock", "keep-stock", "postage-set",
+                    "taxrate-type", "item-tag", "pick-and-delivery-transport-rule-type"};
             writeLine.add(strings);
 
             //设置個別商品コード尾数初始值
@@ -275,7 +280,7 @@ public class ItemInfoCsvExportUtil {
     }
 
     //auショップ商品のcsvファイルダウンロード
-    public static void exportItemInfoToCsv(List<Item> itemList, String filePath) {
+    public static void exportAuItemInfoToCsv(List<Item> itemList, String filePath, String fileName) {
 
         //properties文件的名字取得
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
@@ -292,26 +297,29 @@ public class ItemInfoCsvExportUtil {
         String itemCode = null;
         try {
             //文件路径
-            File file = new File(itemCsvPath + File.separator + now + "_auiteminfo" + ".csv");
+            File file = new File(filePath + File.separator + fileName + "_auiteminfo" + ".csv");
             //文件不存在时创建
             if (file == null) {
                 file.mkdir();
             }
+            List<String[]> writeLine = new ArrayList<>();
             //创建csv文件
             printWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file.getPath()), "Shift-JIS")));
             //设置csv文件表头
-            printWriter.write("ctrlCol,itemCode,itemName,itemPrice,sellMethodSegment,taxSegment," +
-                    "reducedTax,postageSegment,postage,deliveryMethodId1,deliveryMethodName1," +
-                    "sellStartDate,sellEndDate,countdownTimerConfig,sellNumberDispConfig," +
-                    "buyNumLimtConfig,buyNumMax,stockRequestConfig,stock∂Count,returnRequestConfig," +
-                    "deliveryLeadtimeId,stockSegment,stockShippingDayId,displayStockSegment,stockCount," +
-                    "displayBackorderMessage,displayChoicesStockSegment,description,descriptionForSP," +
-                    "descriptionForPC,detailTitle,detailDescription,specTitle,spec1,searchKeyword1," +
-                    "searchKeyword2,searchKeyword3,searchTarget,imageUrl1,imageUrl2,imageUrl3,imageUrl4," +
-                    "imageUrl5,imageUrl6,imageUrl7,imageUrl8,imageUrl9,imageUrl10,imageUrl11,imageUrl12,imageUrl13," +
-                    "imageUrl14,imageUrl15,imageUrl16,imageUrl17,imageUrl18,imageUrl19,imageUrl20,categoryId,tagId,shopCategory1," +
-                    "saleStatus,crossBorderEcLnkConfig,crossBorderEcLnkSts,itemOption1,itemOption2," +
-                    "itemOption3,itemOptionCommissionTitle1,itemOptionCommissionVal1,itemOptionCommissionNote1,pointRate\n");
+            String[] strings = {"ctrlCol", "itemCode", "itemName", "itemPrice", "sellMethodSegment", "taxSegment", "reducedTax",
+                    "postageSegment", "postage", "deliveryMethodId1", "deliveryMethodName1", "sellStartDate", "sellEndDate",
+                    "countdownTimerConfig", "sellNumberDispConfig", "buyNumLimtConfig", "buyNumMax", "stockRequestConfig",
+                    "stock∂Count", "returnRequestConfig", "deliveryLeadtimeId", "stockSegment", "stockShippingDayId",
+                    "displayStockSegment", "stockCount", "displayBackorderMessage", "displayChoicesStockSegment",
+                    "description", "descriptionForSP", "descriptionForPC", "detailTitle", "detailDescription",
+                    "specTitle", "spec1", "searchKeyword1", "searchKeyword2", "searchKeyword3", "searchTarget",
+                    "imageUrl1", "imageUrl2", "imageUrl3", "imageUrl4", "imageUrl5", "imageUrl6", "imageUrl7",
+                    "imageUrl8", "imageUrl9", "imageUrl10", "imageUrl11", "imageUrl12", "imageUrl13",
+                    "imageUrl14", "imageUrl15", "imageUrl16", "imageUrl17", "imageUrl18", "imageUrl19",
+                    "imageUrl20", "categoryId", "tagId", "shopCategory1", "saleStatus", "crossBorderEcLnkConfig",
+                    "crossBorderEcLnkSts", "itemOption1", "itemOption2", "itemOption3", "itemOptionCommissionTitle1",
+                    "itemOptionCommissionVal1", "itemOptionCommissionNote1", "pointRate"};
+            writeLine.add(strings);
             //设置個別商品コード尾数初始值
             int i = 11;
             //设置個別商品コード初始变量
