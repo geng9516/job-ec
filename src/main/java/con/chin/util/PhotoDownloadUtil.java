@@ -36,7 +36,11 @@ public class PhotoDownloadUtil {
         //遍历照片集合
         for (int i = 0; i < urls; i++) {
             try {
-                URL url = new URL(urlList.get(i));
+                String urlString = urlList.get(i);
+                if (!urlString.contains("url")) {
+                    urlString = "https:" + urlString;
+                }
+                URL url = new URL(urlString);
 
                 URLConnection connection = url.openConnection();
 
@@ -90,7 +94,7 @@ public class PhotoDownloadUtil {
         ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
         //IMG照片下载地址取得
         String itemIMG = bundle.getString("ITEM-IMG");
-        if("".equals(itemIMG)){
+        if ("".equals(itemIMG)) {
             return;
         }
 
