@@ -141,7 +141,6 @@ public class ItemInfoController {
                 itemInfoQuery.setFlog(Integer.parseInt(flog));
                 //前端使用
                 model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
-                model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
             }
             //为了条件查询后的分页 (有这条会出现编辑状态切换时数据错误)
             httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
