@@ -89,7 +89,7 @@ public class ItemInfoController {
         if (ecSite != null && !"".equals(ecSite)) {
             //前端使用
             model.addAttribute("ecSite", ecSite);
-        }else {
+        } else {
             //ecSite设定到全局变量中
             httpSession.setAttribute("ecSite", "yahoo");
             //前端使用
@@ -141,6 +141,7 @@ public class ItemInfoController {
                 itemInfoQuery.setFlog(Integer.parseInt(flog));
                 //前端使用
                 model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
+                model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
             }
             //为了条件查询后的分页 (有这条会出现编辑状态切换时数据错误)
             httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
@@ -334,24 +335,24 @@ public class ItemInfoController {
                     }
                 }
                 //存在值时
-                if(itemList1.size() >0){
+                if (itemList1.size() > 0) {
                     itemService.setItemFlog(itemList1);
                 }
                 //ecSite已经在全局变量中存在时
                 if (ecSite != null && !"".equals(ecSite)) {
-                    if(ecSite.equals("yahoo")){
+                    if (ecSite.equals("yahoo")) {
                         //导出CSV文件
                         ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                         //导出库存CSV文件
                         DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
                         //导出optionCSV文件
                         DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
-                    }else if (ecSite.equals("au")){
+                    } else if (ecSite.equals("au")) {
                         //导出auCSV文件
                         ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "au");
                     }
                     //不存在值时默认
-                }else {
+                } else {
                     //导出CSV文件
                     ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                     //导出库存CSV文件
@@ -384,24 +385,24 @@ public class ItemInfoController {
                     }
                 }
                 //存在值时
-                if(itemList1.size() >0){
+                if (itemList1.size() > 0) {
                     itemService.setItemFlog(itemList1);
                 }
                 //ecSite已经在全局变量中存在时
                 if (ecSite != null && !"".equals(ecSite)) {
-                    if(ecSite.equals("yahoo")){
+                    if (ecSite.equals("yahoo")) {
                         //导出CSV文件
                         ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                         //导出库存CSV文件
                         DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
                         //导出optionCSV文件
                         DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
-                    }else if (ecSite.equals("au")){
+                    } else if (ecSite.equals("au")) {
                         //导出auCSV文件
                         ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "au");
                     }
                     //不存在值时默认
-                }else {
+                } else {
                     //导出CSV文件
                     ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                     //导出库存CSV文件
@@ -716,23 +717,26 @@ public class ItemInfoController {
         //编辑状态
         String explanationKeyword = "";
         String itemFlog = (String) httpSession.getAttribute("flog");
-        if (itemFlog != null && !"".equals(itemFlog) && "5".equals(itemFlog) && (itemPath != null && !"".equals(itemPath))) {
+        if (itemPath != null && !"".equals(itemPath)) {
             //设置产品种类番号(条件はpathとサイト名)
             Map<String, String> map = new HashMap<>();
             map.put("itempath", itemPath);
             map.put("shopName", "yahoo");
             Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map);
             item.setItemCategoryCode(itemCategorCode);
-            ItemKeyword itemKeyword = new ItemKeyword();
-            itemKeyword.setProductCategory(itemPath);
-            List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
-            for (ItemKeyword keyword : itemKeyword1) {
-                explanationKeyword += keyword.getKeyword() + " ";
-            }
-            if (!explanation.contains("関連キーワード")) {
-                explanation = explanation + "\n" + "\n" +
-                        "■関連キーワード：" + "\n" +
-                        explanationKeyword;
+            //
+            if (itemFlog != null && !"".equals(itemFlog) && "5".equals(itemFlog)) {
+                ItemKeyword itemKeyword = new ItemKeyword();
+                itemKeyword.setProductCategory(itemPath);
+                List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
+                for (ItemKeyword keyword : itemKeyword1) {
+                    explanationKeyword += keyword.getKeyword() + " ";
+                }
+                if (!explanation.contains("関連キーワード")) {
+                    explanation = explanation + "\n" + "\n" +
+                            "■関連キーワード：" + "\n" +
+                            explanationKeyword;
+                }
             }
         }
         //产品名字
