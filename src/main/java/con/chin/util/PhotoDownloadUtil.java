@@ -29,7 +29,7 @@ public class PhotoDownloadUtil {
         //产品表示照片下载
         String imgUrl = urlList.get(0);
         if (!imgUrl.contains("https:")) {
-            imgUrl = "https:" + urlList.get(0);
+            imgUrl = "https:" + imgUrl;
         }
         imageInput(imgUrl, itemCode);
         //创建流
