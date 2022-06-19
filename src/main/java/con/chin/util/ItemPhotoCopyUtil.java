@@ -307,7 +307,7 @@ public class ItemPhotoCopyUtil {
                     fileInputStream = new FileInputStream(file2.getPath());
                     //判断是否有那个itemCode的文件夹,没有创建
                     if (!file.exists()) {
-                        file.mkdir();
+                        file.mkdirs();
                     }
                     //拷贝后的地址输出流
                     fileOutputStream = new FileOutputStream(file.getPath() + File.separator + file2.getName());
