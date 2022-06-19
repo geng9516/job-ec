@@ -49,13 +49,12 @@ public class ItemPhotoCopyUtil {
             long end = System.currentTimeMillis();
             System.out.println(count++ + " 件产品照片拷贝完成!  照片文件价名为 -->  " + itemCode + "    耗时：" + (end - start) + " ms");
         }
-        System.out.println("总共 " + (count-1) + " 件产品照片拷贝完成!");
+        System.out.println("总共 " + (count - 1) + " 件产品照片拷贝完成!");
     }
 
     //照片拷贝方法
     public static void copyItemPhoto(String filePath, String folderName) {
-//        //开始时间
-//        long start = System.currentTimeMillis();
+
         //创建输入流
         FileInputStream fileInputStream = null;
         //创建输出流
@@ -114,8 +113,6 @@ public class ItemPhotoCopyUtil {
                 }
             }
         }
-//        long end = System.currentTimeMillis();
-//        System.out.println("照片拷贝完成!  照片文件价名为 -->  " + folderName + "    耗时：" + (end - start) + " ms");
         return;
     }
 
@@ -233,34 +230,24 @@ public class ItemPhotoCopyUtil {
         System.out.println("照片删除完成!  照片文件价名为 -->  " + fileName + "    耗时：" + (end - start) + " ms");
     }
 
+    public static Integer getItemPhotoSize(String itemCode, String itemphotoPath) {
+        File file = new File(itemphotoPath);
+        if(file == null){
+            return null;
+        }
+        File[] fileItemPhotos = file.listFiles();
+        //循环要要拷贝的照片名文件夹
+        for (File fileItemPhoto : fileItemPhotos) {
 
-    //itemIMG删除
-    public static void deleteItemImage(String filePath, String fileName) {
-        //开始时间
-        long start = System.currentTimeMillis();
-        //把文件路径的文件价抽象化
-        File file = new File(filePath);
-        if (file.exists()) {
-            File[] files = file.listFiles();
-            if (files.length == 0) {
-//                System.out.println("ファイルが存在しません。");
-            } else {
-                //文件夹下存在文件时
-                for (File file1 : files) {
-                    String imgName = file1.getName();
-                    imgName = imgName.replaceAll(".jpg", "");
-                    if (fileName.equals(imgName)) {
-                        file1.delete();
-                        long end = System.currentTimeMillis();
-                        System.out.println("IMG照片删除完成!  照片文件价名为 -->  " + fileName + "    耗时：" + (end - start) + " ms");
-                    } else {
-                        return;
-                    }
-                }
+            if (itemCode.equals(fileItemPhoto.getName())) {
+                //调用拷贝方法
+                File file1 = new File(fileItemPhoto.getPath());
+                File[] files = file1.listFiles();
+                return files.length;
             }
         }
+        return null;
     }
-
 }
 
 

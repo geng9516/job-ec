@@ -375,7 +375,9 @@ public class ImportCsvUtil {
                         //把按照换行进行分割
                         Matcher m = Pattern.compile("(?m)^.*$").matcher(options);
                         while (m.find()) {
+                            //每一行
                             String s = m.group();
+                            //数据处理
                             s = s.replaceAll(" ", "").replaceAll("　", "");
                             if (s.length() == 0) {
                                 continue;
