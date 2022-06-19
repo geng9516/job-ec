@@ -301,7 +301,7 @@ public class ItemInfoCsvExportUtil {
         CsvWriter writer = null;
         try {
             //文件路径
-            File file = new File(filePath + File.separator + fileName + "_iteminfo" + now + ".csv");
+            File file = new File(filePath + File.separator + fileName + now + ".csv");
             //文件不存在时创建
             if (file == null) {
                 file.mkdir();
@@ -400,6 +400,11 @@ public class ItemInfoCsvExportUtil {
                     }
                     //补全20张
                     for (int i = itemPhotoSize; i < 21; i++) {
+                        String itemPhotoUrl = "";
+                        itemPhotoList.add(itemPhotoUrl);
+                    }
+                }else {
+                    for (int i = 0; i < 21; i++) {
                         String itemPhotoUrl = "";
                         itemPhotoList.add(itemPhotoUrl);
                     }

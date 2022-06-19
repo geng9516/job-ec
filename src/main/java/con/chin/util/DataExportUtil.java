@@ -36,7 +36,7 @@ public class DataExportUtil {
 
         CsvWriter writer = null;
         try {
-            writer = CsvUtil.getWriter(itemCsvPath + File.separator + fileName + ".txt", Charset.forName("Shift-JIS"),true);
+            writer = CsvUtil.getWriter(itemCsvPath + File.separator + fileName + ".txt", Charset.forName("Shift-JIS"), true);
             writer.write(itemCodeList);
 
         } catch (Exception e) {
@@ -294,6 +294,106 @@ public class DataExportUtil {
                         column[20] = ""; //yamato-ff-flag
                         //一行数据
                         writeLine.add(column);
+                    }
+                }
+            }
+            writer.write(writeLine);
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println(fileName + "option CSV, 总共输出了: " + itemList.size() + " 行数据    耗时：" + (end - start) + " ms");
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+    }
+
+    //AuStock csv导出
+    public static void exportAuItemOptionCsv(List<Item> itemList, String filePath, String fileName) {
+        //开始时间
+        long start = System.currentTimeMillis();
+        //现在时间作为文件名(线程安全的)
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
+
+        CsvWriter writer = null;
+        try {
+            writer = CsvUtil.getWriter(filePath + File.separator + fileName + now + ".csv", Charset.forName("Shift-JIS"));
+            //csv内容保存
+            List<String[]> writeLine = new ArrayList<>();
+            //设置csv文件表头
+            String[] strings = {"ctrlCol", "lotNumbe", "itemCode", "stockSegment", "stockCount",
+                    "choicesStockHorizontalName", "choicesStockHorizontalCode", "choicesStockHorizontalSeq",
+                    "choicesStockVerticalName", "choicesStockVerticalCode", "choicesStockVerticalSeq",
+                    "choicesStockCount", "choicesStockShippingDayId", "choicesStockShippingDayDispTxt",
+                    "choicesStockImageUrl", "choicesStockColorSegment"};
+            writeLine.add(strings);
+            for (Item item : itemList) {
+
+                //option1不为空时
+                if (item.getOption1() != null || !"".equals(item.getOption1())) {
+                    //把value1值以空格分割出来
+                    String[] value1 = item.getValue1().split(" ");
+                    //option2不为空时
+                    if (item.getOption2() != null || !"".equals(item.getOption2())) {
+                        //把value2值以空格分割出来
+                        String[] value2 = item.getValue2().split(" ");
+                        //
+                        for (int i = 0; i < value1.length; i++) {
+                            //
+                            for (int j = 0; j < value2.length; j++) {
+
+                                //保存每一列的数据使用
+                                String[] column = new String[16];
+                                column[0] = "N"; //
+                                column[1] = ""; //
+                                column[2] = item.getItemCode(); //
+                                column[3] = "2";  //
+                                column[4] = ""; //
+                                column[5] = value1[i]; //
+                                column[6] = value1[i]; //
+                                column[7] = String.valueOf(i); //
+                                column[8] = value2[j]; //
+                                column[9] = "A" + j; //
+                                column[10] = String.valueOf(j); //
+                                column[11] = String.valueOf(999); //
+                                column[12] = ""; //
+                                column[13] = ""; //
+                                column[14] = ""; //
+                                column[15] = ""; //
+                                //一行数据
+                                writeLine.add(column);
+                            }
+
+                        }
+                    } else {
+                        //
+                        for (int i = 0; i < value1.length; i++) {
+
+                            //保存每一列的数据使用
+                            String[] column = new String[16];
+                            column[0] = "N"; //
+                            column[1] = ""; //
+                            column[2] = item.getItemCode(); //
+                            column[3] = "2";  //
+                            column[4] = ""; //
+                            column[5] = value1[i]; //
+                            column[6] = value1[i]; //
+                            column[7] = String.valueOf(i); //
+                            column[8] = ""; //
+                            column[9] = ""; //
+                            column[10] = ""; //
+                            column[11] = String.valueOf(999); //
+                            column[12] = ""; //
+                            column[13] = ""; //
+                            column[14] = ""; //
+                            column[15] = ""; //
+                            //一行数据
+                            writeLine.add(column);
+                        }
                     }
                 }
             }
