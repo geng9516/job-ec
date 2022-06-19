@@ -270,6 +270,20 @@ public class CrawlerController {
         return "index";
     }
 
+    //処理後の写真をフォルダーごとにまとめる
+    @GetMapping("/photoToFolde")
+    public String photoToFolde(Model model) {
+        //开始时间
+        long start = System.currentTimeMillis();
+        //调用创建写真フォルダー方法
+        ItemPhotoCopyUtil.read4();
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("処理後の写真をフォルダーに!    总耗时：" + (end - start) + " ms");
+        model.addAttribute("message", "処理後の写真をフォルダーごとにまとめました");
+        return "index";
+    }
+
     @Value("${ZIPPHNTOFLEPATH}")
     private String itemCodeCsvPath;
 

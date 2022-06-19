@@ -230,9 +230,10 @@ public class ItemPhotoCopyUtil {
         System.out.println("照片删除完成!  照片文件价名为 -->  " + fileName + "    耗时：" + (end - start) + " ms");
     }
 
+    //获取照片的枚数
     public static Integer getItemPhotoSize(String itemCode, String itemphotoPath) {
         File file = new File(itemphotoPath);
-        if(file == null){
+        if (file == null) {
             return null;
         }
         File[] fileItemPhotos = file.listFiles();
@@ -248,6 +249,104 @@ public class ItemPhotoCopyUtil {
         }
         return null;
     }
+
+
+    //把照片按照itemcode进行分组
+    public static void read4() {
+
+        List<String> itemCodeList = new ArrayList<>();
+        //读取properties
+        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
+        //从propertied文件中照片读取地址取得
+        String itemphotoPath = bundle.getString("ZIPPHNTOFLEPATH");
+        File file = new File(itemphotoPath);
+        File[] files = file.listFiles();
+        for (File listFile : files) {
+            if (!listFile.getName().contains("_")) {
+                itemCodeList.add(listFile.getName().replaceAll(".jpg", ""));
+            }
+        }
+
+        filePath(files, itemCodeList, itemphotoPath);
+
+    }
+
+    //把照片按照itemcode进行分组
+    private static void filePath(File[] files, List<String> itemCodeList, String filePath) {
+
+        //循环itemcode 并且每一个itemcode和全部照片中文件做对比,包含的发到一个List里
+        for (String itemCode : itemCodeList) {
+            //存放filePathList
+            List<String> filePathList = new ArrayList<>();
+            for (File file : files) {
+                String fileName = file.getName();
+                if (fileName.contains(itemCode)) {
+                    filePathList.add(file.getPath());
+                }
+            }
+            creadPhotoFolder(filePathList, filePath, itemCode);
+        }
+
+    }
+
+    //进行拷贝
+    private static void creadPhotoFolder(List<String> filePathList, String filePath, String folderName) {
+
+        //创建输入流
+        FileInputStream fileInputStream = null;
+        //创建输出流
+        FileOutputStream fileOutputStream = null;
+        //拷贝后的地址加文件名
+        File file = new File(filePath + File.separator + "コピー後" + File.separator + folderName);
+        try {
+            //循环拷贝源中的所以文件
+            for (String file1 : filePathList) {
+                File file2 = new File(file1);
+                if (file2.isFile()) {
+                    //拷贝源输入流
+                    fileInputStream = new FileInputStream(file2.getPath());
+                    //判断是否有那个itemCode的文件夹,没有创建
+                    if (!file.exists()) {
+                        file.mkdir();
+                    }
+                    //拷贝后的地址输出流
+                    fileOutputStream = new FileOutputStream(file.getPath() + File.separator + file2.getName());
+                    // 一次复制1MB 设定
+                    byte[] bytes = new byte[1024 * 1024];
+                    int readCount = 0;
+                    while ((readCount = fileInputStream.read(bytes)) != -1) {
+                        fileOutputStream.write(bytes, 0, readCount);
+                    }
+                    //清空流的管道
+                    fileOutputStream.flush();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //关闭流
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return;
+
+    }
+
+
 }
 
 
