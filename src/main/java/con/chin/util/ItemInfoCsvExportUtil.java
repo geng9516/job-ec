@@ -313,7 +313,7 @@ public class ItemInfoCsvExportUtil {
             String[] strings = {"ctrlCol", "itemCode", "itemName", "itemPrice", "sellMethodSegment", "taxSegment", "reducedTax",
                     "postageSegment", "postage", "deliveryMethodId1", "deliveryMethodName1", "sellStartDate", "sellEndDate",
                     "countdownTimerConfig", "sellNumberDispConfig", "buyNumLimtConfig", "buyNumMax", "stockRequestConfig",
-                    "returnRequestConfig", "deliveryLeadtimeId", "stockSegment", "stockShippingDayId","choicesStockHorizontalItemName","choicesStockVerticalItemName",
+                    "returnRequestConfig", "deliveryLeadtimeId", "stockSegment", "stockShippingDayId", "choicesStockHorizontalItemName", "choicesStockVerticalItemName",
                     "displayStockSegment", "stockCount", "displayBackorderMessage", "displayChoicesStockSegment",
                     "description", "descriptionForSP", "descriptionForPC", "detailTitle", "detailDescription",
                     "specTitle", "spec1", "searchKeyword1", "searchKeyword2", "searchKeyword3", "searchTarget",
@@ -403,7 +403,7 @@ public class ItemInfoCsvExportUtil {
                         String itemPhotoUrl = "";
                         itemPhotoList.add(itemPhotoUrl);
                     }
-                }else {
+                } else {
                     for (int i = 0; i < 21; i++) {
                         String itemPhotoUrl = "";
                         itemPhotoList.add(itemPhotoUrl);
@@ -447,8 +447,12 @@ public class ItemInfoCsvExportUtil {
                 string[25] = "999";         //通常在庫数
                 string[26] = "まもなく入荷致します。お急ぎは入荷リクエストお願い致します。";      //在庫切れメッセージ
                 string[27] = "";           //残選択肢別在庫表示区分
-                string[28] = "<洗い方注意><br>\n" +
-                        "手洗いまたはドライクリーニングを推奨<br>\n" +
+                string[28] = explanationBr;     //商品詳細説明
+                string[29] = (caption != null ? caption : "");     //SP用商品説明
+                string[30] = (caption != null ? caption : "");     //PC用商品説明
+                string[31] = "<洗い方注意>";              //商品詳細タイトル
+//                string[32] = explanationBr;     //商品詳細説明
+                string[32] = "手洗いまたはドライクリーニングを推奨<br>\n" +
                         "個々のアイテムの洗濯方法について疑問がある場合は、カスタマーサービスにご相談ください / 洗濯機で洗ったり、混ぜたりしないでください<br>\n" +
                         "衣類の風合いを保つため、30℃以上のお湯を長時間使用しないでください。<br>\n" +
                         "濃い色のものは別洗いしてください／カラーブロックの衣類は浸け置きしないでください<br><br>\n\n" +
@@ -456,10 +460,6 @@ public class ItemInfoCsvExportUtil {
                         "すべての衣類に低温アイロンが推奨されます<br><br>\n" +
                         "※サイズは平置き計測となっておりますので、1〜2の誤差が生じる場合がございます。<br> \n" +
                         "※モニター環境により、実際のものと素材感・色が若干異なって見える場合がありますので、ご了承ください。";
-                string[29] = (caption != null ? caption : "");     //SP用商品説明
-                string[30] = (caption != null ? caption : "");     //PC用商品説明
-                string[31] = "商品詳細情報";              //商品詳細タイトル
-                string[32] = explanationBr;     //商品詳細説明
                 string[33] = "";      //スペックタイトル
                 string[34] = "";     //スペック1～5
                 string[35] = "";     //検索キーワード1
