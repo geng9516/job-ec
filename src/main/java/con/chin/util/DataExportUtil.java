@@ -325,7 +325,7 @@ public class DataExportUtil {
             //csv内容保存
             List<String[]> writeLine = new ArrayList<>();
             //设置csv文件表头
-            String[] strings = {"ctrlCol", "lotNumbe", "itemCode", "stockSegment", "stockCount",
+            String[] strings = {"ctrlCol", "lotNumber", "itemCode", "stockSegment", "stockCount",
                     "choicesStockHorizontalName", "choicesStockHorizontalCode", "choicesStockHorizontalSeq",
                     "choicesStockVerticalName", "choicesStockVerticalCode", "choicesStockVerticalSeq",
                     "choicesStockCount", "choicesStockShippingDayId", "choicesStockShippingDayDispTxt",
@@ -334,11 +334,11 @@ public class DataExportUtil {
             for (Item item : itemList) {
 
                 //option1不为空时
-                if (item.getOption1() != null || !"".equals(item.getOption1())) {
+                if (item.getOption1() != null && !"".equals(item.getOption1())) {
                     //把value1值以空格分割出来
                     String[] value1 = item.getValue1().split(" ");
                     //option2不为空时
-                    if (item.getOption2() != null || !"".equals(item.getOption2())) {
+                    if (item.getOption2() != null && !"".equals(item.getOption2())) {
                         //把value2值以空格分割出来
                         String[] value2 = item.getValue2().split(" ");
                         //

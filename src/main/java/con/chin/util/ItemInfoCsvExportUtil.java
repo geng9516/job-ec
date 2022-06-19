@@ -313,7 +313,7 @@ public class ItemInfoCsvExportUtil {
             String[] strings = {"ctrlCol", "itemCode", "itemName", "itemPrice", "sellMethodSegment", "taxSegment", "reducedTax",
                     "postageSegment", "postage", "deliveryMethodId1", "deliveryMethodName1", "sellStartDate", "sellEndDate",
                     "countdownTimerConfig", "sellNumberDispConfig", "buyNumLimtConfig", "buyNumMax", "stockRequestConfig",
-                    "returnRequestConfig", "deliveryLeadtimeId", "stockSegment", "stockShippingDayId",
+                    "returnRequestConfig", "deliveryLeadtimeId", "stockSegment", "stockShippingDayId","choicesStockHorizontalItemName","choicesStockVerticalItemName",
                     "displayStockSegment", "stockCount", "displayBackorderMessage", "displayChoicesStockSegment",
                     "description", "descriptionForSP", "descriptionForPC", "detailTitle", "detailDescription",
                     "specTitle", "spec1", "searchKeyword1", "searchKeyword2", "searchKeyword3", "searchTarget",
@@ -329,7 +329,7 @@ public class ItemInfoCsvExportUtil {
             //遍历item集合下载每一件产品信息
             for (Item item : itemList) {
                 //保存每一列的数据使用
-                String[] string = new String[70];
+                String[] string = new String[72];
                 //おすすめ商品 relevant-links
 //                item.setRelevantLinks(SetDataUtil.getRelevantLinks(item.getItemPath()));
                 //商品コード code
@@ -439,11 +439,15 @@ public class ItemInfoCsvExportUtil {
                 string[19] = "";            //お届けリードタイムID
                 string[20] = "1";           //在庫区分
                 string[21] = "wizardSDI";   //通常在庫発送日ID
-                string[22] = "1";           //残在庫表示区分
-                string[23] = "999";         //通常在庫数
-                string[24] = "まもなく入荷致します。お急ぎは入荷リクエストお願い致します。";      //在庫切れメッセージ
-                string[25] = "";           //残選択肢別在庫表示区分
-                string[26] = "<洗い方注意><br>\n" +
+//                string[22] = option1;   //通常在庫発送日ID
+//                string[23] = option2;   //通常在庫発送日ID
+                string[22] = "";   //通常在庫発送日ID
+                string[23] = "";   //通常在庫発送日ID
+                string[24] = "1";           //残在庫表示区分
+                string[25] = "999";         //通常在庫数
+                string[26] = "まもなく入荷致します。お急ぎは入荷リクエストお願い致します。";      //在庫切れメッセージ
+                string[27] = "";           //残選択肢別在庫表示区分
+                string[28] = "<洗い方注意><br>\n" +
                         "手洗いまたはドライクリーニングを推奨<br>\n" +
                         "個々のアイテムの洗濯方法について疑問がある場合は、カスタマーサービスにご相談ください / 洗濯機で洗ったり、混ぜたりしないでください<br>\n" +
                         "衣類の風合いを保つため、30℃以上のお湯を長時間使用しないでください。<br>\n" +
@@ -452,49 +456,53 @@ public class ItemInfoCsvExportUtil {
                         "すべての衣類に低温アイロンが推奨されます<br><br>\n" +
                         "※サイズは平置き計測となっておりますので、1〜2の誤差が生じる場合がございます。<br> \n" +
                         "※モニター環境により、実際のものと素材感・色が若干異なって見える場合がありますので、ご了承ください。";
-                string[27] = (caption != null ? caption : "");     //SP用商品説明
-                string[28] = (caption != null ? caption : "");     //PC用商品説明
-                string[29] = "商品詳細情報";              //商品詳細タイトル
-                string[30] = explanationBr;     //商品詳細説明
-                string[31] = "";      //スペックタイトル
-                string[32] = "";     //スペック1～5
-                string[33] = "";     //検索キーワード1
-                string[34] = "";     //検索キーワード2
-                string[35] = "";     //検索キーワード3
-                string[36] = "1";     //検索対象
-                string[37] = (itemPhotoList.get(0) != null ? itemPhotoList.get(0) : "");     //商品画像URL1
-                string[38] = (itemPhotoList.get(1) != null ? itemPhotoList.get(1) : "");     //商品画像URL2
-                string[39] = (itemPhotoList.get(2) != null ? itemPhotoList.get(2) : "");     //商品画像URL3
-                string[40] = (itemPhotoList.get(3) != null ? itemPhotoList.get(3) : "");     //商品画像URL4
-                string[41] = (itemPhotoList.get(4) != null ? itemPhotoList.get(4) : "");     //商品画像URL5
-                string[42] = (itemPhotoList.get(5) != null ? itemPhotoList.get(5) : "");     //商品画像URL6
-                string[43] = (itemPhotoList.get(6) != null ? itemPhotoList.get(6) : "");     //商品画像URL7
-                string[44] = (itemPhotoList.get(7) != null ? itemPhotoList.get(7) : "");     //商品画像URL8
-                string[45] = (itemPhotoList.get(8) != null ? itemPhotoList.get(8) : "");     //商品画像URL9
-                string[46] = (itemPhotoList.get(9) != null ? itemPhotoList.get(9) : "");     //商品画像URL10
-                string[47] = (itemPhotoList.get(10) != null ? itemPhotoList.get(10) : "");     //商品画像URL11
-                string[48] = (itemPhotoList.get(11) != null ? itemPhotoList.get(11) : "");     //商品画像URL12
-                string[49] = (itemPhotoList.get(12) != null ? itemPhotoList.get(12) : "");     //商品画像URL13
-                string[50] = (itemPhotoList.get(13) != null ? itemPhotoList.get(13) : "");     //商品画像URL14
-                string[51] = (itemPhotoList.get(14) != null ? itemPhotoList.get(14) : "");     //商品画像URL15
-                string[52] = (itemPhotoList.get(15) != null ? itemPhotoList.get(15) : "");     //商品画像URL16
-                string[53] = (itemPhotoList.get(16) != null ? itemPhotoList.get(16) : "");     //商品画像URL17
-                string[54] = (itemPhotoList.get(17) != null ? itemPhotoList.get(17) : "");     //商品画像URL18
-                string[55] = (itemPhotoList.get(18) != null ? itemPhotoList.get(18) : "");     //商品画像URL19
-                string[56] = (itemPhotoList.get(19) != null ? itemPhotoList.get(19) : "");     //商品画像URL20
-                string[57] = "検索して記入すること";     //カテゴリID
-                string[58] = "";     //検索タグID
-                string[59] = itemPath;     //店舗内カテゴリ1～10
-                string[60] = "1";     //販売ステータス
-                string[61] = "2";     //越境EC連携区分
-                string[62] = "2";     //越境ECステータス
-                string[63] = itemOption1;     //購入オプション1～20 サイズ:S:M:L:XL
-                string[64] = itemOption2;     //購入オプション1～20 カラー:ホワイト
-                string[65] = itemOption3;     //購入オプション1～20 itemOption3
-                string[66] = "オプション";     //購入オプション(手数料型)タイトル1～20
-                string[67] = "";     //itemOptionCommissionVal1
-                string[68] = "";     //itemOptionCommissionNote1
-                string[69] = "1";     //pointRate
+                string[29] = (caption != null ? caption : "");     //SP用商品説明
+                string[30] = (caption != null ? caption : "");     //PC用商品説明
+                string[31] = "商品詳細情報";              //商品詳細タイトル
+                string[32] = explanationBr;     //商品詳細説明
+                string[33] = "";      //スペックタイトル
+                string[34] = "";     //スペック1～5
+                string[35] = "";     //検索キーワード1
+                string[36] = "";     //検索キーワード2
+                string[37] = "";     //検索キーワード3
+                string[38] = "1";     //検索対象
+                string[39] = (itemPhotoList.get(0) != null ? itemPhotoList.get(0) : "");     //商品画像URL1
+                string[40] = (itemPhotoList.get(1) != null ? itemPhotoList.get(1) : "");     //商品画像URL2
+                string[41] = (itemPhotoList.get(2) != null ? itemPhotoList.get(2) : "");     //商品画像URL3
+                string[42] = (itemPhotoList.get(3) != null ? itemPhotoList.get(3) : "");     //商品画像URL4
+                string[43] = (itemPhotoList.get(4) != null ? itemPhotoList.get(4) : "");     //商品画像URL5
+                string[44] = (itemPhotoList.get(5) != null ? itemPhotoList.get(5) : "");     //商品画像URL6
+                string[45] = (itemPhotoList.get(6) != null ? itemPhotoList.get(6) : "");     //商品画像URL7
+                string[46] = (itemPhotoList.get(7) != null ? itemPhotoList.get(7) : "");     //商品画像URL8
+                string[47] = (itemPhotoList.get(8) != null ? itemPhotoList.get(8) : "");     //商品画像URL9
+                string[48] = (itemPhotoList.get(9) != null ? itemPhotoList.get(9) : "");     //商品画像URL10
+                string[49] = (itemPhotoList.get(10) != null ? itemPhotoList.get(10) : "");     //商品画像URL11
+                string[50] = (itemPhotoList.get(11) != null ? itemPhotoList.get(11) : "");     //商品画像URL12
+                string[51] = (itemPhotoList.get(12) != null ? itemPhotoList.get(12) : "");     //商品画像URL13
+                string[52] = (itemPhotoList.get(13) != null ? itemPhotoList.get(13) : "");     //商品画像URL14
+                string[53] = (itemPhotoList.get(14) != null ? itemPhotoList.get(14) : "");     //商品画像URL15
+                string[54] = (itemPhotoList.get(15) != null ? itemPhotoList.get(15) : "");     //商品画像URL16
+                string[55] = (itemPhotoList.get(16) != null ? itemPhotoList.get(16) : "");     //商品画像URL17
+                string[56] = (itemPhotoList.get(17) != null ? itemPhotoList.get(17) : "");     //商品画像URL18
+                string[57] = (itemPhotoList.get(18) != null ? itemPhotoList.get(18) : "");     //商品画像URL19
+                string[58] = (itemPhotoList.get(19) != null ? itemPhotoList.get(19) : "");     //商品画像URL20
+                string[59] = "検索して記入すること";     //カテゴリID
+                string[60] = "";     //検索タグID
+                string[61] = itemPath;     //店舗内カテゴリ1～10
+                string[62] = "1";     //販売ステータス
+                string[63] = "2";     //越境EC連携区分
+                string[64] = "2";     //越境ECステータス
+                string[65] = itemOption1;     //購入オプション1～20 サイズ:S:M:L:XL
+                string[66] = itemOption2;     //購入オプション1～20 カラー:ホワイト
+                string[67] = itemOption3;     //購入オプション1～20 itemOption3
+//                string[65] = "";     //購入オプション1～20 サイズ:S:M:L:XL
+//                string[66] = "";     //購入オプション1～20 カラー:ホワイト
+//                string[67] = "";     //購入オプション1～20 itemOption3
+//                string[68] = "オプション";     //購入オプション(手数料型)タイトル1～20
+                string[68] = "";     //購入オプション(手数料型)タイトル1～20
+                string[69] = "";     //itemOptionCommissionVal1
+                string[70] = "";     //itemOptionCommissionNote1
+                string[71] = "1";     //pointRate
                 //個別商品コード尾数初始值归1
                 writeLine.add(string);
                 //输出次数

@@ -150,7 +150,7 @@ public class CrawlerController {
                         //导出auCSV文件
                         ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "item");
                         //导出optionCSV文件
-                        DataExportUtil.exportAuItemOptionCsv(itemList, itemCsvPath, "stock");
+//                        DataExportUtil.exportAuItemOptionCsv(itemList, itemCsvPath, "stock");
                     }
                     //不存在值时默认
                 } else {
