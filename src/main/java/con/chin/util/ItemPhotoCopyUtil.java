@@ -360,7 +360,7 @@ public class ItemPhotoCopyUtil {
                     //从文件夹中把把照片path取得
                     String ImgPath = getItemImg(file1, item.getItemCode());
                     if (ImgPath != null) {
-                        itemImgPath.add(ImgPath);
+//                        itemImgPath.add(ImgPath);
                     }
                     flog = 1;
                 }
@@ -373,7 +373,7 @@ public class ItemPhotoCopyUtil {
                         //从文件夹中把把照片path取得
                         String ImgPath = getItemImg(file1, item.getItemCode());
                         if (ImgPath != null) {
-                            itemImgPath.add(ImgPath);
+//                            itemImgPath.add(ImgPath);
                         }
                         flog = 1;
                     }
@@ -381,12 +381,14 @@ public class ItemPhotoCopyUtil {
             }
             if (flog == 0) {
                 System.out.println(item.getItemCode() + " 这件产品没找到照片");
+                itemImgPath.add(item.getItemCode());
+                DataExportUtil.exportItemCodeCsv(itemImgPath,"没有照片的产品");
                 continue;
             }
             System.out.println("------------------------------" + item.getItemCode() + " 这件产品已找到照片------------------------------");
         }
-        System.out.println("照片地址已加载完成,准备下载!!!  文件数为" + itemImgPath.size() + " 件");
-        setItemImg(itemImgPath, file);
+//        System.out.println("照片地址已加载完成,准备下载!!!  文件数为" + itemImgPath.size() + " 件");
+//        setItemImg(itemImgPath, file);
 
     }
 
