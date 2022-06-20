@@ -18,6 +18,7 @@ import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -305,42 +306,57 @@ public class CrawlerController {
 
     //---------------------------------------------------------------------------------------------------------
 
+    @Value("${ITEMPHOTO}")
+    private String itemPhotoPath1;
+
+    @Value("${ITEMPHOTO2}")
+    private String itemPhotoPath2;
+
+    @Value("${ITEM-IMG}")
+    private String itemImg;
+
+
     //数据错误时做更新使用
     @GetMapping("/setDate")
     public String setDate() {
+        //开始时间
+        long start = System.currentTimeMillis();
         List<Item> itemList1 = new ArrayList<>();
         List<Item> itemList = new ArrayList<>();
 
         itemList = itemService.findAll();
+        System.out.println(itemList.size() + " 件产品加载完成");
 
-        //开始时间
-        long start = System.currentTimeMillis();
-        int i = 0;
-        for (Item item : itemList) {
-            //开始时间
-            long start1 = System.currentTimeMillis();
-            String shopName = item.getShopName();
-            if ("day".equals(shopName)) {
-                item.setShopName("day day shop");
-                itemService.setdate(item);
+        File file = new File(itemPhotoPath1);
+        File[] files = file.listFiles();
+        System.out.println("照片 1 文件夹准备完成");
+        File file1 = new File(itemPhotoPath2);
+        File[] files1 = file1.listFiles();
+        System.out.println("照片 2 文件夹准备完成");
+        File file2 = new File(itemImg);
 
-            } else if ("dayday".equals(shopName)) {
-                item.setShopName("dayday shop");
-                itemService.setdate(item);
+        ItemPhotoCopyUtil.read5(itemList,files,files1,file2);
 
-            }
 
-            //结束时间
-            long end = System.currentTimeMillis();
-            System.out.println("更新产品ID为 " + item.getItemCode() + " アイテム!    耗时：" + (end - start1) + " ms");
-        }
 
         //结束时间
         long end = System.currentTimeMillis();
         System.out.println("更新アイテム!    总耗时：" + (end - start) + " ms");
-//        return "index";
 
         return "index";
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

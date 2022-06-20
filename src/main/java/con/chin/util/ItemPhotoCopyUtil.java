@@ -347,6 +347,121 @@ public class ItemPhotoCopyUtil {
     }
 
 
+    //检查产品表示照片
+    public static void read5(List<Item> itemList, File[] files, File[] files1, File file) {
+
+        List<String> itemImgPath = new ArrayList<>();
+
+        for (Item item : itemList) {
+            int flog = 0;
+            for (File file1 : files) {
+                //如果itemcode和照片文件夹名一致
+                if (item.getItemCode().equals(file1.getName().replaceAll(".jpg", ""))) {
+                    //从文件夹中把把照片path取得
+                    String ImgPath = getItemImg(file1, item.getItemCode());
+                    if (ImgPath != null) {
+                        itemImgPath.add(ImgPath);
+                    }
+                    flog = 1;
+                }
+            }
+            //如果在第一个文件中为找到itemIGMG文件
+            if (flog == 0) {
+                for (File file1 : files1) {
+                    //如果itemcode和照片文件夹名一致
+                    if (item.getItemCode().equals(file1.getName().replaceAll(".jpg", ""))) {
+                        //从文件夹中把把照片path取得
+                        String ImgPath = getItemImg(file1, item.getItemCode());
+                        if (ImgPath != null) {
+                            itemImgPath.add(ImgPath);
+                        }
+                        flog = 1;
+                    }
+                }
+            }
+            if (flog == 0) {
+                System.out.println(item.getItemCode() + " 这件产品没找到照片");
+                continue;
+            }
+            System.out.println("------------------------------" + item.getItemCode() + " 这件产品已找到照片------------------------------");
+        }
+        System.out.println("照片地址已加载完成,准备下载!!!  文件数为" + itemImgPath.size() + " 件");
+        setItemImg(itemImgPath, file);
+
+    }
+
+    //把照片取得
+    private static String getItemImg(File file1, String itemCode) {
+
+        File[] files = file1.listFiles();
+        for (File file : files) {
+            if (itemCode.equals(file.getName().replaceAll(".jpg", ""))) {
+                return file.getPath();
+            }
+        }
+        return null;
+
+    }
+
+    //把照片下载到itemIMG文件夹中
+    private static void setItemImg(List<String> itemImgPath, File file) {
+
+        //创建输入流
+        FileInputStream fileInputStream = null;
+        //创建输出流
+        FileOutputStream fileOutputStream = null;
+        //拷贝后的地址加文件名
+//        File file = new File(file4);
+        try {
+            //循环拷贝源中的所以文件
+            for (String file1 : itemImgPath) {
+                File file2 = new File(file1);
+                if (file2.isFile()) {
+                    //拷贝源输入流
+                    fileInputStream = new FileInputStream(file2.getPath());
+                    //判断是否有那个itemCode的文件夹,没有创建
+                    if (!file.exists()) {
+                        file.mkdirs();
+                    }
+                    //拷贝后的地址输出流
+                    fileOutputStream = new FileOutputStream(file.getPath() + File.separator + file2.getName());
+                    // 一次复制1MB 设定
+                    byte[] bytes = new byte[1024 * 1024];
+                    int readCount = 0;
+                    while ((readCount = fileInputStream.read(bytes)) != -1) {
+                        fileOutputStream.write(bytes, 0, readCount);
+                    }
+                    //清空流的管道
+                    fileOutputStream.flush();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //关闭流
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return;
+
+
+    }
+
+
 }
 
 
