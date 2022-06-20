@@ -344,7 +344,7 @@ public class CrawlerController {
 //        long end = System.currentTimeMillis();
 //        System.out.println("更新アイテム!    总耗时：" + (end - start) + " ms");
 
-        File desktopDir = FileSystemView.getFileSystemView() .getHomeDirectory();
+        File desktopDir = FileSystemView.getFileSystemView() .getDefaultDirectory();
         System.out.println(desktopDir);
 
         return "index";
