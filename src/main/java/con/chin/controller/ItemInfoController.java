@@ -49,7 +49,7 @@ public class ItemInfoController {
     public String iteminfo(Model model, @Param("id") String id, ItemInfoQuery itemInfoQuery, HttpSession httpSession) {
 
         //全商品表示
-        if (id != null && id != "") {
+        if (id != null && !"".equals(id)) {
             httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("searchConditions");
             httpSession.removeAttribute("pageSize");
@@ -80,7 +80,7 @@ public class ItemInfoController {
         if (flog != null && !"".equals(flog)) {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
         } else {
-            httpSession.setAttribute("flog", String.valueOf(1));
+//            httpSession.setAttribute("flog", String.valueOf(1));
 //            itemInfoQuery.setFlog(1);
         }
         //ecsite
