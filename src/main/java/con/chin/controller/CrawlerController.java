@@ -18,6 +18,7 @@ import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -320,28 +321,31 @@ public class CrawlerController {
     @GetMapping("/setDate")
     public String setDate() {
         //开始时间
-        long start = System.currentTimeMillis();
-        List<Item> itemList1 = new ArrayList<>();
-        List<Item> itemList = new ArrayList<>();
+//        long start = System.currentTimeMillis();
+//        List<Item> itemList1 = new ArrayList<>();
+//        List<Item> itemList = new ArrayList<>();
+//
+//        itemList = itemService.findAll();
+//        System.out.println(itemList.size() + " 件产品加载完成");
+//
+//        File file = new File(itemPhotoPath1);
+//        File[] files = file.listFiles();
+//        System.out.println("照片 1 文件夹准备完成");
+//        File file1 = new File(itemPhotoPath2);
+//        File[] files1 = file1.listFiles();
+//        System.out.println("照片 2 文件夹准备完成");
+//        File file2 = new File(itemImg);
+//
+//        ItemPhotoCopyUtil.read5(itemList,files,files1,file2);
+//
+//
+//
+//        //结束时间
+//        long end = System.currentTimeMillis();
+//        System.out.println("更新アイテム!    总耗时：" + (end - start) + " ms");
 
-        itemList = itemService.findAll();
-        System.out.println(itemList.size() + " 件产品加载完成");
-
-        File file = new File(itemPhotoPath1);
-        File[] files = file.listFiles();
-        System.out.println("照片 1 文件夹准备完成");
-        File file1 = new File(itemPhotoPath2);
-        File[] files1 = file1.listFiles();
-        System.out.println("照片 2 文件夹准备完成");
-        File file2 = new File(itemImg);
-
-        ItemPhotoCopyUtil.read5(itemList,files,files1,file2);
-
-
-
-        //结束时间
-        long end = System.currentTimeMillis();
-        System.out.println("更新アイテム!    总耗时：" + (end - start) + " ms");
+        File desktopDir = FileSystemView.getFileSystemView() .getHomeDirectory();
+        System.out.println(desktopDir);
 
         return "index";
     }

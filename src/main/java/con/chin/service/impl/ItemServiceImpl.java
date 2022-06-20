@@ -266,14 +266,42 @@ public class ItemServiceImpl implements ItemService {
         if (item.getUrl3() != null && !"".equals(item.getUrl3())) {
             oldItem.setUrl3(item.getUrl3());
         }
+        //option1不为空
         if (item.getOption1() != null && !"".equals(item.getOption1())) {
             oldItem.setOption1(item.getOption1());
             oldItem.setValue1(item.getValue1());
+        }else if(item.getOption2() != null && !"".equals(item.getOption2())){
+            //把option2的值添加
+            oldItem.setOption1(item.getOption2());
+            oldItem.setValue1(item.getValue2());
+        }else if(item.getOption3() != null && !"".equals(item.getOption3())){
+            //把option3的值添加
+            oldItem.setOption1(item.getOption3());
+            oldItem.setValue1(item.getValue3());
+        }else if(item.getOption4() != null && !"".equals(item.getOption4())){
+            //把option3的值添加
+            oldItem.setOption1(item.getOption4());
+            oldItem.setValue1(item.getValue4());
+        }else if(item.getOption5() != null && !"".equals(item.getOption5())){
+            //把option3的值添加
+            oldItem.setOption1(item.getOption5());
+            oldItem.setValue1(item.getValue5());
         }
-        if (item.getOption2() != null && !"".equals(item.getOption2())) {
+        //option1不为空并且option2不为空
+        if ((item.getOption1() != null && !"".equals(item.getOption1())) && (item.getOption2() != null && !"".equals(item.getOption2()))) {
             oldItem.setOption2(item.getOption2());
             oldItem.setValue2(item.getValue2());
+        }else if(item.getOption3() != null && !"".equals(item.getOption3())){
+            oldItem.setOption2(item.getOption3());
+            oldItem.setValue2(item.getValue3());
+        }else if(item.getOption4() != null && !"".equals(item.getOption4())){
+            oldItem.setOption2(item.getOption4());
+            oldItem.setValue2(item.getValue4());
+        }else if(item.getOption5() != null && !"".equals(item.getOption5())){
+            oldItem.setOption2(item.getOption5());
+            oldItem.setValue2(item.getValue5());
         }
+        ////option2不为空并且option3不为空
         if (item.getOption3() != null && !"".equals(item.getOption3())) {
             oldItem.setOption3(item.getOption3());
             oldItem.setValue3(item.getValue3());
