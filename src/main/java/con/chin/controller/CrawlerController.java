@@ -295,13 +295,11 @@ public class CrawlerController {
         //雅虎时
         if (ecSite.equals("yahoo")) {
             //调用创建写真フォルダー方法
-            System.out.println("yahoo");
-//            ItemPhotoCopyUtil.read4(itemCodeCsvPath);
+            ItemPhotoCopyUtil.read4(itemCodeCsvPath);
             //au时
         } else if (ecSite.equals("au")) {
             //调用创建写真フォルダー方法
-            System.out.println("au");
-//            ItemPhotoCopyUtil.read4(auItemCodeCsvPath);
+            ItemPhotoCopyUtil.read4(auItemCodeCsvPath);
         }
         //结束时间
         long end = System.currentTimeMillis();
