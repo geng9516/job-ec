@@ -38,7 +38,7 @@ function csvImport() {
     $("#dataimpott").attr('action', "/itemCsvImport");
     $("#dataimpott").submit();
 }
-//
+
 function setEcSite() {
     $("#setEcSite").removeAttr("action");
     $("#setEcSite").attr("method", "post");

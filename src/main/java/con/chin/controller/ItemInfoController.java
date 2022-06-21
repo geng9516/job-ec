@@ -1055,7 +1055,7 @@ public class ItemInfoController {
     }
 
     @PostMapping("/setEcSite")
-    public String setEcSite(HttpSession httpSession, @RequestParam("ecSite") String ecSite) {
+    public String setEcSite(HttpSession httpSession, @RequestParam("ecSite") String ecSite,@RequestParam("type") String type) {
 
         String ecSite1 = (String) httpSession.getAttribute("ecSite");
         //ecSite已经在全局变量中存在时
@@ -1067,11 +1067,16 @@ public class ItemInfoController {
         httpSession.setAttribute("ecSite", ecSite);
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
-        if (pageNum != null && pageNum != "") {
-            return "redirect:/iteminfo?pageNum=" + pageNum;
+        if("item".equals(type)){
+            if (pageNum != null && pageNum != "") {
+                return "redirect:/iteminfo?pageNum=" + pageNum;
+            }else {
+                return "redirect:/iteminfo?pageNum=" + 1;
+            }
+        }else if ("index".equals(type)){
+            return "redirect:/";
         }
-
-        return "redirect:/iteminfo?pageNum=" + 1;
+        return "redirect:/";
     }
 
 

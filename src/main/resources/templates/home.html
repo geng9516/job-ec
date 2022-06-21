@@ -1,5 +1,12 @@
 <div class="ui breadcrumb">
-    <a class="section" th:href="@{/}" style="color: dimgray">Home</a>
-    <div class="divider"></div>
-    <a class="active section">検索</a>
+<!--    <a class="section" th:href="@{/}" style="color: dimgray">Home</a>-->
+<!--    <div class="divider"></div>-->
+    <form action="" method="" id="setEcSite" onchange="setEcSite()">
+        <input hidden value="index" name="type">
+        <select class="ui dropdown" name="ecSite">
+            <option value="">ECサイト</option>
+            <option value="yahoo" th:selected="${ecSite} eq 'yahoo'">yahoo</option>
+            <option value="au" th:selected="${ecSite} eq 'au'">au</option>
+        </select>
+    </form>
 </div>

@@ -144,6 +144,7 @@
                         </td>
                         <td align="right">
                             <form action="" method="" id="setEcSite" onchange="setEcSite()">
+                                <input hidden value="item" name="type">
                                 <select class="ui dropdown" name="ecSite">
                                     <option value="">ECサイト</option>
                                     <option value="yahoo" th:selected="${ecSite} eq 'yahoo'">yahoo</option>

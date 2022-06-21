@@ -41,6 +41,13 @@ public class CrawlerController {
         //把查询条件清空
         httpSession.removeAttribute("siteShop");
         httpSession.removeAttribute("searchConditions");
+        String ecSite = (String) httpSession.getAttribute("ecSite");
+        //全局变量中ecsite为空时设定初始值[yahoo]
+        if (ecSite == null || "".equals(ecSite)) {
+            httpSession.setAttribute("ecSite", "yahoo");
+            model.addAttribute("ecSite","yahoo");
+        }
+        model.addAttribute("ecSite",ecSite);
         return "index";
     }
 
@@ -280,11 +287,22 @@ public class CrawlerController {
 
     //処理後の写真をフォルダーごとにまとめる
     @GetMapping("/photoToFolde")
-    public String photoToFolde(Model model) {
+    public String photoToFolde(Model model, HttpSession httpSession) {
+
+        String ecSite = (String) httpSession.getAttribute("ecSite");
         //开始时间
         long start = System.currentTimeMillis();
-        //调用创建写真フォルダー方法
-        ItemPhotoCopyUtil.read4();
+        //雅虎时
+        if (ecSite.equals("yahoo")) {
+            //调用创建写真フォルダー方法
+            System.out.println("yahoo");
+//            ItemPhotoCopyUtil.read4(itemCodeCsvPath);
+            //au时
+        } else if (ecSite.equals("au")) {
+            //调用创建写真フォルダー方法
+            System.out.println("au");
+//            ItemPhotoCopyUtil.read4(auItemCodeCsvPath);
+        }
         //结束时间
         long end = System.currentTimeMillis();
         System.out.println("処理後の写真をフォルダーに!    总耗时：" + (end - start) + " ms");
@@ -339,7 +357,7 @@ public class CrawlerController {
         System.out.println("照片 2 文件夹准备完成");
         File file2 = new File(itemImg);
 
-        ItemPhotoCopyUtil.read5(itemList,files,files1,file2);
+        ItemPhotoCopyUtil.read5(itemList, files, files1, file2);
 
         //结束时间
         long end = System.currentTimeMillis();

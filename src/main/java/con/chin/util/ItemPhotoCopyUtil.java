@@ -253,14 +253,14 @@ public class ItemPhotoCopyUtil {
 
 
     //把照片按照itemcode进行分组
-    public static void read4() {
+    public static void read4(String path) {
 
         List<String> itemCodeList = new ArrayList<>();
-        //读取properties
-        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
-        //从propertied文件中照片读取地址取得
-        String itemphotoPath = bundle.getString("ZIPPHNTOFLEPATH");
-        File file = new File(itemphotoPath);
+//        //读取properties
+//        ResourceBundle bundle = ResourceBundle.getBundle(FILENAME);
+//        //从propertied文件中照片读取地址取得
+//        String itemphotoPath = bundle.getString("ZIPPHNTOFLEPATH");
+        File file = new File(path);
         File[] files = file.listFiles();
         for (File listFile : files) {
             if (!listFile.getName().contains("_")) {
@@ -268,7 +268,7 @@ public class ItemPhotoCopyUtil {
             }
         }
 
-        filePath(files, itemCodeList, itemphotoPath);
+        filePath(files, itemCodeList, path);
 
     }
 
