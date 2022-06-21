@@ -272,6 +272,12 @@ public class CrawlerController {
         return "index";
     }
 
+    @Value("${ZIPPHNTOFLEPATH}")
+    private String itemCodeCsvPath;
+
+    @Value("${ZIPPHNTOFLEPATH}")
+    private String auItemCodeCsvPath;
+
     //処理後の写真をフォルダーごとにまとめる
     @GetMapping("/photoToFolde")
     public String photoToFolde(Model model) {
@@ -285,9 +291,6 @@ public class CrawlerController {
         model.addAttribute("message", "処理後の写真をフォルダーごとにまとめました");
         return "index";
     }
-
-    @Value("${ZIPPHNTOFLEPATH}")
-    private String itemCodeCsvPath;
 
     //把制作好的照片的产品ID取得
     @PostMapping("/filePath")
