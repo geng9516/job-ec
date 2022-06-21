@@ -321,31 +321,27 @@ public class CrawlerController {
     @GetMapping("/setDate")
     public String setDate() {
         //开始时间
-//        long start = System.currentTimeMillis();
-//        List<Item> itemList1 = new ArrayList<>();
-//        List<Item> itemList = new ArrayList<>();
-//
-//        itemList = itemService.findAll();
-//        System.out.println(itemList.size() + " 件产品加载完成");
-//
-//        File file = new File(itemPhotoPath1);
-//        File[] files = file.listFiles();
-//        System.out.println("照片 1 文件夹准备完成");
-//        File file1 = new File(itemPhotoPath2);
-//        File[] files1 = file1.listFiles();
-//        System.out.println("照片 2 文件夹准备完成");
-//        File file2 = new File(itemImg);
-//
-//        ItemPhotoCopyUtil.read5(itemList,files,files1,file2);
-//
-//
-//
-//        //结束时间
-//        long end = System.currentTimeMillis();
-//        System.out.println("更新アイテム!    总耗时：" + (end - start) + " ms");
+        long start = System.currentTimeMillis();
+        List<Item> itemList1 = new ArrayList<>();
+        List<Item> itemList = new ArrayList<>();
 
-        File desktopDir = FileSystemView.getFileSystemView() .getDefaultDirectory();
-        System.out.println(desktopDir);
+        itemList = itemService.findAll();
+        System.out.println(itemList.size() + " 件产品加载完成");
+
+        File file = new File(itemPhotoPath1);
+        File[] files = file.listFiles();
+        System.out.println("照片 1 文件夹准备完成");
+        File file1 = new File(itemPhotoPath2);
+        File[] files1 = file1.listFiles();
+        System.out.println("照片 2 文件夹准备完成");
+        File file2 = new File(itemImg);
+
+        ItemPhotoCopyUtil.read5(itemList,files,files1,file2);
+
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("更新アイテム!    总耗时：" + (end - start) + " ms");
+
 
         return "index";
     }
