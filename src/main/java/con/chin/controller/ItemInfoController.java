@@ -729,7 +729,7 @@ public class ItemInfoController {
             Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map);
             item.setItemCategoryCode(itemCategorCode);
             //
-            if (itemFlog != null && !"".equals(itemFlog) && "5".equals(itemFlog)) {
+//            if (itemFlog != null && !"".equals(itemFlog)) {
                 ItemKeyword itemKeyword = new ItemKeyword();
                 itemKeyword.setProductCategory(itemPath);
                 List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
@@ -741,7 +741,7 @@ public class ItemInfoController {
                             "■関連キーワード：" + "\n" +
                             explanationKeyword;
                 }
-            }
+//            }
         }
         //产品名字
         itemName = itemName.replaceAll("　", " ");

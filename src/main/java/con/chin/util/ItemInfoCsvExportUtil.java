@@ -5,6 +5,7 @@ import cn.hutool.core.text.csv.CsvWriter;
 import cn.hutool.core.util.CharsetUtil;
 import con.chin.pojo.Item;
 import con.chin.pojo.ItemKeyword;
+import con.chin.service.ItemCategoryService;
 import con.chin.service.ItemKeywordService;
 import con.chin.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,7 @@ import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +41,9 @@ public class ItemInfoCsvExportUtil {
 
     @Autowired
     private ItemKeywordService itemKeywordService;
+
+    @Autowired
+    ItemCategoryService itemCategoryService;
 
     private static String FILENAME;
 
@@ -207,6 +209,7 @@ public class ItemInfoCsvExportUtil {
                                 (!"".equals(item.getOption3()) && item.getOption3() != null ? "\n" + "\n" + item.getOption3() + " " : "") + (item.getValue3() != "" && item.getValue3() != null ? item.getValue3() : "") +
                                 (!"".equals(item.getOption4()) && item.getOption4() != null ? "\n" + "\n" + item.getOption4() + " " : "") + (item.getValue4() != "" && item.getValue4() != null ? item.getValue4() : "") +
                                 (!"".equals(item.getOption5()) && item.getOption5() != null ? "\n" + "\n" + item.getOption5() + " " : "") + (item.getValue5() != "" && item.getValue5() != null ? item.getValue5() : "");
+                options = options+ "\n" + "\n" + "商品到着後レビューと評価を書くと 「問い合わせフォーム」にご連絡頂ければ送料を返金";
                 //商品コード code
                 itemCode = item.getItemCode();
                 //価格
@@ -221,12 +224,20 @@ public class ItemInfoCsvExportUtil {
                 Double a = new BigDecimal(price * 0.99).setScale(0, BigDecimal.ROUND_UP).doubleValue();
                 Integer memberPrice = a.intValue();
 //                }
+                //商品ページのストア内カテゴリパス path
+                String itemPath = item.getItemPath();
+                //プロダクトカテゴリ
                 Integer itemCategoryCode = item.getItemCategoryCode();
                 if (itemCategoryCode == null) {
-                    itemCategoryCode = 0;
+                    Map<String, String> map = new HashMap<>();
+                    map.put("itempath", itemPath);
+                    map.put("shopName", "yahoo");
+                    itemCategoryCode = exportItemInfoCsvUtil.itemCategoryService.findItemCategoryByPath(map);
                 }
+                //商品情報
+                String explanation = item.getExplanation();
                 //csv文件写出
-                string[0] = item.getItemPath();//商品ページのストア内カテゴリパス path
+                string[0] = itemPath;//商品ページのストア内カテゴリパス path
                 string[1] = itemName;//商品名 name
                 string[2] = itemCode; //商品コード code
 //                string[3] = subCode;      //個別商品コード sub-code 暂时不用
@@ -237,7 +248,7 @@ public class ItemInfoCsvExportUtil {
                 string[7] = headline;      //キャッチコピー headline
 //                string[7] = (item.getCaption() != null ? item.getCaption() : "");//商品の説明文 caption
                 string[8] = "";
-                string[9] = item.getExplanation();     //商品情報 explanation 暂时不用
+                string[9] = explanation;     //商品情報 explanation 暂时不用
                 string[10] = (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "");      //おすすめ商品 relevant-links
                 string[11] = "1";      //課税対象 taxable
                 string[12] = "1";     //ポイント倍率 point-code

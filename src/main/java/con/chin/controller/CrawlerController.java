@@ -282,7 +282,7 @@ public class CrawlerController {
     @Value("${ZIPPHNTOFLEPATH}")
     private String itemCodeCsvPath;
 
-    @Value("${ZIPPHNTOFLEPATH}")
+    @Value("${AUPHPTOFILE}")
     private String auItemCodeCsvPath;
 
     //処理後の写真をフォルダーごとにまとめる

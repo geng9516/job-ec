@@ -38,6 +38,8 @@ public class ItemPhotoCopyUtil {
         int count = 1;
         //循环要要拷贝的照片名文件夹
         for (String itemCode : itemCodeList) {
+            //判断是否有照片文件
+            Integer flog = 0;
             //开始时间
             long start = System.currentTimeMillis();
             for (File fileItemPhoto : fileItemPhotos) {
@@ -45,10 +47,15 @@ public class ItemPhotoCopyUtil {
                 if (itemCode.equals(fileItemPhoto.getName())) {
                     //调用拷贝方法
                     copyItemPhoto(fileItemPhoto.getPath(), itemCode);
+                    long end = System.currentTimeMillis();
+                    System.out.println(count++ + " 件产品照片拷贝完成!  照片文件夹名为 -->  " + itemCode + "    耗时：" + (end - start) + " ms");
+                    flog = 1;
                 }
             }
-            long end = System.currentTimeMillis();
-            System.out.println(count++ + " 件产品照片拷贝完成!  照片文件价名为 -->  " + itemCode + "    耗时：" + (end - start) + " ms");
+            if (flog == 0) {
+                System.out.println("********* 第" + count++ + " 件产品照片不存在!  照片文件夹名为 -->  " + itemCode + "  *********");
+            }
+
         }
         System.out.println("总共 " + (count - 1) + " 件产品照片拷贝完成!");
     }
@@ -179,8 +186,10 @@ public class ItemPhotoCopyUtil {
 
     public static void findPhotoFile(File itemphotoPath, File itemIMGPath, List<String> itemCodeList) {
 
+        //编辑完成的产品照片
         File[] fileItemPhotos = itemphotoPath.listFiles();
 
+        //产品IMG
         File[] fileItemIMGs = itemIMGPath.listFiles();
 
         //循环要要拷贝的照片名文件夹
@@ -389,7 +398,7 @@ public class ItemPhotoCopyUtil {
             }
             System.out.println("------------------------------" + item.getItemCode() + " 这件产品已找到照片------------------------------");
         }
-        DataExportUtil.exportItemCodeCsv(itemImgPath2,"没有照片的产品");
+        DataExportUtil.exportItemCodeCsv(itemImgPath2, "没有照片的产品");
         System.out.println("照片地址已加载完成,准备下载!!!  文件数为" + itemImgPath.size() + " 件");
         setItemImg(itemImgPath, file);
 
