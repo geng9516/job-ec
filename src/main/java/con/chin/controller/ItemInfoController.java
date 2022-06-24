@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class ItemInfoController {
@@ -743,6 +745,18 @@ public class ItemInfoController {
 
         int flog = 0;
 
+        //把按照换行进行分割
+        Matcher m = Pattern.compile("(?m)^.*$").matcher(itemPath);
+        while (m.find()) {
+            //每一行
+            String s = m.group();
+            //数据处理
+            itemPath = s.replaceAll(" ", "").replaceAll("　", "");
+            if (s.length() == 0) {
+                continue;
+            }
+
+        }
         //编辑状态
         String explanationKeyword = "";
         String itemFlog = (String) httpSession.getAttribute("flog");
