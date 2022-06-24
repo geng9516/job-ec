@@ -173,7 +173,7 @@
                 and shopname = #{shopName}
             </if>
             <if test="itemPathFlog == 1">
-                and (itemPath is not null or itemPath != '')
+                and itemPath is not null and itemPath != ''
             </if>
             <if test="itemPathFlog == 0">
                 and (itemPath is null or itemPath = '')
