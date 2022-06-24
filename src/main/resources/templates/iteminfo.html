@@ -84,22 +84,23 @@
         <div style="width:100%;height:40px" id="meru"></div>
         <div style="width:90%" class='ui container'>
             <div class="ui right aligned category search" style="height: 66px">
-                <table  width="100%">
+                <table width="100%">
                     <tr>
                         <td>
-                            <table>
+                            <table width="100%">
                                 <tr>
-                                    <td>
-                                        <!--模糊查询-->
-                                        <form th:action="@{/iteminfo}" method="post">
+                                    <!--模糊查询-->
+                                    <form th:action="@{/iteminfo}" method="post">
+                                        <td>
                                             <div class="ui icon input">
-                                                <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;
+                                                <input class="prompt" type="text" name="searchConditions"
+                                                       placeholder="itemを検索">&emsp;
                                                 <button class="ui icon button" type="submit">
                                                     <i class="search icon"></i>
                                                 </button>
                                             </div>
-                                        </form>
-                                    </td>
+                                        </td>
+                                    </form>
                                     <!--ショップ一覧をドロップダウンに入れる-->
                                     <td>
                                         <!--店铺名查询产品一览-->
@@ -116,15 +117,30 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <form action="" method="" id="findEditedIteminfo" onchange="findEditedIteminfo()">
+                                        <form action="" method="" id="findEditedIteminfo"
+                                              onchange="findEditedIteminfo()">
                                             <select class="ui dropdown" name="flog">
                                                 <option value="">編集ステータス</option>
-                                                <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち</option>
+                                                <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち
+                                                </option>
                                                 <option value="1" th:selected="${editFlogSelect} eq '1'">未編集</option>
                                                 <!--                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>-->
                                                 <!--<option value="3">ダウンロード済</option>-->
                                                 <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
                                                 <option value="5" th:selected="${editFlogSelect} eq '5'">中国語商品</option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="" method="" id="selectItemPathFlog" onchange="selectItemPathFlog()">
+                                            <select class="ui dropdown" name="itemPathFlog">
+                                                <option value="">検索条件</option>
+                                                <option value="1"
+                                                        th:selected="${selectItemPathFlog} eq '1'">パス記入済
+                                                </option>
+                                                <option value="0"
+                                                        th:selected="${selectItemPathFlog} eq '0'">パス未記入
+                                                </option>
                                             </select>
                                         </form>
                                     </td>

@@ -21,5 +21,8 @@ public class ItemInfoQuery {
 
     private String endDate;
 
+    //产品的类别是否有值时判断
+    private Integer itemPathFlog;
+
     private Integer flog;
 }

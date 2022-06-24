@@ -172,6 +172,12 @@
             <if test="shopName != null and shopName != ''">
                 and shopname = #{shopName}
             </if>
+            <if test="itemPathFlog == 1">
+                and (itemPath is not null or itemPath != '')
+            </if>
+            <if test="itemPathFlog == 0">
+                and (itemPath is null or itemPath = '')
+            </if>
             <if test="flog != null">
                 and flog = #{flog}
             </if>

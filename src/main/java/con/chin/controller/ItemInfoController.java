@@ -95,6 +95,13 @@ public class ItemInfoController {
             //前端使用
             model.addAttribute("ecSite", "yahoo");
         }
+        //设定itemPathFlog
+        String itemPathFlog = (String) httpSession.getAttribute("itemPathFlog");
+        if (itemPathFlog != null && !"".equals(itemPathFlog)) {
+            itemInfoQuery.setItemPathFlog(Integer.parseInt(itemPathFlog));
+            //前端使用
+            model.addAttribute("selectItemPathFlog", itemPathFlog);
+        }
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -147,6 +154,11 @@ public class ItemInfoController {
             httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
             //前端使用
             model.addAttribute("searchConditions", itemInfoQuery.getSearchConditions());
+            //产品path
+            httpSession.setAttribute("itemPathFlog", itemInfoQuery.getItemPathFlog());
+            //前端使用
+            model.addAttribute("selectItemPathFlog", itemInfoQuery.getItemPathFlog());
+
         }
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
@@ -218,6 +230,8 @@ public class ItemInfoController {
                 model.addAttribute("deleteFlog", Integer.parseInt(flog));
             }
         }
+        //删除itemPathFlog
+        httpSession.removeAttribute("itemPathFlog");
         //取得送料设定值
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -242,7 +256,7 @@ public class ItemInfoController {
         if (siteShop != null && !"".equals(siteShop)) {
             itemInfoQuery.setShopName(siteShop);
             //前端使用
-            model.addAttribute("siteShop", itemInfoQuery.getShopName());
+            model.addAttribute("siteShop", siteShop);
         }
         //如果表示页数有修改的话,进行设定
         String pageSize = (String) httpSession.getAttribute("pageSize");
@@ -258,6 +272,8 @@ public class ItemInfoController {
             //前端使用
             model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
         }
+        //删除itemPathFlog
+        httpSession.removeAttribute("itemPathFlog");
         //取得送料设定值 后期修改为session
         List<Config> configList = configService.findDeliveryConfig();
         model.addAttribute("configList", configList);
@@ -278,6 +294,8 @@ public class ItemInfoController {
         String siteShop = (String) httpSession.getAttribute("siteShop");
         if (siteShop != null && !"".equals(siteShop)) {
             itemInfoQuery.setShopName(siteShop);
+            //前端使用
+            model.addAttribute("siteShop", siteShop);
         }
         //如果searchConditions不为空的话的设定查询条件
         String searchConditions = (String) httpSession.getAttribute("searchConditions");
@@ -297,6 +315,13 @@ public class ItemInfoController {
             httpSession.setAttribute("pageSize", String.valueOf(itemInfoQuery.getPageSize()));
             //前端使用
             model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
+        }
+        //设定itemPathFlog
+        String itemPathFlog = (String) httpSession.getAttribute("itemPathFlog");
+        if (itemPathFlog != null && !"".equals(itemPathFlog)) {
+            itemInfoQuery.setItemPathFlog(Integer.parseInt(itemPathFlog));
+            //前端使用
+            model.addAttribute("selectItemPathFlog", itemPathFlog);
         }
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
@@ -1064,6 +1089,8 @@ public class ItemInfoController {
             //删除
             httpSession.removeAttribute("ecSite");
         }
+        //删除itemPathFlog
+        httpSession.removeAttribute("itemPathFlog");
         //把ecsite放到全局变量中
         httpSession.setAttribute("ecSite", ecSite);
         //从session中把pageNum取得
@@ -1079,6 +1106,17 @@ public class ItemInfoController {
         }
         return "redirect:/";
     }
+
+    @PostMapping("/selectItemPathFlog")
+    public String selectItemPathFlog(HttpSession httpSession, @RequestParam("itemPathFlog") String itemPathFlog) {
+
+        httpSession.setAttribute("itemPathFlog",itemPathFlog);
+
+
+        return "redirect:/iteminfo?pageNum=" + 1;
+    }
+
+
 
 
 }

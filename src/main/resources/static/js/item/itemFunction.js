@@ -45,6 +45,14 @@ function setEcSite() {
     $("#setEcSite").attr('action', "/setEcSite");
     $("#setEcSite").submit();
 }
+
+function selectItemPathFlog() {
+    $("#selectItemPathFlog").removeAttr("action");
+    $("#selectItemPathFlog").attr("method", "post");
+    $("#selectItemPathFlog").attr('action', "/selectItemPathFlog");
+    $("#selectItemPathFlog").submit();
+}
+
 //
 function setIteminfos() {
     var checkedValue = $('tbody input:checked');
