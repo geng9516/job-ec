@@ -907,6 +907,7 @@ public class ItemInfoController {
         }
         //修改值
         itemService.setIteminfos(itemByItemCodes, map);
+        System.out.println("全部更新完成!");
 
         Gson gson = new Gson();
 
