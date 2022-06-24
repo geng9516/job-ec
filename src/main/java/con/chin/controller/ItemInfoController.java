@@ -755,17 +755,17 @@ public class ItemInfoController {
             item.setItemCategoryCode(itemCategorCode);
             //
 //            if (itemFlog != null && !"".equals(itemFlog)) {
-                ItemKeyword itemKeyword = new ItemKeyword();
-                itemKeyword.setProductCategory(itemPath);
-                List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
-                for (ItemKeyword keyword : itemKeyword1) {
-                    explanationKeyword += keyword.getKeyword() + " ";
-                }
-                if (!explanation.contains("関連キーワード")) {
-                    explanation = explanation + "\n" + "\n" +
-                            "■関連キーワード：" + "\n" +
-                            explanationKeyword;
-                }
+            ItemKeyword itemKeyword = new ItemKeyword();
+            itemKeyword.setProductCategory(itemPath);
+            List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
+            for (ItemKeyword keyword : itemKeyword1) {
+                explanationKeyword += keyword.getKeyword() + " ";
+            }
+            if (!explanation.contains("関連キーワード")) {
+                explanation = explanation + "\n" + "\n" +
+                        "■関連キーワード：" + "\n" +
+                        explanationKeyword;
+            }
 //            }
         }
         //产品名字
@@ -783,18 +783,17 @@ public class ItemInfoController {
             flog++;
         }
         //如果headline有值的话
-        if (headline != null && !"".equals(headline)) {
-            //把大写的空格改为小写的
-            headline = headline.replaceAll("　", " ");
-            item.setHeadline(headline);
-            flog++;
-        } else {
+        //把大写的空格改为小写的
+        if ("".equals(headline)) {
             headline = explanationKeyword.replaceAll("　", " ");
 
             if (headline.length() > 30 && headline.contains(" ")) {
                 //把产品名称的长度调整
                 headline = SetDataUtil.setStrLength(headline, 30);
             }
+            item.setHeadline(headline);
+        } else {
+            headline = headline.replaceAll("　", " ");
             item.setHeadline(headline);
         }
         //商品情報
@@ -814,12 +813,7 @@ public class ItemInfoController {
             Integer salePrice1 = Integer.parseInt(salePrice);
             if (salePrice1 < 250) {
                 salePrice1 = SetDataUtil.setSalePrice(salePrice1);
-            }//else{
-//                Item item1 = new Item();
-//                item1.setItemCode(itemCode);
-//                Item item2 = itemService.findItemByItemCode(item1);
-//                salePrice1 = SetDataUtil.setSalePrice(item2.getPrice());
-//            }
+            }
             item.setSalePrice(salePrice1);
             flog++;
         }
@@ -1081,7 +1075,7 @@ public class ItemInfoController {
     }
 
     @PostMapping("/setEcSite")
-    public String setEcSite(HttpSession httpSession, @RequestParam("ecSite") String ecSite,@RequestParam("type") String type) {
+    public String setEcSite(HttpSession httpSession, @RequestParam("ecSite") String ecSite, @RequestParam("type") String type) {
 
         String ecSite1 = (String) httpSession.getAttribute("ecSite");
         //ecSite已经在全局变量中存在时
@@ -1095,13 +1089,13 @@ public class ItemInfoController {
         httpSession.setAttribute("ecSite", ecSite);
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
-        if("item".equals(type)){
+        if ("item".equals(type)) {
             if (pageNum != null && pageNum != "") {
                 return "redirect:/iteminfo?pageNum=" + pageNum;
-            }else {
+            } else {
                 return "redirect:/iteminfo?pageNum=" + 1;
             }
-        }else if ("index".equals(type)){
+        } else if ("index".equals(type)) {
             return "redirect:/";
         }
         return "redirect:/";
@@ -1110,13 +1104,11 @@ public class ItemInfoController {
     @PostMapping("/selectItemPathFlog")
     public String selectItemPathFlog(HttpSession httpSession, @RequestParam("itemPathFlog") String itemPathFlog) {
 
-        httpSession.setAttribute("itemPathFlog",itemPathFlog);
+        httpSession.setAttribute("itemPathFlog", itemPathFlog);
 
 
         return "redirect:/iteminfo?pageNum=" + 1;
     }
-
-
 
 
 }
