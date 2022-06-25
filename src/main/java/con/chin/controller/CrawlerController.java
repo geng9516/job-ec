@@ -341,21 +341,21 @@ public class CrawlerController {
     public String setDate() {
         //开始时间
         long start = System.currentTimeMillis();
-        List<Item> itemList1 = new ArrayList<>();
-        List<Item> itemList = new ArrayList<>();
+        List<String> stringList = new ArrayList<>();
 
-        itemList = itemService.findAll();
-        System.out.println(itemList.size() + " 件产品加载完成");
-
-        File file = new File(itemPhotoPath1);
+        File file = new File("/Users/geng9516/Documents/EC関連/21_写真保存");
         File[] files = file.listFiles();
-        System.out.println("照片 1 文件夹准备完成");
-        File file1 = new File(itemPhotoPath2);
-        File[] files1 = file1.listFiles();
-        System.out.println("照片 2 文件夹准备完成");
-        File file2 = new File(itemImg);
+        for (File file1 : files) {
+            if(file1.getName().contains("E")){
+                stringList.add(file1.getPath());
+            }
+        }
 
-        ItemPhotoCopyUtil.read5(itemList, files, files1, file2);
+        for (String s : stringList) {
+            File file1 = new File(s);
+            ItemPhotoCopyUtil.creadPhotoFolder(file1.listFiles(),file.getPath(),file1.getName().toLowerCase());
+        }
+
 
         //结束时间
         long end = System.currentTimeMillis();

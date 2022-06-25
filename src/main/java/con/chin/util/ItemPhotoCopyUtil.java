@@ -282,7 +282,7 @@ public class ItemPhotoCopyUtil {
     }
 
     //把照片按照itemcode进行分组
-    private static void filePath(File[] files, List<String> itemCodeList, String filePath) {
+    public static void filePath(File[] files, List<String> itemCodeList, String filePath) {
 
         //循环itemcode 并且每一个itemcode和全部照片中文件做对比,包含的发到一个List里
         for (String itemCode : itemCodeList) {
@@ -294,13 +294,17 @@ public class ItemPhotoCopyUtil {
                     filePathList.add(file.getPath());
                 }
             }
-            creadPhotoFolder(filePathList, filePath, itemCode);
+//            creadPhotoFolder(filePathList, filePath, itemCode);
         }
 
     }
-
-    //进行拷贝
-    private static void creadPhotoFolder(List<String> filePathList, String filePath, String folderName) {
+    /**
+     * 拷贝
+     * @param filePathList
+     * @param filePath
+     * @param folderName
+     */
+    public static void creadPhotoFolder(File[] filePathList, String filePath, String folderName) {
 
         //创建输入流
         FileInputStream fileInputStream = null;
@@ -310,8 +314,8 @@ public class ItemPhotoCopyUtil {
         File file = new File(filePath + File.separator + "コピー後" + File.separator + folderName);
         try {
             //循环拷贝源中的所以文件
-            for (String file1 : filePathList) {
-                File file2 = new File(file1);
+            for (File file1 : filePathList) {
+                File file2 = new File(file1.getPath());
                 if (file2.isFile()) {
                     //拷贝源输入流
                     fileInputStream = new FileInputStream(file2.getPath());
@@ -320,7 +324,7 @@ public class ItemPhotoCopyUtil {
                         file.mkdirs();
                     }
                     //拷贝后的地址输出流
-                    fileOutputStream = new FileOutputStream(file.getPath() + File.separator + file2.getName());
+                    fileOutputStream = new FileOutputStream(file.getPath() + File.separator + file2.getName().toLowerCase());
                     // 一次复制1MB 设定
                     byte[] bytes = new byte[1024 * 1024];
                     int readCount = 0;

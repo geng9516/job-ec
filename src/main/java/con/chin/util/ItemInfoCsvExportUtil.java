@@ -226,6 +226,18 @@ public class ItemInfoCsvExportUtil {
 //                }
                 //商品ページのストア内カテゴリパス path
                 String itemPath = item.getItemPath();
+                //把按照换行进行分割
+                Matcher m = Pattern.compile("(?m)^.*$").matcher(itemPath);
+                while (m.find()) {
+                    //每一行
+                    String s = m.group();
+                    //数据处理
+                    itemPath = s.replaceAll(" ", "").replaceAll("　", "");
+                    if (s.length() == 0) {
+                        continue;
+                    }
+
+                }
                 //プロダクトカテゴリ
                 Integer itemCategoryCode = item.getItemCategoryCode();
                 if (itemCategoryCode == null) {

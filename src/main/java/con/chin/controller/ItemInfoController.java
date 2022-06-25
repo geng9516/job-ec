@@ -162,6 +162,12 @@ public class ItemInfoController {
             model.addAttribute("selectItemPathFlog", itemInfoQuery.getItemPathFlog());
 
         }
+        //设定itemPathFlog
+        String itemPathFlog = (String) httpSession.getAttribute("itemPathFlog");
+        if (itemPathFlog != null && !"".equals(itemPathFlog)) {
+            //前端使用
+            model.addAttribute("selectItemPathFlog", itemPathFlog);
+        }
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
