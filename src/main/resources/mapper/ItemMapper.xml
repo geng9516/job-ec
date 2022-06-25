@@ -187,7 +187,7 @@
 
         </where>
 
-        order by updatetime asc
+        order by updatetime desc
 
     </select>
 
