@@ -17,10 +17,11 @@ public class ChromeDriverUtil {
 
     public static ChromeDriver getChromeDriver() {
         System.getProperties().setProperty("webdriver.chrome.driver", "/Users/geng9516/Documents/EC関連/99_クローラー/開発ツール/chromedriver");
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--user-data-dir=/Users/geng9516/Documents/EC関連/99_クローラー/data");
-        chromeOptions.addArguments("--profile-directory=Profile 6");
-        ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
+//        ChromeOptions chromeOptions = new ChromeOptions();
+//        chromeOptions.addArguments("--user-data-dir=/Users/geng9516/Documents/EC関連/99_クローラー/data");
+//        chromeOptions.addArguments("--profile-directory=Profile 6");
+//        ChromeDriver chromeDriver = new ChromeDriver(chromeOptions);
+        ChromeDriver chromeDriver = new ChromeDriver();
         return chromeDriver;
     }
 
