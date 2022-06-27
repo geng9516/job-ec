@@ -209,7 +209,7 @@ public class ItemInfoCsvExportUtil {
                                 (!"".equals(item.getOption3()) && item.getOption3() != null ? "\n" + "\n" + item.getOption3() + " " : "") + (item.getValue3() != "" && item.getValue3() != null ? item.getValue3() : "") +
                                 (!"".equals(item.getOption4()) && item.getOption4() != null ? "\n" + "\n" + item.getOption4() + " " : "") + (item.getValue4() != "" && item.getValue4() != null ? item.getValue4() : "") +
                                 (!"".equals(item.getOption5()) && item.getOption5() != null ? "\n" + "\n" + item.getOption5() + " " : "") + (item.getValue5() != "" && item.getValue5() != null ? item.getValue5() : "");
-                options = options+ "\n" + "\n" + "商品到着後レビューと評価を書くと 「問い合わせフォーム」にご連絡頂ければ送料を返金";
+                options = options + "\n" + "\n" + "商品到着後レビューと評価を書くと 「問い合わせフォーム」にご連絡頂ければ送料を返金";
                 //商品コード code
                 itemCode = item.getItemCode();
                 //価格

@@ -374,38 +374,39 @@ public class ItemServiceImpl implements ItemService {
 //------------------------------------------------------------------------
             //itemPath
             String itemPath = map.get("itemPath");
-            //防止itemPath出现换行
-            Matcher m = Pattern.compile("(?m)^.*$").matcher(itemPath);
-            while (m.find()) {
-                //每一行
-                String s = m.group();
-                //数据处理
-                itemPath = s.replaceAll(" ", "").replaceAll("　", "");
-                if (s.length() == 0) {
-                    continue;
-                }
-            }
             if (itemPath != null && !"".equals(itemPath)) {
-                if (itemFlog != null && itemFlog == 5 && itemPath != null && !"".equals(itemPath)) {
-                    //设置产品种类番号(条件はpathとサイト名).
+                //把按照换行进行分割
+                Matcher m = Pattern.compile("(?m)^.*$").matcher(itemPath);
+                while (m.find()) {
+                    //每一行
+                    String s = m.group();
+                    //数据处理
+                    itemPath = s.replaceAll(" ", "").replaceAll("　", "");
+                    if (s.length() == 0) {
+                        continue;
+                    }
 
-                    Map<String, String> map1 = new HashMap<>();
-                    map.put("itempath", itemPath);
-                    map.put("shopName", "yahoo");
-                    Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map1);
-                    item.setItemCategoryCode(itemCategorCode);
-                    ItemKeyword itemKeyword = new ItemKeyword();
-                    itemKeyword.setProductCategory(itemPath);
-                    List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
-                    for (ItemKeyword keyword : itemKeyword1) {
-                        explanationKeyword += keyword.getKeyword() + " ";
-                    }
-                    if (!explanation.contains("関連キーワード")) {
-                        explanation = explanation + "\n" + "\n" +
-                                "■関連キーワード：" + "\n" +
-                                explanationKeyword;
-                    }
                 }
+                //设置产品种类番号(条件はpathとサイト名)
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("itempath", itemPath);
+                map1.put("shopName", "yahoo");
+                Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map);
+                item.setItemCategoryCode(itemCategorCode);
+                //
+//            if (itemFlog != null && !"".equals(itemFlog)) {
+                ItemKeyword itemKeyword = new ItemKeyword();
+                itemKeyword.setProductCategory(itemPath);
+                List<ItemKeyword> itemKeyword1 = itemKeywordService.findGoodItemKeyword(itemKeyword);
+                for (ItemKeyword keyword : itemKeyword1) {
+                    explanationKeyword += keyword.getKeyword() + " ";
+                }
+                if (!explanation.contains("関連キーワード")) {
+                    explanation = explanation + "\n" + "\n" +
+                            "■関連キーワード：" + "\n" +
+                            explanationKeyword;
+                }
+//            }
             }
 
             //产品名字

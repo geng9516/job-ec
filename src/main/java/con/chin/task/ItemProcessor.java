@@ -5,6 +5,7 @@ import con.chin.util.FlogUtil;
 import con.chin.util.AddItemInfoUtil;
 import con.chin.util.createItemInfo.Create17zwdItemInfo;
 import con.chin.util.createItemInfo.CreateBao66ItemInfo;
+import con.chin.util.createItemInfo.CreateVvicItemInfo;
 import con.chin.util.createItemInfo.CreateYahooItemInfo;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
@@ -90,7 +91,7 @@ public class ItemProcessor implements PageProcessor {
                 //商品详情页
             } else {
                 //搜款网
-//                AddItemInfoUtil.saveVVICItemInfo(page);
+                CreateVvicItemInfo.saveVVICItemInfo(page);
             }
 
         } else if (flog == 3) {

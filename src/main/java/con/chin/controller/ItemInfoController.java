@@ -506,9 +506,9 @@ public class ItemInfoController {
         System.out.println("产品ID为  " + itemCode + "  的状态修改完成");
         if (res == 1) {
             if ("3".equals(flog)) {
-                redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を未編集に戻しました。");
+                redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を編集済に入れました。");
             } else if ("5".equals(flog)) {
-                redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに戻しました。");
+                redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに入れました。");
             }
         } else {
             redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " 未編集に戻せなかった。");
@@ -751,22 +751,22 @@ public class ItemInfoController {
 
         int flog = 0;
 
-        //把按照换行进行分割
-        Matcher m = Pattern.compile("(?m)^.*$").matcher(itemPath);
-        while (m.find()) {
-            //每一行
-            String s = m.group();
-            //数据处理
-            itemPath = s.replaceAll(" ", "").replaceAll("　", "");
-            if (s.length() == 0) {
-                continue;
-            }
-
-        }
         //编辑状态
         String explanationKeyword = "";
         String itemFlog = (String) httpSession.getAttribute("flog");
         if (itemPath != null && !"".equals(itemPath)) {
+            //把按照换行进行分割
+            Matcher m = Pattern.compile("(?m)^.*$").matcher(itemPath);
+            while (m.find()) {
+                //每一行
+                String s = m.group();
+                //数据处理
+                itemPath = s.replaceAll(" ", "").replaceAll("　", "");
+                if (s.length() == 0) {
+                    continue;
+                }
+
+            }
             //设置产品种类番号(条件はpathとサイト名)
             Map<String, String> map = new HashMap<>();
             map.put("itempath", itemPath);

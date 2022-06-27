@@ -294,7 +294,7 @@ public class ItemPhotoCopyUtil {
                     filePathList.add(file.getPath());
                 }
             }
-//            creadPhotoFolder(filePathList, filePath, itemCode);
+            creadPhotoFolder(filePathList, filePath, itemCode);
         }
 
     }
@@ -304,7 +304,7 @@ public class ItemPhotoCopyUtil {
      * @param filePath
      * @param folderName
      */
-    public static void creadPhotoFolder(File[] filePathList, String filePath, String folderName) {
+    public static void creadPhotoFolder(List<String> filePathList, String filePath, String folderName) {
 
         //创建输入流
         FileInputStream fileInputStream = null;
@@ -314,8 +314,8 @@ public class ItemPhotoCopyUtil {
         File file = new File(filePath + File.separator + "コピー後" + File.separator + folderName);
         try {
             //循环拷贝源中的所以文件
-            for (File file1 : filePathList) {
-                File file2 = new File(file1.getPath());
+            for (String file1 : filePathList) {
+                File file2 = new File(file1);
                 if (file2.isFile()) {
                     //拷贝源输入流
                     fileInputStream = new FileInputStream(file2.getPath());

@@ -353,7 +353,7 @@ public class CrawlerController {
 
         for (String s : stringList) {
             File file1 = new File(s);
-            ItemPhotoCopyUtil.creadPhotoFolder(file1.listFiles(),file.getPath(),file1.getName().toLowerCase());
+//            ItemPhotoCopyUtil.creadPhotoFolder(file1.listFiles(),file.getPath(),file1.getName().toLowerCase());
         }
 
 
