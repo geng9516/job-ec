@@ -124,7 +124,8 @@
                                                 <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち
                                                 </option>
                                                 <option value="1" th:selected="${editFlogSelect} eq '1'">編集済</option>
-                                                <!--                                <option value="2" th:selected="${editFlogSelect} eq '2'">編集済</option>-->
+                                                <option value="2" th:selected="${editFlogSelect} eq '2'">CSV作成準備
+                                                </option>
                                                 <!--<option value="3">ダウンロード済</option>-->
                                                 <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
                                                 <option value="5" th:selected="${editFlogSelect} eq '5'">中国語商品</option>
@@ -132,7 +133,8 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <form action="" method="" id="selectItemPathFlog" onchange="selectItemPathFlog()">
+                                        <form action="" method="" id="selectItemPathFlog"
+                                              onchange="selectItemPathFlog()">
                                             <select class="ui dropdown" name="itemPathFlog">
                                                 <option value="">検索条件</option>
                                                 <option value="1"
@@ -195,7 +197,7 @@
                             <span th:case="${0}">
                                    &emsp;<button class="ui button mini ui-corner-left"
                                                  onclick="setDeleteItems()">削除準備</button>
-                                    <a th:href="@{/selectItemByNewDownloaded}"><button
+                                    <a th:href="@{/selectItemByNewDownloaded(itemFlog=${0})}"><button
                                             class="ui button mini ui-corner-left blue">未ダウンロード分</button></a>
                                     <a th:href="@{/setFlogToEdit(editFlog=${0})}"><button
                                             class="ui button mini ui-corner-left red">全チェック</button></a>
@@ -213,6 +215,8 @@
                              <span th:case="*">
                                 &emsp;<button class="ui button mini ui-corner-left"
                                               onclick="setDeleteItems()">削除準備</button>
+                                &emsp; <a th:href="@{/selectItemByNewDownloaded(itemFlog=${2})}">
+                                 <button class="ui button mini ui-corner-left" >CSV作成準備</button></a>
                             </span>
                         </span>
                         <span th:switch="${siteShop}">
@@ -343,13 +347,22 @@
                     <form action="/setItemInfo" method="post" id="operation">
                         <td valign="top">
                             <span th:switch="${deleteFlog}">
+                                <span th:case="0">
+                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${1})}"
+                                       class="ui button mini teal">編集済へ
+                                    </a>
+                                    <br><br>
+                                    <button class="ui secondary button mini" type="submit">
+                                        Save
+                                    </button>
+                                </span>
                                 <span th:case="3">
-                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()})}"
+                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${0})}"
                                        class="ui button mini teal">戻す
                                     </a>
                                 </span>
                                 <span th:case="5">
-                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()})}"
+                                    <a th:href="@{/setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${0})}"
                                        class="ui button mini teal">未ダウンロードへ
                                     </a>
                                     <br><br>

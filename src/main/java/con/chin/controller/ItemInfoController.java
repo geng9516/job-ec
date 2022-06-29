@@ -398,11 +398,6 @@ public class ItemInfoController {
                 break;
             //选中的产品下载照片
             case "1":
-                //编辑状态
-//                flog = (String) httpSession.getAttribute("flog");
-//                if (flog != null && "2".equals(flog)) {
-//                    return gson.toJson("照片已下载!");
-//                }
                 //产品照片拷贝
                 System.out.println("照片拷贝执行开始");
                 ItemPhotoCopyUtil.read(itemCodeList);
@@ -447,11 +442,6 @@ public class ItemInfoController {
                     //导出optionCSV文件
                     DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                 }
-                //编辑状态
-//                flog = (String) httpSession.getAttribute("flog");
-//                if (flog != null && "2".equals(flog)) {
-//                    return gson.toJson("照片已下载!");
-//                }
                 //开始时间
                 long start = System.currentTimeMillis();
                 //产品照片拷贝
@@ -480,35 +470,39 @@ public class ItemInfoController {
 
     //列入已编辑列表
     @GetMapping("/setItemFlogToEdit")
-    public String setItemFlogToEdit(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+    public String setItemFlogToEdit(@RequestParam("itemCode") String itemCode, @RequestParam("itemFlog") String itemFlog, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 
         //编辑状态
-        String flog = (String) httpSession.getAttribute("flog");
+//        String flog = (String) httpSession.getAttribute("flog");
 
         List<Item> itemList = new ArrayList<>();
-        if (flog != null && !"".equals(flog)) {
-            if ("3".equals(flog)) {
-                Item item = new Item();
-                item.setItemCode(itemCode);
-                item.setFlog(1);
-                itemList.add(item);
-            } else if ("5".equals(flog)) {
-                Item item = new Item();
-                item.setItemCode(itemCode);
-                item.setFlog(0);
-                itemList.add(item);
-            }
-
+        if (itemFlog != null && !"".equals(itemFlog)) {
+            Item item = new Item();
+            item.setItemCode(itemCode);
+            item.setFlog(Integer.parseInt(itemFlog));
+            itemList.add(item);
         }
-
         //调用修改flog方法
         int res = itemService.setItemFlog(itemList);
         System.out.println("产品ID为  " + itemCode + "  的状态修改完成");
         if (res == 1) {
-            if ("3".equals(flog)) {
-                redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を編集済に入れました。");
-            } else if ("5".equals(flog)) {
-                redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに入れました。");
+            switch (Integer.parseInt(itemFlog)){
+                case 0:
+                    redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに入れました。");
+                    break;
+                case 1:
+                    redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を編集済に入れました。");
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに入れました。");
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに入れました。");
+                    break;
             }
         } else {
             redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " 未編集に戻せなかった。");
@@ -628,9 +622,9 @@ public class ItemInfoController {
 
     //下载未被下载的新爬取产品
     @GetMapping("/selectItemByNewDownloaded")
-    public String selectItemByNewDownloaded(HttpSession httpSession, RedirectAttributes redirectAttributes) {
+    public String selectItemByNewDownloaded(HttpSession httpSession, RedirectAttributes redirectAttributes, @RequestParam("itemFlog") String itemFlog) {
 
-        List<Item> newDownloadedItems = itemService.findNewDownloaded(0);
+        List<Item> newDownloadedItems = itemService.findNewDownloaded(Integer.parseInt(itemFlog));
         //开始时间
         long start = System.currentTimeMillis();
         //调用下载方法

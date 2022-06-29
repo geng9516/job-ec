@@ -59,6 +59,11 @@ public class ItemProcessor implements PageProcessor {
                 } else {
                     //yahoo
                     CreateYahooItemInfo.saveYahooItemInfo(page);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 //                }
                 }
             }

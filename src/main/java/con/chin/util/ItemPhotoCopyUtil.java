@@ -357,9 +357,7 @@ public class ItemPhotoCopyUtil {
             }
         }
         return;
-
     }
-
 
     //检查产品表示照片
     public static void read5(List<Item> itemList, File[] files, File[] files1, File file) {
