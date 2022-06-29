@@ -267,5 +267,10 @@ public class CreateYahooItemInfo {
         SiteShop siteShop = new SiteShop();
         siteShop.setShopName(storeName);
         page.putField("siteShop", siteShop);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
