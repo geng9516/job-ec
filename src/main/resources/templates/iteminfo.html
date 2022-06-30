@@ -198,9 +198,21 @@
                                    &emsp;<button class="ui button mini ui-corner-left"
                                                  onclick="setDeleteItems()">削除準備</button>
                                     <a th:href="@{/selectItemByNewDownloaded(itemFlog=${0})}"><button
-                                            class="ui button mini ui-corner-left blue">未ダウンロード分</button></a>
+                                            class="ui button mini ui-corner-left blue">全ダウンロード</button></a>
                                     <a th:href="@{/setFlogToEdit(editFlog=${0})}"><button
-                                            class="ui button mini ui-corner-left red">全チェック</button></a>
+                                            class="ui button mini ui-corner-left red">一括編集済へ</button></a>
+                            </span>
+                            <span th:case="${1}">
+                                &emsp;<a th:href="@{/selectItemByNewDownloaded(itemFlog=${2})}"><button
+                                    class="ui button mini ui-corner-left blue">全ダウンロード</button></a>
+                                <a th:href="@{/setFlogToEdit(editFlog=${2})}"><button
+                                        class="ui button mini ui-corner-left red">一括編集済へ</button></a>
+                            </span>
+                            <span th:case="${2}">
+                                &emsp;<a th:href="@{/selectItemByNewDownloaded(itemFlog=${2})}"><button
+                                    class="ui button mini ui-corner-left blue">全ダウンロード</button></a>
+                                <a th:href="@{/setFlogToEdit(editFlog=${2})}"><button
+                                        class="ui button mini ui-corner-left red">一括編集済へ</button></a>
                             </span>
                             <span th:case="${3}">
                                 &emsp;<button class="ui button mini ui-corner-left teal"
@@ -210,22 +222,41 @@
                             <span th:case="${5}">
                                 <button class="ui button mini ui-corner-left" onclick="setDeleteItems()">削除準備</button>
                                 <a th:href="@{/setFlogToEdit(editFlog=${5})}"><button
-                                        class="ui button mini ui-corner-left red">編集済</button></a>
+                                        class="ui button mini ui-corner-left red">一括未ダウンロードへ</button></a>
                             </span>
                              <span th:case="*">
                                 &emsp;<button class="ui button mini ui-corner-left"
                                               onclick="setDeleteItems()">削除準備</button>
-                                &emsp; <a th:href="@{/selectItemByNewDownloaded(itemFlog=${2})}">
-                                 <button class="ui button mini ui-corner-left" >CSV作成準備</button></a>
                             </span>
                         </span>
+<!--                        店铺被选中时的编辑项-->
                         <span th:switch="${siteShop}">
-                            <span th:case="null">
-
-                            </span>
+                            <span th:case="null"></span>
                             <span th:case="*">
-                                <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
-                                        class="ui button mini ui-corner-left red">ショップ商品一括ダウンロード</button></a>
+<!--                                各种编辑状态不同选项不同-->
+                                <span th:switch="${deleteFlog}">
+                                    <span th:case="0">
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                                    class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
+                                    </span>
+                                    <span th:case="1">
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                                    class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
+                                    </span>
+                                    <span th:case="2">
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                                    class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
+                                    </span>
+                                    <span th:case="3"></span>
+                                    <span th:case="5">
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                                    class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
+                                    </span>
+                                     <span th:case="*">
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                                    class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
+                                    </span>
+                                </span>
                             </span>
                         </span>
                         <span th:switch="${searchConditions}">
@@ -250,7 +281,6 @@
                 </tr>
                 <tr>
                     <td>
-
                         <!--                        <div style="width:100%;height:20px;">-->
                         <!--                            全てを選択-->
                         <!--                            <input type="checkbox" id="allchecked" value="" onclick="selectAll()"-->
@@ -307,8 +337,6 @@
         </div>
     </header>
     <main>
-
-
         <div style="width:90%;" class='ui container' id="main">
             <table class="ui celled table scroll-box mini" id="wTable">
                 <thead>
@@ -348,50 +376,79 @@
                         <td valign="top">
                             <span th:switch="${deleteFlog}">
                                 <span th:case="0">
+                                    <button class="ui secondary button mini" type="submit">
+                                        Save
+                                    </button>
+                                    <br><br>
                                     <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${1})}"
                                        class="ui button mini teal">編集済へ
                                     </a>
                                     <br><br>
+                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"
+                                       class="ui button mini teal">CSV作成準備へ
+                                    </a>
+                                </span>
+                                <span th:case="1">
                                     <button class="ui secondary button mini" type="submit">
                                         Save
                                     </button>
+                                    <br><br>
+                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"
+                                       class="ui button mini teal">CSV作成準備へ
+                                    </a>
+                                </span>
+                                <span th:case="2">
+                                    <button class="ui secondary button mini" type="submit">
+                                        Save
+                                    </button>
+                                    <br><br>
+                                     <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${1})}"
+                                        class="ui button mini teal">編集済へ
+                                    </a>
                                 </span>
                                 <span th:case="3">
-                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${0})}"
+                                    <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"
                                        class="ui button mini teal">戻す
                                     </a>
                                 </span>
                                 <span th:case="5">
-                                    <a th:href="@{/setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${0})}"
-                                       class="ui button mini teal">未ダウンロードへ
-                                    </a>
-                                    <br><br>
                                     <button class="ui secondary button mini" type="submit">
                                         Save
                                     </button>
+                                    <br><br>
+                                    <a th:href="@{/setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${0})}"
+                                       class="ui button mini teal">未ダウンロードへ
+                                    </a>
                                 </span>
                                 <span th:case="*">
                                     <button class="ui secondary button mini" type="submit">
                                         Save
                                     </button>
+                                    <br><br>
+                                    <span th:switch="${deleteFlog}">
+                                        <span th:case="2"></span>
+                                        <span th:case="*">
+                                            <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"
+                                               class="ui button mini teal">CSV作成準備へ
+                                            </a>
+                                        </span>
+                                    </span>
                                 </span>
                             </span>
-                            <br><br>
+                            <br><br><br><br><br><br><br><br><br><br>
                             <span th:switch="${deleteFlog}">
-                            <span th:case="3">
-                                <a th:href="@{deleteItem(itemCode=${item.getItemCode()})}"
-                                   class="ui button mini red">削除
-                                </a>
+                                <span th:case="3">
+                                    <a th:href="@{deleteItem(itemCode=${item.getItemCode()})}"
+                                       class="ui button mini red">削除
+                                    </a>
+                                </span>
+                                <span th:case="*">
+                                    <a th:href="@{setDeleteItem(itemCode=${item.getItemCode()})}"
+                                       class="ui button mini ui-corner-left">削除
+                                    </a>
+                                </span>
                             </span>
-                            <span th:case="*">
-                                <a th:href="@{setDeleteItem(itemCode=${item.getItemCode()})}"
-                                   class="ui button mini teal">削除
-                                </a>
-                            </span>
-                        </span>
-
                         </td>
-
                         <td valign="top">
                             <table>
                                 <tr>
@@ -408,7 +465,6 @@
                                     <div><span
                                             th:text="${item.getItemCode()+'（'+item.getOldItemCode().substring(item.getOldItemCode().indexOf('-')+1,item.getOldItemCode().length())+'）'}"></span>
                                     </div>
-
                                 </tr>
                                 <tr>
                                     販売価格：　　

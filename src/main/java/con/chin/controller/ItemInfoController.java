@@ -486,7 +486,7 @@ public class ItemInfoController {
         int res = itemService.setItemFlog(itemList);
         System.out.println("产品ID为  " + itemCode + "  的状态修改完成");
         if (res == 1) {
-            switch (Integer.parseInt(itemFlog)){
+            switch (Integer.parseInt(itemFlog)) {
                 case 0:
                     redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに入れました。");
                     break;
@@ -494,6 +494,7 @@ public class ItemInfoController {
                     redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を編集済に入れました。");
                     break;
                 case 2:
+                    redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSV作成準備に入れました。");
                     break;
                 case 3:
                     redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " をCSVダウンロード待ちに入れました。");
@@ -951,6 +952,7 @@ public class ItemInfoController {
         return gson.toJson(1);
     }
 
+    //把一个状态的产品的状态全修改
     @GetMapping("/setFlogToEdit")
     public String setFlogToEdit(HttpSession httpSession, @RequestParam("editFlog") Integer flog) {
 
@@ -961,8 +963,12 @@ public class ItemInfoController {
             if (flog == 0) {
                 item.setFlog(1);
                 itemList.add(item);
+                //从CSV作成準備改为编辑完成
+            } else if (flog == 2) {
+                item.setFlog(1);
+                itemList.add(item);
                 //需要修改的是为中文的产品时
-            } else if (flog == 5) {
+            }else if (flog == 5) {
                 item.setFlog(0);
                 itemList.add(item);
             }
