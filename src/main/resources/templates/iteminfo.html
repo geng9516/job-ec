@@ -203,13 +203,17 @@
                                             class="ui button mini ui-corner-left red">一括編集済へ</button></a>
                             </span>
                             <span th:case="${1}">
-                                &emsp;<a th:href="@{/selectItemByNewDownloaded(itemFlog=${2})}"><button
+                                &emsp;<button class="ui button mini ui-corner-left"
+                                              onclick="setDeleteItems()">削除準備</button>
+                                <a th:href="@{/selectItemByNewDownloaded(itemFlog=${2})}"><button
                                     class="ui button mini ui-corner-left blue">全ダウンロード</button></a>
                                 <a th:href="@{/setFlogToEdit(editFlog=${2})}"><button
                                         class="ui button mini ui-corner-left red">一括編集済へ</button></a>
                             </span>
                             <span th:case="${2}">
-                                &emsp;<a th:href="@{/selectItemByNewDownloaded(itemFlog=${2})}"><button
+                                &emsp;<button class="ui button mini ui-corner-left"
+                                              onclick="setDeleteItems()">削除準備</button>
+                                <a th:href="@{/selectItemByNewDownloaded(itemFlog=${2})}"><button
                                     class="ui button mini ui-corner-left blue">全ダウンロード</button></a>
                                 <a th:href="@{/setFlogToEdit(editFlog=${2})}"><button
                                         class="ui button mini ui-corner-left red">一括編集済へ</button></a>
