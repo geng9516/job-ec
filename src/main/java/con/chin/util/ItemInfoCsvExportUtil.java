@@ -294,6 +294,7 @@ public class ItemInfoCsvExportUtil {
                 System.out.println(fileName + " 产品CSV, 输出的: 第" + count++ + "行了    耗时：" + (end - start1) + " ms");
             }
             writer.write(writeLine);
+            writer.flush();
             //结束时间
             long end = System.currentTimeMillis();
             System.out.println(fileName + "产品CSV, 总共输出了: " + (count - 1) + "行数据    耗时：" + (end - start) + " ms");
@@ -532,6 +533,7 @@ public class ItemInfoCsvExportUtil {
                 System.out.println("这是输出的: 第" + count++ + "件了");
             }
             writer.write(writeLine);
+            writer.flush();
             System.out.println("总共输出了: " + (count - 1));
         } catch (NullPointerException e) {
             System.out.println("这产品番号为:  " + " 的没输出成功,有问题!");

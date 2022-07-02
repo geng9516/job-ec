@@ -2,13 +2,11 @@ package con.chin.util;
 
 import cn.hutool.core.text.csv.CsvUtil;
 import cn.hutool.core.text.csv.CsvWriter;
-import cn.hutool.core.util.CharsetUtil;
 import con.chin.pojo.Item;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +36,7 @@ public class DataExportUtil {
         try {
             writer = CsvUtil.getWriter(itemCsvPath + File.separator + fileName + ".txt", Charset.forName("Shift-JIS"), true);
             writer.write(itemCodeList);
+            writer.flush();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -75,6 +74,7 @@ public class DataExportUtil {
                 writeLine.add(column);
             }
             writer.write(writeLine);
+            writer.flush();
             //结束时间
             long end = System.currentTimeMillis();
             System.out.println(fileName + "库存CSV, 总共输出了: " + itemCodeList.size() + " 行数据    耗时：" + (end - start) + " ms");
@@ -298,6 +298,7 @@ public class DataExportUtil {
                 }
             }
             writer.write(writeLine);
+            writer.flush();
             //结束时间
             long end = System.currentTimeMillis();
             System.out.println(fileName + "option CSV, 总共输出了: " + itemList.size() + " 行数据    耗时：" + (end - start) + " ms");
@@ -398,6 +399,7 @@ public class DataExportUtil {
                 }
             }
             writer.write(writeLine);
+            writer.flush();
             //结束时间
             long end = System.currentTimeMillis();
             System.out.println(fileName + "option CSV, 总共输出了: " + itemList.size() + " 行数据    耗时：" + (end - start) + " ms");
