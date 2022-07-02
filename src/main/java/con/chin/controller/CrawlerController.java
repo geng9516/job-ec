@@ -134,12 +134,12 @@ public class CrawlerController {
             //item信息不为空时
             if (itemList.size() > 0) {
                 List<Item> itemList1 = new ArrayList<>();
-                for (Item item : itemList) {
-                    if (item.getFlog() == 0) {
-                        item.setFlog(1);
-                        itemList1.add(item);
-                    }
-                }
+//                for (Item item : itemList) {
+//                    if (item.getFlog() == 0) {
+//                        item.setFlog(1);
+//                        itemList1.add(item);
+//                    }
+//                }
                 //存在值时
                 if (itemList1.size() > 0) {
                     itemService.setItemFlog(itemList1);

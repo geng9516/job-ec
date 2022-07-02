@@ -366,6 +366,10 @@ public class ItemInfoController {
                         item.setFlog(1);
                         itemList1.add(item);
                     }
+                    if (item.getFlog() == 2) {
+                        item.setFlog(1);
+                        itemList1.add(item);
+                    }
                 }
                 //存在值时
                 if (itemList1.size() > 0) {
