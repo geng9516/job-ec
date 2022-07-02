@@ -473,7 +473,9 @@ public class ImportCsvUtil {
                         if (productCategory == "null" || productCategory == "") {
                             productCategory = "0";
                         }
-                        item.setItemCategoryCode(Integer.parseInt(productCategory));
+                        if (productCategory != null && !"".equals(productCategory)) {
+                            item.setItemCategoryCode(Integer.parseInt(productCategory));
+                        }
                         break;
                 }
             }

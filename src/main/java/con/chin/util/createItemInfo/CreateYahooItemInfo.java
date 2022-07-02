@@ -16,6 +16,9 @@ import java.util.*;
 public class CreateYahooItemInfo {
 
     public static void saveYahooItemInfo(Page page) {
+
+        //开始时间
+        long start = System.currentTimeMillis();
         //解析页面
         Html html = page.getHtml();
 
@@ -267,10 +270,13 @@ public class CreateYahooItemInfo {
         SiteShop siteShop = new SiteShop();
         siteShop.setShopName(storeName);
         page.putField("siteShop", siteShop);
+
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        long end = System.currentTimeMillis();
+        System.out.println("1件产品数据下载完成!    总耗时：" + (end - start) + " ms");
     }
 }
