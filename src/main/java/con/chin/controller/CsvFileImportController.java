@@ -97,7 +97,7 @@ public class CsvFileImportController {
             counts = saveSuccessCount + Math.abs(updateSuccessCount);
             //结束时间
             long end = System.currentTimeMillis();
-            System.out.println("从CSV文件中保存了产品ID为:  " + item.getItemCode() + "     " + counts + "件完成     耗时：" + (end - start2) + " ms");
+            System.out.println("从CSV文件中保存了产品  ID为:  " + item.getItemCode() + "     " + counts + "件完成     耗时：" + (end - start2) + " ms");
         }
         //结束时间
         long end = System.currentTimeMillis();

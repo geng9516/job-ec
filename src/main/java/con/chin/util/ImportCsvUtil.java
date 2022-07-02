@@ -405,6 +405,9 @@ public class ImportCsvUtil {
                             if (value == null || "".equals(value)) {
                                 continue;
                             }
+                            if(value.contains("商品到着後レビューと評価を書くと")){
+                                continue;
+                            }
                             //value值进行去重
                             String[] values = SetDataUtil.distinctByArr(value.split(" "));
                             String value2 = "";
