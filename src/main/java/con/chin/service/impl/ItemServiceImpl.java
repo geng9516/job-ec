@@ -768,8 +768,8 @@ public class ItemServiceImpl implements ItemService {
 
     //获取新爬取的产品
     @Override
-    public List<Item> findNewDownloaded(Integer flog) {
-        return itemMapper.findNewDownloaded(flog);
+    public List<Item> findItemByStatus(Integer flog) {
+        return itemMapper.findItemByStatus(flog);
     }
 
     //下载查询结果集

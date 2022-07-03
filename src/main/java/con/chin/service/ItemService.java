@@ -72,7 +72,7 @@ public interface ItemService {
     int setItemFlogs(List<Item> itemList);
 
     //获取新爬取的产品
-    List<Item> findNewDownloaded(Integer flog);
+    List<Item> findItemByStatus(Integer flog);
 
     //下载查询结果集
     List<Item> downloadFindItemBysearchConditions(String searchConditions);

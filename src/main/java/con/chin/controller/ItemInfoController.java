@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +113,6 @@ public class ItemInfoController {
         model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
         model.addAttribute("siteShop", itemInfoQuery.getShopName());
         model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
-        model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
@@ -150,7 +151,6 @@ public class ItemInfoController {
                 itemInfoQuery.setFlog(Integer.parseInt(flog));
                 //前端使用
                 model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
-                model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
             }
             //为了条件查询后的分页 (有这条会出现编辑状态切换时数据错误)
             httpSession.setAttribute("searchConditions", itemInfoQuery.getSearchConditions());
@@ -202,7 +202,6 @@ public class ItemInfoController {
                 itemInfoQuery.setFlog(Integer.parseInt(flog));
                 //前端使用
                 model.addAttribute("editFlogSelect", Integer.parseInt(flog));
-                model.addAttribute("deleteFlog", Integer.parseInt(flog));
             }
             //把siteShop值放到全局变量中
             httpSession.setAttribute("siteShop", itemInfoQuery.getShopName());
@@ -235,7 +234,6 @@ public class ItemInfoController {
                 itemInfoQuery.setFlog(Integer.parseInt(flog));
                 //前端使用
                 model.addAttribute("editFlogSelect", Integer.parseInt(flog));
-                model.addAttribute("deleteFlog", Integer.parseInt(flog));
             }
         }
         //删除itemPathFlog
@@ -276,7 +274,6 @@ public class ItemInfoController {
         //编辑状态放到全局变量中
         if (itemInfoQuery.getFlog() != null) {
             httpSession.setAttribute("flog", String.valueOf(itemInfoQuery.getFlog()));
-            model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
             //前端使用
             model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
         }
@@ -316,7 +313,6 @@ public class ItemInfoController {
             itemInfoQuery.setFlog(Integer.parseInt(flog));
             //前端使用
             model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
-            model.addAttribute("deleteFlog", itemInfoQuery.getFlog());
         }
         //一页表示数发到全局变量中
         if (itemInfoQuery.getPageSize() != null) {
@@ -361,13 +357,17 @@ public class ItemInfoController {
                 itemList = itemService.findItemByItemCodes(itemCodeList);
                 itemList1 = new ArrayList<>();
                 for (Item item : itemList) {
+                    //更新时间
+                    String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                     //flog为CSVダウンロード待ち时修改
                     if (item.getFlog() == 0) {
                         item.setFlog(1);
+                        item.setUpdatetime(now);
                         itemList1.add(item);
                     }
                     if (item.getFlog() == 2) {
                         item.setFlog(1);
+                        item.setUpdatetime(now);
                         itemList1.add(item);
                     }
                 }
@@ -413,8 +413,11 @@ public class ItemInfoController {
                 itemList = itemService.findItemByItemCodes(itemCodeList);
                 itemList1 = new ArrayList<>();
                 for (Item item : itemList) {
+                    //更新时间
+                    String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                     if (item.getFlog() == 0) {
                         item.setFlog(1);
+                        item.setUpdatetime(now);
                         itemList1.add(item);
                     }
                 }
@@ -476,14 +479,14 @@ public class ItemInfoController {
     @GetMapping("/setItemFlogToEdit")
     public String setItemFlogToEdit(@RequestParam("itemCode") String itemCode, @RequestParam("itemFlog") String itemFlog, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 
-        //编辑状态
-//        String flog = (String) httpSession.getAttribute("flog");
-
         List<Item> itemList = new ArrayList<>();
         if (itemFlog != null && !"".equals(itemFlog)) {
+            //更新时间
+            String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             Item item = new Item();
             item.setItemCode(itemCode);
             item.setFlog(Integer.parseInt(itemFlog));
+            item.setUpdatetime(now);
             itemList.add(item);
         }
         //调用修改flog方法
@@ -524,11 +527,13 @@ public class ItemInfoController {
     //列入删除列表
     @GetMapping("/setDeleteItem")
     public String setDeleteItem(@RequestParam("itemCode") String itemCode, RedirectAttributes redirectAttributes, HttpSession httpSession) {
-
+        //更新时间
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         List<Item> itemList = new ArrayList<>();
         Item item = new Item();
         item.setItemCode(itemCode);
         item.setFlog(3);
+        item.setUpdatetime(now);
         itemList.add(item);
         //调用修改flog方法
         int res = itemService.setItemFlog(itemList);
@@ -567,40 +572,60 @@ public class ItemInfoController {
         return "redirect:/iteminfo?pageNum=" + 1;
     }
 
-    //多个返回列表
+    //多个产品修改状态
     @ResponseBody
-    @PostMapping("/setItemsFlogToEdit")
-    public String setItemsFlogToEdit(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
+    @PostMapping("/setItemsFlog")
+    public String setItemsFlog(@RequestParam("listString[]") List<String> itemCodeList,@RequestParam("flog") Integer flog, HttpSession httpSession) {
 
         Gson gson = new Gson();
         List<Item> itemList = new ArrayList<>();
-        for (String itemCode : itemCodeList) {
-            Item item = new Item();
-            item.setItemCode(itemCode);
-            item.setFlog(0);
-            itemList.add(item);
-        }
-        //调用修改flog方法
-        itemService.setItemFlog(itemList);
-        String pageNum = (String) httpSession.getAttribute("pageNum");
-        if (pageNum != null && pageNum != "") {
-            return gson.toJson(pageNum);
-        }
-        return gson.toJson(1);
-    }
-
-    //多个列入删除列表
-    @ResponseBody
-    @PostMapping("/setDeleteItems")
-    public String setDeleteItems(@RequestParam("listString[]") List<String> itemCodeList, HttpSession httpSession) {
-
-        Gson gson = new Gson();
-        List<Item> itemList = new ArrayList<>();
-        for (String itemCode : itemCodeList) {
-            Item item = new Item();
-            item.setItemCode(itemCode);
-            item.setFlog(3);
-            itemList.add(item);
+        switch (flog){
+            case 0:
+                for (String itemCode : itemCodeList) {
+                    //更新时间
+                    String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    Item item = new Item();
+                    item.setItemCode(itemCode);
+                    item.setFlog(0);
+                    item.setUpdatetime(now);
+                    itemList.add(item);
+                }
+                break;
+            case 1:
+                for (String itemCode : itemCodeList) {
+                    //更新时间
+                    String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    Item item = new Item();
+                    item.setItemCode(itemCode);
+                    item.setFlog(1);
+                    item.setUpdatetime(now);
+                    itemList.add(item);
+                }
+                break;
+            case 2:
+                for (String itemCode : itemCodeList) {
+                    //更新时间
+                    String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    Item item = new Item();
+                    item.setItemCode(itemCode);
+                    item.setFlog(2);
+                    item.setUpdatetime(now);
+                    itemList.add(item);
+                }
+                break;
+            case 3:
+                for (String itemCode : itemCodeList) {
+                    //更新时间
+                    String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    Item item = new Item();
+                    item.setItemCode(itemCode);
+                    item.setFlog(3);
+                    item.setUpdatetime(now);
+                    itemList.add(item);
+                }
+                break;
+            case 5:
+                break;
         }
         //调用修改flog方法
         itemService.setItemFlog(itemList);
@@ -626,10 +651,10 @@ public class ItemInfoController {
     }
 
     //下载未被下载的新爬取产品
-    @GetMapping("/selectItemByNewDownloaded")
-    public String selectItemByNewDownloaded(HttpSession httpSession, RedirectAttributes redirectAttributes, @RequestParam("itemFlog") String itemFlog) {
+    @GetMapping("/findItemByStatus")
+    public String findItemByStatus(HttpSession httpSession, RedirectAttributes redirectAttributes, @RequestParam("itemFlog") String itemFlog) {
 
-        List<Item> newDownloadedItems = itemService.findNewDownloaded(Integer.parseInt(itemFlog));
+        List<Item> newDownloadedItems = itemService.findItemByStatus(Integer.parseInt(itemFlog));
         //开始时间
         long start = System.currentTimeMillis();
         //调用下载方法
@@ -961,7 +986,7 @@ public class ItemInfoController {
     public String setFlogToEdit(HttpSession httpSession, @RequestParam("editFlog") Integer flog) {
 
         List<Item> itemList = new ArrayList<>();
-        List<Item> newDownloadedList = itemService.findNewDownloaded(flog);
+        List<Item> newDownloadedList = itemService.findItemByStatus(flog);
         for (Item item : newDownloadedList) {
             //需要修改的是为下载的产品时
             if (flog == 0) {

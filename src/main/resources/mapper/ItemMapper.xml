@@ -229,7 +229,7 @@
     </select>
 
     <!--    获取新爬取的产品-->
-    <select id="findNewDownloaded" resultType="con.chin.pojo.Item">
+    <select id="findItemByStatus" resultType="con.chin.pojo.Item">
 
         select *
         from t_item
@@ -341,7 +341,8 @@
 
     <update id="setItemFlog">
         update t_item
-        set flog=#{flog}
+        set flog=#{flog},
+            updatetime=#{updatetime}
         where itemCode = #{itemCode}
     </update>
 

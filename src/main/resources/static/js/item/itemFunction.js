@@ -137,8 +137,8 @@ function bulkOperation() {
     })
 }
 
-//多个返回列表
-function setItemsFlogToEdit() {
+//多个产品修改状态
+function setItemsFlog(flog) {
     var checkedValue = $('tbody input:checked');
     //判断是否项目被选择
     if (typeof checkedValue.val() === "undefined") {
@@ -152,67 +152,9 @@ function setItemsFlogToEdit() {
         Values.push($(this).val());
     })
     $.ajax({
-        url: '/setItemsFlogToEdit',
+        url: '/setItemsFlog',
         type: 'post',
-        data: {"listString": Values},
-        dataType: 'json',
-        success: function (data) {
-            window.location = "/iteminfo?pageNum=" + 1;
-            $("#message").text(data);
-        },
-        error: function (data) {
-            $("#message").val(data);
-        }
-    })
-}
-
-//多个列入删除列表
-function setDeleteItems() {
-    var checkedValue = $('tbody input:checked');
-    //判断是否项目被选择
-    if (typeof checkedValue.val() === "undefined") {
-        alert("操作項目を選択してください！")
-        return;
-    }
-    //保存选中的item的code
-    var Values = new Array();
-    //遍历
-    checkedValue.each(function () {
-        Values.push($(this).val());
-    })
-    $.ajax({
-        url: '/setDeleteItems',
-        type: 'post',
-        data: {"listString": Values},
-        dataType: 'json',
-        success: function (data) {
-            window.location = "/iteminfo?pageNum=" + 1;
-            $("#message").text(data);
-        },
-        error: function (data) {
-            $("#message").val(data);
-        }
-    })
-}
-
-//多个列入删除列表
-function setDeleteItems() {
-    var checkedValue = $('tbody input:checked');
-    //判断是否项目被选择
-    if (typeof checkedValue.val() === "undefined") {
-        alert("操作項目を選択してください！")
-        return;
-    }
-    //保存选中的item的code
-    var Values = new Array();
-    //遍历
-    checkedValue.each(function () {
-        Values.push($(this).val());
-    })
-    $.ajax({
-        url: '/setDeleteItems',
-        type: 'post',
-        data: {"listString": Values},
+        data: {"listString": Values,"flog":flog},
         dataType: 'json',
         success: function (data) {
             window.location = "/iteminfo?pageNum=" + 1;
