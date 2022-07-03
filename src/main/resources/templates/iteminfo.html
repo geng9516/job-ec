@@ -233,6 +233,7 @@
 <!--                        店铺被选中时的编辑项-->
                         <span th:switch="${siteShop}">
                             <span th:case="null"></span>
+                            <span th:case="''"></span>
                             <span th:case="*">
 <!--                                各种编辑状态不同选项不同-->
                                 <span th:switch="${editFlogSelect}">

@@ -216,8 +216,6 @@ public class ItemInfoController {
                 model.addAttribute("siteShop", itemInfoQuery.getShopName());
             }
             if (searchConditions != null && !"".equals(searchConditions)) {
-                //检索关键字设置为条件
-//                itemInfoQuery.setSearchConditions(searchConditions);
                 //检索关键字删除
                 httpSession.removeAttribute("searchConditions");
             }
