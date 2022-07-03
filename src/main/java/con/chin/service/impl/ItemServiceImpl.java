@@ -774,8 +774,8 @@ public class ItemServiceImpl implements ItemService {
 
     //下载查询结果集
     @Override
-    public List<Item> downloadFindItemBysearchConditions(String searchConditions) {
-        return itemMapper.downloadFindItemBysearchConditions(searchConditions);
+    public List<Item> downloadFindItemBysearchConditions(Map<String, String> map) {
+        return itemMapper.downloadFindItemBysearchConditions(map);
     }
 
 

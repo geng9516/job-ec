@@ -362,7 +362,7 @@
         <where>
 
             <if test="searchConditions != null and searchConditions != ''">
-                itemcode like concat('%',#{searchConditions},'%')
+                and ( itemcode like concat('%',#{searchConditions},'%')
             </if>
             <if test="searchConditions != null and searchConditions != ''">
                 or itempath like '%' #{searchConditions} '%'
@@ -374,8 +374,17 @@
                 or shopname like concat('%',#{searchConditions},'%')
             </if>
             <if test="searchConditions != null and searchConditions != ''">
-                or olditemcode like concat('%',#{searchConditions},'%')
+                or olditemcode like concat('%',#{searchConditions},'%'))
             </if>
+            <if test="siteShop != null and siteShop != ''">
+                and shopname = #{siteShop}
+            </if>
+            <if test="flog != null">
+                and flog = #{flog}
+            </if>
+<!--            <if test="flog == null">-->
+<!--                and flog not in (3)-->
+<!--            </if>-->
 
         </where>
 

@@ -247,7 +247,7 @@ public class ItemInfoController {
         return "iteminfo";
     }
 
-    //编辑与否检索
+    //产品状态
     @PostMapping("/findEditedIteminfo")
     public String findEditedIteminfo(Model model, HttpSession httpSession, ItemInfoQuery itemInfoQuery) {
         //搜索关键字还存在时删除
@@ -573,11 +573,11 @@ public class ItemInfoController {
     //多个产品修改状态
     @ResponseBody
     @PostMapping("/setItemsFlog")
-    public String setItemsFlog(@RequestParam("listString[]") List<String> itemCodeList,@RequestParam("flog") Integer flog, HttpSession httpSession) {
+    public String setItemsFlog(@RequestParam("listString[]") List<String> itemCodeList, @RequestParam("flog") Integer flog, HttpSession httpSession) {
 
         Gson gson = new Gson();
         List<Item> itemList = new ArrayList<>();
-        switch (flog){
+        switch (flog) {
             case 0:
                 for (String itemCode : itemCodeList) {
                     //更新时间
@@ -714,9 +714,25 @@ public class ItemInfoController {
     @GetMapping("/downloadsearchConditionsAll")
     public String downloadsearchConditionsAll(HttpSession httpSession, RedirectAttributes redirectAttributes) {
 
+        //检索条件
+        Map<String, String> map = new HashMap<>();
         //如果searchConditions不为空的话的设定查询条件
         String searchConditions = (String) httpSession.getAttribute("searchConditions");
-        List<Item> downloadsearchConditionsAll = itemService.downloadFindItemBysearchConditions(searchConditions);
+        if (searchConditions != null && !"".equals(searchConditions)) {
+            map.put("searchConditions",searchConditions);
+        }
+        //siteshop
+        String siteShop = (String) httpSession.getAttribute("siteShop");
+        if (siteShop != null && !"".equals(siteShop)) {
+            map.put("siteShop",siteShop);
+        }
+        //siteshop
+        String flog = (String) httpSession.getAttribute("flog");
+        if (flog != null && !"".equals(flog)) {
+            map.put("flog",flog);
+        }
+        //
+        List<Item> downloadsearchConditionsAll = itemService.downloadFindItemBysearchConditions(map);
         //开始时间
         long start = System.currentTimeMillis();
         //调用下载方法
@@ -995,7 +1011,7 @@ public class ItemInfoController {
                 item.setFlog(1);
                 itemList.add(item);
                 //需要修改的是为中文的产品时
-            }else if (flog == 5) {
+            } else if (flog == 5) {
                 item.setFlog(0);
                 itemList.add(item);
             }

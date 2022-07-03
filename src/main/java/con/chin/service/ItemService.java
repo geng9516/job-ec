@@ -75,7 +75,7 @@ public interface ItemService {
     List<Item> findItemByStatus(Integer flog);
 
     //下载查询结果集
-    List<Item> downloadFindItemBysearchConditions(String searchConditions);
+    List<Item> downloadFindItemBysearchConditions(Map<String, String> map);
 
     //---------------------------------------------------------------------------------------------------------
 

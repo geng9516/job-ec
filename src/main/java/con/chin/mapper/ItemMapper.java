@@ -6,6 +6,7 @@ import con.chin.pojo.Item;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Mapper
@@ -76,7 +77,7 @@ public interface ItemMapper {
     List<Item> findItemByStatus(Integer flog);
 
     //下载查询结果集
-    List<Item> downloadFindItemBysearchConditions(String searchConditions);
+    List<Item> downloadFindItemBysearchConditions(Map<String, String> map);
 
 //---------------------------------------------------------------------------------------------------------
 
