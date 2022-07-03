@@ -152,9 +152,9 @@ public class CrawlerController {
                         //导出yahooCSV文件
                         ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                         //导出库存CSV文件
-                        DataExportUtil.exportItemStockCsv(stringList, itemCsvPath, "quantity");
-                        //导出optionCSV文件
-                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+//                        DataExportUtil.exportItemStockCsv(stringList, itemCsvPath, "quantity");
+//                        //导出optionCSV文件
+//                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                     } else if (ecSite.equals("au")) {
                         //导出auCSV文件
                         ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "item");
@@ -166,9 +166,9 @@ public class CrawlerController {
                     //导出CSV文件
                     ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                     //导出库存CSV文件
-                    DataExportUtil.exportItemStockCsv(stringList, itemCsvPath, "quantity");
-                    //导出optionCSV文件
-                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+//                    DataExportUtil.exportItemStockCsv(stringList, itemCsvPath, "quantity");
+//                    //导出optionCSV文件
+//                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                 }
                 long end = System.currentTimeMillis();
                 //完成输出信息

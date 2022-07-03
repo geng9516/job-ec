@@ -379,9 +379,9 @@ public class ItemInfoController {
                         //导出CSV文件
                         ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                         //导出库存CSV文件
-                        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
-                        //导出optionCSV文件
-                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+//                        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+//                        //导出optionCSV文件
+//                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                     } else if (ecSite.equals("au")) {
                         //导出auCSV文件
                         ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "item");
@@ -393,9 +393,9 @@ public class ItemInfoController {
                     //导出CSV文件
                     ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                     //导出库存CSV文件
-                    DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
-                    //导出optionCSV文件
-                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+//                    DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+//                    //导出optionCSV文件
+//                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                 }
                 break;
             //选中的产品下载照片
@@ -429,9 +429,9 @@ public class ItemInfoController {
                         //导出CSV文件
                         ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                         //导出库存CSV文件
-                        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
-                        //导出optionCSV文件
-                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+//                        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+//                        //导出optionCSV文件
+//                        DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                     } else if (ecSite.equals("au")) {
                         //导出auCSV文件
                         ItemInfoCsvExportUtil.exportAuItemInfoToCsv(itemList, itemCsvPath, "item");
@@ -443,9 +443,9 @@ public class ItemInfoController {
                     //导出CSV文件
                     ItemInfoCsvExportUtil.exportYahooItemInfoToCsv(itemList, itemCsvPath, "data_spy");
                     //导出库存CSV文件
-                    DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
-                    //导出optionCSV文件
-                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
+//                    DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+//                    //导出optionCSV文件
+//                    DataExportUtil.exportItemOptionCsv(itemList, itemCsvPath, "option_add");
                 }
                 //开始时间
                 long start = System.currentTimeMillis();
