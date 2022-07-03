@@ -209,7 +209,7 @@ public class ItemInfoCsvExportUtil {
                                 (!"".equals(item.getOption3()) && item.getOption3() != null ? "\n" + "\n" + item.getOption3() + " " : "") + (item.getValue3() != "" && item.getValue3() != null ? item.getValue3() : "") +
                                 (!"".equals(item.getOption4()) && item.getOption4() != null ? "\n" + "\n" + item.getOption4() + " " : "") + (item.getValue4() != "" && item.getValue4() != null ? item.getValue4() : "") +
                                 (!"".equals(item.getOption5()) && item.getOption5() != null ? "\n" + "\n" + item.getOption5() + " " : "") + (item.getValue5() != "" && item.getValue5() != null ? item.getValue5() : "");
-                if(!options.contains("レビュー")){
+                if (!options.contains("レビュー")) {
                     options = options + "\n" + "\n" + "商品到着後レビューと評価を書くと 「問い合わせフォーム」にご連絡頂ければ送料を返金";
                 }
                 //商品コード code
@@ -229,16 +229,20 @@ public class ItemInfoCsvExportUtil {
                 //商品ページのストア内カテゴリパス path
                 String itemPath = item.getItemPath();
                 //把按照换行进行分割
-                Matcher m = Pattern.compile("(?m)^.*$").matcher(itemPath);
-                while (m.find()) {
-                    //每一行
-                    String s = m.group();
-                    //数据处理
-                    itemPath = s.replaceAll(" ", "").replaceAll("　", "");
-                    if (s.length() == 0) {
-                        continue;
-                    }
+                if (itemPath != null && !"".equals(itemPath)) {
+                    Matcher m = Pattern.compile("(?m)^.*$").matcher(itemPath);
+                    while (m.find()) {
+                        //每一行
+                        String s = m.group();
+                        //数据处理
+                        itemPath = s.replaceAll(" ", "").replaceAll("　", "");
+                        if (s.length() == 0) {
+                            continue;
+                        }
 
+                    }
+                } else {
+                    itemPath = "";
                 }
                 //プロダクトカテゴリ
                 Integer itemCategoryCode = item.getItemCategoryCode();
