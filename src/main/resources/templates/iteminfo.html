@@ -121,14 +121,14 @@
                                               onchange="findEditedIteminfo()">
                                             <select class="ui dropdown" name="flog">
                                                 <option value="">編集ステータス</option>
-                                                <option value="0" th:selected="${editFlogSelect} eq '0'">CSVダウンロード待ち
+                                                <option value="0" th:selected="${editFlogSelect} eq '0'">新規アイテム
                                                 </option>
                                                 <option value="1" th:selected="${editFlogSelect} eq '1'">編集済</option>
-                                                <option value="2" th:selected="${editFlogSelect} eq '2'">CSV作成準備
+                                                <option value="2" th:selected="${editFlogSelect} eq '2'">一時保管（CSV作成準備）
                                                 </option>
                                                 <!--<option value="3">ダウンロード済</option>-->
-                                                <option value="3" th:selected="${editFlogSelect} eq '3'">削除待ち状態</option>
-                                                <option value="5" th:selected="${editFlogSelect} eq '5'">中国語商品</option>
+                                                <option value="3" th:selected="${editFlogSelect} eq '3'">削除待状態</option>
+                                                <option value="5" th:selected="${editFlogSelect} eq '5'">未編集（中国語）</option>
                                             </select>
                                         </form>
                                     </td>
@@ -183,22 +183,26 @@
                 <tr class="_sticky">
                     <!--一括操作-->
                     <td colspan="2">
-                        <span>
-                            <select class="ui dropdown" id="downloadCsv" name="downloadCsv" onchange="bulkOperation()">
-                                <option value="">ダウンロード</option>
-                                <option value="0">アイテムCSVのみ</option>
-                                <option value="1">商品画像のみ</option>
-                                <option value="2">両方</option>
-                                <option value="3">オプションCSVのみ</option>
-                                <option value="4">在庫CSVのみ</option>
-                            </select>
+                        <span th:switch="${editFlogSelect}">
+                            <span th:case="${3}"></span>
+                            <span th:case="${5}"></span>
+                            <span th:case="*">
+                                <span>
+                                    <select class="ui dropdown" id="downloadCsv" name="downloadCsv" onchange="bulkOperation()">
+                                        <option value="">ダウンロード</option>
+                                        <option value="0">アイテムCSVのみ</option>
+                                        <option value="1">商品画像のみ</option>
+                                        <option value="2">両方</option>
+                                        <option value="3">オプションCSVのみ</option>
+                                        <option value="4">在庫CSVのみ</option>
+                                    </select>
+                                </span>
+                            </span>
                         </span>
                         <span th:switch="${editFlogSelect}">
                             <span th:case="${0}">
                                &emsp;<button class="ui button mini ui-corner-left"
                                              onclick="setItemsFlog(3)">一括削除準備へ</button>
-                                <a th:href="@{/findItemByStatus(itemFlog=${0})}"><button
-                                        class="ui button mini ui-corner-left blue">全ダウンロード</button></a>
                                 <button class="ui button mini ui-corner-left red"
                                         onclick="setItemsFlog(1)">一括編集済へ</button>
                             </span>
@@ -209,9 +213,8 @@
                                         onclick="setItemsFlog(2)">一括CSV作成準備へへ</button>
                             </span>
                             <span th:case="${2}">
-                                &emsp;<button class="ui button mini ui-corner-left" onclick="setItemsFlog(3)">一括削除準備へ</button>
-                                <a th:href="@{/findItemByStatus(itemFlog=${2})}"><button
-                                    class="ui button mini ui-corner-left blue">全ダウンロード</button></a>
+                                &emsp;<button class="ui button mini ui-corner-left"
+                                              onclick="setItemsFlog(3)">一括削除準備へ</button>
                                 <button class="ui button mini ui-corner-left red"
                                         onclick="setItemsFlog(1)">一括編集済へ</button>
                             </span>
@@ -230,32 +233,48 @@
                                               onclick="setItemsFlog(3)">削除準備</button>
                             </span>
                         </span>
-<!--                        店铺被选中时的编辑项-->
+                        <!--                        店铺被选中时的编辑项-->
                         <span th:switch="${siteShop}">
-                            <span th:case="null"></span>
+                            <span th:case="null">
+                                <span th:switch="${editFlogSelect}">
+                                     <span th:case="null">
+                                         <a th:href="@{/findItemByStatus(itemFlog=${null})}"><button
+                                                 class="ui button mini ui-corner-left blue">全ダウンロード</button></a>
+                                     </span>
+                                     <span th:case="''">
+                                     </span>
+                                     <span th:case="*">
+                                       <a th:href="@{/findItemByStatus(itemFlog=${editFlogSelect})}"><button
+                                               class="ui button mini ui-corner-left blue">現ステータス全ダウンロード</button></a>
+                                    </span>
+                                </span>
+                            </span>
                             <span th:case="''"></span>
                             <span th:case="*">
 <!--                                各种编辑状态不同选项不同-->
                                 <span th:switch="${editFlogSelect}">
                                     <span th:case="0">
-                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop},flog=${editFlogSelect})}"><button
                                                     class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
                                     </span>
                                     <span th:case="1">
-                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop},flog=${editFlogSelect})}"><button
                                                     class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
                                     </span>
                                     <span th:case="2">
-                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop},flog=${editFlogSelect})}"><button
                                                     class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
                                     </span>
-                                    <span th:case="3"></span>
+                                    <span th:case="3">
+                                        <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop},flog=${editFlogSelect})}"><button
+                                                class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード（削除分）</button></a>
+                                    </span>
                                     <span th:case="5">
-                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop},flog=${editFlogSelect})}"><button
                                                     class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
                                     </span>
                                      <span th:case="*">
-                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop})}"><button
+                                            <a th:href="@{/downloadSiteShopAll(siteShop=${siteShop},flog=${editFlogSelect})}"><button
                                                     class="ui button mini ui-corner-left green">ショップ商品一括ダウンロード</button></a>
                                     </span>
                                 </span>
@@ -387,7 +406,7 @@
                                     </a>
                                     <br><br>
                                     <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"
-                                       class="ui button mini teal">CSV作成準備へ
+                                       class="ui button mini teal">一時保管へ
                                     </a>
                                 </span>
                                 <span th:case="1">
@@ -396,7 +415,7 @@
                                     </button>
                                     <br><br>
                                     <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"
-                                       class="ui button mini teal">CSV作成準備へ
+                                       class="ui button mini teal">一時保管へ
                                     </a>
                                 </span>
                                 <span th:case="2">
@@ -419,7 +438,7 @@
                                     </button>
                                     <br><br>
                                     <a th:href="@{/setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${0})}"
-                                       class="ui button mini teal">未ダウンロードへ
+                                       class="ui button mini teal">新規ステータスに変更
                                     </a>
                                 </span>
                                 <span th:case="*">
@@ -427,14 +446,14 @@
                                         Save
                                     </button>
                                     <br><br>
-                                    <span th:switch="${editFlogSelect}">
-                                        <span th:case="2"></span>
-                                        <span th:case="*">
-                                            <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"
-                                               class="ui button mini teal">CSV作成準備へ
-                                            </a>
-                                        </span>
-                                    </span>
+<!--                                    <span th:switch="${editFlogSelect}">-->
+<!--                                        <span th:case="2"></span>-->
+<!--                                        <span th:case="*">-->
+<!--                                            <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"-->
+<!--                                               class="ui button mini teal">一時保管へ-->
+<!--                                            </a>-->
+<!--                                        </span>-->
+<!--                                    </span>-->
                                 </span>
                             </span>
                             <br><br><br><br><br><br><br><br><br><br>

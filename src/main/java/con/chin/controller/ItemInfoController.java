@@ -650,9 +650,9 @@ public class ItemInfoController {
 
     //下载未被下载的新爬取产品
     @GetMapping("/findItemByStatus")
-    public String findItemByStatus(HttpSession httpSession, RedirectAttributes redirectAttributes, @RequestParam("itemFlog") String itemFlog) {
+    public String findItemByStatus(HttpSession httpSession, RedirectAttributes redirectAttributes, @RequestParam("itemFlog") Integer itemFlog) {
 
-        List<Item> newDownloadedItems = itemService.findItemByStatus(Integer.parseInt(itemFlog));
+        List<Item> newDownloadedItems = itemService.findItemByStatus(itemFlog);
         //开始时间
         long start = System.currentTimeMillis();
         //调用下载方法
@@ -681,9 +681,14 @@ public class ItemInfoController {
 
     //下载ショップ商品一括
     @GetMapping("/downloadSiteShopAll")
-    public String downloadSiteShopAll(@RequestParam("siteShop") String siteShop, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+    public String downloadSiteShopAll(@RequestParam("siteShop") String siteShop,@RequestParam("flog") String flog, HttpSession httpSession, RedirectAttributes redirectAttributes) {
 
-        List<Item> downloadedShopItems = itemService.downloadFindItemBySiteShop(siteShop);
+        //检索条件
+        Map<String, String> map = new HashMap<>();
+        map.put("siteShop",siteShop);
+        map.put("flog",flog);
+
+        List<Item> downloadedShopItems = itemService.downloadFindItemBySiteShop(map);
         //开始时间
         long start = System.currentTimeMillis();
         //调用下载方法
@@ -694,9 +699,9 @@ public class ItemInfoController {
             itemCodeList.add(item.getItemCode());
         }
         //导出库存CSV文件
-        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
+//        DataExportUtil.exportItemStockCsv(itemCodeList, itemCsvPath, "quantity");
         //导出optionCSV文件
-        DataExportUtil.exportItemOptionCsv(downloadedShopItems, itemCsvPath, "option_add");
+//        DataExportUtil.exportItemOptionCsv(downloadedShopItems, itemCsvPath, "option_add");
         long end = System.currentTimeMillis();
         System.out.println("产品数据导出完成!    总耗时：" + (end - start) + " ms");
         //完成输出信息
@@ -996,35 +1001,40 @@ public class ItemInfoController {
     }
 
     //把一个状态的产品的状态全修改
-    @GetMapping("/setFlogToEdit")
-    public String setFlogToEdit(HttpSession httpSession, @RequestParam("editFlog") Integer flog) {
-
-        List<Item> itemList = new ArrayList<>();
-        List<Item> newDownloadedList = itemService.findItemByStatus(flog);
-        for (Item item : newDownloadedList) {
-            //需要修改的是为下载的产品时
-            if (flog == 0) {
-                item.setFlog(1);
-                itemList.add(item);
-                //从CSV作成準備改为编辑完成
-            } else if (flog == 2) {
-                item.setFlog(1);
-                itemList.add(item);
-                //需要修改的是为中文的产品时
-            } else if (flog == 5) {
-                item.setFlog(0);
-                itemList.add(item);
-            }
-        }
-        itemService.setItemFlog(itemList);
-        //从session中把pageNum取得
-        String pageNum = (String) httpSession.getAttribute("pageNum");
-        if (pageNum != null && pageNum != "") {
-            return "redirect:/iteminfo?pageNum=" + pageNum;
-        }
-
-        return "redirect:/iteminfo?pageNum=" + 1;
-    }
+//    @GetMapping("/setFlogToEdit")
+//    public String setFlogToEdit(HttpSession httpSession, @RequestParam("editFlog") String flog, @RequestParam("siteShop") String siteShop) {
+//
+//        //检索条件
+//        Map<String, String> map = new HashMap<>();
+//        map.put("siteShop",siteShop);
+//        map.put("flog",flog);
+//
+//        List<Item> itemList = new ArrayList<>();
+//        List<Item> newDownloadedList = itemService.findItemByStatus(flog);
+//        for (Item item : newDownloadedList) {
+//            //需要修改的是为下载的产品时
+//            if (flog == 0) {
+//                item.setFlog(1);
+//                itemList.add(item);
+//                //从CSV作成準備改为编辑完成
+//            } else if (flog == 2) {
+//                item.setFlog(1);
+//                itemList.add(item);
+//                //需要修改的是为中文的产品时
+//            } else if (flog == 5) {
+//                item.setFlog(0);
+//                itemList.add(item);
+//            }
+//        }
+//        itemService.setItemFlog(itemList);
+//        //从session中把pageNum取得
+//        String pageNum = (String) httpSession.getAttribute("pageNum");
+//        if (pageNum != null && pageNum != "") {
+//            return "redirect:/iteminfo?pageNum=" + pageNum;
+//        }
+//
+//        return "redirect:/iteminfo?pageNum=" + 1;
+//    }
 
 
     //削除option

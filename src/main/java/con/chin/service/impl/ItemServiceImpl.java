@@ -143,8 +143,8 @@ public class ItemServiceImpl implements ItemService {
 
     //SiteShop查询并下载
     @Override
-    public List<Item> downloadFindItemBySiteShop(String siteShop) {
-        return itemMapper.downloadFindItemBySiteShop(siteShop);
+    public List<Item> downloadFindItemBySiteShop(Map<String, String> map) {
+        return itemMapper.downloadFindItemBySiteShop(map);
     }
 
     //获取产品code
@@ -629,118 +629,122 @@ public class ItemServiceImpl implements ItemService {
 
     //csv文件更新数据或追加数据
     @Override
-    public int updateItemByCsv(Item item) {
+    public int updateItemByCsv(List<Item> itemList) {
+        List<Item> items = new ArrayList<>();
 
-        //当前时间
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        Item oldItem = itemMapper.findItemByItemCode(item);
-        if (oldItem == null) {
-            item.setSiteName("gengye");
-            item.setShopName("gengye");
-            item.setUpdatetime(now);
-            String itemCode = UUID.randomUUID().toString();
-            String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-            item.setItemCode("l" + itemCode1);
+        for (Item item : itemList) {
+            //当前时间
+            String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            Item oldItem = itemMapper.findItemByItemCode(item);
+            if (oldItem == null) {
+                item.setSiteName("gengye");
+                item.setShopName("gengye");
+                item.setUpdatetime(now);
+                String itemCode = UUID.randomUUID().toString();
+                String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
+                item.setItemCode("l" + itemCode1);
 //            item.setFlog(1);  不需要修改
-            item.setCreated(now);
-            item.setEndDate("2099-12-31 23:59:59");
-            return itemMapper.saveItem(item);
-        }
+                item.setCreated(now);
+                item.setEndDate("2099-12-31 23:59:59");
+                return itemMapper.saveItem(item);
+            }
 
-        oldItem.setUpdatetime(now);
+            oldItem.setUpdatetime(now);
 
-        if (item.getItemPath() != null && !"".equals(item.getItemPath())) {
-            oldItem.setItemPath(item.getItemPath());
-        }
+            if (item.getItemPath() != null && !"".equals(item.getItemPath())) {
+                oldItem.setItemPath(item.getItemPath());
+            }
 
-        if (item.getItemName() != null && !"".equals(item.getItemName())) {
-            oldItem.setItemName(item.getItemName());
-        }
+            if (item.getItemName() != null && !"".equals(item.getItemName())) {
+                oldItem.setItemName(item.getItemName());
+            }
 
-        if (item.getItemCode() != null && !"".equals(item.getItemCode())) {
-            oldItem.setItemCode(item.getItemCode());
-        }
+            if (item.getItemCode() != null && !"".equals(item.getItemCode())) {
+                oldItem.setItemCode(item.getItemCode());
+            }
 
-        if (item.getSalePrice() != null) {
-            oldItem.setSalePrice(item.getSalePrice());
-        }
+            if (item.getSalePrice() != null) {
+                oldItem.setSalePrice(item.getSalePrice());
+            }
 
-        if (item.getOption1() != null && !"".equals(item.getOption1())) {
-            oldItem.setOption1(item.getOption1());
-        } else {
-            oldItem.setOption1(null);
-        }
-        if (item.getOption2() != null && !"".equals(item.getOption2())) {
-            oldItem.setOption2(item.getOption2());
-        } else {
-            oldItem.setOption2(null);
-        }
-        if (item.getOption3() != null && !"".equals(item.getOption3())) {
-            oldItem.setOption3(item.getOption3());
-        } else {
-            oldItem.setOption3(null);
-        }
-        if (item.getOption4() != null && !"".equals(item.getOption4())) {
-            oldItem.setOption4(item.getOption4());
-        } else {
-            oldItem.setOption4(null);
-        }
-        if (item.getOption5() != null && !"".equals(item.getOption5())) {
-            oldItem.setOption5(item.getOption5());
-        } else {
-            oldItem.setOption5(null);
-        }
+            if (item.getOption1() != null && !"".equals(item.getOption1())) {
+                oldItem.setOption1(item.getOption1());
+            } else {
+                oldItem.setOption1(null);
+            }
+            if (item.getOption2() != null && !"".equals(item.getOption2())) {
+                oldItem.setOption2(item.getOption2());
+            } else {
+                oldItem.setOption2(null);
+            }
+            if (item.getOption3() != null && !"".equals(item.getOption3())) {
+                oldItem.setOption3(item.getOption3());
+            } else {
+                oldItem.setOption3(null);
+            }
+            if (item.getOption4() != null && !"".equals(item.getOption4())) {
+                oldItem.setOption4(item.getOption4());
+            } else {
+                oldItem.setOption4(null);
+            }
+            if (item.getOption5() != null && !"".equals(item.getOption5())) {
+                oldItem.setOption5(item.getOption5());
+            } else {
+                oldItem.setOption5(null);
+            }
 
-        if (item.getValue1() != null && !"".equals(item.getValue1())) {
-            oldItem.setValue1(item.getValue1());
-        } else {
-            oldItem.setValue1(null);
-        }
+            if (item.getValue1() != null && !"".equals(item.getValue1())) {
+                oldItem.setValue1(item.getValue1());
+            } else {
+                oldItem.setValue1(null);
+            }
 
-        if (item.getValue2() != null && !"".equals(item.getValue2())) {
-            oldItem.setValue2(item.getValue2());
-        } else {
-            oldItem.setValue2(null);
-        }
+            if (item.getValue2() != null && !"".equals(item.getValue2())) {
+                oldItem.setValue2(item.getValue2());
+            } else {
+                oldItem.setValue2(null);
+            }
 
-        if (item.getValue3() != null && !"".equals(item.getValue3())) {
-            oldItem.setValue3(item.getValue3());
-        } else {
-            oldItem.setValue3(null);
-        }
+            if (item.getValue3() != null && !"".equals(item.getValue3())) {
+                oldItem.setValue3(item.getValue3());
+            } else {
+                oldItem.setValue3(null);
+            }
 
-        if (item.getValue4() != null && !"".equals(item.getValue4())) {
-            oldItem.setValue4(item.getValue4());
-        } else {
-            oldItem.setValue4(null);
-        }
+            if (item.getValue4() != null && !"".equals(item.getValue4())) {
+                oldItem.setValue4(item.getValue4());
+            } else {
+                oldItem.setValue4(null);
+            }
 
-        if (item.getValue5() != null && !"".equals(item.getValue5())) {
-            oldItem.setValue5(item.getValue5());
-        } else {
-            oldItem.setValue5(null);
-        }
+            if (item.getValue5() != null && !"".equals(item.getValue5())) {
+                oldItem.setValue5(item.getValue5());
+            } else {
+                oldItem.setValue5(null);
+            }
 
-        if (item.getHeadline() != null && !"".equals(item.getHeadline())) {
-            oldItem.setHeadline(item.getHeadline());
-        }
+            if (item.getHeadline() != null && !"".equals(item.getHeadline())) {
+                oldItem.setHeadline(item.getHeadline());
+            }
 
-        if (item.getCaption() != null && !"".equals(item.getCaption())) {
-            oldItem.setCaption(item.getCaption());
-        }
+            if (item.getCaption() != null && !"".equals(item.getCaption())) {
+                oldItem.setCaption(item.getCaption());
+            }
 
-        if (item.getExplanation() != null && !"".equals(item.getExplanation())) {
-            oldItem.setExplanation(item.getExplanation());
-        }
+            if (item.getExplanation() != null && !"".equals(item.getExplanation())) {
+                oldItem.setExplanation(item.getExplanation());
+            }
 
-        if (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks())) {
-            oldItem.setRelevantLinks(item.getRelevantLinks());
-        }
+            if (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks())) {
+                oldItem.setRelevantLinks(item.getRelevantLinks());
+            }
 
-        if (item.getItemCategoryCode() != null) {
-            oldItem.setItemCategoryCode(item.getItemCategoryCode());
+            if (item.getItemCategoryCode() != null) {
+                oldItem.setItemCategoryCode(item.getItemCategoryCode());
+            }
+            items.add(oldItem);
         }
-        itemMapper.updateItemByCsv(oldItem);
+        itemMapper.updateItemByCsv(items);
         return -1;
     }
 

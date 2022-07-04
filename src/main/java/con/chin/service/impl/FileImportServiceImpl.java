@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class FileImportServiceImpl implements FileImportService {
 
@@ -71,12 +73,18 @@ public class FileImportServiceImpl implements FileImportService {
         return fileImportMapper.updataOderItemInfo(orderItemInfo);
     }
 
-    //----------------------------------------------------
     //追加或更新iteminfo
     @Override
     public int savaItem(Item item) {
-        return itemService.updateItemByCsv(item);
+        return 0;
     }
+
+    //----------------------------------------------------
+    //追加或更新iteminfo
+//    @Override
+//    public int savaItem(List<Item> itemList) {
+//        return itemService.updateItemByCsv(itemList);
+//    }
 
 
 }

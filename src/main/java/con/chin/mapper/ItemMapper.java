@@ -32,7 +32,7 @@ public interface ItemMapper {
     List<Item> findItemBySiteShop(ItemInfoQuery itemInfoQuery);
 
     //SiteShop查询并下载
-    List<Item> downloadFindItemBySiteShop(String siteShop);
+    List<Item> downloadFindItemBySiteShop(Map<String, String> map);
 
     //获取产品code
     List<String> findItemCodeByPath(String path);
@@ -65,7 +65,7 @@ public interface ItemMapper {
     List<Item> findAll();
 
     //csv文件更新数据或追加数据
-    int updateItemByCsv(Item item);
+    int updateItemByCsv(List<Item> itemList);
 
     //修改itemflog值
     int setItemFlog(Item item);
