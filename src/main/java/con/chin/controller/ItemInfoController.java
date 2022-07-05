@@ -371,7 +371,7 @@ public class ItemInfoController {
                 }
                 //存在值时
                 if (itemList1.size() > 0) {
-                    itemService.setItemFlog(itemList1);
+                    itemService.setItemFlogs(itemList1);
                 }
                 //ecSite已经在全局变量中存在时
                 if (ecSite != null && !"".equals(ecSite)) {
@@ -421,7 +421,7 @@ public class ItemInfoController {
                 }
                 //存在值时
                 if (itemList1.size() > 0) {
-                    itemService.setItemFlog(itemList1);
+                    itemService.setItemFlogs(itemList1);
                 }
                 //ecSite已经在全局变量中存在时
                 if (ecSite != null && !"".equals(ecSite)) {
@@ -488,7 +488,7 @@ public class ItemInfoController {
             itemList.add(item);
         }
         //调用修改flog方法
-        int res = itemService.setItemFlog(itemList);
+        int res = itemService.setItemFlogs(itemList);
         System.out.println("产品ID为  " + itemCode + "  的状态修改完成");
         if (res == 1) {
             switch (Integer.parseInt(itemFlog)) {
@@ -534,7 +534,7 @@ public class ItemInfoController {
         item.setUpdatetime(now);
         itemList.add(item);
         //调用修改flog方法
-        int res = itemService.setItemFlog(itemList);
+        int res = itemService.setItemFlogs(itemList);
         if (res == 1) {
             redirectAttributes.addFlashAttribute("message", "商品コードが " + itemCode + " を削除リストに追加しました。");
         } else {
@@ -626,7 +626,7 @@ public class ItemInfoController {
                 break;
         }
         //调用修改flog方法
-        itemService.setItemFlog(itemList);
+        itemService.setItemFlogs(itemList);
         String pageNum = (String) httpSession.getAttribute("pageNum");
         if (pageNum != null && pageNum != "") {
             return gson.toJson(pageNum);

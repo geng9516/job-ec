@@ -500,10 +500,29 @@
 
     <update id="setItemFlogs">
         update t_item
-        set flog=#{flog}
-        <foreach collection="list" item="itemCode" open="(" close=")" separator=",">
-            #{itemCode}
+        set flog = elt(FIELD(itemcode,
+        <foreach collection="list" item="item" separator=",">
+            #{item.itemCode}
         </foreach>
+        ),
+        <foreach collection="list" item="item" separator=",">
+            #{item.flog}
+        </foreach>
+        ),
+        updatetime = elt(FIELD(itemcode,
+        <foreach collection="list" item="item" separator=",">
+            #{item.itemCode}
+        </foreach>
+        ),
+        <foreach collection="list" item="item" separator=",">
+            #{item.updatetime}
+        </foreach>
+        )
+        where itemcode in(
+        <foreach collection="list" item="item" separator=",">
+            #{item.itemCode}
+        </foreach>
+        );
     </update>
 
     <!--    下载查询结果集-->
