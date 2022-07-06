@@ -225,8 +225,8 @@ public class CreateYahooItemInfo {
         //获取带前页的URL
         item.setUrl5(page.getUrl().nodes().get(0).toString());
         item.setImage("/images/itemphoto/" + item.getItemCode() + ".jpg");
-        //未下载
-        item.setFlog(2);
+        //新規アイテム
+        item.setFlog(0);
         //创建时间
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         item.setCreated(now);

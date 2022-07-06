@@ -794,6 +794,7 @@
                         <br>
                         <div>
                             <span th:switch="${item.getFlog()}">
+                                <label>商品ステータス：</label><br>
                                 <span th:case="${0}" style="color: lightgreen">新規アイテム</span>
                                 <span th:case="${1}" style="color: cornflowerblue">編集済</span>
                                 <span th:case="${2}" style="color: coral">一時保管中</span>
@@ -806,6 +807,8 @@
                 </tbody>
             </table>
         </div>
+        <br>
+        <br>
         <br>
         <br>
         <br>
