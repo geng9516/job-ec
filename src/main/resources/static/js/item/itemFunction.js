@@ -261,3 +261,7 @@ function calculation(e) {
         $(value3).text(profitability);
     }
 }
+
+$('th:has(input[type=checkbox])').on('click', function(e){
+    $(this).find('input[type=checkbox]').click();
+});

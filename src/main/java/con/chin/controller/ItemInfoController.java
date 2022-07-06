@@ -418,6 +418,11 @@ public class ItemInfoController {
                         item.setUpdatetime(now);
                         itemList1.add(item);
                     }
+                    if (item.getFlog() == 2) {
+                        item.setFlog(1);
+                        item.setUpdatetime(now);
+                        itemList1.add(item);
+                    }
                 }
                 //存在值时
                 if (itemList1.size() > 0) {

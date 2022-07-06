@@ -781,18 +781,7 @@
                                     <input type="hidden" th:value="${page.getPageNum()}" name="pageNum">
                                     <input name="itemCode" th:value="${item.getItemCode()}" type="hidden">
                                 </tr>
-                                <!--                                <tr align="right">-->
-                                <!--                                    <td colspan="3">-->
-                                <!--                                        -->
-                                <!--                                        <div>-->
-                                <!--                                            <button class="ui primary button" type="submit">-->
-                                <!--                                                Save-->
-                                <!--                                            </button>-->
-                                <!--                                        </div>-->
-                                <!--                                    </td>-->
-                                <!--                                </tr>-->
                             </table>
-                            <!--                        </form>-->
                         </td>
                     </form>
                     <td valign="top">
@@ -800,6 +789,18 @@
                         <div><span th:text="${item.getCreated()}"></span></div>
                         <div><p>・更新日</p></div>
                         <div><span th:text="${item.getUpdatetime()}"></span></div>
+                        <br>
+                        <br>
+                        <br>
+                        <div>
+                            <span th:switch="${item.getFlog()}">
+                                <span th:case="${0}" style="color: lightgreen">新規アイテム</span>
+                                <span th:case="${1}" style="color: cornflowerblue">編集済</span>
+                                <span th:case="${2}" style="color: coral">一時保管中</span>
+                                <span th:case="${3}" style="color: brown">削除待</span>
+                                <span th:case="${5}" style="color: pink">未編集（中国語）</span>
+                            </span>
+                        </div>
                     </td>
                 </tr>
                 </tbody>

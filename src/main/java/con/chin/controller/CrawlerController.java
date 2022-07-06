@@ -45,9 +45,9 @@ public class CrawlerController {
         //全局变量中ecsite为空时设定初始值[yahoo]
         if (ecSite == null || "".equals(ecSite)) {
             httpSession.setAttribute("ecSite", "yahoo");
-            model.addAttribute("ecSite","yahoo");
+            model.addAttribute("ecSite", "yahoo");
         }
-        model.addAttribute("ecSite",ecSite);
+        model.addAttribute("ecSite", ecSite);
         return "index";
     }
 
@@ -260,6 +260,38 @@ public class CrawlerController {
             //结束时间
             long end = System.currentTimeMillis();
             System.out.println("导出库存CSV文件完成!  导出总件数为" + itemList.size() + "   总耗时：" + (end - start) / 1000 + " 秒");
+        } else if ("6".equals(frequency)) {
+            //开始时间
+            long start = System.currentTimeMillis();
+            List<Item> itemList = new ArrayList<>();
+            List<Item> itemList1 = new ArrayList<>();
+            if (itemCodes != null && itemCodes != "") {
+                itemList = itemService.findItemByItemCodeAll(stringList);
+            } else {
+                itemList = itemService.findAll();
+            }
+            for (Item item : itemList) {
+                //更新时间
+                String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                //flog为CSVダウンロード待ち时修改
+                if (item.getFlog() == 0) {
+                    item.setFlog(1);
+                    item.setUpdatetime(now);
+                    itemList1.add(item);
+                }
+                if (item.getFlog() == 2) {
+                    item.setFlog(1);
+                    item.setUpdatetime(now);
+                    itemList1.add(item);
+                }
+            }
+            //存在值时
+            if (itemList1.size() > 0) {
+                itemService.setItemFlogs(itemList1);
+            }
+            //结束时间
+            long end = System.currentTimeMillis();
+            System.out.println("更改产品状态为编辑済!  更改总件数为" + itemList.size() + "   总耗时：" + (end - start) / 1000 + " 秒");
         }
         //刷新主页
         return "redirect:/";
@@ -346,7 +378,7 @@ public class CrawlerController {
         File file = new File("/Users/geng9516/Documents/EC関連/21_写真保存");
         File[] files = file.listFiles();
         for (File file1 : files) {
-            if(file1.getName().contains("E")){
+            if (file1.getName().contains("E")) {
                 stringList.add(file1.getPath());
             }
         }
