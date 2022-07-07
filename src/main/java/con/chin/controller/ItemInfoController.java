@@ -686,12 +686,12 @@ public class ItemInfoController {
 
     //下载ショップ商品一括
     @GetMapping("/downloadSiteShopAll")
-    public String downloadSiteShopAll(@RequestParam("siteShop") String siteShop,@RequestParam("flog") String flog, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+    public String downloadSiteShopAll(@RequestParam("siteShop") String siteShop, @RequestParam("flog") String flog, HttpSession httpSession, RedirectAttributes redirectAttributes) {
 
         //检索条件
         Map<String, String> map = new HashMap<>();
-        map.put("siteShop",siteShop);
-        map.put("flog",flog);
+        map.put("siteShop", siteShop);
+        map.put("flog", flog);
 
         List<Item> downloadedShopItems = itemService.downloadFindItemBySiteShop(map);
         //开始时间
@@ -729,17 +729,17 @@ public class ItemInfoController {
         //如果searchConditions不为空的话的设定查询条件
         String searchConditions = (String) httpSession.getAttribute("searchConditions");
         if (searchConditions != null && !"".equals(searchConditions)) {
-            map.put("searchConditions",searchConditions);
+            map.put("searchConditions", searchConditions);
         }
         //siteshop
         String siteShop = (String) httpSession.getAttribute("siteShop");
         if (siteShop != null && !"".equals(siteShop)) {
-            map.put("siteShop",siteShop);
+            map.put("siteShop", siteShop);
         }
         //siteshop
         String flog = (String) httpSession.getAttribute("flog");
         if (flog != null && !"".equals(flog)) {
-            map.put("flog",flog);
+            map.put("flog", flog);
         }
         //
         List<Item> downloadsearchConditionsAll = itemService.downloadFindItemBysearchConditions(map);
@@ -774,7 +774,8 @@ public class ItemInfoController {
     public String setItemInfo(
             @RequestParam("headline") String headline,
             @RequestParam("itemName") String itemName,
-            @RequestParam("salePrice") String salePrice,
+            @RequestParam("salePrice") Integer salePrice,
+            @RequestParam("price") Integer price,
             @RequestParam("itemPath") String itemPath,
             @RequestParam("explanation") String explanation,
             @RequestParam("itemCode") String itemCode,
@@ -877,12 +878,17 @@ public class ItemInfoController {
             flog++;
         }
         //如果卖价有修改的话
-        if (salePrice != null && !"".equals(salePrice)) {
-            Integer salePrice1 = Integer.parseInt(salePrice);
+        if (salePrice != null) {
+            Integer salePrice1 = salePrice;
             if (salePrice1 < 250) {
                 salePrice1 = SetDataUtil.setSalePrice(salePrice1);
             }
             item.setSalePrice(salePrice1);
+            flog++;
+        }
+        //如果卖价有修改的话
+        if (price != null) {
+            item.setPrice(price);
             flog++;
         }
         //如果URL1有修改的话

@@ -43,7 +43,7 @@ public class CreateVvicItemInfo {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 
-            for (int i = 0; i <= 10; i++) {
+            for (int i = 0; i <= 15; i++) {
                 try {
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
@@ -63,31 +63,31 @@ public class CreateVvicItemInfo {
             // 退出浏览器
             driver.quit();
 
-//            Document jsoup = Jsoup.parse(pageSource);
-//            Item item = new Item();
-//            //商品详情对象
-//            //サイト名
-//            item.setSiteName("17网");
-//            //店铺名
-//            Elements storeNameElement = jsoup.select("div.index-shopHeadName-1-4ltjAR80CMhuNF_gszTO span");
-//            String storeName = storeNameElement.first().text();
-//            //店铺名不为空
-//            if (storeName != null || !"".equals(storeName)) {
-//                //ショップ名
-//                item.setShopName(storeName);
-//            }
-//            //新商品code
-//            String itemCode = UUID.randomUUID().toString();
-//            String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-//            item.setItemCode("z" + itemCode1);
-//            //旧商品code
-//            String oldItemCode = jsoup.select("div.index-properiesValue-31gHDGZJNZoaAcprhVh_VL").first().text();
-//            item.setOldItemCode(storeName + "-" + oldItemCode);
-//            //产品名称
-//            String productName = jsoup.select("div.index-titleBox-25FtwMm1mlJ1I5-D4fNk4A span").text();
-//            //把「"」去除
-//            productName = productName.replaceAll("\"", "").replaceAll("”", "").replaceAll(" ", "").replaceAll("　", "");
-//            item.setItemName(productName);
+            Document jsoup = Jsoup.parse(pageSource);
+            Item item = new Item();
+            //商品详情对象
+            //サイト名
+            item.setSiteName("搜款网");
+            //店铺名
+            Elements storeNameElement = jsoup.select("div.slzz-stall-head-name h1");
+            String storeName = storeNameElement.first().text();
+            //店铺名不为空
+            if (storeName != null || !"".equals(storeName)) {
+                //ショップ名
+                item.setShopName(storeName);
+            }
+            //新商品code
+            String itemCode = UUID.randomUUID().toString();
+            String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
+            item.setItemCode("v" + itemCode1);
+            //旧商品code
+            String oldItemCode = jsoup.select("div.detail-info-line dd").first().text();
+            item.setOldItemCode(storeName + "-" + oldItemCode);
+            //产品名称
+            String productName = jsoup.select("div.index-titleBox-25FtwMm1mlJ1I5-D4fNk4A span").text();
+            //把「"」去除
+            productName = productName.replaceAll("\"", "").replaceAll("”", "").replaceAll(" ", "").replaceAll("　", "");
+            item.setItemName(productName);
 //            //产品价格
 //            String purchasePrice1 = "";
 //            String purchasePrice2 = "";
@@ -110,27 +110,27 @@ public class CreateVvicItemInfo {
 //                item.setSalePrice(Integer.parseInt(purchasePrice1));
 //            }
 //
-//            //option1和value1选项
-//            String optionName1 = jsoup.select("div.index-skuContainer-3zeTJNpf3KMb13z5qHXs-3 div.index-detailLabel-2eygBLosYtq2jUH88CzmrH").first().text();
-//            String value1 = "";
-//            Elements option1s = null;
-//            option1s = jsoup.select("div.index-skuContainer-3zeTJNpf3KMb13z5qHXs-3 div.index-root-5aRY4YSSVLDra4GNXddxN");
+            //option1和value1选项
+            String optionName1 = jsoup.select("div.index-skuContainer-3zeTJNpf3KMb13z5qHXs-3 div.index-detailLabel-2eygBLosYtq2jUH88CzmrH").first().text();
+            String value1 = "";
+            Elements option1s = null;
+            option1s = jsoup.select("div.index-skuContainer-3zeTJNpf3KMb13z5qHXs-3 div.index-root-5aRY4YSSVLDra4GNXddxN");
 //            //选项有照片时
-//            if (option1s.size() > 0) {
-//                for (Element option : option1s) {
-//                    Elements title = option.getElementsByAttributeStarting("title");
-//                    //有照片的情况
-//                    value1 += title.get(0).attr("title") + " ";
-//                }
-//                //只有文字时
-//            } else {
-//                option1s = jsoup.select("div.index-skuContainer-3zeTJNpf3KMb13z5qHXs-3 div.index-detailColorLabel-UB46G54BIzgjnOweEpn3l");
-//                for (Element option : option1s) {
-////                Elements title = Jsoup.parse(value1Node.toString()).getElementsByAttributeStarting("title");
-//                    //有照片的情况
-//                    value1 += option.select("div").text() + " ";
-//                }
-//            }
+            if (option1s.size() > 0) {
+                for (Element option : option1s) {
+                    Elements title = option.getElementsByAttributeStarting("title");
+                    //有照片的情况
+                    value1 += title.get(0).attr("title") + " ";
+                }
+                //只有文字时
+            } else {
+                option1s = jsoup.select("div.index-skuContainer-3zeTJNpf3KMb13z5qHXs-3 div.index-detailColorLabel-UB46G54BIzgjnOweEpn3l");
+                for (Element option : option1s) {
+//                Elements title = Jsoup.parse(value1Node.toString()).getElementsByAttributeStarting("title");
+                    //有照片的情况
+                    value1 += option.select("div").text() + " ";
+                }
+            }
 //            //把最后的空格去除
 ////        value1 = value1.substring(0, value1.lastIndexOf(" "));
 //            item.setOption1(optionName1);

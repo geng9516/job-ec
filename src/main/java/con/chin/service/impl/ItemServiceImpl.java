@@ -92,16 +92,16 @@ public class ItemServiceImpl implements ItemService {
             item.setUpdatetime(now);
         }
         //商品情報更新
-        if (oldItem.getFlog() != 0 || oldItem.getFlog() != 5) {
-            itemMapper.updateItem(item);
-            //结束时间
-            long end = System.currentTimeMillis();
-            System.out.println("更新一件产品:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
-        } else {
-            //结束时间
-            long end = System.currentTimeMillis();
-            System.out.println("不需要更新:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
-        }
+//        if (oldItem.getFlog() != 0 || oldItem.getFlog() != 5) {
+        itemMapper.updateItem(item);
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("更新一件产品:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
+//        } else {
+//            //结束时间
+//            long end = System.currentTimeMillis();
+//            System.out.println("不需要更新:    " + oldItem.getItemCode() + "   时间为 : " + now + "    耗时：" + (end - start) + " ms");
+//        }
 
         //为了更新的话不需要更新照片
         return -1;
@@ -253,6 +253,10 @@ public class ItemServiceImpl implements ItemService {
         //卖价
         if (item.getSalePrice() != null) {
             oldItem.setSalePrice(item.getSalePrice());
+        }
+        //原价
+        if (item.getPrice() != null) {
+            oldItem.setPrice(item.getPrice());
         }
         //进货url1
         if (item.getUrl1() != null && !"".equals(item.getUrl1())) {

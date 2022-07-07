@@ -90,8 +90,7 @@
             url5=#{url5},
             Caption=#{caption},
             explanation=#{explanation},
-            updatetime=#{updatetime},
-            flog=#{flog}
+            updatetime=#{updatetime}
         where oldItemCode = #{oldItemCode}
 
     </update>
@@ -284,7 +283,7 @@
 
         select *
         from t_item
-        where olditemcode = #{oldItemCode}
+        where olditemcode = #{oldItemCode} and flog != 3
 
     </select>
 
@@ -393,7 +392,7 @@
     <delete id="deleteItem">
         delete
         from t_item
-        where itemcode = #{itemCode}
+        where itemcode = #{itemCode}setItemInfo
     </delete>
 
     <!--多个删除-->
@@ -413,6 +412,7 @@
             purchaseprice=#{purchasePrice},
             delivery=#{delivery},
             saleprice=#{salePrice},
+            price=#{price},
             itempath=#{itemPath},
             explanation=#{explanation},
             itemCategoryCode=#{itemCategoryCode},
