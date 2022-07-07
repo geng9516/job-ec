@@ -205,18 +205,22 @@
                                              onclick="setItemsFlog(3)">一括削除準備へ</button>
                                 <button class="ui button mini ui-corner-left red"
                                         onclick="setItemsFlog(1)">一括編集済へ</button>
+                                <button class="ui button mini ui-corner-left yellow"
+                                        onclick="setItemsFlog(2)">一括一時保管へ</button>
                             </span>
                             <span th:case="${1}">
                                 &emsp;<button class="ui button mini ui-corner-left"
                                               onclick="setItemsFlog(3)">削除準備</button>
-                                <button class="ui button mini ui-corner-left red"
-                                        onclick="setItemsFlog(2)">一括CSV作成準備へへ</button>
+                                <button class="ui button mini ui-corner-left yellow"
+                                        onclick="setItemsFlog(2)">一括一時保管へ</button>
                             </span>
                             <span th:case="${2}">
                                 &emsp;<button class="ui button mini ui-corner-left"
                                               onclick="setItemsFlog(3)">一括削除準備へ</button>
                                 <button class="ui button mini ui-corner-left red"
                                         onclick="setItemsFlog(1)">一括編集済へ</button>
+                                <button class="ui button mini ui-corner-left pink"
+                                        onclick="setItemsFlog(0)">一括新規アイテムへ</button>
                             </span>
                             <span th:case="${3}">
                                 &emsp;<button class="ui button mini ui-corner-left teal"
@@ -225,8 +229,8 @@
                             </span>
                             <span th:case="${5}">
                                 <button class="ui button mini ui-corner-left" onclick="setItemsFlog(3)">一括削除準備へ</button>
-                                <button class="ui button mini ui-corner-left red"
-                                        onclick="setItemsFlog(0)">一括未ダウンロードへ</button>
+                                <button class="ui button mini ui-corner-left pink"
+                                        onclick="setItemsFlog(0)">一括新規アイテムへ</button>
                             </span>
                              <span th:case="*">
                                 &emsp;<button class="ui button mini ui-corner-left"
