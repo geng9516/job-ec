@@ -62,7 +62,7 @@ public class ItemServiceImpl implements ItemService {
             //设置产品种类番号(条件はpathとサイト名)
             Map<String, String> map = new HashMap<>();
             map.put("itempath", item.getItemPath());
-            map.put("shopName", item.getSiteName());
+            map.put("kinds", item.getSiteName());
             Integer itemCategorCode = itemCategoryMapper.findItemCategoryByPath(map);
             item.setItemCategoryCode(itemCategorCode);
         } else {
@@ -394,7 +394,7 @@ public class ItemServiceImpl implements ItemService {
                 //设置产品种类番号(条件はpathとサイト名)
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("itempath", itemPath);
-                map1.put("shopName", "yahoo");
+                map1.put("kinds", "yahoo");
                 Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map);
                 item.setItemCategoryCode(itemCategorCode);
                 //
