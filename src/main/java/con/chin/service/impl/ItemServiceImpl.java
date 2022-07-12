@@ -646,8 +646,10 @@ public class ItemServiceImpl implements ItemService {
                 item.setUpdatetime(now);
                 String itemCode = UUID.randomUUID().toString();
                 String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
+                String oldItemCode = "gengye-" + itemCode1;
+                item.setOldItemCode(oldItemCode);
                 item.setItemCode("l" + itemCode1);
-//            item.setFlog(1);  不需要修改
+                item.setFlog(0);
                 item.setCreated(now);
                 item.setEndDate("2099-12-31 23:59:59");
                 return itemMapper.saveItem(item);
@@ -745,6 +747,10 @@ public class ItemServiceImpl implements ItemService {
 
             if (item.getItemCategoryCode() != null) {
                 oldItem.setItemCategoryCode(item.getItemCategoryCode());
+            }
+
+            if(oldItem.getFlog() == null){
+                oldItem.setFlog(0);
             }
             items.add(oldItem);
         }

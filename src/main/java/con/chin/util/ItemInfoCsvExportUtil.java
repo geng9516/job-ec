@@ -96,7 +96,7 @@ public class ItemInfoCsvExportUtil {
             fos.write(uft8bom);
             //设置csv文件表头
             String[] strings = {"path", "name", "code", "sub-code", "price", "member-price", "options",
-                    "headline", "caption", "explanation", "relevant-links", "taxable", "point-code",
+                    "headline", "caption", "explanation", "relevant-links", "ship-weight", "taxable", "point-code",
                     "meta-desc", "template", "sale-limit", "brand-code", "delivery", "astk-code", "condition",
                     "product-category", "spec1", "display", "sort", "sort_priority", "sp-additional",
                     "lead-time-instock", "lead-time-outstock", "keep-stock", "postage-set",
@@ -112,7 +112,7 @@ public class ItemInfoCsvExportUtil {
                 //开始时间
                 long start1 = System.currentTimeMillis();
                 //保存每一列的数据使用
-                String[] string = new String[33];
+                String[] string = new String[34];
                 //option1时空值是不下载给itemdeflog赋值0(代表还需编辑)
                 if (item.getOption1() == null || "".equals(item.getOption1())) {
                     //数据库中的flog字段赋值0
@@ -274,28 +274,29 @@ public class ItemInfoCsvExportUtil {
                 string[8] = "";
                 string[9] = explanation;     //商品情報 explanation 暂时不用
                 string[10] = (item.getRelevantLinks() != null && !"".equals(item.getRelevantLinks()) ? item.getRelevantLinks() : "");      //おすすめ商品 relevant-links
-                string[11] = "1";      //課税対象 taxable
-                string[12] = "1";     //ポイント倍率 point-code
-                string[13] = metaDesc;//meta-desc META descriptionには、商品ページに関連するストアのキーワードや説明文を、全角80文字（半角160文字）以内で入力します。HTMLは使用できません。この項目に入力した文言は、さまざまな検索サイトでの検索結果の表示に使用されます。
-                string[14] = "IT02";      //使用中のテンプレート template
-                string[15] = "";     //購入数制限 sale-limit
-                string[16] = "";     //brand-code
-                string[17] = "3";      //送料無料の設定 delivery
-                string[18] = "0";      //旧：きょうつく、あすつく astk-code
-                string[19] = "0";      //商品の状態 condition
-                string[20] = String.valueOf(itemCategoryCode);      //プロダクトカテゴリ product-category
-                string[21] = spec1;      //スペック1
-                string[22] = "1";      //ページの公開/非公開 display
-                string[23] = "1";      //旧：商品表示順序 sort
-                string[24] = "";      //商品表示優先度 sort_priority
-                string[25] = "";
-                string[26] = "1";      //発送日情報 lead-time-instock
-                string[27] = "4000";      //発送日情報 lead-time-outstock
-                string[28] = "1";      //購入者キャンセル在庫取り扱い keep-stock
-                string[29] = "1";      //配送グループ postage-set
-                string[30] = "0.1";      //軽減税率コード taxrate-type
-                string[31] = "";     //商品タグ item-tag
-                string[32] = "0";            //荷扱い情報 pick-and-delivery-transport-rule-type
+                string[11] = "";      // 重量設定
+                string[12] = "1";      //課税対象 taxable
+                string[13] = "1";     //ポイント倍率 point-code
+                string[14] = metaDesc;//meta-desc META descriptionには、商品ページに関連するストアのキーワードや説明文を、全角80文字（半角160文字）以内で入力します。HTMLは使用できません。この項目に入力した文言は、さまざまな検索サイトでの検索結果の表示に使用されます。
+                string[15] = "IT02";      //使用中のテンプレート template
+                string[16] = "";     //購入数制限 sale-limit
+                string[17] = "";     //brand-code
+                string[18] = "3";      //送料無料の設定 delivery
+                string[19] = "0";      //旧：きょうつく、あすつく astk-code
+                string[20] = "0";      //商品の状態 condition
+                string[21] = String.valueOf(itemCategoryCode);      //プロダクトカテゴリ product-category
+                string[22] = spec1;      //スペック1
+                string[23] = "1";      //ページの公開/非公開 display
+                string[24] = "1";      //旧：商品表示順序 sort
+                string[25] = "";      //商品表示優先度 sort_priority
+                string[26] = "";
+                string[27] = "1";      //発送日情報 lead-time-instock
+                string[28] = "4000";      //発送日情報 lead-time-outstock
+                string[29] = "1";      //購入者キャンセル在庫取り扱い keep-stock
+                string[30] = "1";      //配送グループ postage-set
+                string[31] = "0.1";      //軽減税率コード taxrate-type
+                string[32] = "";     //商品タグ item-tag
+                string[33] = "0";            //荷扱い情報 pick-and-delivery-transport-rule-type
                 //個別商品コード值去除
                 subCode = "";
                 //個別商品コード尾数初始值归1
