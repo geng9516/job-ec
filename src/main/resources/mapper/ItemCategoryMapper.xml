@@ -7,12 +7,12 @@
 <mapper namespace="con.chin.mapper.ItemCategoryMapper">
 
     <!--    检索path-->
-    <select id="findItemCategoryByPath" resultType="integer">
+    <select id="findItemCategoryByPath" resultType="Integer">
 
         select productcategory
         from t_itemcategory
         where itempath = #{itempath}
-          and kinds = #{shopName}
+          and kinds = #{kinds}
 
     </select>
 
