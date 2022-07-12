@@ -1,8 +1,10 @@
 package con.chin.controller;
 
 import con.chin.pojo.Item;
+import con.chin.pojo.ItemCategory;
 import con.chin.pojo.OrderInfo;
 import con.chin.pojo.OrderItemInfo;
+import con.chin.service.ItemCategoryService;
 import con.chin.service.ItemService;
 import con.chin.service.impl.FileImportServiceImpl;
 import con.chin.util.ImportCsvUtil;
@@ -24,6 +26,9 @@ public class CsvFileImportController {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private ItemCategoryService categoryService;
 
     //订单信息csv上传
     @PostMapping("/orderCsvImport")
@@ -88,9 +93,6 @@ public class CsvFileImportController {
 
         List<Item> itemList = ImportCsvUtil.readItemInfoCSV(csvFile.getPath());
         //开始时间
-//        long start1 = System.currentTimeMillis();
-//        for (Item item : itemList) {
-        //开始时间
         long start2 = System.currentTimeMillis();
         int count = itemService.updateItemByCsv(itemList);
         long end = System.currentTimeMillis();
@@ -98,24 +100,26 @@ public class CsvFileImportController {
             System.out.println("从CSV文件中保存了产品  ID为:       " + counts + "件完成     耗时：" + (end - start2) + " ms");
             redirectAttributes.addFlashAttribute("message", itemList.size() + "件データアップロード," + Math.abs(updateSuccessCount) + "件アップデート成功しました。");
         }
-//            if (count > 0) {
-//                saveSuccessCount += count;
-//            } else {
-//                updateSuccessCount += count;
-//            }
-//            counts = saveSuccessCount + Math.abs(updateSuccessCount);
-        //结束时间
-//            long end = System.currentTimeMillis();
-//            System.out.println("从CSV文件中保存了产品  ID为:  " + item.getItemCode() + "     " + counts + "件完成     耗时：" + (end - start2) + " ms");
-//        }
-        //结束时间
-//        long end = System.currentTimeMillis();
-//        System.out.println("从CSV文件导入产品数据,保存完成    耗时：" + (end - start1) / 1000 + " 秒");
-        //前端传消息
-//        redirectAttributes.addFlashAttribute("message", saveSuccessCount + "件データアップロード," + Math.abs(updateSuccessCount) + "件アップデート成功しました。");
-        //刷新order数据界面
         return "redirect:/iteminfo";
     }
+
+
+    //productCategory上传
+    @PostMapping("/productCategory")
+    public String productCategory(@RequestParam("productCategory") MultipartFile file,
+                                    RedirectAttributes redirectAttributes
+    ) {
+
+        //上传文件的路径
+        File csvFile = ImportCsvUtil.uploadFile(file);
+        //从csv中读取
+        List<ItemCategory> itemCategoryList = ImportCsvUtil.readProductCategoryInfoCSV(csvFile.getPath());
+
+        categoryService.updateItemCategory(itemCategoryList);
+
+        return "redirect:/config";
+    }
+
 
 
 }

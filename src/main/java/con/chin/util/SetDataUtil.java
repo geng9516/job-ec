@@ -414,4 +414,17 @@ public class SetDataUtil {
     }
 
 
+    public static String getRandom26Alphabet(){
+        //需要生成几位
+        int n = 5;
+        //最终生成的字符串
+        String str = "";
+        for (int i = 0; i < n; i++) {
+            str = str + (char)(Math.random()*26+'a');
+        }
+        return str;
+
+    }
+
+
 }

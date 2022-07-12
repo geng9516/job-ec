@@ -11,15 +11,23 @@ import javax.persistence.Id;
 @Data
 public class ItemCategory {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;//id
+
+    @Id
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     private String itempath;//カテゴリー名
 
     private Integer productCategory;//カテゴリーコード
 
     private String kinds;//ECサイト
+
+    private String categoryAlias;//カテゴリー别名
 
 
 }

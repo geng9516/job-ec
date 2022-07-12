@@ -819,7 +819,7 @@ public class ItemInfoController {
             //设置产品种类番号(条件はpathとサイト名)
             Map<String, String> map = new HashMap<>();
             map.put("itempath", itemPath);
-            map.put("shopName", "yahoo");
+            map.put("kinds", "yahoo");
             Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map);
             item.setItemCategoryCode(itemCategorCode);
             //

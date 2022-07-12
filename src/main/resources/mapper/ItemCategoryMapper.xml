@@ -6,15 +6,98 @@
 
 <mapper namespace="con.chin.mapper.ItemCategoryMapper">
 
-
-
-
+    <!--    检索path-->
     <select id="findItemCategoryByPath" resultType="integer">
 
-        select productcategory from t_itemcategory where itempath = #{itempath} and kinds = #{shopName}
+        select productcategory
+        from t_itemcategory
+        where itempath = #{itempath}
+          and kinds = #{shopName}
 
     </select>
 
+    <!--    检索path-->
+    <select id="selectItemCategory" resultType="string">
+
+        select itempath
+        from t_itemcategory
+        where productcategory = #{productCategory}
+          and itempath = #{itempath}
+          and kinds = #{kinds}
+
+    </select>
+
+    <!--    检索path-->
+    <select id="selectItemCategoryByLikePath" resultType="con.chin.pojo.ItemCategory">
+
+        select *
+        from t_itemcategory
+        where itempath like concat('%', #{itempath}, '%')
+          and kinds = #{kinds}
+
+    </select>
+
+    <!--    检索by别名-->
+    <select id="selectItemCategoryByCategoryAlias" resultType="con.chin.pojo.ItemCategory">
+
+        select *
+        from t_itemcategory
+        where categoryAlias like concat('%', #{categoryAlias}, '%')
+
+    </select>
+
+    <!--    保存path-->
+    <insert id="saveItemCategory">
+
+        insert into t_itemcategory (itempath, productcategory, kinds, categoryAlias)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.itempath},#{item.productCategory},#{item.kinds},#{item.categoryAlias})
+        </foreach>
+
+    </insert>
+
+    <!--    更新path-->
+    <update id="updateItemCategory">
+        update t_itemcategory
+        set itempath = elt(FIELD(itempath,
+        <foreach collection="list" item="item" separator=",">
+            #{item.itempath}
+        </foreach>
+        ),
+        <foreach collection="list" item="item" separator=",">
+            #{item.itempath}
+        </foreach>
+        ),
+        kinds = elt(FIELD(itempath,
+        <foreach collection="list" item="item" separator=",">
+            #{item.itempath}
+        </foreach>
+        ),
+        <foreach collection="list" item="item" separator=",">
+            #{item.kinds}
+        </foreach>
+        ),
+        categoryAlias = elt(FIELD(itempath,
+        <foreach collection="list" item="item" separator=",">
+            #{item.itempath}
+        </foreach>
+        ),
+        <foreach collection="list" item="item" separator=",">
+            #{item.categoryAlias}
+        </foreach>
+        )
+        where itempath in(
+        <foreach collection="list" item="item" separator=",">
+            #{item.itempath}
+        </foreach>
+        ) and productcategory in(
+        <foreach collection="list" item="item" separator=",">
+            #{item.productCategory}
+        </foreach>
+        );
+
+    </update>
 
 
 </mapper>

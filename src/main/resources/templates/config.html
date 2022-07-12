@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>数据爬取</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+
+    <!--    加载表头-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#meru").load("meru");
+        });
+
+        //上传orderInfocsv
+        function csvImport() {
+            $("#productCategory").removeAttr("action");
+            $("#productCategory").attr("method", "post");
+            $("#productCategory").attr("enctype", "multipart/form-data");
+            $("#productCategory").attr('action', "/productCategory");
+            $("#productCategory").submit();
+        }
+
+    </script>
+    <!--    表头固定-->
+    <style>
+
+        div#meru {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+    </style>
+</head>
+<body>
+<!--表头-->
+<div>
+    <div style="width:100%;height:60px" id="meru"></div>
+    <br>
+    <br>
+    <br>
+
+    <div style="width:90%" class='ui container'>
+        <div class="ui right aligned category search">
+            <table>
+                <tr>
+<!--                    <td>-->
+<!--                        <form action="">-->
+<!--                            <div class="ui icon input">-->
+<!--                                <input class="prompt" type="text" name="searchConditions" placeholder="itemを検索">&emsp;-->
+<!--                                <button class="ui icon button" type="submit">-->
+<!--                                    <i class="search icon"></i>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </td>-->
+                    <td>
+                        <!--csv文件上传-->
+                        <form action="" method="" id="productCategory">
+                            <div>
+                                <input class="field" type="file" name="productCategory"
+                                       required accept=".csv"><br>
+                                <button id="bt-import-csv" onclick="csvImport()">アップロード</button>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class='ui container' align="center">
+            <!--/*@thymesVar id="message" type=""*/-->
+            <p style="color: brown" id="message" th:text="${message}"></p>
+        </div>
+        <div class="results"></div>
+        <br>
+        <br>
+        <!--分页页面顶部-->
+
+        <br>
+        <div>
+            <table>
+                <tr>
+                    <table class="ui celled table">
+                        <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" value="">&emsp;&emsp;
+                                <a style="color: dimgrey"><i class="download icon"></i></a>
+                            </th>
+                            <th>
+                                <div class="title">操作</div>
+                            </th>
+                            <th>
+                                <div class="title">基本情報</div>
+                            </th>
+                            <th>
+                                <div class="title">明細</div>
+                            </th>
+                            <th>
+                                <div class="title">注文時間/支払い時間/更新時間</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </tr>
+
+            </table>
+        </div>
+        <br>
+        <!--分页页面顶部-->
+
+        <br>
+        <br>
+        <br>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</body>
+</html>

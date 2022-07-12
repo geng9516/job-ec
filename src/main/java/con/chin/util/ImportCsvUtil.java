@@ -6,6 +6,7 @@ import cn.hutool.core.text.csv.CsvReader;
 import cn.hutool.core.text.csv.CsvRow;
 import cn.hutool.core.text.csv.CsvUtil;
 import con.chin.pojo.Item;
+import con.chin.pojo.ItemCategory;
 import con.chin.pojo.OrderInfo;
 import con.chin.pojo.OrderItemInfo;
 import org.apache.commons.collections.map.HashedMap;
@@ -405,7 +406,7 @@ public class ImportCsvUtil {
                             if (value == null || "".equals(value)) {
                                 continue;
                             }
-                            if(value.contains("商品到着後レビューと評価を書くと")){
+                            if (value.contains("商品到着後レビューと評価を書くと")) {
                                 continue;
                             }
                             //value值进行去重
@@ -500,6 +501,84 @@ public class ImportCsvUtil {
         }
         //返回list
         return itemList;
+
+    }
+
+    //把产品信息加到item对象中
+    public static List<ItemCategory> readProductCategoryInfoCSV(String filePath) {
+
+        CsvReader reader = CsvUtil.getReader();
+        CsvData readData = reader.read(FileUtil.file(filePath), Charset.forName("Shift-JIS"));
+        List<CsvRow> rows = readData.getRows();
+
+        List<String> headsplit = rows.get(0).getRawList();
+
+        Map<String, Integer> stringMap = new HashedMap();
+        for (int i = 0; i < headsplit.size(); i++) {
+            switch (headsplit.get(i)) {
+                case "itempath":
+                    stringMap.put("itempath", i);
+                    break;
+                case "productcategory":
+                    stringMap.put("productcategory", i);
+                    break;
+                case "kinds":
+                    stringMap.put("kinds", i);
+                    break;
+                case "categoryalias":
+                    stringMap.put("categoryalias", i);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        List<ItemCategory> itemCategoryList = new ArrayList<>();
+        for (int i = 1; i < rows.size(); i++) {
+            ItemCategory itemCategory = new ItemCategory();
+            List<String> rawList = rows.get(i).getRawList();
+            for (String key : stringMap.keySet()) {
+
+                switch (key) {
+                    case "itempath":
+                        String itemPath = rawList.get(stringMap.get(key));
+                        if (itemPath != null && !"".equals(itemPath)) {
+                            itemPath = itemPath.replaceAll(" >", ":").replaceAll("> ", ":").replaceAll(">", " ");
+                            itemCategory.setItempath(itemPath);
+                        }else {
+                            itemCategory.setItempath(null);
+                        }
+                        break;
+                    case "productcategory":
+                        String productCategory = rawList.get(stringMap.get(key));
+                        if (productCategory != null && !"".equals(productCategory)) {
+                            itemCategory.setProductCategory(Integer.parseInt(productCategory));
+                        }else {
+                            itemCategory.setProductCategory(Integer.parseInt(productCategory));
+                        }
+                        break;
+                    case "kinds":
+                        String kinds = rawList.get(stringMap.get(key));
+                        if (kinds != null && !"".equals(kinds)) {
+                            itemCategory.setKinds(kinds);
+                        }else {
+                            itemCategory.setKinds(null);
+                        }
+                        break;
+                    case "categoryalias":
+                        String categoryAlias = rawList.get(stringMap.get(key));
+                        if (categoryAlias != null && !"".equals(categoryAlias)) {
+                            itemCategory.setCategoryAlias(categoryAlias);
+                        }else {
+                            itemCategory.setCategoryAlias(null);
+                        }
+                        break;
+                }
+            }
+            itemCategoryList.add(itemCategory);
+        }
+        //返回list
+        return itemCategoryList;
 
     }
 }
