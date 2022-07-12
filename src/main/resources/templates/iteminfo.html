@@ -515,6 +515,13 @@
                                     </div>
                                 </tr>
                                 <tr>
+                                        カテゴリーNO：
+                                    <span class="ui input mini">
+                                        <input name="categoryCode"
+                                               th:value="${item.getItemCategoryCode()}" size="6" readonly disabled>
+                                    </span>
+                                </tr>
+                                <tr>
                                     <div>元URL：<a th:href="${item.getUrl5()}" th:target="_blank"><i
                                             class="eye icon"></i>確認</a>
                                     </div>
