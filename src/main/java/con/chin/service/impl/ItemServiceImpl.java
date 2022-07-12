@@ -395,7 +395,7 @@ public class ItemServiceImpl implements ItemService {
                 Map<String, String> map1 = new HashMap<>();
                 map1.put("itempath", itemPath);
                 map1.put("kinds", "yahoo");
-                Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map);
+                Integer itemCategorCode = itemCategoryService.findItemCategoryByPath(map1);
                 item.setItemCategoryCode(itemCategorCode);
                 //
 //            if (itemFlog != null && !"".equals(itemFlog)) {
