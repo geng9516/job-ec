@@ -7,6 +7,9 @@ import java.util.Map;
 
 public interface ItemCategoryService {
 
+    //检索Allpath
+    List<ItemCategory> findAllItemPath();
+
     //检索path
     Integer findItemCategoryByPath(Map<String,String> map);
 
@@ -18,6 +21,9 @@ public interface ItemCategoryService {
 
     //检索by别名
     List<ItemCategory> selectItemCategoryByCategoryAlias(String categoryAlias);
+
+    //检索别名
+    String selectCategoryAliasByItemPath(String itemPath);
 
     //保存path
     Integer saveItemCategory(List<ItemCategory> categoryList);

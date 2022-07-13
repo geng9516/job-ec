@@ -3,17 +3,38 @@ package con.chin.util.createItemInfo;
 import con.chin.pojo.Item;
 import con.chin.pojo.ItemKeyword;
 import con.chin.pojo.SiteShop;
+import con.chin.service.ItemCategoryService;
+import con.chin.service.ItemService;
+import con.chin.util.ItemInfoCsvExportUtil;
 import con.chin.util.SetDataUtil;
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@Component
 public class CreateYahooItemInfo {
+
+    private static CreateYahooItemInfo createYahooItemInfo;
+
+    //为了能在util类中链接数据库
+    @PostConstruct
+    public void init() {
+        createYahooItemInfo = this;
+    }
+
+    @Autowired
+    private ItemService itemService;
+
+    @Autowired
+    ItemCategoryService itemCategoryService;
 
     public static void saveYahooItemInfo(Page page) {
 
@@ -33,15 +54,6 @@ public class CreateYahooItemInfo {
             //ショップ名
             item.setShopName(storeName);
         }
-        //新商品code
-        String itemCode = UUID.randomUUID().toString();
-        String itemCode1 = itemCode.substring(itemCode.lastIndexOf("-") + 1, itemCode.length() - 1);
-        item.setItemCode("e" + itemCode1);
-        //旧商品code
-        List<Selectable> nodes = html.css("div#itm_cat li").nodes();
-        Selectable selectable1 = nodes.get(nodes.size() - 1);
-        String oldItemCode = selectable1.css("div.elRowData p", "text").toString();
-        item.setOldItemCode(oldItemCode);
         //path取得
         String path = Jsoup.parse(html.css("div.mdItemSubInformation div.elRowData li.elListItem").nodes().get(1).css("ul").toString()).text();
         path = path.replace(" ", ":");
@@ -49,6 +61,28 @@ public class CreateYahooItemInfo {
             path = "ベビー、キッズ、マタニティ:マタニティウエア:パンツ、デニム";
         }
         item.setItemPath(path);
+        //新商品code
+        String itemCode1 = null;
+        String itemCode = UUID.randomUUID().toString();
+        //itempath定义产品名字
+        //paht存在时
+        String categoryAlias = createYahooItemInfo.itemCategoryService.selectCategoryAliasByItemPath(path);
+        if(categoryAlias != null && !"".equals(categoryAlias)){
+            itemCode1 = itemCode.substring(0, itemCode.indexOf("-") - 1);
+            //"e" 是表示在yahoo下载的产品
+            itemCode1 = categoryAlias + "-" + "e" + itemCode1;
+            item.setItemCode(itemCode1);
+        }else {
+            //不存在时 b8f7为头
+            itemCode1 = "b8f7" + "-" + "e" + itemCode1;
+        }
+
+
+        //旧商品code
+        List<Selectable> nodes = html.css("div#itm_cat li").nodes();
+        Selectable selectable1 = nodes.get(nodes.size() - 1);
+        String oldItemCode = selectable1.css("div.elRowData p", "text").toString();
+        item.setOldItemCode(oldItemCode);
         //产品名称
         String productName = html.css("div.mdItemName p.elName", "text").toString();
         //把「"」去除

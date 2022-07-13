@@ -1,6 +1,8 @@
 package con.chin.controller;
 
 import con.chin.pojo.Item;
+import con.chin.pojo.ItemCategory;
+import con.chin.service.ItemCategoryService;
 import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
 import con.chin.task.ItemProcessor;
@@ -25,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +38,9 @@ public class CrawlerController {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    ItemCategoryService itemCategoryService;
 
     @GetMapping("/")
     public String index(Model model, HttpSession httpSession) {
@@ -373,19 +379,23 @@ public class CrawlerController {
     public String setDate() {
         //开始时间
         long start = System.currentTimeMillis();
-        List<String> stringList = new ArrayList<>();
 
-        File file = new File("/Users/geng9516/Documents/EC関連/21_写真保存");
-        File[] files = file.listFiles();
-        for (File file1 : files) {
-            if (file1.getName().contains("E")) {
-                stringList.add(file1.getPath());
-            }
-        }
+        List<Item> allItems = itemService.findAll();
 
-        for (String s : stringList) {
-            File file1 = new File(s);
-//            ItemPhotoCopyUtil.creadPhotoFolder(file1.listFiles(),file.getPath(),file1.getName().toLowerCase());
+        List<Item> itemList = new ArrayList<>();
+        for (Item item : allItems) {
+            String itemCategory = item.getItemPath();
+            String itemCode1 = null;
+            //itempath定义产品名字
+            String categoryAlias = itemCategoryService.selectCategoryAliasByItemPath(itemCategory);
+            //是否已经有这个path类别的产品存在 存在itemcode为这个类别产品中的code最后一位
+            String itemCode = UUID.randomUUID().toString();
+            itemCode1 = itemCode.substring(0,itemCode.indexOf("-")-1);
+
+            itemCode1 = categoryAlias + "-" + itemCode1;
+
+            System.out.println(itemCode1);
+
         }
 
 

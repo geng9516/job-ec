@@ -16,6 +16,7 @@ public class Item implements Serializable {
     private String siteName;//サイト名
     private String shopName;//ショップ名
     private String itemCode;//アイテムコード
+    private String newItemCode;
     private String oldItemCode;//古いアイテムコード
     private String itemPath;//カテゴリーパス
     private Integer itemCategoryCode;//カテゴリーコード

@@ -6,6 +6,14 @@
 
 <mapper namespace="con.chin.mapper.ItemCategoryMapper">
 
+    <!--    检索Allpath-->
+    <select id="findAllItemPath" resultType="Integer">
+
+        select productcategory
+        from t_itemcategory
+
+    </select>
+
     <!--    检索path-->
     <select id="findItemCategoryByPath" resultType="Integer">
 
@@ -45,6 +53,16 @@
         where categoryAlias like concat('%', #{categoryAlias}, '%')
 
     </select>
+
+    <!--    检索别名-->
+    <select id="selectCategoryAliasByItemPath" resultType="string">
+
+        select categoryAlias
+        from t_itemcategory
+        where itempath like concat('%', #{itemPath}, '%')
+
+    </select>
+
 
     <!--    保存path-->
     <insert id="saveItemCategory">

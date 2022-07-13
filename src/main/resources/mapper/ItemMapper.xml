@@ -283,7 +283,8 @@
 
         select *
         from t_item
-        where olditemcode = #{oldItemCode} and flog != 3
+        where olditemcode = #{oldItemCode}
+          and flog != 3
 
     </select>
 
@@ -565,6 +566,13 @@
         order by updatetime desc
 
     </select>
+
+<!--&lt;!&ndash;    检索newitemcode&ndash;&gt;-->
+<!--    <select id="selectItemCodeByDesc" resultType="Integer">-->
+<!--        SELECT count(newitemcode)-->
+<!--        from t_item-->
+<!--        WHERE itemPath like concat('%',#{itemPath},'%')-->
+<!--    </select>-->
 
     <!--    ###################数据错误时修改用########################-->
 

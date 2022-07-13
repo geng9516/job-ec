@@ -18,6 +18,12 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
     @Autowired
     private ItemCategoryMapper itemCategoryMapper;
 
+    //检索Allpath
+    @Override
+    public List<ItemCategory> findAllItemPath() {
+        return itemCategoryMapper.findAllItemPath();
+    }
+
     //检索path
     @Override
     public Integer findItemCategoryByPath(Map<String, String> map) {
@@ -40,6 +46,12 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
     @Override
     public List<ItemCategory> selectItemCategoryByCategoryAlias(String categoryAlias) {
         return itemCategoryMapper.selectItemCategoryByCategoryAlias(categoryAlias);
+    }
+
+    //检索别名
+    @Override
+    public String selectCategoryAliasByItemPath(String itemPath) {
+        return itemCategoryMapper.selectCategoryAliasByItemPath(itemPath);
     }
 
     //保存path

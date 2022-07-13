@@ -46,7 +46,7 @@ function setEcSite() {
     $("#setEcSite").submit();
 }
 
-function selectItemPathFlog() {
+function selectItemByItemPath() {
     $("#selectItemPathFlog").removeAttr("action");
     $("#selectItemPathFlog").attr("method", "post");
     $("#selectItemPathFlog").attr('action', "/selectItemPathFlog");
