@@ -77,8 +77,6 @@ public interface ItemService {
     //下载查询结果集
     List<Item> downloadFindItemBysearchConditions(Map<String, String> map);
 
-    //检索newitemcode
-    Integer selectItemCodeByDesc(String itemPath);
 
     //---------------------------------------------------------------------------------------------------------
 

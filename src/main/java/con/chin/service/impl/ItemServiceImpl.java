@@ -792,11 +792,6 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.downloadFindItemBysearchConditions(map);
     }
 
-    //检索newitemcode
-    @Override
-    public Integer selectItemCodeByDesc(String itemPath) {
-        return itemMapper.selectItemCodeByDesc(itemPath);
-    }
 
 
 //---------------------------------------------------------------------------------------------------------
