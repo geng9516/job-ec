@@ -106,195 +106,221 @@ public class DataExportUtil {
             writeLine.add(strings);
             for (Item item : itemList) {
 
-                //option1不为空时
-                if (item.getOption1() != null || !"".equals(item.getOption1())) {
-                    String[] value1 = item.getValue1().split(" ");
-                    for (String optionValue : value1) {
-                        //追加金保存用
-                        String optionCharge = null;
-                        //追加金有的话
-                        if (optionValue.contains("（+")) {
-                            optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
-                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                try {
+                    //option1不为空时
+                    String option1 = item.getOption1();
+                    if (option1 != null && !"".equals(option1)) {
+                        if (option1.contains("円")) {
+                            option1 = option1.replaceAll("円", "");
                         }
-                        //保存每一列的数据使用
-                        String[] column = new String[21];
-                        column[0] = item.getItemCode(); //itemcode
-                        column[1] = ""; //sub-code
-                        column[2] = item.getItemName(); //name
-                        column[3] = item.getOption1();  //option1名
-                        column[4] = optionValue; //option-value-1
-                        column[5] = "0"; //unselectable-1
-                        column[6] = ""; //spec-id-1
-                        column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
-                        column[9] = ""; //option-name-2
-                        column[10] = ""; //option-value-2
-                        column[11] = ""; //spec-id-2
-                        column[12] = ""; //spec-value-id-2
-                        column[13] = ""; //etc-options
-                        column[14] = ""; //lead-time-instock
-                        column[15] = ""; //lead-time-outstock
-                        column[16] = ""; //sub-code-img1
-                        column[17] = ""; //main-flag
-                        column[18] = ""; //exist-flag
-                        column[19] = ""; //pick-and-delivery-code
-                        column[20] = ""; //yamato-ff-flag
-                        //一行数据
-                        writeLine.add(column);
-                    }
-                }
-                //option2不为空时
-                if (item.getOption2() != null && !"".equals(item.getOption2())) {
-                    String[] value2 = item.getValue2().split(" ");
-                    for (String optionValue : value2) {
-                        //追加金保存用
-                        String optionCharge = null;
-                        //追加金有的话
-                        if (optionValue.contains("（+")) {
-                            optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
-                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                        String[] value1 = option1.split(" ");
+                        for (String optionValue : value1) {
+                            //追加金保存用
+                            String optionCharge = null;
+                            //追加金有的话
+                            if (optionValue.contains("（+")) {
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                            }
+                            //保存每一列的数据使用
+                            String[] column = new String[21];
+                            column[0] = item.getItemCode(); //itemcode
+                            column[1] = ""; //sub-code
+                            column[2] = item.getItemName(); //name
+                            column[3] = item.getOption1();  //option1名
+                            column[4] = optionValue; //option-value-1
+                            column[5] = "0"; //unselectable-1
+                            column[6] = ""; //spec-id-1
+                            column[7] = ""; //spec-value-id-1
+                            column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
+                            column[9] = ""; //option-name-2
+                            column[10] = ""; //option-value-2
+                            column[11] = ""; //spec-id-2
+                            column[12] = ""; //spec-value-id-2
+                            column[13] = ""; //etc-options
+                            column[14] = ""; //lead-time-instock
+                            column[15] = ""; //lead-time-outstock
+                            column[16] = ""; //sub-code-img1
+                            column[17] = ""; //main-flag
+                            column[18] = ""; //exist-flag
+                            column[19] = ""; //pick-and-delivery-code
+                            column[20] = ""; //yamato-ff-flag
+                            //一行数据
+                            writeLine.add(column);
                         }
-                        //保存每一列的数据使用
-                        String[] column = new String[21];
-                        column[0] = item.getItemCode(); //itemcode
-                        column[1] = ""; //sub-code
-                        column[2] = item.getItemName(); //name
-                        column[3] = item.getOption2();  //option1名
-                        column[4] = optionValue; //option-value-1
-                        column[5] = "0"; //unselectable-1
-                        column[6] = ""; //spec-id-1
-                        column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
-                        column[9] = ""; //option-name-2
-                        column[10] = ""; //option-value-2
-                        column[11] = ""; //spec-id-2
-                        column[12] = ""; //spec-value-id-2
-                        column[13] = ""; //etc-options
-                        column[14] = ""; //lead-time-instock
-                        column[15] = ""; //lead-time-outstock
-                        column[16] = ""; //sub-code-img1
-                        column[17] = ""; //main-flag
-                        column[18] = ""; //exist-flag
-                        column[19] = ""; //pick-and-delivery-code
-                        column[20] = ""; //yamato-ff-flag
-                        //一行数据
-                        writeLine.add(column);
                     }
-                }
-                //option3不为空时
-                if (item.getOption3() != null && !"".equals(item.getOption3())) {
-                    String[] value3 = item.getValue3().split(" ");
-                    for (String optionValue : value3) {
-                        //追加金保存用
-                        String optionCharge = null;
-                        //追加金有的话
-                        if (optionValue.contains("（+")) {
-                            optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
-                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                    //option2不为空时
+                    String option2 = item.getOption2();
+                    if (option2 != null && !"".equals(option2)) {
+                        if (option2.contains("円")) {
+                            option2 = option2.replaceAll("円", "");
                         }
-                        //保存每一列的数据使用
-                        String[] column = new String[21];
-                        column[0] = item.getItemCode(); //itemcode
-                        column[1] = ""; //sub-code
-                        column[2] = item.getItemName(); //name
-                        column[3] = item.getOption3();  //option1名
-                        column[4] = optionValue; //option-value-1
-                        column[5] = "0"; //unselectable-1
-                        column[6] = ""; //spec-id-1
-                        column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
-                        column[9] = ""; //option-name-2
-                        column[10] = ""; //option-value-2
-                        column[11] = ""; //spec-id-2
-                        column[12] = ""; //spec-value-id-2
-                        column[13] = ""; //etc-options
-                        column[14] = ""; //lead-time-instock
-                        column[15] = ""; //lead-time-outstock
-                        column[16] = ""; //sub-code-img1
-                        column[17] = ""; //main-flag
-                        column[18] = ""; //exist-flag
-                        column[19] = ""; //pick-and-delivery-code
-                        column[20] = ""; //yamato-ff-flag
-                        //一行数据
-                        writeLine.add(column);
-                    }
-                }
-                //option4不为空时
-                if (item.getOption4() != null && !"".equals(item.getOption4())) {
-                    String[] value4 = item.getValue4().split(" ");
-                    for (String optionValue : value4) {
-                        //追加金保存用
-                        String optionCharge = null;
-                        //追加金有的话
-                        if (optionValue.contains("（+")) {
-                            optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
-                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                        String[] value2 = option2.split(" ");
+                        for (String optionValue : value2) {
+                            //追加金保存用
+                            String optionCharge = null;
+                            //追加金有的话
+                            if (optionValue.contains("（+")) {
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                            }
+                            //保存每一列的数据使用
+                            String[] column = new String[21];
+                            column[0] = item.getItemCode(); //itemcode
+                            column[1] = ""; //sub-code
+                            column[2] = item.getItemName(); //name
+                            column[3] = item.getOption2();  //option1名
+                            column[4] = optionValue; //option-value-1
+                            column[5] = "0"; //unselectable-1
+                            column[6] = ""; //spec-id-1
+                            column[7] = ""; //spec-value-id-1
+                            column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
+                            column[9] = ""; //option-name-2
+                            column[10] = ""; //option-value-2
+                            column[11] = ""; //spec-id-2
+                            column[12] = ""; //spec-value-id-2
+                            column[13] = ""; //etc-options
+                            column[14] = ""; //lead-time-instock
+                            column[15] = ""; //lead-time-outstock
+                            column[16] = ""; //sub-code-img1
+                            column[17] = ""; //main-flag
+                            column[18] = ""; //exist-flag
+                            column[19] = ""; //pick-and-delivery-code
+                            column[20] = ""; //yamato-ff-flag
+                            //一行数据
+                            writeLine.add(column);
                         }
-                        //保存每一列的数据使用
-                        String[] column = new String[21];
-                        column[0] = item.getItemCode(); //itemcode
-                        column[1] = ""; //sub-code
-                        column[2] = item.getItemName(); //name
-                        column[3] = item.getOption4();  //option1名
-                        column[4] = optionValue; //option-value-1
-                        column[5] = "0"; //unselectable-1
-                        column[6] = ""; //spec-id-1
-                        column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
-                        column[9] = ""; //option-name-2
-                        column[10] = ""; //option-value-2
-                        column[11] = ""; //spec-id-2
-                        column[12] = ""; //spec-value-id-2
-                        column[13] = ""; //etc-options
-                        column[14] = ""; //lead-time-instock
-                        column[15] = ""; //lead-time-outstock
-                        column[16] = ""; //sub-code-img1
-                        column[17] = ""; //main-flag
-                        column[18] = ""; //exist-flag
-                        column[19] = ""; //pick-and-delivery-code
-                        column[20] = ""; //yamato-ff-flag
-                        //一行数据
-                        writeLine.add(column);
                     }
-                }
-                //option4不为空时
-                if (item.getOption5() != null && !"".equals(item.getOption5())) {
-                    String[] value5 = item.getValue5().split(" ");
-                    for (String optionValue : value5) {
-                        //追加金保存用
-                        String optionCharge = null;
-                        //追加金有的话
-                        if (optionValue.contains("（+")) {
-                            optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
-                            optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                    //option3不为空时
+                    String option3 = item.getOption3();
+                    if (option3 != null && !"".equals(option3)) {
+                        if (option3.contains("円")) {
+                            option3 = option3.replaceAll("円", "");
                         }
-                        //保存每一列的数据使用
-                        String[] column = new String[21];
-                        column[0] = item.getItemCode(); //itemcode
-                        column[1] = ""; //sub-code
-                        column[2] = item.getItemName(); //name
-                        column[3] = item.getOption5();  //option1名
-                        column[4] = optionValue; //option-value-1
-                        column[5] = "0"; //unselectable-1
-                        column[6] = ""; //spec-id-1
-                        column[7] = ""; //spec-value-id-1
-                        column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
-                        column[9] = ""; //option-name-2
-                        column[10] = ""; //option-value-2
-                        column[11] = ""; //spec-id-2
-                        column[12] = ""; //spec-value-id-2
-                        column[13] = ""; //etc-options
-                        column[14] = ""; //lead-time-instock
-                        column[15] = ""; //lead-time-outstock
-                        column[16] = ""; //sub-code-img1
-                        column[17] = ""; //main-flag
-                        column[18] = ""; //exist-flag
-                        column[19] = ""; //pick-and-delivery-code
-                        column[20] = ""; //yamato-ff-flag
-                        //一行数据
-                        writeLine.add(column);
+                        String[] value3 = option3.split(" ");
+                        for (String optionValue : value3) {
+                            //追加金保存用
+                            String optionCharge = null;
+                            //追加金有的话
+                            if (optionValue.contains("（+")) {
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                            }
+                            //保存每一列的数据使用
+                            String[] column = new String[21];
+                            column[0] = item.getItemCode(); //itemcode
+                            column[1] = ""; //sub-code
+                            column[2] = item.getItemName(); //name
+                            column[3] = item.getOption3();  //option1名
+                            column[4] = optionValue; //option-value-1
+                            column[5] = "0"; //unselectable-1
+                            column[6] = ""; //spec-id-1
+                            column[7] = ""; //spec-value-id-1
+                            column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
+                            column[9] = ""; //option-name-2
+                            column[10] = ""; //option-value-2
+                            column[11] = ""; //spec-id-2
+                            column[12] = ""; //spec-value-id-2
+                            column[13] = ""; //etc-options
+                            column[14] = ""; //lead-time-instock
+                            column[15] = ""; //lead-time-outstock
+                            column[16] = ""; //sub-code-img1
+                            column[17] = ""; //main-flag
+                            column[18] = ""; //exist-flag
+                            column[19] = ""; //pick-and-delivery-code
+                            column[20] = ""; //yamato-ff-flag
+                            //一行数据
+                            writeLine.add(column);
+                        }
                     }
+                    //option4不为空时
+                    String option4 = item.getOption4();
+                    if (option4 != null && !"".equals(option4)) {
+                        if (option4.contains("円")) {
+                            option4 = option4.replaceAll("円", "");
+                        }
+                        String[] value4 = option4.split(" ");
+                        for (String optionValue : value4) {
+                            //追加金保存用
+                            String optionCharge = null;
+                            //追加金有的话
+                            if (optionValue.contains("（+")) {
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                            }
+                            //保存每一列的数据使用
+                            String[] column = new String[21];
+                            column[0] = item.getItemCode(); //itemcode
+                            column[1] = ""; //sub-code
+                            column[2] = item.getItemName(); //name
+                            column[3] = item.getOption4();  //option1名
+                            column[4] = optionValue; //option-value-1
+                            column[5] = "0"; //unselectable-1
+                            column[6] = ""; //spec-id-1
+                            column[7] = ""; //spec-value-id-1
+                            column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
+                            column[9] = ""; //option-name-2
+                            column[10] = ""; //option-value-2
+                            column[11] = ""; //spec-id-2
+                            column[12] = ""; //spec-value-id-2
+                            column[13] = ""; //etc-options
+                            column[14] = ""; //lead-time-instock
+                            column[15] = ""; //lead-time-outstock
+                            column[16] = ""; //sub-code-img1
+                            column[17] = ""; //main-flag
+                            column[18] = ""; //exist-flag
+                            column[19] = ""; //pick-and-delivery-code
+                            column[20] = ""; //yamato-ff-flag
+                            //一行数据
+                            writeLine.add(column);
+                        }
+                    }
+                    //option5不为空时
+                    String option5 = item.getOption5();
+                    if (item.getOption5() != null && !"".equals(item.getOption5())) {
+                        if (option5.contains("円")) {
+                            option5 = option5.replaceAll("円", "");
+                        }
+                        String[] value5 = option5.split(" ");
+                        for (String optionValue : value5) {
+                            //追加金保存用
+                            String optionCharge = null;
+                            //追加金有的话
+                            if (optionValue.contains("（+")) {
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionValue = optionValue.substring(0, optionValue.indexOf("（"));
+                            }
+                            //保存每一列的数据使用
+                            String[] column = new String[21];
+                            column[0] = item.getItemCode(); //itemcode
+                            column[1] = ""; //sub-code
+                            column[2] = item.getItemName(); //name
+                            column[3] = item.getOption5();  //option1名
+                            column[4] = optionValue; //option-value-1
+                            column[5] = "0"; //unselectable-1
+                            column[6] = ""; //spec-id-1
+                            column[7] = ""; //spec-value-id-1
+                            column[8] = optionCharge == null ? "" : optionCharge.replaceAll(",", ""); //option-charge-1
+                            column[9] = ""; //option-name-2
+                            column[10] = ""; //option-value-2
+                            column[11] = ""; //spec-id-2
+                            column[12] = ""; //spec-value-id-2
+                            column[13] = ""; //etc-options
+                            column[14] = ""; //lead-time-instock
+                            column[15] = ""; //lead-time-outstock
+                            column[16] = ""; //sub-code-img1
+                            column[17] = ""; //main-flag
+                            column[18] = ""; //exist-flag
+                            column[19] = ""; //pick-and-delivery-code
+                            column[20] = ""; //yamato-ff-flag
+                            //一行数据
+                            writeLine.add(column);
+                        }
+                    }
+                } catch (Exception e) {
+                    List<String> stringList = new ArrayList<>();
+                    stringList.add(item.getItemCode());
+                    exportItemCodeCsv(stringList, "optionsError");
                 }
             }
             writer.write(writeLine);
