@@ -408,7 +408,7 @@ public class SetDataUtil {
     //计算价格
     public static Integer setSalePrice(Integer salePrice) {
 
-        Double a = new BigDecimal((((salePrice + 45 + 5) * 20) / 0.7)).setScale(0, BigDecimal.ROUND_UP).doubleValue();
+        Double a = new BigDecimal((((salePrice + 45 + 10) * 20) / 0.7)).setScale(0, BigDecimal.ROUND_UP).doubleValue();
         salePrice = a.intValue();
         return salePrice;
     }

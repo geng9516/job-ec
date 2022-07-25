@@ -107,19 +107,17 @@ public class DataExportUtil {
             for (Item item : itemList) {
 
                 try {
+
+
                     //option1不为空时
-                    String option1 = item.getOption1();
-                    if (option1 != null && !"".equals(option1)) {
-                        if (option1.contains("円")) {
-                            option1 = option1.replaceAll("円", "");
-                        }
-                        String[] value1 = option1.split(" ");
+                    if (item.getOption1() != null && !"".equals(item.getOption1())) {
+                        String[] value1 = item.getValue1().split(" ");
                         for (String optionValue : value1) {
                             //追加金保存用
                             String optionCharge = null;
                             //追加金有的话
                             if (optionValue.contains("（+")) {
-                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
                                 optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                             }
                             //保存每一列的数据使用
@@ -150,18 +148,14 @@ public class DataExportUtil {
                         }
                     }
                     //option2不为空时
-                    String option2 = item.getOption2();
-                    if (option2 != null && !"".equals(option2)) {
-                        if (option2.contains("円")) {
-                            option2 = option2.replaceAll("円", "");
-                        }
-                        String[] value2 = option2.split(" ");
+                    if (item.getOption2() != null && !"".equals(item.getOption2())) {
+                        String[] value2 = item.getValue2().split(" ");
                         for (String optionValue : value2) {
                             //追加金保存用
                             String optionCharge = null;
                             //追加金有的话
                             if (optionValue.contains("（+")) {
-                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
                                 optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                             }
                             //保存每一列的数据使用
@@ -192,18 +186,14 @@ public class DataExportUtil {
                         }
                     }
                     //option3不为空时
-                    String option3 = item.getOption3();
-                    if (option3 != null && !"".equals(option3)) {
-                        if (option3.contains("円")) {
-                            option3 = option3.replaceAll("円", "");
-                        }
-                        String[] value3 = option3.split(" ");
+                    if (item.getOption3() != null && !"".equals(item.getOption3())) {
+                        String[] value3 = item.getValue3().split(" ");
                         for (String optionValue : value3) {
                             //追加金保存用
                             String optionCharge = null;
                             //追加金有的话
                             if (optionValue.contains("（+")) {
-                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
                                 optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                             }
                             //保存每一列的数据使用
@@ -234,18 +224,14 @@ public class DataExportUtil {
                         }
                     }
                     //option4不为空时
-                    String option4 = item.getOption4();
-                    if (option4 != null && !"".equals(option4)) {
-                        if (option4.contains("円")) {
-                            option4 = option4.replaceAll("円", "");
-                        }
-                        String[] value4 = option4.split(" ");
+                    if (item.getOption4() != null && !"".equals(item.getOption4())) {
+                        String[] value4 = item.getValue4().split(" ");
                         for (String optionValue : value4) {
                             //追加金保存用
                             String optionCharge = null;
                             //追加金有的话
                             if (optionValue.contains("（+")) {
-                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
                                 optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                             }
                             //保存每一列的数据使用
@@ -275,19 +261,15 @@ public class DataExportUtil {
                             writeLine.add(column);
                         }
                     }
-                    //option5不为空时
-                    String option5 = item.getOption5();
+                    //option4不为空时
                     if (item.getOption5() != null && !"".equals(item.getOption5())) {
-                        if (option5.contains("円")) {
-                            option5 = option5.replaceAll("円", "");
-                        }
-                        String[] value5 = option5.split(" ");
+                        String[] value5 = item.getValue5().split(" ");
                         for (String optionValue : value5) {
                             //追加金保存用
                             String optionCharge = null;
                             //追加金有的话
                             if (optionValue.contains("（+")) {
-                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 1);
+                                optionCharge = optionValue.substring(optionValue.lastIndexOf("+") + 1, optionValue.length() - 2);
                                 optionValue = optionValue.substring(0, optionValue.indexOf("（"));
                             }
                             //保存每一列的数据使用
@@ -320,7 +302,8 @@ public class DataExportUtil {
                 } catch (Exception e) {
                     List<String> stringList = new ArrayList<>();
                     stringList.add(item.getItemCode());
-                    exportItemCodeCsv(stringList, "optionsError");
+                    exportItemCodeCsv(stringList,"optionsEorr");
+
                 }
             }
             writer.write(writeLine);
