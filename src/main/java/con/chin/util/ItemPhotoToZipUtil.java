@@ -75,7 +75,7 @@ public class ItemPhotoToZipUtil {
                     //把照片放入集合(这行不在这里会发生数据丢失)
                     fileList.add(photoFile);
                     //每24mb输出zip文件
-                    if (picLength > 47 * 1024 * 1024) {
+                    if (picLength > 23 * 1024 * 1024) {
                         //现在时间作为文件名(线程安全的)
                         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                         //zip文件夹名
@@ -155,35 +155,65 @@ public class ItemPhotoToZipUtil {
      * 压缩成ZIP 方法2
      *
      * @param srcFiles 需要压缩的文件列表
-     * @param out      压缩文件输出流
+     * @param outputStream      压缩文件输出流
      * @throws RuntimeException 压缩失败会抛出运行时异常
      */
-    public static void toZip(List<File> srcFiles, OutputStream out) throws RuntimeException {
 
-        ZipOutputStream zos = null;
+    public static void toZip(List<File> srcFiles, OutputStream outputStream) throws RuntimeException {
+
+        ZipOutputStream zipOutputStream = null;
         try {
-            zos = new ZipOutputStream(out);
+            zipOutputStream = new ZipOutputStream(outputStream);
             for (File srcFile : srcFiles) {
                 byte[] buf = new byte[2 * 1024];
-                zos.putNextEntry(new ZipEntry(srcFile.getName()));
+                zipOutputStream.putNextEntry(new ZipEntry(srcFile.getName()));
                 int len;
-                FileInputStream in = new FileInputStream(srcFile);
-                while ((len = in.read(buf)) != -1) {
-                    zos.write(buf, 0, len);
+                BufferedInputStream bistr = new BufferedInputStream(new FileInputStream(srcFile));
+                while ((len = bistr.read(buf, 0, buf.length)) != -1) {
+                    zipOutputStream.write(buf, 0, len);
                 }
-                zos.closeEntry();
-                in.close();
+                zipOutputStream.closeEntry();
+                bistr.close();
             }
         } catch (Exception e) {
             throw new RuntimeException("zip error from ZipUtils", e);
         } finally {
-            if (zos != null) {
+            if (zipOutputStream != null) {
                 try {
-                    zos.close();
+                    zipOutputStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
+
+//    public static void toZip(List<File> srcFiles, OutputStream outputStream) throws RuntimeException {
+//
+//        ZipOutputStream zipOutputStream = null;
+//        try {
+//            zipOutputStream = new ZipOutputStream(outputStream);
+//            for (File srcFile : srcFiles) {
+//                byte[] buf = new byte[2 * 1024];
+//                zipOutputStream.putNextEntry(new ZipEntry(srcFile.getName()));
+//                int len;
+//                FileInputStream inputStream = new FileInputStream(srcFile);
+//                while ((len = inputStream.read(buf)) != -1) {
+//                    zipOutputStream.write(buf, 0, len);
+//                }
+//                zipOutputStream.closeEntry();
+//                inputStream.close();
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException("zip error from ZipUtils", e);
+//        } finally {
+//            if (zipOutputStream != null) {
+//                try {
+//                    zipOutputStream.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 }
