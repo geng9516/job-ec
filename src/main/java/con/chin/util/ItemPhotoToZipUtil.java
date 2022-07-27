@@ -60,7 +60,7 @@ public class ItemPhotoToZipUtil {
         //判断是否到达24mb的
         long picLength = 0;
         File file = new File(filePath);
-        if (file == null) {
+        if (file.exists()) {
             file.mkdirs();
         }
         //计数
