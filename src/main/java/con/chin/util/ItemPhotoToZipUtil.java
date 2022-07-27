@@ -59,6 +59,10 @@ public class ItemPhotoToZipUtil {
         FileOutputStream fileOutputStream = null;
         //判断是否到达24mb的
         long picLength = 0;
+        File file = new File(filePath);
+        if (file == null) {
+            file.mkdirs();
+        }
         //计数
         int count = 1;
         try {
@@ -80,10 +84,7 @@ public class ItemPhotoToZipUtil {
                         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                         //zip文件夹名
                         now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
-                        File file = new File(filePath);
-                        if (file == null) {
-                            file.mkdirs();
-                        }
+
                         //创建zip文件夹
                         File file1 = new File(file.getPath() + File.separator + "img" + now + ".zip");
 
