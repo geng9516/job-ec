@@ -82,6 +82,9 @@ public class ItemPhotoToZipUtil {
                         now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
                         //创建zip文件夹
                         File file1 = new File(filePath + File.separator + "img" + now + ".zip");
+                        if (file1 == null) {
+                            file1.mkdirs();
+                        }
                         //输出流
                         fileOutputStream = new FileOutputStream(file1);
                         //开始时间
@@ -154,8 +157,8 @@ public class ItemPhotoToZipUtil {
     /**
      * 压缩成ZIP 方法2
      *
-     * @param srcFiles 需要压缩的文件列表
-     * @param outputStream      压缩文件输出流
+     * @param srcFiles     需要压缩的文件列表
+     * @param outputStream 压缩文件输出流
      * @throws RuntimeException 压缩失败会抛出运行时异常
      */
 
