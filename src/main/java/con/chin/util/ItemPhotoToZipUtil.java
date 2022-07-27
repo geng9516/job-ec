@@ -80,11 +80,13 @@ public class ItemPhotoToZipUtil {
                         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                         //zip文件夹名
                         now = now.replaceAll("-", "").replaceAll(":", "").replace(" ", "");
-                        //创建zip文件夹
-                        File file1 = new File(filePath + File.separator + "img" + now + ".zip");
-                        if (file1 == null) {
-                            file1.mkdirs();
+                        File file = new File(filePath);
+                        if (file == null) {
+                            file.mkdirs();
                         }
+                        //创建zip文件夹
+                        File file1 = new File(file.getPath() + File.separator + "img" + now + ".zip");
+
                         //输出流
                         fileOutputStream = new FileOutputStream(file1);
                         //开始时间
