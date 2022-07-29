@@ -68,9 +68,9 @@ public class DataExportUtil {
                 String[] column = new String[5];
                 column[0] = itemCode;
                 column[1] = "";
-                column[2] = "999";
-                column[3] = "1";
-                column[4] = "";
+                column[2] = "1000";
+                column[3] = "0";
+                column[4] = "0";
                 writeLine.add(column);
             }
             writer.write(writeLine);
