@@ -361,6 +361,7 @@ public class CrawlerController {
 
     //---------------------------------------------------------------------------------------------------------
 
+
     @Value("${ITEMPHOTO}")
     private String itemPhotoPath1;
 
