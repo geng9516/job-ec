@@ -373,7 +373,7 @@ public class CrawlerController {
 
 
     //数据错误时做更新使用
-    @GetMapping("/setDate")
+    @PostMapping("/setDate")
     public String setDate(@RequestParam("itemCodes") String itemCodes) {
         //开始时间
         long start = System.currentTimeMillis();
