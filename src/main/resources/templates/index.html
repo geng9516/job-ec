@@ -160,9 +160,20 @@
             <button class="fluid ui button" type="submit">処理後の写真をフォルダーごとにまとめる</button>
         </a>
         <br>
-        <a th:href="@{/setDate}">
-            <button class="fluid ui button" type="submit">更新数据</button>
-        </a>
+
+        <form class="ui form" action="/setDate" method="post">
+            <div class="ui form">
+                <div class="field">
+                    <textarea rows="3" id="itemCodess" name="itemCodes"></textarea>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <input class="fluid ui button" type="submit" value="一括操作">
+        </form>
+<!--        <a th:href="@{/setDate}">-->
+
+<!--        </a>-->
         <br>
 
     </div>

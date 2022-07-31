@@ -21,13 +21,10 @@ import us.codecraft.webmagic.scheduler.QueueScheduler;
 
 import javax.servlet.http.HttpSession;
 import javax.swing.filechooser.FileSystemView;
-import java.io.File;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -376,28 +373,18 @@ public class CrawlerController {
 
     //数据错误时做更新使用
     @GetMapping("/setDate")
-    public String setDate() {
+    public String setDate(@RequestParam("itemCodes") String itemCodes) {
         //开始时间
         long start = System.currentTimeMillis();
-
-        List<Item> allItems = itemService.findAll();
-
-        List<Item> itemList = new ArrayList<>();
-        for (Item item : allItems) {
-            String itemCategory = item.getItemPath();
-            String itemCode1 = null;
-            //itempath定义产品名字
-            String categoryAlias = itemCategoryService.selectCategoryAliasByItemPath(itemCategory);
-            //是否已经有这个path类别的产品存在 存在itemcode为这个类别产品中的code最后一位
-            String itemCode = UUID.randomUUID().toString();
-            itemCode1 = itemCode.substring(0,itemCode.indexOf("-")-1);
-
-            itemCode1 = categoryAlias + "-" + itemCode1;
-
-            System.out.println(itemCode1);
-
+        List<String> stringList = new ArrayList<>();
+        //把按照换行进行分割
+        if (itemCodes != null || !"".equals(itemCodes)) {
+            Matcher m = Pattern.compile("(?m)^.*$").matcher(itemCodes);
+            while (m.find()) {
+                stringList.add(m.group());
+            }
         }
-
+        read(stringList);
 
         //结束时间
         long end = System.currentTimeMillis();
@@ -405,6 +392,108 @@ public class CrawlerController {
 
 
         return "index";
+    }
+
+    @Value("${ITEMPHOTOCOPY}")
+    private String itemPath;
+
+    //拷贝照片
+    public void read(List<String> itemCodeList) {
+
+        File file = new File(itemPath);
+        findCopyPhoto(file, itemCodeList);
+    }
+
+    //读取photo文件
+    private void findCopyPhoto(File itemphotoPath, List<String> itemCodeList) {
+
+        File[] fileItemPhotos = itemphotoPath.listFiles();
+        int count = 1;
+        //循环要要拷贝的照片名文件夹
+        for (String itemCode : itemCodeList) {
+            //判断是否有照片文件
+            Integer flog = 0;
+            //开始时间
+            long start = System.currentTimeMillis();
+            for (File fileItemPhoto : fileItemPhotos) {
+
+                if (itemCode.equals(fileItemPhoto.getName())) {
+                    //调用拷贝方法
+                    copyItemPhoto(fileItemPhoto.getPath(), itemCode);
+                    long end = System.currentTimeMillis();
+                    System.out.println(count++ + " 件产品照片拷贝完成!  照片文件夹名为 -->  " + itemCode + "    耗时：" + (end - start) + " ms");
+                    flog = 1;
+                }
+            }
+            if (flog == 0) {
+                System.out.println("********* 第" + count++ + " 件产品照片不存在!  照片文件夹名为 -->  " + itemCode + "  *********");
+            }
+
+        }
+        System.out.println("总共 " + (count - 1) + " 件产品照片拷贝完成!");
+    }
+
+    @Value("${ITEMPHOTOCOPY1}")
+    private String itemPath1;
+
+    //照片拷贝方法
+    public void copyItemPhoto(String filePath, String folderName) {
+
+        //创建输入流
+        FileInputStream fileInputStream = null;
+        //创建输出流
+        FileOutputStream fileOutputStream = null;
+        //照片拷贝地址
+        File file = new File(filePath);
+        //拷贝后的地址加文件名
+//        File file2 = new File(newPath + File.separator + folderName);
+        File file2 = new File(itemPath1);
+        //拷贝源中的所以文件
+        File[] files = file.listFiles();
+        try {
+            //循环拷贝源中的所以文件
+            for (File file1 : files) {
+                if (file1.isFile() && file1.getName().replaceAll(".jpg","").equals(folderName)) {
+                    //拷贝源输入流
+                    fileInputStream = new FileInputStream(file1.getPath());
+                    //判断是否有那个itemCode的文件夹,没有创建
+                    if (!file2.exists()) {
+                        file2.mkdir();
+                    }
+                    //拷贝后的地址输出流
+                    fileOutputStream = new FileOutputStream(file2.getPath() + File.separator + file1.getName());
+                    // 一次复制1MB 设定
+                    byte[] bytes = new byte[1024 * 1024];
+                    int readCount = 0;
+                    while ((readCount = fileInputStream.read(bytes)) != -1) {
+                        fileOutputStream.write(bytes, 0, readCount);
+                    }
+                    //清空流的管道
+                    fileOutputStream.flush();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //关闭流
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return;
     }
 
 }
