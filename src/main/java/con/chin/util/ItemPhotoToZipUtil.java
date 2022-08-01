@@ -79,7 +79,7 @@ public class ItemPhotoToZipUtil {
                     //把照片放入集合(这行不在这里会发生数据丢失)
                     fileList.add(photoFile);
                     //每24mb输出zip文件
-                    if (picLength > 23 * 1024 * 1024) {
+                    if (picLength > 47 * 1024 * 1024) {
                         //现在时间作为文件名(线程安全的)
                         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                         //zip文件夹名
