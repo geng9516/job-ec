@@ -10,13 +10,13 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
-public class ShopAndItem {
+public class EcSiteShopAndItem {
 
     private Long id;
 
     private String shopId;
 
-    private String shopNmae;
+    private String shopName;
 
     private String itemId;
 

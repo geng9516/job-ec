@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="con.chin.mapper.EcSiteShopAndItemMapper">
+
+
+    <insert id="importItemToEcsiteShop">
+
+        insert into t_ecsiteshopanditem(shopname,
+                                        itemid)
+        values (#{shopName},
+                #{itemId})
+
+
+    </insert>
+
+    <!--    送料设定检索-->
+    <select id="findEcSiteShopAndItem" resultType="con.chin.pojo.EcSiteShopAndItem">
+
+        select *
+        from t_ecsiteshopAndItem
+        where itemid = #{itemCode}
+
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

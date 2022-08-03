@@ -166,7 +166,7 @@
                                 <select class="ui dropdown" name="ecSiteShop">
                                     <option value="">全商品</option>
                                     <option th:each="ecSiteShop:${ecSiteShopList}" th:value="${ecSiteShop.getShopName()}"
-                                            th:selected="*{ecSiteShop} == ${ecSiteShop.getShopName()}"
+                                            th:selected="*{ecSiteShop} eq ${ecSiteShop.getShopName()}"
                                             th:text="${ecSiteShop.getShopName()}">
                                 </select>
                             </form>
@@ -206,6 +206,20 @@
                                         <option value="2">両方</option>
                                         <option value="3">オプションCSVのみ</option>
                                         <option value="4">在庫CSVのみ</option>
+                                    </select>
+                                </span>
+                            </span>
+                        </span>
+                        <span th:switch="${editFlogSelect}">
+                            <span th:case="${3}"></span>
+                            <span th:case="${5}"></span>
+                            <span th:case="*">
+                                <span>
+                                    <select class="ui dropdown" id="ecSiteShop" name="ecSiteShop" onchange="importItemToEcsiteShop()">
+                                        <option value="">ECサイトショップインポート</option>
+                                        <option th:each="ecSiteShop:${ecSiteShopList}" th:value="${ecSiteShop.getShopName()}"
+                                                th:selected="*{ecSiteShop} eq ${ecSiteShop.getShopName()}"
+                                                th:text="${ecSiteShop.getShopName()}">
                                     </select>
                                 </span>
                             </span>

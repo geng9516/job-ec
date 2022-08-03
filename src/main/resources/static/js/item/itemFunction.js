@@ -202,6 +202,40 @@ function deleteItems() {
     })
 }
 
+//选中的产品追加到店铺中
+function importItemToEcsiteShop() {
+    var checkedValue = $('tbody input:checked');
+    //判断是否项目被选择
+    if (typeof checkedValue.val() === "undefined") {
+        alert("操作項目を選択してください！")
+        return;
+    }
+    //保存选中的item的code
+    var Values = new Array();
+    //遍历
+    checkedValue.each(function () {
+        Values.push($(this).val());
+    })
+    //被选中的是哪个操作
+    var ecSiteShop = $("#ecSiteShop").val();
+    if (ecSiteShop === "") {
+        return;
+    }
+    $.ajax({
+        url: '/importItemToEcsiteShop',
+        type: 'post',
+        data: {"listString": Values, "ecSiteShop": ecSiteShop},
+        dataType: 'json',
+        success: function (data) {
+            window.location = "/iteminfo?pageNum=" + 1;
+            $("#message").text(data);
+        },
+        error: function (data) {
+            $("#message").val(data);
+        }
+    })
+}
+
 //计算价格
 function calculation(e) {
     //获取当前节点的父节点的父节点下的第一个子节点下的第一个子节点(送料)

@@ -107,7 +107,7 @@ public class ItemInfoController {
             //检索条件中追加
             itemInfoQuery.setShopName(ecSiteShop);
             //前端使用
-            model.addAttribute("ecSiteShop", "ecSiteShop");
+            model.addAttribute("ecSiteShop", ecSiteShop);
         }
         //设定itemPathFlog
         String itemPathFlog = (String) httpSession.getAttribute("itemPathFlog");
@@ -1066,43 +1066,6 @@ public class ItemInfoController {
         return gson.toJson(1);
     }
 
-    //把一个状态的产品的状态全修改
-//    @GetMapping("/setFlogToEdit")
-//    public String setFlogToEdit(HttpSession httpSession, @RequestParam("editFlog") String flog, @RequestParam("siteShop") String siteShop) {
-//
-//        //检索条件
-//        Map<String, String> map = new HashMap<>();
-//        map.put("siteShop",siteShop);
-//        map.put("flog",flog);
-//
-//        List<Item> itemList = new ArrayList<>();
-//        List<Item> newDownloadedList = itemService.findItemByStatus(flog);
-//        for (Item item : newDownloadedList) {
-//            //需要修改的是为下载的产品时
-//            if (flog == 0) {
-//                item.setFlog(1);
-//                itemList.add(item);
-//                //从CSV作成準備改为编辑完成
-//            } else if (flog == 2) {
-//                item.setFlog(1);
-//                itemList.add(item);
-//                //需要修改的是为中文的产品时
-//            } else if (flog == 5) {
-//                item.setFlog(0);
-//                itemList.add(item);
-//            }
-//        }
-//        itemService.setItemFlog(itemList);
-//        //从session中把pageNum取得
-//        String pageNum = (String) httpSession.getAttribute("pageNum");
-//        if (pageNum != null && pageNum != "") {
-//            return "redirect:/iteminfo?pageNum=" + pageNum;
-//        }
-//
-//        return "redirect:/iteminfo?pageNum=" + 1;
-//    }
-
-
     //削除option
     @ResponseBody
     @PostMapping("/deleteOption")
@@ -1278,6 +1241,27 @@ public class ItemInfoController {
         return "redirect:/iteminfo?pageNum=" + 1;
     }
 
+    @Autowired
+    private EcSiteShopAndItemService ecSiteShopAndItemService;
+
+    //
+    @ResponseBody
+    @PostMapping("/importItemToEcsiteShop")
+    public String importItemToEcsiteShop(HttpSession httpSession,
+                               @RequestParam("listString[]") List<String> itemList,
+                               @RequestParam("ecSiteShop") String ecSiteShop
+    ) {
+
+        ecSiteShopAndItemService.importItemToEcsiteShop(itemList,ecSiteShop);
+
+        Gson gson = new Gson();
+
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if (pageNum != null && pageNum != "") {
+            return gson.toJson(pageNum);
+        }
+        return gson.toJson(1);
+    }
 
 
 }
