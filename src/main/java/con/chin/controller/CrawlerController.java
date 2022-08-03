@@ -1,7 +1,10 @@
 package con.chin.controller;
 
+import con.chin.pojo.EcSiteShop;
 import con.chin.pojo.Item;
 import con.chin.pojo.ItemCategory;
+import con.chin.service.EcSiteShopAndItemService;
+import con.chin.service.EcSiteShopService;
 import con.chin.service.ItemCategoryService;
 import con.chin.service.ItemService;
 import con.chin.task.ItemPipeline;
@@ -39,6 +42,9 @@ public class CrawlerController {
     @Autowired
     ItemCategoryService itemCategoryService;
 
+    @Autowired
+    private EcSiteShopService ecSiteShopService;
+
     @GetMapping("/")
     public String index(Model model, HttpSession httpSession) {
         //把查询条件清空
@@ -50,6 +56,9 @@ public class CrawlerController {
             httpSession.setAttribute("ecSite", "yahoo");
             model.addAttribute("ecSite", "yahoo");
         }
+        //ecsiteshop一览
+        List<EcSiteShop> ecSiteShopList = ecSiteShopService.findAllEcSiteShop();
+        model.addAttribute("ecSiteShopList", ecSiteShopList);
         model.addAttribute("ecSite", ecSite);
         return "index";
     }
@@ -454,7 +463,7 @@ public class CrawlerController {
         try {
             //循环拷贝源中的所以文件
             for (File file1 : files) {
-                if (file1.isFile() && file1.getName().replaceAll(".jpg","").equals(folderName)) {
+                if (file1.isFile() && file1.getName().replaceAll(".jpg", "").equals(folderName)) {
                     //拷贝源输入流
                     fileInputStream = new FileInputStream(file1.getPath());
                     //判断是否有那个itemCode的文件夹,没有创建
@@ -495,6 +504,45 @@ public class CrawlerController {
             }
         }
         return;
+    }
+
+    @Autowired
+    private EcSiteShopAndItemService ecSiteShopAndItemService;
+
+    //ショップアイテム作成
+    //数据错误时做更新使用
+    @PostMapping("/importItemToEcsiteShops")
+    public String importItemToEcsiteShops(@RequestParam("itemCodes") String itemCodes, @RequestParam("ecSiteShop") String ecSiteShop,Model model) {
+
+        //开始时间
+        long start = System.currentTimeMillis();
+        //ecsiteshop一览
+        List<EcSiteShop> ecSiteShopList = ecSiteShopService.findAllEcSiteShop();
+        model.addAttribute("ecSiteShopList", ecSiteShopList);
+        List<String> stringList = new ArrayList<>();
+        if("".equals(itemCodes)){
+            //成功信息
+            model.addAttribute("message", "アイテムコードを入力してください。");
+            return "index";
+        }
+        //把按照换行进行分割
+        if (itemCodes != null || !"".equals(itemCodes)) {
+            Matcher m = Pattern.compile("(?m)^.*$").matcher(itemCodes);
+            while (m.find()) {
+                stringList.add(m.group());
+            }
+        }
+
+        ecSiteShopAndItemService.importItemToEcsiteShop(stringList, ecSiteShop);
+
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("更新アイテム!    总耗时：" + (end - start) + " ms");
+
+        //成功信息
+        model.addAttribute("message", "ショップアイテム作成完了。");
+
+        return "index";
     }
 
 }

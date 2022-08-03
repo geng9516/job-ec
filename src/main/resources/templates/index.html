@@ -160,17 +160,38 @@
             <button class="fluid ui button" type="submit">処理後の写真をフォルダーごとにまとめる</button>
         </a>
         <br>
-
-        <form class="ui form" action="/setDate" method="post">
+        <form class="ui form" action="/importItemToEcsiteShops" method="post">
+            <div class="field">
+                <div>
+                    <select class="ui dropdown" name="ecSiteShop">
+                        <option value="">ECショップ</option>
+                        <option th:each="ecSiteShop:${ecSiteShopList}" th:value="${ecSiteShop.getShopName()}"
+                                th:selected="*{ecSiteShop} eq ${ecSiteShop.getShopName()}"
+                                th:text="${ecSiteShop.getShopName()}">
+                    </select>
+                </div>
+            </div>
             <div class="ui form">
                 <div class="field">
-                    <textarea rows="3" id="itemCodess" name="itemCodes"></textarea>
+                    <textarea rows="3" id="itemCodess" name="itemCodes" placeholder="ショップアイテム作成(複数可)"></textarea>
                 </div>
             </div>
             <br>
             <hr>
-            <input class="fluid ui button" type="submit" value="一括操作">
+            <input class="fluid ui button" type="submit" value="ショップアイテム作成">
         </form>
+
+<!--        产品照片第一张-->
+<!--        <form class="ui form" action="/setDate" method="post">-->
+<!--            <div class="ui form">-->
+<!--                <div class="field">-->
+<!--                    <textarea rows="3" id="itemCodess" name="itemCodes"></textarea>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--            <hr>-->
+<!--            <input class="fluid ui button" type="submit" value="一括操作">-->
+<!--        </form>-->
 <!--        <a th:href="@{/setDate}">-->
 
 <!--        </a>-->
