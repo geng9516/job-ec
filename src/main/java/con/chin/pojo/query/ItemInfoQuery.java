@@ -15,9 +15,11 @@ public class ItemInfoQuery {
 
     private String searchConditions;
 
-    private String shopName;
+    private String siteShop;//进货店铺
 
     private String startDate;
+
+    private String shopName;//shop
 
     private String endDate;
 

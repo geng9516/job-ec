@@ -292,43 +292,48 @@
     <select id="findItemBySearchConditions" resultType="con.chin.pojo.Item">
 
         select *
-        from t_item
+        from t_item t1
         <where>
 
             <if test="searchConditions != null and searchConditions != ''">
-                and ( itemcode like concat('%',#{searchConditions},'%')
+                and ( t1.itemcode like concat('%',#{searchConditions},'%')
             </if>
             <if test="searchConditions != null and searchConditions != ''">
-                or itempath like '%' #{searchConditions} '%'
+                or t1.itempath like '%' #{searchConditions} '%'
             </if>
             <if test="searchConditions != null and searchConditions != ''">
-                or itemname like concat('%',#{searchConditions},'%')
+                or t1.itemname like concat('%',#{searchConditions},'%')
             </if>
             <if test="searchConditions != null and searchConditions != ''">
-                or shopname like concat('%',#{searchConditions},'%')
+                or t1.shopname like concat('%',#{searchConditions},'%')
             </if>
             <if test="searchConditions != null and searchConditions != ''">
-                or olditemcode like concat('%',#{searchConditions},'%') )
+                or t1.olditemcode like concat('%',#{searchConditions},'%') )
             </if>
-            <if test="shopName != null and shopName != ''">
-                and shopname = #{shopName}
+            <if test="siteShop != null and siteShop != ''">
+                and t1.shopname = #{siteShop}
             </if>
             <if test="itemPathFlog == 1">
-                and itemPath is not null and itemPath != ''
+                and t1.itemPath is not null and t1.itemPath != ''
             </if>
             <if test="itemPathFlog == 0">
-                and (itemPath is null or itemPath = '')
+                and (t1.itemPath is null or t1.itemPath = '')
             </if>
             <if test="flog != null">
-                and flog = #{flog}
+                and t1.flog = #{flog}
             </if>
             <if test="flog == null">
-                and flog not in (3)
+                and t1.flog not in (3)
             </if>
+            <if test="shopName!=null and shopName != ''">
+                and EXISTS(SELECT t2.itemid from t_ecsiteshopanditem t2 WHERE t2.shopname = #{shopName} and t1.itemcode =
+                t2.itemId)
+            </if>
+
 
         </where>
 
-        order by updatetime desc
+        order by t1.updatetime desc
 
     </select>
 
@@ -567,12 +572,12 @@
 
     </select>
 
-<!--&lt;!&ndash;    检索newitemcode&ndash;&gt;-->
-<!--    <select id="selectItemCodeByDesc" resultType="Integer">-->
-<!--        SELECT count(newitemcode)-->
-<!--        from t_item-->
-<!--        WHERE itemPath like concat('%',#{itemPath},'%')-->
-<!--    </select>-->
+    <!--&lt;!&ndash;    检索newitemcode&ndash;&gt;-->
+    <!--    <select id="selectItemCodeByDesc" resultType="Integer">-->
+    <!--        SELECT count(newitemcode)-->
+    <!--        from t_item-->
+    <!--        WHERE itemPath like concat('%',#{itemPath},'%')-->
+    <!--    </select>-->
 
     <!--    ###################数据错误时修改用########################-->
 

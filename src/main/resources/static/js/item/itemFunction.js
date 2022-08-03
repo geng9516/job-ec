@@ -46,6 +46,13 @@ function setEcSite() {
     $("#setEcSite").submit();
 }
 
+function setEcSiteShop() {
+    $("#setEcSiteShop").removeAttr("action");
+    $("#setEcSiteShop").attr("method", "post");
+    $("#setEcSiteShop").attr('action', "/setEcSiteShop");
+    $("#setEcSiteShop").submit();
+}
+
 function selectItemByItemPath() {
     $("#selectItemPathFlog").removeAttr("action");
     $("#selectItemPathFlog").attr("method", "post");

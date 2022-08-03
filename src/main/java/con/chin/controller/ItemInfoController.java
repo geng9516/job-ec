@@ -2,10 +2,7 @@ package con.chin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
-import con.chin.pojo.Config;
-import con.chin.pojo.Item;
-import con.chin.pojo.ItemKeyword;
-import con.chin.pojo.SiteShop;
+import con.chin.pojo.*;
 import con.chin.pojo.query.ItemInfoQuery;
 import con.chin.service.*;
 import con.chin.util.DataExportUtil;
@@ -48,6 +45,9 @@ public class ItemInfoController {
     @Autowired
     private ItemKeywordService itemKeywordService;
 
+    @Autowired
+    private EcSiteShopService ecSiteShopService;
+
     //产品一览
     @GetMapping("/iteminfo")
     public String iteminfo(Model model, @Param("id") String id, ItemInfoQuery itemInfoQuery, HttpSession httpSession) {
@@ -58,6 +58,7 @@ public class ItemInfoController {
             httpSession.removeAttribute("searchConditions");
             httpSession.removeAttribute("pageSize");
             httpSession.removeAttribute("flog");
+            httpSession.removeAttribute("ecSiteShop");
         }
         //跳转页码的时候把页码放到session中,方便刷新页面时停留在当前页
         if (itemInfoQuery.getPageNum() != null) {
@@ -66,7 +67,7 @@ public class ItemInfoController {
         //在店铺查询下在点击下一页时
         String siteShop = (String) httpSession.getAttribute("siteShop");
         if (siteShop != null && siteShop != "") {
-            itemInfoQuery.setShopName(siteShop);
+            itemInfoQuery.setSiteShop(siteShop);
         }
         //如果是店铺查询后的模糊查询,并且分页
         String searchConditions = (String) httpSession.getAttribute("searchConditions");
@@ -99,6 +100,15 @@ public class ItemInfoController {
             //前端使用
             model.addAttribute("ecSite", "yahoo");
         }
+        //ecsiteshop
+        String ecSiteShop = (String) httpSession.getAttribute("ecSiteShop");
+        //ecsiteshop已经在全局变量中存在时
+        if (ecSiteShop != null && !"".equals(ecSiteShop)) {
+            //检索条件中追加
+            itemInfoQuery.setShopName(ecSiteShop);
+            //前端使用
+            model.addAttribute("ecSiteShop", "ecSiteShop");
+        }
         //设定itemPathFlog
         String itemPathFlog = (String) httpSession.getAttribute("itemPathFlog");
         if (itemPathFlog != null && !"".equals(itemPathFlog)) {
@@ -111,11 +121,15 @@ public class ItemInfoController {
         model.addAttribute("configList", configList);
         //前端使用
         model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
-        model.addAttribute("siteShop", itemInfoQuery.getShopName());
+        model.addAttribute("siteShop", itemInfoQuery.getSiteShop());
         model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
+        //ecsiteshop一览
+        List<EcSiteShop> ecSiteShopList = ecSiteShopService.findAllEcSiteShop();
+        model.addAttribute("ecSiteShopList", ecSiteShopList);
+        //产品一览
         PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemInfoQuery);
         model.addAttribute("page", itemList);
         return "iteminfo";
@@ -141,9 +155,9 @@ public class ItemInfoController {
             //如果是店铺查询后的模糊查询,并且分页
             String siteShop = (String) httpSession.getAttribute("siteShop");
             if (siteShop != null && !"".equals(siteShop)) {
-                itemInfoQuery.setShopName(siteShop);
+                itemInfoQuery.setSiteShop(siteShop);
                 //前端使用
-                model.addAttribute("siteShop", itemInfoQuery.getShopName());
+                model.addAttribute("siteShop", itemInfoQuery.getSiteShop());
             }
             //编辑状态
             String flog = (String) httpSession.getAttribute("flog");
@@ -171,6 +185,10 @@ public class ItemInfoController {
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
+        //ecsiteshop一览
+        List<EcSiteShop> ecSiteShopList = ecSiteShopService.findAllEcSiteShop();
+        model.addAttribute("ecSiteShopList", ecSiteShopList);
+        //产品一览
         PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemInfoQuery);
         model.addAttribute("page", itemList);
         return "iteminfo";
@@ -180,10 +198,10 @@ public class ItemInfoController {
     @PostMapping("/findIteminfoBySiteShop")
     public String findIteminfoBySiteShop(Model model, ItemInfoQuery itemInfoQuery, HttpSession httpSession) {
 
-        //
-        String searchConditions = (String) httpSession.getAttribute("searchConditions");
         //变量另存
+        String searchConditions = (String) httpSession.getAttribute("searchConditions");
         String siteShop = (String) httpSession.getAttribute("siteShop");
+
         if (siteShop != null && !"".equals(siteShop)) {
             if (searchConditions != null && !"".equals(searchConditions)) {
                 //检索关键字删除
@@ -204,16 +222,16 @@ public class ItemInfoController {
                 model.addAttribute("editFlogSelect", Integer.parseInt(flog));
             }
             //把siteShop值放到全局变量中
-            httpSession.setAttribute("siteShop", itemInfoQuery.getShopName());
+            httpSession.setAttribute("siteShop", itemInfoQuery.getSiteShop());
             //前端使用
-            model.addAttribute("siteShop", itemInfoQuery.getShopName());
+            model.addAttribute("siteShop", itemInfoQuery.getSiteShop());
         } else {
-            //siteshop不为空时
-            if (itemInfoQuery.getShopName() != null && !"".equals(itemInfoQuery.getShopName())) {
+            //siteshop为空时
+            if (itemInfoQuery.getSiteShop() != null && !"".equals(itemInfoQuery.getSiteShop())) {
                 //把siteShop值放到全局变量中
-                httpSession.setAttribute("siteShop", itemInfoQuery.getShopName());
+                httpSession.setAttribute("siteShop", itemInfoQuery.getSiteShop());
                 //前端使用
-                model.addAttribute("siteShop", itemInfoQuery.getShopName());
+                model.addAttribute("siteShop", itemInfoQuery.getSiteShop());
             }
             if (searchConditions != null && !"".equals(searchConditions)) {
                 //检索关键字删除
@@ -234,6 +252,15 @@ public class ItemInfoController {
                 model.addAttribute("editFlogSelect", Integer.parseInt(flog));
             }
         }
+        //ecsiteshop
+        String ecSiteShop = (String) httpSession.getAttribute("ecSiteShop");
+        //ecsiteshop已经在全局变量中存在时
+        if (ecSiteShop != null && !"".equals(ecSiteShop)) {
+            //检索条件中追加
+            itemInfoQuery.setShopName(ecSiteShop);
+            //前端使用
+            model.addAttribute("ecSiteShop", "ecSiteShop");
+        }
         //删除itemPathFlog
         httpSession.removeAttribute("itemPathFlog");
         //取得送料设定值
@@ -242,6 +269,10 @@ public class ItemInfoController {
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
+        //ecsiteshop一览
+        List<EcSiteShop> ecSiteShopList = ecSiteShopService.findAllEcSiteShop();
+        model.addAttribute("ecSiteShopList", ecSiteShopList);
+        //产品一览
         PageInfo<Item> itemList = itemService.findItemBySiteShop(itemInfoQuery);
         model.addAttribute("page", itemList);
         return "iteminfo";
@@ -258,7 +289,7 @@ public class ItemInfoController {
         //如果siteShop不为空的话的设定查询条件
         String siteShop = (String) httpSession.getAttribute("siteShop");
         if (siteShop != null && !"".equals(siteShop)) {
-            itemInfoQuery.setShopName(siteShop);
+            itemInfoQuery.setSiteShop(siteShop);
             //前端使用
             model.addAttribute("siteShop", siteShop);
         }
@@ -275,6 +306,15 @@ public class ItemInfoController {
             //前端使用
             model.addAttribute("editFlogSelect", itemInfoQuery.getFlog());
         }
+        //ecsiteshop
+        String ecSiteShop = (String) httpSession.getAttribute("ecSiteShop");
+        //ecsiteshop已经在全局变量中存在时
+        if (ecSiteShop != null && !"".equals(ecSiteShop)) {
+            //检索条件中追加
+            itemInfoQuery.setShopName(ecSiteShop);
+            //前端使用
+            model.addAttribute("ecSiteShop", ecSiteShop);
+        }
         //删除itemPathFlog
         httpSession.removeAttribute("itemPathFlog");
         //取得送料设定值 后期修改为session
@@ -283,6 +323,9 @@ public class ItemInfoController {
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
+        //ecsiteshop一览
+        List<EcSiteShop> ecSiteShopList = ecSiteShopService.findAllEcSiteShop();
+        model.addAttribute("ecSiteShopList", ecSiteShopList);
         //一页显示数设定
         PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemInfoQuery);
         model.addAttribute("page", itemList);
@@ -296,7 +339,7 @@ public class ItemInfoController {
         //如果siteShop不为空的话的设定查询条件
         String siteShop = (String) httpSession.getAttribute("siteShop");
         if (siteShop != null && !"".equals(siteShop)) {
-            itemInfoQuery.setShopName(siteShop);
+            itemInfoQuery.setSiteShop(siteShop);
             //前端使用
             model.addAttribute("siteShop", siteShop);
         }
@@ -318,6 +361,15 @@ public class ItemInfoController {
             //前端使用
             model.addAttribute("setPageSize", itemInfoQuery.getPageSize());
         }
+        //ecsiteshop
+        String ecSiteShop = (String) httpSession.getAttribute("ecSiteShop");
+        //ecsiteshop已经在全局变量中存在时
+        if (ecSiteShop != null && !"".equals(ecSiteShop)) {
+            //检索条件中追加
+            itemInfoQuery.setShopName(ecSiteShop);
+            //前端使用
+            model.addAttribute("ecSiteShop", ecSiteShop);
+        }
         //设定itemPathFlog
         String itemPathFlog = (String) httpSession.getAttribute("itemPathFlog");
         if (itemPathFlog != null && !"".equals(itemPathFlog)) {
@@ -328,6 +380,9 @@ public class ItemInfoController {
         //siteshop一覧
         List<SiteShop> siteShopList = siteShopService.findAllSiteShop(new SiteShop());
         model.addAttribute("siteShopList", siteShopList);
+        //ecsiteshop一览
+        List<EcSiteShop> ecSiteShopList = ecSiteShopService.findAllEcSiteShop();
+        model.addAttribute("ecSiteShopList", ecSiteShopList);
         //一页显示数设定
         PageInfo<Item> itemList = itemService.findItemBySearchConditions(itemInfoQuery);
         model.addAttribute("page", itemList);
@@ -1158,6 +1213,7 @@ public class ItemInfoController {
         return "redirect:/iteminfo?pageNum=" + 1;
     }
 
+    //在全局变量中加平台
     @PostMapping("/setEcSite")
     public String setEcSite(HttpSession httpSession, @RequestParam("ecSite") String ecSite, @RequestParam("type") String type) {
 
@@ -1185,14 +1241,43 @@ public class ItemInfoController {
         return "redirect:/";
     }
 
+    //在全局变量中加平台店铺
+    @PostMapping("/setEcSiteShop")
+    public String setEcSiteShop(HttpSession httpSession, @RequestParam("ecSiteShop") String ecSiteShop, @RequestParam("type") String type) {
+
+        String ecSiteShop1 = (String) httpSession.getAttribute("ecSiteShop");
+        //ecSite已经在全局变量中存在时
+        if (ecSiteShop1 != null && !"".equals(ecSiteShop1)) {
+            //删除
+            httpSession.removeAttribute("ecSiteShop");
+        }
+        //删除itemPathFlog
+        httpSession.removeAttribute("itemPathFlog");
+        //把ecsite放到全局变量中
+        httpSession.setAttribute("ecSiteShop", ecSiteShop);
+        //从session中把pageNum取得
+        String pageNum = (String) httpSession.getAttribute("pageNum");
+        if ("item".equals(type)) {
+            if (pageNum != null && pageNum != "") {
+                return "redirect:/iteminfo?pageNum=" + pageNum;
+            } else {
+                return "redirect:/iteminfo?pageNum=" + 1;
+            }
+        } else if ("index".equals(type)) {
+            return "redirect:/";
+        }
+        return "redirect:/";
+    }
+
+    //在全局变量中加path
     @PostMapping("/selectItemPathFlog")
     public String selectItemPathFlog(HttpSession httpSession, @RequestParam("itemPathFlog") String itemPathFlog) {
 
         httpSession.setAttribute("itemPathFlog", itemPathFlog);
 
-
         return "redirect:/iteminfo?pageNum=" + 1;
     }
+
 
 
 }

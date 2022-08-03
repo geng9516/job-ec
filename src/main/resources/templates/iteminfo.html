@@ -106,8 +106,8 @@
                                         <!--店铺名查询产品一览-->
                                         <form action="" method="" id="findIteminfoBySiteShop"
                                               onchange="findIteminfoBySiteShop()">
-                                            <select class="ui dropdown" id='shopName'
-                                                    name="shopName">
+                                            <select class="ui dropdown" id='siteShop'
+                                                    name="siteShop">
                                                 <option value="">ショップを選択</option>
                                                 <option th:each="shop:${siteShopList}" th:value="${shop.getShopName()}"
                                                         th:selected="*{siteShop} == ${shop.getShopName()}"
@@ -160,15 +160,17 @@
                                 </tr>
                             </table>
                         </td>
-<!--                        <td align="right">-->
-<!--                            <form action="" method="" id="" onchange="setEcSite()">-->
-<!--                                <input hidden value="item" name="type">-->
-<!--                                <select class="ui dropdown" name="ecSite">-->
-<!--                                    <option value="">全商品</option>-->
-<!--                                    <option value="yahoo">yahoo</option>-->
-<!--                                </select>-->
-<!--                            </form>-->
-<!--                        </td>-->
+                        <td align="right">
+                            <form action="" method="" id="setEcSiteShop" onchange="setEcSiteShop()">
+                                <input hidden value="item" name="type">
+                                <select class="ui dropdown" name="ecSiteShop">
+                                    <option value="">全商品</option>
+                                    <option th:each="ecSiteShop:${ecSiteShopList}" th:value="${ecSiteShop.getShopName()}"
+                                            th:selected="*{ecSiteShop} == ${ecSiteShop.getShopName()}"
+                                            th:text="${ecSiteShop.getShopName()}">
+                                </select>
+                            </form>
+                        </td>
                         <td align="right">
                             <form action="" method="" id="setEcSite" onchange="setEcSite()">
                                 <input hidden value="item" name="type">
