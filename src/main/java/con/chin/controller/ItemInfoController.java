@@ -273,16 +273,16 @@ public class ItemInfoController {
             //检索条件中追加
             itemInfoQuery.setShopName(ecSiteShop);
             //前端使用
-            model.addAttribute("ecSiteShop", "ecSiteShop");
+            model.addAttribute("ecSiteShop", ecSiteShop);
         }
         //notShopNameItem
         String notShopNameItem = (String) httpSession.getAttribute("notShopNameItem");
         //ecsiteshop已经在全局变量中存在时
-        if (ecSiteShop != null && !"".equals(notShopNameItem)) {
+        if (notShopNameItem != null && !"".equals(notShopNameItem)) {
             //检索条件中追加
-            itemInfoQuery.setShopName(notShopNameItem);
+            itemInfoQuery.setNotShopNameItem(notShopNameItem);
             //前端使用
-            model.addAttribute("notShopNameItem", "notShopNameItem");
+            model.addAttribute("notShopNameItem", notShopNameItem);
         }
         //删除itemPathFlog
         httpSession.removeAttribute("itemPathFlog");
@@ -341,9 +341,9 @@ public class ItemInfoController {
         //notShopNameItem
         String notShopNameItem = (String) httpSession.getAttribute("notShopNameItem");
         //ecsiteshop已经在全局变量中存在时
-        if (ecSiteShop != null && !"".equals(notShopNameItem)) {
+        if (notShopNameItem != null && !"".equals(notShopNameItem)) {
             //检索条件中追加
-            itemInfoQuery.setShopName(notShopNameItem);
+            itemInfoQuery.setNotShopNameItem(notShopNameItem);
             //前端使用
             model.addAttribute("notShopNameItem", "notShopNameItem");
         }
@@ -1259,6 +1259,10 @@ public class ItemInfoController {
         httpSession.removeAttribute("itemPathFlog");
         //删除setNotShopNameItem
         httpSession.removeAttribute("notShopNameItem");
+        //删除siteShop
+        httpSession.removeAttribute("siteShop");
+        //删除flog
+        httpSession.removeAttribute("flog");
         //把ecSiteShop放到全局变量中
         httpSession.setAttribute("ecSiteShop", ecSiteShop);
         //从session中把pageNum取得
@@ -1289,6 +1293,10 @@ public class ItemInfoController {
         httpSession.removeAttribute("itemPathFlog");
         //删除ecSiteShop
         httpSession.removeAttribute("ecSiteShop");
+        //删除siteShop
+        httpSession.removeAttribute("siteShop");
+        //删除flog
+        httpSession.removeAttribute("flog");
         //把ecSiteShop放到全局变量中
         httpSession.setAttribute("notShopNameItem", notShopNameItem);
         //从session中把pageNum取得
