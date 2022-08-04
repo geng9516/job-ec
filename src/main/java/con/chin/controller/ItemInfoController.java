@@ -1254,7 +1254,7 @@ public class ItemInfoController {
         //删除itemPathFlog
         httpSession.removeAttribute("itemPathFlog");
         //删除setNotShopNameItem
-        httpSession.removeAttribute("setNotShopNameItem");
+        httpSession.removeAttribute("notShopNameItem");
         //把ecSiteShop放到全局变量中
         httpSession.setAttribute("ecSiteShop", ecSiteShop);
         //从session中把pageNum取得
