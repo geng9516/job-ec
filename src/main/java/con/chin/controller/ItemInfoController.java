@@ -60,6 +60,7 @@ public class ItemInfoController {
             httpSession.removeAttribute("flog");
             httpSession.removeAttribute("ecSiteShop");
             httpSession.removeAttribute("notShopNameItem");
+            httpSession.removeAttribute("itemPathFlog");
         }
         //跳转页码的时候把页码放到session中,方便刷新页面时停留在当前页
         if (itemInfoQuery.getPageNum() != null) {
@@ -151,9 +152,12 @@ public class ItemInfoController {
 
         //没有输入查询条件时把session中的值删掉
         if (itemInfoQuery.getSearchConditions() == null || "".equals(itemInfoQuery.getSearchConditions())) {
-            httpSession.removeAttribute("siteShop");
+//            httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("pageSize");
             httpSession.removeAttribute("flog");
+            httpSession.removeAttribute("ecSiteShop");
+            httpSession.removeAttribute("notShopNameItem");
+            httpSession.removeAttribute("itemPathFlog");
         } else {
             //如果表示页数有修改的话,进行设定
             String pageSize = (String) httpSession.getAttribute("pageSize");
