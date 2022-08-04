@@ -53,7 +53,14 @@ function setEcSiteShop() {
     $("#setEcSiteShop").submit();
 }
 
-function selectItemByItemPath() {
+function setNotShopNameItem() {
+    $("#setNotShopNameItem").removeAttr("action");
+    $("#setNotShopNameItem").attr("method", "post");
+    $("#setNotShopNameItem").attr('action', "/setNotShopNameItem");
+    $("#setNotShopNameItem").submit();
+}
+
+function selectItemPathFlog() {
     $("#selectItemPathFlog").removeAttr("action");
     $("#selectItemPathFlog").attr("method", "post");
     $("#selectItemPathFlog").attr('action', "/selectItemPathFlog");

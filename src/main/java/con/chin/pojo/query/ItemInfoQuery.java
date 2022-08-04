@@ -21,6 +21,8 @@ public class ItemInfoQuery {
 
     private String shopName;//shop
 
+    private String notShopNameItem;//notShopNameItem
+
     private String endDate;
 
     //产品的类别是否有值时判断

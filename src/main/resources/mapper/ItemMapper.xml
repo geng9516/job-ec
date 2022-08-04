@@ -329,6 +329,10 @@
                 and EXISTS(SELECT t2.itemid from t_ecsiteshopanditem t2 WHERE t2.shopname = #{shopName} and t1.itemcode =
                 t2.itemId)
             </if>
+            <if test="notShopNameItem!=null and notShopNameItem != ''">
+                and not EXISTS(SELECT t2.itemid from t_ecsiteshopanditem t2 WHERE t2.shopname = #{notShopNameItem} and t1.itemcode =
+                t2.itemId)
+            </if>
 
 
         </where>

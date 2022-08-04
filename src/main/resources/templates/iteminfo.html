@@ -160,13 +160,23 @@
                                 </tr>
                             </table>
                         </td>
-                        <td align="right">
+                        <td align="">
+                            <form action="" method="" id="setNotShopNameItem" onchange="setNotShopNameItem()">
+                                <input hidden value="item" name="type">
+                                <select class="ui dropdown" name="notShopNameItem">
+                                    <option value="">店舗既存商品除外</option>
+                                    <option th:each="notShopNameItem:${ecSiteShopList}" th:value="${notShopNameItem.getShopName()}"
+                                            th:selected="*{notShopNameItem} == ${notShopNameItem.getShopName()}" th:text="${notShopNameItem.getShopName()}">
+                                </select>
+                            </form>
+                        </td>
+                        <td align="">
                             <form action="" method="" id="setEcSiteShop" onchange="setEcSiteShop()">
                                 <input hidden value="item" name="type">
                                 <select class="ui dropdown" name="ecSiteShop">
                                     <option value="">全商品</option>
                                     <option th:each="ecSiteShop:${ecSiteShopList}" th:value="${ecSiteShop.getShopName()}"
-                                            th:selected="*{ecSiteShop} eq ${ecSiteShop.getShopName()}"
+                                            th:selected="${ecSiteShop} == ${ecSiteShop.getShopName()}"
                                             th:text="${ecSiteShop.getShopName()}">
                                 </select>
                             </form>
