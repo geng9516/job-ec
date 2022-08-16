@@ -128,7 +128,8 @@
                                                 </option>
                                                 <!--<option value="3">ダウンロード済</option>-->
                                                 <option value="3" th:selected="${editFlogSelect} eq '3'">削除待状態</option>
-                                                <option value="5" th:selected="${editFlogSelect} eq '5'">未編集（中国語）</option>
+                                                <option value="5" th:selected="${editFlogSelect} eq '5'">未編集（中国語）
+                                                </option>
                                             </select>
                                         </form>
                                     </td>
@@ -157,40 +158,73 @@
                                             </div>
                                         </form>
                                     </td>
+                                    <td align="">
+                                        <form action="" method="" id="setNotShopNameItem"
+                                              onchange="setNotShopNameItem()">
+                                            <select class="ui dropdown" name="notShopNameItem">
+                                                <option value="">店舗既存商品除外</option>
+                                                <option th:each="notShopNameItem:${ecSiteShopList}"
+                                                        th:value="${notShopNameItem.getShopName()}"
+                                                        th:selected="*{notShopNameItem} == ${notShopNameItem.getShopName()}"
+                                                        th:text="${notShopNameItem.getShopName()}">
+                                            </select>
+                                        </form>
+                                    </td>
+                                    <td align="">
+                                        <form action="" method="" id="setEcSiteShop" onchange="setEcSiteShop()">
+                                            <select class="ui dropdown" name="ecSiteShop">
+                                                <option value="">全商品</option>
+                                                <option th:each="ecSiteShop:${ecSiteShopList}"
+                                                        th:value="${ecSiteShop.getShopName()}"
+                                                        th:selected="*{ecSiteShop} == ${ecSiteShop.getShopName()}"
+                                                        th:text="${ecSiteShop.getShopName()}">
+                                            </select>
+                                        </form>
+                                    </td>
+                                    <td align="right">
+                                        <form action="" method="" id="setEcSite" onchange="setEcSite()">
+                                            <input hidden value="item" name="type">
+                                            <select class="ui dropdown" name="ecSite">
+                                                <option value="">ECサイト</option>
+                                                <option value="yahoo" th:selected="${ecSite} eq 'yahoo'">yahoo</option>
+                                                <option value="au" th:selected="${ecSite} eq 'au'">au</option>
+                                            </select>
+                                        </form>
+                                    </td>
                                 </tr>
                             </table>
                         </td>
-                        <td align="">
-                            <form action="" method="" id="setNotShopNameItem" onchange="setNotShopNameItem()">
-                                <input hidden value="item" name="type">
-                                <select class="ui dropdown" name="notShopNameItem">
-                                    <option value="">店舗既存商品除外</option>
-                                    <option th:each="notShopNameItem:${ecSiteShopList}" th:value="${notShopNameItem.getShopName()}"
-                                            th:selected="*{notShopNameItem} == ${notShopNameItem.getShopName()}" th:text="${notShopNameItem.getShopName()}">
-                                </select>
-                            </form>
-                        </td>
-                        <td align="">
-                            <form action="" method="" id="setEcSiteShop" onchange="setEcSiteShop()">
-                                <input hidden value="item" name="type">
-                                <select class="ui dropdown" name="ecSiteShop">
-                                    <option value="">全商品</option>
-                                    <option th:each="ecSiteShop:${ecSiteShopList}" th:value="${ecSiteShop.getShopName()}"
-                                            th:selected="${ecSiteShop} == ${ecSiteShop.getShopName()}"
-                                            th:text="${ecSiteShop.getShopName()}">
-                                </select>
-                            </form>
-                        </td>
-                        <td align="right">
-                            <form action="" method="" id="setEcSite" onchange="setEcSite()">
-                                <input hidden value="item" name="type">
-                                <select class="ui dropdown" name="ecSite">
-                                    <option value="">ECサイト</option>
-                                    <option value="yahoo" th:selected="${ecSite} eq 'yahoo'">yahoo</option>
-                                    <option value="au" th:selected="${ecSite} eq 'au'">au</option>
-                                </select>
-                            </form>
-                        </td>
+                        <!--                        <td align="">-->
+                        <!--                            <form action="" method="" id="setNotShopNameItem" onchange="setNotShopNameItem()">-->
+                        <!--                                <input hidden value="item" name="type">-->
+                        <!--                                <select class="ui dropdown" name="notShopNameItem">-->
+                        <!--                                    <option value="">店舗既存商品除外</option>-->
+                        <!--                                    <option th:each="notShopNameItem:${ecSiteShopList}" th:value="${notShopNameItem.getShopName()}"-->
+                        <!--                                            th:selected="*{notShopNameItem} == ${notShopNameItem.getShopName()}" th:text="${notShopNameItem.getShopName()}">-->
+                        <!--                                </select>-->
+                        <!--                            </form>-->
+                        <!--                        </td>-->
+                        <!--                        <td align="">-->
+                        <!--                            <form action="" method="" id="setEcSiteShop" onchange="setEcSiteShop()">-->
+                        <!--                                <input hidden value="item" name="type">-->
+                        <!--                                <select class="ui dropdown" name="ecSiteShop">-->
+                        <!--                                    <option value="">全商品</option>-->
+                        <!--                                    <option th:each="ecSiteShop:${ecSiteShopList}" th:value="${ecSiteShop.getShopName()}"-->
+                        <!--                                            th:selected="${ecSiteShop} == ${ecSiteShop.getShopName()}"-->
+                        <!--                                            th:text="${ecSiteShop.getShopName()}">-->
+                        <!--                                </select>-->
+                        <!--                            </form>-->
+                        <!--                        </td>-->
+                        <!--                        <td align="right">-->
+                        <!--                            <form action="" method="" id="setEcSite" onchange="setEcSite()">-->
+                        <!--                                <input hidden value="item" name="type">-->
+                        <!--                                <select class="ui dropdown" name="ecSite">-->
+                        <!--                                    <option value="">ECサイト</option>-->
+                        <!--                                    <option value="yahoo" th:selected="${ecSite} eq 'yahoo'">yahoo</option>-->
+                        <!--                                    <option value="au" th:selected="${ecSite} eq 'au'">au</option>-->
+                        <!--                                </select>-->
+                        <!--                            </form>-->
+                        <!--                        </td>-->
                     </tr>
                 </table>
 
@@ -209,7 +243,8 @@
                             <span th:case="${5}"></span>
                             <span th:case="*">
                                 <span>
-                                    <select class="ui dropdown" id="downloadCsv" name="downloadCsv" onchange="bulkOperation()">
+                                    <select class="ui dropdown" id="downloadCsv" name="downloadCsv"
+                                            onchange="bulkOperation()">
                                         <option value="">ダウンロード</option>
                                         <option value="0">アイテムCSVのみ</option>
                                         <option value="1">商品画像のみ</option>
@@ -225,9 +260,11 @@
                             <span th:case="${5}"></span>
                             <span th:case="*">
                                 <span>
-                                    <select class="ui dropdown" id="ecSiteShop" name="ecSiteShop" onchange="importItemToEcsiteShop()">
+                                    <select class="ui dropdown" id="ecSiteShop" name="ecSiteShop"
+                                            onchange="importItemToEcsiteShop()">
                                         <option value="">ECサイトショップインポート</option>
-                                        <option th:each="ecSiteShop:${ecSiteShopList}" th:value="${ecSiteShop.getShopName()}"
+                                        <option th:each="ecSiteShop:${ecSiteShopList}"
+                                                th:value="${ecSiteShop.getShopName()}"
                                                 th:selected="*{ecSiteShop} eq ${ecSiteShop.getShopName()}"
                                                 th:text="${ecSiteShop.getShopName()}">
                                     </select>
@@ -485,14 +522,14 @@
                                         Save
                                     </button>
                                     <br><br>
-<!--                                    <span th:switch="${editFlogSelect}">-->
-<!--                                        <span th:case="2"></span>-->
-<!--                                        <span th:case="*">-->
-<!--                                            <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"-->
-<!--                                               class="ui button mini teal">一時保管へ-->
-<!--                                            </a>-->
-<!--                                        </span>-->
-<!--                                    </span>-->
+                                    <!--                                    <span th:switch="${editFlogSelect}">-->
+                                    <!--                                        <span th:case="2"></span>-->
+                                    <!--                                        <span th:case="*">-->
+                                    <!--                                            <a th:href="@{setItemFlogToEdit(itemCode=${item.getItemCode()},itemFlog=${2})}"-->
+                                    <!--                                               class="ui button mini teal">一時保管へ-->
+                                    <!--                                            </a>-->
+                                    <!--                                        </span>-->
+                                    <!--                                    </span>-->
                                 </span>
                             </span>
                             <br><br><br><br><br><br><br><br><br><br>
@@ -543,14 +580,15 @@
                                                 &emsp;&emsp;&emsp;&emsp;<input name="price" size="6">
                                             </span>
                                             <span th:case="*" class="ui input mini">
-                                                &emsp;&emsp;&emsp;&emsp;<input th:value="${item.getPrice()}" name="price" size="6" readonly>
+                                                &emsp;&emsp;&emsp;&emsp;<input th:value="${item.getPrice()}"
+                                                                               name="price" size="6" readonly>
                                             </span>
                                         </span>　　　　
 
                                     </div>
                                 </tr>
                                 <tr>
-                                        カテゴリーNO：
+                                    カテゴリーNO：
                                     <span class="ui input mini">
                                         <input name="categoryCode"
                                                th:value="${item.getItemCategoryCode()}" size="6" readonly disabled>

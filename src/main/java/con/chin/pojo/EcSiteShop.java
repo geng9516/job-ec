@@ -29,4 +29,11 @@ public class EcSiteShop {
     public Long getId() {
         return id;
     }
+
+    public boolean isSelected(String shopName){
+        if (shopName != null) {
+            return shopName.equals(this.shopName);
+        }
+        return false;
+    }
 }

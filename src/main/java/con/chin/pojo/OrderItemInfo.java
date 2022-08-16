@@ -41,7 +41,7 @@ public class OrderItemInfo {
     private String leadTimeEnd;//発送日エンド
     private String leadTimeText;//発送日テキスト
 
-    private List<Item> itemList;
+    private Item item;
 
     public void setId(Long id) {
         this.id = id;

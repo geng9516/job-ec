@@ -1,5 +1,6 @@
 package con.chin.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -39,6 +40,7 @@ public class OrderInfo {
     private String payStatus;//入金ステータス
     private String deviceType;//注文媒体
 
+    @JsonProperty("orderItemInfo_id")
     private List<OrderItemInfo> orderItemInfoList;
 
 

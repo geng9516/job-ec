@@ -1247,7 +1247,7 @@ public class ItemInfoController {
 
     //在全局变量中加平台店铺
     @PostMapping("/setEcSiteShop")
-    public String setEcSiteShop(HttpSession httpSession, @RequestParam("ecSiteShop") String ecSiteShop, @RequestParam("type") String type,Model model) {
+    public String setEcSiteShop(HttpSession httpSession, @RequestParam("ecSiteShop") String ecSiteShop, Model model) {
 
         String ecSiteShop1 = (String) httpSession.getAttribute("ecSiteShop");
         //ecSite已经在全局变量中存在时
@@ -1267,21 +1267,16 @@ public class ItemInfoController {
         httpSession.setAttribute("ecSiteShop", ecSiteShop);
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
-        if ("item".equals(type)) {
-            if (pageNum != null && pageNum != "") {
-                return "redirect:/iteminfo?pageNum=" + pageNum;
-            } else {
-                return "redirect:/iteminfo?pageNum=" + 1;
-            }
-        } else if ("index".equals(type)) {
-            return "redirect:/";
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        } else {
+            return "redirect:/iteminfo?pageNum=" + 1;
         }
-        return "redirect:/";
     }
 
     //在全局变量中加平台店铺2
     @PostMapping("/setNotShopNameItem")
-    public String setNotShopNameItem(HttpSession httpSession, @RequestParam("notShopNameItem") String notShopNameItem, @RequestParam("type") String type,Model model) {
+    public String setNotShopNameItem(HttpSession httpSession, @RequestParam("notShopNameItem") String notShopNameItem, Model model) {
 
         String notShopNameItem1 = (String) httpSession.getAttribute("notShopNameItem");
         //ecSite已经在全局变量中存在时
@@ -1301,16 +1296,11 @@ public class ItemInfoController {
         httpSession.setAttribute("notShopNameItem", notShopNameItem);
         //从session中把pageNum取得
         String pageNum = (String) httpSession.getAttribute("pageNum");
-        if ("item".equals(type)) {
-            if (pageNum != null && pageNum != "") {
-                return "redirect:/iteminfo?pageNum=" + pageNum;
-            } else {
-                return "redirect:/iteminfo?pageNum=" + 1;
-            }
-        } else if ("index".equals(type)) {
-            return "redirect:/";
+        if (pageNum != null && pageNum != "") {
+            return "redirect:/iteminfo?pageNum=" + pageNum;
+        } else {
+            return "redirect:/iteminfo?pageNum=" + 1;
         }
-        return "redirect:/";
     }
 
     //在全局变量中加path
@@ -1325,15 +1315,15 @@ public class ItemInfoController {
     @Autowired
     private EcSiteShopAndItemService ecSiteShopAndItemService;
 
-    //
+    //ショップアイテム作成
     @ResponseBody
     @PostMapping("/importItemToEcsiteShop")
     public String importItemToEcsiteShop(HttpSession httpSession,
-                               @RequestParam("listString[]") List<String> itemList,
-                               @RequestParam("ecSiteShop") String ecSiteShop
+                                         @RequestParam("listString[]") List<String> itemList,
+                                         @RequestParam("ecSiteShop") String ecSiteShop
     ) {
 
-        ecSiteShopAndItemService.importItemToEcsiteShop(itemList,ecSiteShop);
+        ecSiteShopAndItemService.importItemToEcsiteShop(itemList, ecSiteShop);
 
         Gson gson = new Gson();
 

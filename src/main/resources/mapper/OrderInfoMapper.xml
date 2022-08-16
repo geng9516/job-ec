@@ -19,118 +19,124 @@
     <!--    </select>-->
 
 
-    <select id="findAllOrderInfo" resultMap="order">
+<!--    <select id="findAllOrderInfo" resultMap="order">-->
 
-        select *
-        from t_orderinfo a1
-                 left outer join t_orderiteminfo a2
-                           on a1.orderid = a2.orderid
-                 LEFT JOIN t_item a3 on a2.itemid = a3.itemcode
-        order by a1.orderid, a2.itemId asc
---                  LEFT JOIN t_item a3 on a2.itemid = a3.itemcode
+<!--        &#45;&#45;         select *-->
+<!--&#45;&#45;         from t_orderinfo a1-->
+<!--&#45;&#45;                  left outer join t_orderiteminfo a2-->
+<!--&#45;&#45;                            on a1.orderid = a2.orderid-->
+<!--&#45;&#45;                  LEFT JOIN t_item a3 on a2.itemid = a3.itemcode-->
+<!--&#45;&#45;         order by a1.orderid, a2.itemId asc-->
+<!--&#45;&#45;                  LEFT JOIN t_item a3 on a2.itemid = a3.itemcode-->
 
-    </select>
+<!--        SELECT *-->
+<!--        from t_orderinfo t1-->
+<!--                 left JOIN t_orderiteminfo t2 on t1.orderid = t2.orderid-->
+<!--                 LEFT JOIN t_item t3 on t2.itemid = t3.itemcode-->
+<!--        order by t1.orderid, t2.itemId asc-->
+
+<!--    </select>-->
 
 
-    <resultMap id="order" type="con.chin.pojo.OrderInfo">
-        <id column="id" property="id"/>
-        <result column="orderId" property="orderId"/>
-        <result column="shopNameAndOrderId" property="shopNameAndOrderId"/>
-        <result column="orderTime" property="orderTime"/>
-        <result column="shipNameKana" property="shipNameKana"/>
-        <result column="shipName" property="shipName"/>
-        <result column="shipZipCode" property="shipZipCode"/>
-        <result column="shipAddressFull" property="shipAddressFull"/>
-        <result column="shipPrefecture" property="shipPrefecture"/>
-        <result column="shipCity" property="shipCity"/>
-        <result column="shipAddress1" property="shipAddress1"/>
-        <result column="shipAddress2" property="shipAddress2"/>
-        <result column="shipPhoneNumber" property="shipPhoneNumber"/>
-        <result column="shipMethodName" property="shipMethodName"/>
-        <result column="shipCompanyCode" property="shipCompanyCode"/>
-        <result column="shipInvoiceNumber1" property="shipInvoiceNumber1"/>
-        <result column="shipInvoiceNumber2" property="shipInvoiceNumber2"/>
-        <result column="shipDate" property="shipDate"/>
-        <result column="billMailAddress" property="billMailAddress"/>
-        <result column="shipCharge" property="shipCharge"/>
-        <result column="total" property="total"/>
-        <result column="referer" property="referer"/>
-        <result column="payMethodName" property="payMethodName"/>
-        <result column="combinedPayMethodName" property="combinedPayMethodName"/>
-        <result column="shipStatus" property="shipStatus"/>
-        <result column="payStatus" property="payStatus"/>
-        <result column="deviceType" property="deviceType"/>
-        <collection property="orderItemInfoList" ofType="con.chin.pojo.OrderItemInfo">
-            <id column="id" property="id"></id>
-            <result column="orderId" property="orderId"/>
-            <result column="lineId" property="lineId"/>
-            <result column="quantity" property="quantity"/>
-            <result column="itemId" property="itemId"/>
-            <result column="subCode" property="subCode"/>
-            <result column="title" property="title"/>
-            <result column="itemOptionName" property="itemOptionName"/>
-            <result column="itemOptionValue" property="itemOptionValue"/>
-            <result column="itemOptionPrice" property="itemOptionPrice"/>
-            <result column="subCodeOption" property="subCodeOption"/>
-            <result column="inscriptionName" property="inscriptionName"/>
-            <result column="inscriptionValue" property="inscriptionValue"/>
-            <result column="unitPrice" property="unitPrice"/>
-            <result column="priceType" property="priceType"/>
-            <result column="unitGetPoint" property="unitGetPoint"/>
-            <result column="lineSubTotal" property="lineSubTotal"/>
-            <result column="lineGetPoint" property="lineGetPoint"/>
-            <result column="pointFspCode" property="pointFspCode"/>
-            <result column="couponId" property="couponId"/>
-            <result column="couponDiscount" property="couponDiscount"/>
-            <result column="originalPrice" property="originalPrice"/>
-            <result column="isGetPointFix" property="isGetPointFix"/>
-            <result column="getPointFixDate" property="getPointFixDate"/>
-            <result column="getPointType" property="getPointType"/>
-            <result column="lineGetPointChargedToStore" property="lineGetPointChargedToStore"/>
-            <result column="leadTimeStart" property="leadTimeStart"/>
-            <result column="leadTimeEnd" property="leadTimeEnd"/>
-            <result column="leadTimeText" property="leadTimeText"/>
-            <collection property="itemList" ofType="con.chin.pojo.Item">
-                <id column="id" property="id"></id>
-                <result column="siteName" property="siteName"/>
-                <result column="shopName" property="shopName"/>
-                <result column="itemCode" property="itemCode"/>
-                <result column="oldItemCode" property="oldItemCode"/>
-                <result column="itemPath" property="itemPath"/>
-                <result column="itemCategoryCode" property="itemCategoryCode"/>
-                <result column="itemName" property="itemName"/>
-                <result column="price" property="price"/>
-                <result column="purchasePrice" property="purchasePrice"/>
-                <result column="salePrice" property="salePrice"/>
-                <result column="delivery" property="delivery"/>
-                <result column="option1" property="option1"/>
-                <result column="value1" property="value1"/>
-                <result column="option2" property="option2"/>
-                <result column="value2" property="value2"/>
-                <result column="option3" property="option3"/>
-                <result column="value3" property="value3"/>
-                <result column="option4" property="option4"/>
-                <result column="value4" property="value4"/>
-                <result column="option5" property="option5"/>
-                <result column="value5" property="value5"/>
-                <result column="url1" property="url1"/>
-                <result column="url2" property="url2"/>
-                <result column="url3" property="url3"/>
-                <result column="url4" property="url4"/>
-                <result column="url5" property="url5"/>
-                <result column="headline" property="headline"/>
-                <result column="caption" property="caption"/>
-                <result column="explanation" property="explanation"/>
-                <result column="relevantLinks" property="relevantLinks"/>
-                <result column="flog" property="flog"/>
-                <result column="image" property="image"/>
-                <result column="created" property="created"/>
-                <result column="updatetime" property="updatetime"/>
-                <result column="endDate" property="endDate"/>
-            </collection>
-        </collection>
+<!--    <resultMap id="order" type="con.chin.pojo.OrderInfo">-->
+<!--        <id column="id" property="id"/>-->
+<!--        <result column="orderId" property="orderId"/>-->
+<!--        <result column="shopNameAndOrderId" property="shopNameAndOrderId"/>-->
+<!--        <result column="orderTime" property="orderTime"/>-->
+<!--        <result column="shipNameKana" property="shipNameKana"/>-->
+<!--        <result column="shipName" property="shipName"/>-->
+<!--        <result column="shipZipCode" property="shipZipCode"/>-->
+<!--        <result column="shipAddressFull" property="shipAddressFull"/>-->
+<!--        <result column="shipPrefecture" property="shipPrefecture"/>-->
+<!--        <result column="shipCity" property="shipCity"/>-->
+<!--        <result column="shipAddress1" property="shipAddress1"/>-->
+<!--        <result column="shipAddress2" property="shipAddress2"/>-->
+<!--        <result column="shipPhoneNumber" property="shipPhoneNumber"/>-->
+<!--        <result column="shipMethodName" property="shipMethodName"/>-->
+<!--        <result column="shipCompanyCode" property="shipCompanyCode"/>-->
+<!--        <result column="shipInvoiceNumber1" property="shipInvoiceNumber1"/>-->
+<!--        <result column="shipInvoiceNumber2" property="shipInvoiceNumber2"/>-->
+<!--        <result column="shipDate" property="shipDate"/>-->
+<!--        <result column="billMailAddress" property="billMailAddress"/>-->
+<!--        <result column="shipCharge" property="shipCharge"/>-->
+<!--        <result column="total" property="total"/>-->
+<!--        <result column="referer" property="referer"/>-->
+<!--        <result column="payMethodName" property="payMethodName"/>-->
+<!--        <result column="combinedPayMethodName" property="combinedPayMethodName"/>-->
+<!--        <result column="shipStatus" property="shipStatus"/>-->
+<!--        <result column="payStatus" property="payStatus"/>-->
+<!--        <result column="deviceType" property="deviceType"/>-->
+<!--        <collection property="orderItemInfoList" select="con.chin.pojo.OrderItemInfo">-->
+<!--            <id column="id" property="id"></id>-->
+<!--            <result column="orderId" property="orderId"/>-->
+<!--            <result column="lineId" property="lineId"/>-->
+<!--            <result column="quantity" property="quantity"/>-->
+<!--            <result column="itemId" property="itemId"/>-->
+<!--            <result column="subCode" property="subCode"/>-->
+<!--            <result column="title" property="title"/>-->
+<!--            <result column="itemOptionName" property="itemOptionName"/>-->
+<!--            <result column="itemOptionValue" property="itemOptionValue"/>-->
+<!--            <result column="itemOptionPrice" property="itemOptionPrice"/>-->
+<!--            <result column="subCodeOption" property="subCodeOption"/>-->
+<!--            <result column="inscriptionName" property="inscriptionName"/>-->
+<!--            <result column="inscriptionValue" property="inscriptionValue"/>-->
+<!--            <result column="unitPrice" property="unitPrice"/>-->
+<!--            <result column="priceType" property="priceType"/>-->
+<!--            <result column="unitGetPoint" property="unitGetPoint"/>-->
+<!--            <result column="lineSubTotal" property="lineSubTotal"/>-->
+<!--            <result column="lineGetPoint" property="lineGetPoint"/>-->
+<!--            <result column="pointFspCode" property="pointFspCode"/>-->
+<!--            <result column="couponId" property="couponId"/>-->
+<!--            <result column="couponDiscount" property="couponDiscount"/>-->
+<!--            <result column="originalPrice" property="originalPrice"/>-->
+<!--            <result column="isGetPointFix" property="isGetPointFix"/>-->
+<!--            <result column="getPointFixDate" property="getPointFixDate"/>-->
+<!--            <result column="getPointType" property="getPointType"/>-->
+<!--            <result column="lineGetPointChargedToStore" property="lineGetPointChargedToStore"/>-->
+<!--            <result column="leadTimeStart" property="leadTimeStart"/>-->
+<!--            <result column="leadTimeEnd" property="leadTimeEnd"/>-->
+<!--            <result column="leadTimeText" property="leadTimeText"/>-->
+<!--            <collection property="item" ofType="con.chin.pojo.Item">-->
+<!--                <id column="id" property="id"></id>-->
+<!--                <result column="siteName" property="siteName"/>-->
+<!--                <result column="shopName" property="shopName"/>-->
+<!--                <result column="itemCode" property="itemCode"/>-->
+<!--                <result column="oldItemCode" property="oldItemCode"/>-->
+<!--                <result column="itemPath" property="itemPath"/>-->
+<!--                <result column="itemCategoryCode" property="itemCategoryCode"/>-->
+<!--                <result column="itemName" property="itemName"/>-->
+<!--                <result column="price" property="price"/>-->
+<!--                <result column="purchasePrice" property="purchasePrice"/>-->
+<!--                <result column="salePrice" property="salePrice"/>-->
+<!--                <result column="delivery" property="delivery"/>-->
+<!--                <result column="option1" property="option1"/>-->
+<!--                <result column="value1" property="value1"/>-->
+<!--                <result column="option2" property="option2"/>-->
+<!--                <result column="value2" property="value2"/>-->
+<!--                <result column="option3" property="option3"/>-->
+<!--                <result column="value3" property="value3"/>-->
+<!--                <result column="option4" property="option4"/>-->
+<!--                <result column="value4" property="value4"/>-->
+<!--                <result column="option5" property="option5"/>-->
+<!--                <result column="value5" property="value5"/>-->
+<!--                <result column="url1" property="url1"/>-->
+<!--                <result column="url2" property="url2"/>-->
+<!--                <result column="url3" property="url3"/>-->
+<!--                <result column="url4" property="url4"/>-->
+<!--                <result column="url5" property="url5"/>-->
+<!--                <result column="headline" property="headline"/>-->
+<!--                <result column="caption" property="caption"/>-->
+<!--                <result column="explanation" property="explanation"/>-->
+<!--                <result column="relevantLinks" property="relevantLinks"/>-->
+<!--                <result column="flog" property="flog"/>-->
+<!--                <result column="image" property="image"/>-->
+<!--                <result column="created" property="created"/>-->
+<!--                <result column="updatetime" property="updatetime"/>-->
+<!--                <result column="endDate" property="endDate"/>-->
+<!--            </collection>-->
+<!--        </collection>-->
 
-    </resultMap>
+<!--    </resultMap>-->
 </mapper>
 
 
