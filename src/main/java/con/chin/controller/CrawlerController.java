@@ -2,7 +2,6 @@ package con.chin.controller;
 
 import con.chin.pojo.EcSiteShop;
 import con.chin.pojo.Item;
-import con.chin.pojo.ItemCategory;
 import con.chin.service.EcSiteShopAndItemService;
 import con.chin.service.EcSiteShopService;
 import con.chin.service.ItemCategoryService;
@@ -23,7 +22,6 @@ import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,6 +45,8 @@ public class CrawlerController {
 
     @GetMapping("/")
     public String index(Model model, HttpSession httpSession) {
+        //开始时间
+        long start = System.currentTimeMillis();
         //把查询条件清空
         httpSession.removeAttribute("siteShop");
         httpSession.removeAttribute("searchConditions");
@@ -60,6 +60,9 @@ public class CrawlerController {
         List<EcSiteShop> ecSiteShopList = ecSiteShopService.findAllEcSiteShop();
         model.addAttribute("ecSiteShopList", ecSiteShopList);
         model.addAttribute("ecSite", ecSite);
+        //结束时间
+        long end = System.currentTimeMillis();
+        System.out.println(" 耗时：" + (end - start) + " ms");
         return "index";
     }
 
