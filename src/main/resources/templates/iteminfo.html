@@ -163,21 +163,21 @@
                                               onchange="setNotShopNameItem()">
                                             <select class="ui dropdown" name="notShopNameItem">
                                                 <option value="">店舗既存商品除外</option>
-                                                <option th:each="notShopNameItem:${ecSiteShopList}"
-                                                        th:value="${notShopNameItem.getShopName()}"
-                                                        th:selected="*{notShopNameItem} == ${notShopNameItem.getShopName()}"
-                                                        th:text="${notShopNameItem.getShopName()}">
+                                                <option th:each="notShopNameItem1:${ecSiteShopList}"
+                                                        th:value="${notShopNameItem1.getShopName()}"
+                                                        th:selected="*{notShopNameItem} == ${notShopNameItem1.getShopName()}"
+                                                        th:text="${notShopNameItem1.getShopName()}">
                                             </select>
                                         </form>
                                     </td>
                                     <td align="">
                                         <form action="" method="" id="setEcSiteShop" onchange="setEcSiteShop()">
                                             <select class="ui dropdown" name="ecSiteShop">
-                                                <option value="">全商品</option>
-                                                <option th:each="ecSiteShop:${ecSiteShopList}"
-                                                        th:value="${ecSiteShop.getShopName()}"
-                                                        th:selected="*{ecSiteShop} == ${ecSiteShop.getShopName()}"
-                                                        th:text="${ecSiteShop.getShopName()}">
+                                                <option value="">各ショップ商品</option>
+                                                <option th:each="ecSiteShop1:${ecSiteShopList}"
+                                                        th:value="${ecSiteShop1.getShopName()}"
+                                                        th:selected="*{ecSiteShop} == ${ecSiteShop1.getShopName()}"
+                                                        th:text="${ecSiteShop1.getShopName()}">
                                             </select>
                                         </form>
                                     </td>
@@ -309,7 +309,7 @@
                                               onclick="setItemsFlog(3)">削除準備</button>
                             </span>
                         </span>
-                        <!--                        店铺被选中时的编辑项-->
+                        <!-- 店铺被选中时的编辑项-->
                         <span th:switch="${siteShop}">
                             <span th:case="null">
                                 <span th:switch="${editFlogSelect}">

@@ -68,7 +68,7 @@ public class ItemInfoController {
         }
         //在店铺查询下在点击下一页时
         String siteShop = (String) httpSession.getAttribute("siteShop");
-        if (siteShop != null && siteShop != "") {
+        if (siteShop != null && !"".equals(siteShop)) {
             itemInfoQuery.setSiteShop(siteShop);
         }
         //如果是店铺查询后的模糊查询,并且分页
@@ -156,6 +156,7 @@ public class ItemInfoController {
             httpSession.removeAttribute("pageSize");
             httpSession.removeAttribute("flog");
             httpSession.removeAttribute("ecSiteShop");
+            httpSession.removeAttribute("siteShop");
             httpSession.removeAttribute("notShopNameItem");
             httpSession.removeAttribute("itemPathFlog");
         } else {
@@ -1254,15 +1255,17 @@ public class ItemInfoController {
         if (ecSiteShop1 != null && !"".equals(ecSiteShop1)) {
             //删除
             httpSession.removeAttribute("ecSiteShop");
+            if(!ecSiteShop.equals(ecSiteShop1)){
+                //删除itemPathFlog
+                httpSession.removeAttribute("itemPathFlog");
+                //删除setNotShopNameItem
+                httpSession.removeAttribute("notShopNameItem");
+                //删除siteShop
+                httpSession.removeAttribute("siteShop");
+                //删除flog
+                httpSession.removeAttribute("flog");
+            }
         }
-        //删除itemPathFlog
-        httpSession.removeAttribute("itemPathFlog");
-        //删除setNotShopNameItem
-        httpSession.removeAttribute("notShopNameItem");
-        //删除siteShop
-        httpSession.removeAttribute("siteShop");
-        //删除flog
-        httpSession.removeAttribute("flog");
         //把ecSiteShop放到全局变量中
         httpSession.setAttribute("ecSiteShop", ecSiteShop);
         //从session中把pageNum取得
@@ -1279,19 +1282,22 @@ public class ItemInfoController {
     public String setNotShopNameItem(HttpSession httpSession, @RequestParam("notShopNameItem") String notShopNameItem, Model model) {
 
         String notShopNameItem1 = (String) httpSession.getAttribute("notShopNameItem");
-        //ecSite已经在全局变量中存在时
+        //ecSite已经在全局变量中存在并且没有改变
         if (notShopNameItem1 != null && !"".equals(notShopNameItem1)) {
             //删除
             httpSession.removeAttribute("notShopNameItem");
+            if (!notShopNameItem.equals(notShopNameItem1)) {
+                //删除itemPathFlog
+                httpSession.removeAttribute("itemPathFlog");
+                //删除ecSiteShop
+                httpSession.removeAttribute("ecSiteShop");
+                //删除siteShop
+                httpSession.removeAttribute("siteShop");
+                //删除flog
+                httpSession.removeAttribute("flog");
+            }
         }
-        //删除itemPathFlog
-        httpSession.removeAttribute("itemPathFlog");
-        //删除ecSiteShop
-        httpSession.removeAttribute("ecSiteShop");
-        //删除siteShop
-        httpSession.removeAttribute("siteShop");
-        //删除flog
-        httpSession.removeAttribute("flog");
+
         //把ecSiteShop放到全局变量中
         httpSession.setAttribute("notShopNameItem", notShopNameItem);
         //从session中把pageNum取得
