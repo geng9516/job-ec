@@ -58,8 +58,16 @@ public class ItemProcessor implements PageProcessor {
                     //商品详情页
                 } else {
                     //yahoo
-                    CreateYahooItemInfo.saveYahooItemInfo(page);
-//                }
+
+                    //解析页面
+                    Html html = page.getHtml();
+                    //主照片
+                    List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
+                    if (photoAll.size() == 1 && photoAll.get(0).contains("gif")) {
+                        return;
+                    } else {
+                        CreateYahooItemInfo.saveYahooItemInfo(page);
+                    }
                 }
             }
             //搜款网

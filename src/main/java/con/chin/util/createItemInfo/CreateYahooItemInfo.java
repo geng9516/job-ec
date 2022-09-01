@@ -67,12 +67,12 @@ public class CreateYahooItemInfo {
         //itempath定义产品名字
         //paht存在时
         String categoryAlias = createYahooItemInfo.itemCategoryService.selectCategoryAliasByItemPath(path);
-        if(categoryAlias != null && !"".equals(categoryAlias)){
+        if (categoryAlias != null && !"".equals(categoryAlias)) {
             itemCode1 = itemCode.substring(0, itemCode.indexOf("-") - 1);
             //"e" 是表示在yahoo下载的产品
             itemCode1 = categoryAlias + "-" + "e" + itemCode1;
             item.setItemCode(itemCode1);
-        }else {
+        } else {
             //不存在时 b8f7为头
             itemCode1 = "b8f7" + "-" + "e" + itemCode1;
         }
@@ -270,47 +270,54 @@ public class CreateYahooItemInfo {
         item.setEndDate("2099-12-31 23:59:59");
         //主照片
         List<String> photoAll = html.css("div.mdItemImage ul.elThumbnailItems").css("img", "src").all();
-        //产品情报照片/SP
-        //https://item-shopping.c.yimg.jp/i/l/takahashihonpo_21-030-t00247_18
-        String caption = "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "' width='100%'/><br>";
-        //产品照片的数量
-        int photoAllSize = photoAll.size() >= 21 ? 20 : photoAll.size();
-        for (int i = 1; i <= photoAllSize; i++) {
-            caption += "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "_" + i + "' width='100%'/><br>";
-        }
-        item.setCaption(caption);
-        //产品数据保存
-        page.putField("item", item);
-        //照片下载
-        Map<String, Object> map = new HashMap<>();
-        map.put("photoAll", photoAll);
-        map.put("itemCode", item.getItemCode());
-        page.putField("photoDownload", map);
-        //商品检索关键字对象
-        List<ItemKeyword> itemKeywordList = new ArrayList<>();
-        String keywords = productName + headlin;
-        String[] s = keywords.split(" ");
-        for (String s1 : s) {
-            //关键字对象填充
-            ItemKeyword itemKeyword = new ItemKeyword();
-            itemKeyword.setProductCategory(path.replace(" ", ":"));
-            itemKeyword.setKeyword(s1);
-            itemKeyword.setCountKeyword(1);
-            itemKeywordList.add(itemKeyword);
-        }
-        //关键字数据库永久化
-        page.putField("itemKeywordList", itemKeywordList);
-        //siteshopinfo保存
-        SiteShop siteShop = new SiteShop();
-        siteShop.setShopName(storeName);
-        page.putField("siteShop", siteShop);
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (photoAll.size() == 1 && photoAll.get(0).contains("gif")) {
+            System.out.println("产品有问题略过");
+        } else {
+            //产品情报照片/SP
+            //https://item-shopping.c.yimg.jp/i/l/takahashihonpo_21-030-t00247_18
+            String caption = "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "' width='100%'/><br>";
+            //产品照片的数量
+            int photoAllSize = photoAll.size() >= 21 ? 20 : photoAll.size();
+            for (int i = 1; i <= photoAllSize; i++) {
+                caption += "<img src='https://item-shopping.c.yimg.jp/i/l/seiunstore_" + itemCode1 + "_" + i + "' width='100%'/><br>";
+            }
+            item.setCaption(caption);
+            //产品数据保存
+            page.putField("item", item);
+            //照片下载
+            Map<String, Object> map = new HashMap<>();
+            map.put("photoAll", photoAll);
+            map.put("itemCode", item.getItemCode());
+            page.putField("photoDownload", map);
+            //商品检索关键字对象
+            List<ItemKeyword> itemKeywordList = new ArrayList<>();
+            String keywords = productName + headlin;
+            String[] s = keywords.split(" ");
+            for (String s1 : s) {
+                //关键字对象填充
+                ItemKeyword itemKeyword = new ItemKeyword();
+                itemKeyword.setProductCategory(path.replace(" ", ":"));
+                itemKeyword.setKeyword(s1);
+                itemKeyword.setCountKeyword(1);
+                itemKeywordList.add(itemKeyword);
+            }
+            //关键字数据库永久化
+            page.putField("itemKeywordList", itemKeywordList);
+            //siteshopinfo保存
+            SiteShop siteShop = new SiteShop();
+            siteShop.setShopName(storeName);
+            page.putField("siteShop", siteShop);
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            long end = System.currentTimeMillis();
+            System.out.println("1件产品数据下载完成!    总耗时：" + (end - start) + " ms");
         }
-        long end = System.currentTimeMillis();
-        System.out.println("1件产品数据下载完成!    总耗时：" + (end - start) + " ms");
+
+
     }
 }

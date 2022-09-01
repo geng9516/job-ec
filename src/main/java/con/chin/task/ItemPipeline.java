@@ -65,7 +65,7 @@ public class ItemPipeline implements Pipeline {
         }
         //关键词保存数据库
         List<ItemKeyword> itemKeywordList = resultItems.get("itemKeywordList");
-        if (item.getItemPath() != null) {
+        if (item != null && item.getItemPath() != null) {
             itemKeywordService.save(itemKeywordList);
         }
         //照片下载本地
