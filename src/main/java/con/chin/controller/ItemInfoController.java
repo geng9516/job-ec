@@ -410,7 +410,7 @@ public class ItemInfoController {
             //检索条件中追加
             itemInfoQuery.setShopName(notShopNameItem);
             //前端使用
-            model.addAttribute("notShopNameItem", "notShopNameItem");
+            model.addAttribute("notShopNameItem", notShopNameItem);
         }
         //设定itemPathFlog
         String itemPathFlog = (String) httpSession.getAttribute("itemPathFlog");
