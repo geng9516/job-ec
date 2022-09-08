@@ -406,7 +406,7 @@ public class ItemInfoController {
         //notShopNameItem
         String notShopNameItem = (String) httpSession.getAttribute("notShopNameItem");
         //ecsiteshop已经在全局变量中存在时
-        if (ecSiteShop != null && !"".equals(notShopNameItem)) {
+        if (notShopNameItem != null && !"".equals(notShopNameItem)) {
             //检索条件中追加
             itemInfoQuery.setShopName(notShopNameItem);
             //前端使用

@@ -765,9 +765,9 @@ public class ItemInfoCsvExportUtil {
                     for (int i = 0; i < itemPhotoSize; i++) {
                         String itemPhotoUrl = "";
                         if (i == 0) {
-                            itemPhotoUrl = "https://image.wowma.jp/65506022/65506022-1/" + itemCode + "/" + itemCode + ".jpg";
+                            itemPhotoUrl = "https://image.wowma.jp/65506022/" + itemCode + "/" + itemCode + ".jpg";
                         } else {
-                            itemPhotoUrl = "https://image.wowma.jp/65506022/65506022-1/" + itemCode + "/" + itemCode + "_" + i + ".jpg";
+                            itemPhotoUrl = "https://image.wowma.jp/65506022/" + itemCode + "/" + itemCode + "_" + i + ".jpg";
                         }
                         itemPhotoList.add(itemPhotoUrl);
                     }
@@ -823,7 +823,7 @@ public class ItemInfoCsvExportUtil {
                 string[28] = explanationBr;     //商品詳細説明
                 string[29] = (caption != null ? caption : "");     //SP用商品説明
                 string[30] = (caption != null ? caption : "");     //PC用商品説明
-                string[31] = "<洗い方注意>";              //商品詳細タイトル
+                string[31] = "洗い方注意";              //商品詳細タイトル
 //                string[32] = explanationBr;     //商品詳細説明
                 string[32] = "手洗いまたはドライクリーニングを推奨<br>\n" +
                         "個々のアイテムの洗濯方法について疑問がある場合は、カスタマーサービスにご相談ください / 洗濯機で洗ったり、混ぜたりしないでください<br>\n" +
