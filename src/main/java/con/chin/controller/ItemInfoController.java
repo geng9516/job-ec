@@ -408,7 +408,7 @@ public class ItemInfoController {
         //ecsiteshop已经在全局变量中存在时
         if (notShopNameItem != null && !"".equals(notShopNameItem)) {
             //检索条件中追加
-            itemInfoQuery.setShopName(notShopNameItem);
+            itemInfoQuery.setNotShopNameItem(notShopNameItem);
             //前端使用
             model.addAttribute("notShopNameItem", notShopNameItem);
         }
